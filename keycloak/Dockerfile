@@ -9,13 +9,13 @@ ARG KEYCLOAKURL
 USER root
 
 #Install uuidgen
-RUN microdnf update -y && microdnf install -y util-linux
+RUN microdnf install -y util-linux && microdnf clean all
 
 USER 1000
 
 WORKDIR /tmp/realmconfig
-COPY realms ./realms
-COPY ./realmconfig.sh .
+COPY --chown=1000 realms ./realms
+COPY --chown=1000 ./realmconfig.sh .
 
 #Pass your template VARS to realmconfig script:
 RUN ./realmconfig.sh "${ROOTURL}" "${GITHUBID}" "${GITHUBSECRET}" "${KEYCLOAKURL}"

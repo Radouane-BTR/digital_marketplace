@@ -1,24 +1,19 @@
-import { GOV_IDP_SUFFIX, VENDOR_IDP_SUFFIX } from 'shared/config';
 import { FileRecord } from 'shared/lib/resources/file';
 import { ADT, BodyWithErrors, Id } from 'shared/lib/types';
 import { ErrorTypeFrom } from 'shared/lib/validation';
 
 export type KeyCloakIdentityProvider = string;
 
+export interface IdentityProvider {
+  suffix: string,
+  name: string,
+  icon: string
+}
+
 export enum UserType {
   Vendor = 'VENDOR',
   Government = 'GOV',
   Admin = 'ADMIN'
-}
-
-export function userTypeToKeycloakIdentityProvider(userType: UserType): KeyCloakIdentityProvider {
-  switch (userType) {
-    case UserType.Vendor:
-      return VENDOR_IDP_SUFFIX;
-    case UserType.Government:
-    case UserType.Admin:
-      return GOV_IDP_SUFFIX;
-  }
 }
 
 export function gitHubProfileLink(username: string): string {

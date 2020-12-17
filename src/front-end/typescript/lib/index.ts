@@ -2,7 +2,6 @@ import { PATH_PREFIX } from 'front-end/config';
 import { ComponentView, emptyPageAlerts, emptyPageBreadcrumbs, Immutable, PageGetAlerts, PageGetBreadcrumbs, PageGetContextualActions, PageGetMetadata, PageGetModal, PageMetadata, PageSidebar, Update } from 'front-end/lib/framework';
 import { prefix } from 'shared/lib';
 import { FileRecord } from 'shared/lib/resources/file';
-import { UserType, userTypeToKeycloakIdentityProvider } from 'shared/lib/resources/user';
 import { getValidValue, isInvalid, mapValid, Validation } from 'shared/lib/validation';
 
 export function prefixPath(path: string): string {
@@ -115,8 +114,8 @@ export function makePageMetadata(title: string): PageMetadata {
   };
 }
 
-export function getSignInUrl(userType: UserType, redirectOnSuccess?: string): string   {
-  let result = prefixPath(`auth/sign-in?provider=${userTypeToKeycloakIdentityProvider(userType)}`);
+export function getIdpSignInUrl(idpSuffix: string, redirectOnSuccess?: string): string   {
+  let result = prefixPath(`auth/sign-in?provider=${idpSuffix}`);
   if (redirectOnSuccess) { result += `&redirectOnSuccess=${window.encodeURIComponent(redirectOnSuccess)}`; }
   return result;
 }

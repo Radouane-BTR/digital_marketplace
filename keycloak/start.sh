@@ -10,7 +10,7 @@ then
     then
         docker start keycloak
     else
-        docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_USER=$KEYCLOAK_ADMIN_USER -e KEYCLOAK_PASSWORD=$KEYCLOAK_ADMIN_PASS quay.io/keycloak/keycloak -Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=127.0.0.1
+        docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_USER=$KEYCLOAK_ADMIN_USER -e KEYCLOAK_PASSWORD=$KEYCLOAK_ADMIN_PASS keycloak_dm
     fi
 else
     docker stop keycloak

@@ -1,15 +1,17 @@
-import { getSignInUrl } from 'front-end/lib';
+import { getIdpSignInUrl } from 'front-end/lib';
 import { View } from 'front-end/lib/framework';
 import Icon, { AvailableIcons } from 'front-end/lib/views/icon';
 import Link, { externalDest } from 'front-end/lib/views/link';
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { isVendor, UserType } from 'shared/lib/resources/user';
+import { IdentityProvider } from 'shared/lib/resources/user';
+
 
 export interface Props {
   title: string;
   description: string;
-  buttonText: string;
+  idps: Map<string, IdentityProvider>;
   userType: UserType.Vendor | UserType.Government;
   redirectOnSuccess?: string;
 }
@@ -38,12 +40,16 @@ export const SignInCard: View<Props> = props => {
             <span className='pl-2'>{props.title}</span>
           </h3>
           <p>{props.description}</p>
-          <Link
-            button
-            dest={externalDest(getSignInUrl(props.userType, props.redirectOnSuccess))}
-            className='btn-primary'>
-            {props.buttonText}
-          </Link>
+          {Array.from(props.idps.values()).map( (idp, index) => {
+            return (
+              <Link
+                button
+                dest={externalDest(getIdpSignInUrl(idp.suffix, props.redirectOnSuccess))}
+                className='btn-primary mr-1'>
+                {idp.name}
+              </Link>
+            );
+          })}
         </div>
       </Col>
     </Row>

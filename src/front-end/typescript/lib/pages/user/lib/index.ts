@@ -1,8 +1,8 @@
 import { DEFAULT_USER_AVATAR_IMAGE_PATH } from 'front-end/config';
 import { fileBlobPath } from 'front-end/lib';
 import { ThemeColor } from 'front-end/lib/types';
-import { GOV_IDP_NAME, GOV_IDP_SUFFIX, VENDOR_IDP_NAME, VENDOR_IDP_SUFFIX } from 'shared/config';
-import { KeyCloakIdentityProvider, User, UserStatus, UserType, userTypeToKeycloakIdentityProvider } from 'shared/lib/resources/user';
+import { KeyCloakIdentityProvider, User, UserStatus, UserType} from 'shared/lib/resources/user';
+import { GOV_IDPS, VENDOR_IDPS } from 'shared/config';
 
 export function userAvatarPath(user?: Pick<User, 'avatarImageFile'>): string {
   return user && user.avatarImageFile
@@ -11,17 +11,22 @@ export function userAvatarPath(user?: Pick<User, 'avatarImageFile'>): string {
 }
 
 export function keyCloakIdentityProviderToTitleCase(v: KeyCloakIdentityProvider): string | null {
-  if (v === VENDOR_IDP_SUFFIX) {
-    return VENDOR_IDP_NAME;
-  } else if (v === GOV_IDP_SUFFIX) {
-    return GOV_IDP_NAME;
-  } else {
-    return null;
-  }
+  let idp;
+  
+  if (VENDOR_IDPS.has(v))
+    idp = VENDOR_IDPS.get(v);
+  else if (GOV_IDPS.has(v))
+    idp = GOV_IDPS.get(v);
+  
+  if (idp)
+    return idp.name;
+  
+  return null;
 }
 
 export function userToKeyCloakIdentityProviderTitleCase(user: User): string | null {
-  return keyCloakIdentityProviderToTitleCase(userTypeToKeycloakIdentityProvider(user.type));
+  //TODO Now that we can have more that one idp per user type we need to figure out a "title" that has a meaning
+  return 'Service chosen to log in';
 }
 
 export function userTypeToTitleCase(v: UserType): string {

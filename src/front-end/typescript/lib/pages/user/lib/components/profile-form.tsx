@@ -2,14 +2,14 @@ import * as FormField from 'front-end/lib/components/form-field';
 import * as ShortText from 'front-end/lib/components/form-field/short-text';
 import { ComponentViewProps, immutable, Immutable, Init, mapComponentDispatch, Update, updateComponentChild, View } from 'front-end/lib/framework';
 import * as api from 'front-end/lib/http/api';
-import { keyCloakIdentityProviderToTitleCase, userAvatarPath, userToKeyCloakIdentityProviderTitleCase } from 'front-end/lib/pages/user/lib';
+import { userAvatarPath } from 'front-end/lib/pages/user/lib';
 import { AvatarFiletype } from 'front-end/lib/types';
 import FileLink from 'front-end/lib/views/file-link';
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { getString} from 'shared/lib';
 import { SUPPORTED_IMAGE_EXTENSIONS } from 'shared/lib/resources/file';
-import { isPublicSectorUserType, User, userTypeToKeycloakIdentityProvider } from 'shared/lib/resources/user';
+import { isPublicSectorUserType, User} from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { ErrorTypeFrom, invalid, mapValid, valid, Validation } from 'shared/lib/validation';
 import { validateEmail, validateJobTitle, validateName } from 'shared/lib/validation/user';
@@ -197,8 +197,8 @@ export const view: View<Props> = props => {
 
         <ShortText.view
           extraChildProps={{}}
-          help={`Your unique ${keyCloakIdentityProviderToTitleCase(userTypeToKeycloakIdentityProvider(state.user.type))} username.`}
-          label={userToKeyCloakIdentityProviderTitleCase(state.user) || undefined}
+          help={`Your unique username.`}
+          label='Username'
           disabled
           state={state.idpUsername}
           dispatch={mapComponentDispatch(dispatch, value => adt('idpUsername' as const, value))} />

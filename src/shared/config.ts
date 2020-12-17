@@ -1,3 +1,5 @@
+import { IdentityProvider } from 'shared/lib/resources/user';
+
 export function parseBooleanEnvironmentVariable(raw?: string): boolean | null {
   switch (raw) {
     case '1': return true;
@@ -10,15 +12,55 @@ export const SHOW_TEST_INDICATOR = parseBooleanEnvironmentVariable(process.env.S
 
 export const CONTACT_EMAIL = 'digitalmarketplace@gov.bc.ca';
 
-export const GOV_IDP_SUFFIX = 'idir';
+export const GOV_IDP_SUFFIX = 'idir'; //TODO enlever
 
-export const GOV_IDP_NAME = 'IDIR';
+export const GOV_IDP_NAME = 'IDIR'; //TODO enlever
 
-export const VENDOR_IDP_SUFFIX = 'github';
+const govIdpMap = new Map<string, IdentityProvider>();
 
-export const VENDOR_IDP_NAME = 'GitHub';
+govIdpMap.set('idir', {
+  suffix: 'idir',
+  name: 'IDIR',
+  icon: ''
+});
 
-export const TIMEZONE = 'America/Vancouver';
+//Add goverment Identity providers here:
+/*
+govIdpMap.set('idp_map_index', {
+  suffix: 'idp_name_in_keycloak',
+  name: 'Display idp name',
+  icon: ''
+});
+*/
+
+export const GOV_IDPS: Map<string, IdentityProvider> = govIdpMap;
+
+const vendorIdpMap = new Map<string, IdentityProvider>();
+
+vendorIdpMap.set('github', {
+  suffix: 'github',
+  name: 'GitHub',
+  icon: ''
+});
+
+vendorIdpMap.set('bitbucket', {
+  suffix: 'bitbucket',
+  name: 'Bitbucket',
+  icon: ''
+});
+
+//Add vendors Identity providers here:
+/*
+vendorIdpMap.set('idp', {
+  suffix: 'idp_name_in_keycloak',
+  name: 'Display idp name',
+  icon: ''
+});
+*/
+
+export const VENDOR_IDPS: Map<string, IdentityProvider> = vendorIdpMap;
+
+export const TIMEZONE = 'America/Toronto';
 
 export const CWU_MAX_BUDGET = 70000;
 
@@ -28,14 +70,14 @@ export const COPY = {
   appTermsTitle: 'Digital Marketplace Terms & Conditions for E-Bidding',
   gov: {
     name: {
-      short: 'B.C. Government',
-      long: 'Government of British Columbia'
+      short: 'Québec',
+      long: 'Governement du Québec'
     }
   },
   region: {
     name: {
-      short: 'B.C.',
-      long: 'British Columbia'
+      short: 'QC',
+      long: 'Québec'
     }
   }
 };

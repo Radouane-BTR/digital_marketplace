@@ -7,7 +7,7 @@ import { makeErrorResponseBody, makeTextResponseBody, nullRequestBodyHandler, pa
 import { ServerHttpMethod } from 'back-end/lib/types';
 import { generators, TokenSet, TokenSetParameters } from 'openid-client';
 import qs from 'querystring';
-import { GOV_IDP_SUFFIX, VENDOR_IDP_SUFFIX } from 'shared/config';
+import { GOV_IDPS, VENDOR_IDPS } from 'shared/config';
 import { getString, getStringArray } from 'shared/lib';
 import { request as httpRequest } from 'shared/lib/http';
 import { Session } from 'shared/lib/resources/session';
@@ -35,6 +35,19 @@ interface KeyCloakTokenRequestData {
   redirect_uri: string;
 }
 
+function getUserTypeFromIdentityProvider(identityProvider: KeyCloakIdentityProvider)
+{
+  console.log(VENDOR_IDPS);
+  
+  if (VENDOR_IDPS.has(identityProvider.toLowerCase()))
+    return UserType.Vendor;
+
+  if (GOV_IDPS.has(identityProvider.toLowerCase()))
+    return UserType.Government;
+
+  throw new Error('Unsupported IdentityProvider: ' + identityProvider);
+}
+
 async function makeRouter(connection: Connection): Promise<Router<any, any, any, any, TextResponseBody, any, any>> {
   const router: Router<any, any, any, any, TextResponseBody, any, any> = [
     {
@@ -60,9 +73,10 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
             authQuery.redirect_uri += `?redirectOnSuccess=${redirectOnSuccess}`;
           }
 
-          if (provider === VENDOR_IDP_SUFFIX || provider === GOV_IDP_SUFFIX) {
+          if (provider) {
             authQuery.kc_idp_hint = provider;
           }
+
           // Cast authQuery as any to support use with qs.stringify.
           // The types between openid-client and qs aren't compatible unfortunately.
           // Might be worthwhile extracting required values from authQuery into a separate
@@ -266,37 +280,40 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
 // If something goes wrong return null
 async function establishSessionWithClaims(connection: Connection, request: Request<any, Session>, tokenSet: TokenSet) {
   const claims = tokenSet.claims();
+
+  console.log(claims);
+
   let userType: UserType;
+  
+  //See Identity Providers Mappers in Keycloak
   const identityProvider = getString(claims, 'loginSource');
-  switch (identityProvider) {
-    case GOV_IDP_SUFFIX.toUpperCase():
-      const roles = getStringArray(claims, 'roles');
-      if (roles.includes('dm_admin')) {
-        userType = UserType.Admin;
-      } else {
-        userType = UserType.Government;
-      }
-      break;
-    case VENDOR_IDP_SUFFIX.toUpperCase():
-      userType = UserType.Vendor;
-      break;
-    default:
-      request.logger.error('unknown identity provider', makeErrorResponseBody(new Error(identityProvider)));
-      makeAuthErrorRedirect(request);
-      return null;
+  
+  userType = getUserTypeFromIdentityProvider(identityProvider);
+  
+  //Check if that goverment user is an Admin
+  if (userType == UserType.Government)
+  {
+    const roles = getStringArray(claims, 'roles');
+    
+    if (roles.includes('dm_admin')) {
+      userType = UserType.Admin;
+    }
   }
 
   let username = getString(claims, 'preferred_username');
   
-  //Composition de l'idp, voir ligne #301
-  //const idpId = getString(claims, 'idp_id');
-
   // Strip the vendor/gov suffix if present.  We want to match and store the username without suffix.
-  if ((username.endsWith('@' + VENDOR_IDP_SUFFIX) && userType === UserType.Vendor) || (username.endsWith('@' + GOV_IDP_SUFFIX) && userType === UserType.Government)) {
+  if ((username.endsWith('@' + identityProvider) && userType === UserType.Vendor) || (username.endsWith('@' + identityProvider) && userType === UserType.Government)) {
     username = username.slice(0, username.lastIndexOf('@'));
   }
 
-  //Patch pour utiliser la config actuelle de Keycloak
+  //BC version use a claim which contain the id of the user in the IDP he came from
+  //We still have to figure out how to define this claim (mapping) for each of our IDPs in our Keycloak
+  //TODO: Verify if this make sense in a multi-IDP scenario as a user could use more than one IDP for the same account?
+  
+  //const idpId = getString(claims, 'idp_id');
+
+  //In the mean time we compose the idp_id with the username and the idp_alias
   const idpId = username + '@' + identityProvider;
   
   if (!username || !idpId || !tokenSet.access_token || !tokenSet.refresh_token) {
