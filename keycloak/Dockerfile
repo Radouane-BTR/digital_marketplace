@@ -19,7 +19,6 @@ COPY --chown=1000 ./realmconfig.sh .
 
 #Pass your template VARS to realmconfig script:
 RUN ./realmconfig.sh "${ROOTURL}" "${GITHUBID}" "${GITHUBSECRET}" "${KEYCLOAKURL}"
+RUN ls -m -d $PWD/realms/*.json | tr -d '[:space:]' > /tmp/realmfileslist
 
-RUN ls -m -d $PWD/realms/*.json | tr -d '[:space:]' > realmfileslist
-
-ENTRYPOINT /opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 -Dkeycloak.import=$(cat /tmp/realmconfig/realmfileslist)
+ENTRYPOINT /opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 -Dkeycloak.import=$(cat /tmp/realmfileslist)
