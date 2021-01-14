@@ -1,7 +1,7 @@
 import { makeDomainLogger } from 'back-end/lib/logger';
 import { console as consoleAdapter } from 'back-end/lib/logger/adapters';
 import Knex from 'knex';
-import { GOV_IDP_SUFFIX, VENDOR_IDP_SUFFIX } from 'shared/config';
+import { GOV_IDP_SUFFIX, VENDOR_IDPS } from 'shared/config';
 import { UserType } from 'shared/lib/resources/user';
 
 const logger = makeDomainLogger(consoleAdapter, 'migrations', 'development');
@@ -9,9 +9,21 @@ const logger = makeDomainLogger(consoleAdapter, 'migrations', 'development');
 export async function up(connection: Knex): Promise<void> {
   const results = await connection<{ id: string, idpUsername: string }>('users')
     .select('id', 'idpUsername')
-    .where(q => q.where('idpUsername', 'LIKE', `%@${VENDOR_IDP_SUFFIX}`).andWhere('type', '=', UserType.Vendor))
+    .where(q => {
+      let finalQ = q;
+      Object.values(VENDOR_IDPS).forEach(vendorIdp => {
+        finalQ = finalQ.where('idpUsername', 'LIKE', `%@${vendorIdp}`).andWhere('type', '=', UserType.Vendor)
+      })
+      return finalQ;
+    })
     .orWhere(q => q.where('idpUsername', 'LIKE', `%@${GOV_IDP_SUFFIX}`).andWhere('type', '=', UserType.Admin))
-    .orWhere(q => q.where('idpUsername', 'LIKE', `%@${VENDOR_IDP_SUFFIX}`).andWhere('type', '=', UserType.Admin))
+    .where(q => {
+      let finalQ = q;
+      Object.values(VENDOR_IDPS).forEach(vendorIdp => {
+        finalQ = finalQ.orWhere(q => q.where('idpUsername', 'LIKE', `%@${vendorIdp}`).andWhere('type', '=', UserType.Admin))
+      })
+      return finalQ;
+    })
     .orWhere(q => q.where('idpUsername', 'LIKE', `%@${GOV_IDP_SUFFIX}`).andWhere('type', '=', UserType.Government));
 
   for (const result of results) {
