@@ -356,10 +356,7 @@ const TopNavbar: View<Props> = props => {
                 <ul className='main-nav-top-navbar-list'>  
                   <li>
                     <a href="#" lang="en"
-                      onClick={() => {
-                        console.log(i18n);
-                        i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr');
-                      }}
+                      onClick={() => i18n.changeLanguage(i18n.language === 'fr' ? 'en' : 'fr')}
                     >
                       <span>{i18n.language === 'fr' ? 'English' : 'Français'}</span>
                     </a>
