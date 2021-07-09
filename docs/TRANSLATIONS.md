@@ -21,7 +21,7 @@ const monComposant = () => {
 }
 ```
 
-Exemple de traduction: 
+Exemple de traduction:
 
 ```json
 {
@@ -32,7 +32,6 @@ Exemple de traduction:
 ```
 
 ### Texte contenant des balises HTML
-
 
 Utiliser le composant React `<Trans />` :
 
@@ -45,7 +44,7 @@ const monComposant = () => {
 }
 ```
 
-Exemple de traduction: 
+Exemple de traduction:
 
 ```json
 {
@@ -76,7 +75,54 @@ Il est recommandé de traduire séparément le texte et l'URL du lien :
 Exécuter la commande NPM :
 
 ```bash
+npm i i18next-parser # N'est pas installé par défaut car la version actuelle contient des dépendances obsolètes
 npm run i18n:parse
 ```
 
 Les termes non traduits seront ajoutés aux fichiers de traduction [anglais](src/front-end/typescript/lib/i18n/locales/en/translation.json) et [français](src/front-end/typescript/lib/i18n/locales/fr/translation.json)
+
+## Erreurs communes
+
+### "Rendered more hooks than during the previous render."
+
+Cette erreur arrive lorsqu'on utilise `useTranslation` dans un sous-composant React qui est créé selon qu'une condition est remplie ou non.
+Lorsque cette erreur se produit, on le constate généralement par une page blanche. La trace de l'erreur s'affiche dans la console de débogage du navigateur.
+
+Exemple:
+
+```ts
+// Bad :
+
+const myConditionalComponent = () => {
+  const { t } = useTranslation();
+  return t('my.key')
+}
+
+function myParentComponent() {
+  if (!sessionUser) {
+    return myConditionalComponent();
+  } else {
+    return otherComponent();
+  }
+}
+```
+
+Pour corriger la situation, `useTranslation` doit exister autant de fois entre chaque `render` :
+
+```ts
+// Good :
+
+const myConditionalComponent = (t: Function) => {
+  return t('my.key')
+}
+
+function myParentComponent() {
+  const { t } = useTranslation(); // Hook créé peu importe que la condition soit remplie ou non
+  if (!sessionUser) {
+    // la fonction `t` est passée en paramètre
+    return myConditionalComponent(t);
+  } else {
+    return otherComponent();
+  }
+}
+```
