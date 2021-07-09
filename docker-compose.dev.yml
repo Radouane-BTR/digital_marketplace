@@ -45,7 +45,6 @@ services:
     # * coté client (qui ne reconnait pas le hostname du conteneur)
     # * coté serveur (qui ne peux pas trouver localhost:8080)
     # En utilisant le réseau host, on rend localhost:8080 accessible
-    network_mode: "host"
     environment:
       - NODE_ENV=development
       - SERVER_HOST=0.0.0.0
@@ -74,7 +73,6 @@ services:
       - VENDOR_ACCOUNT_CREATION_DISABLED=1
   selenium:
     image: selenium/standalone-chrome-debug
-    network_mode: "host"
     ports:
       - 4444:4444
       - 5999:5900
