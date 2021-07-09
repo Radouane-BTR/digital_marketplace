@@ -1,4 +1,4 @@
-import { KEYCLOAK_CLIENT_ID, KEYCLOAK_CLIENT_SECRET, KEYCLOAK_REALM, KEYCLOAK_URL, SERVICE_TOKEN_HASH } from 'back-end/config';
+import { KEYCLOAK_CLIENT_ID, KEYCLOAK_CLIENT_SECRET, KEYCLOAK_PUBLIC_URL, KEYCLOAK_REALM, KEYCLOAK_URL, SERVICE_TOKEN_HASH } from 'back-end/config';
 import { prefixPath } from 'back-end/lib';
 import { Connection, createSession, createUser, deleteSession, findOneUserByTypeAndIdp, findOneUserByTypeAndUsername, readOneSession, updateUser } from 'back-end/lib/db';
 import { accountReactivatedSelf, userAccountRegistered } from 'back-end/lib/mailer/notifications/user';
@@ -68,7 +68,7 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
           // Might be worthwhile extracting required values from authQuery into a separate
           // object that can be passed to qs.stringify.
           const authQueryString = qs.stringify(authQuery as any);
-          const authUrl = `${KEYCLOAK_URL}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth?${authQueryString}`;
+          const authUrl = `${KEYCLOAK_PUBLIC_URL}/auth/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth?${authQueryString}`;
           return {
             code: 302,
             headers: {

@@ -14,7 +14,7 @@ RUN chmod -R 775 /usr/app
 RUN chown -R node:root /usr/app
 EXPOSE 3000
 USER node
-CMD pm2-runtime ecosystem.config.js
+CMD npm i && pm2-runtime ecosystem.config.js
 
 FROM docker.io/node:14 AS production
 WORKDIR /usr/app

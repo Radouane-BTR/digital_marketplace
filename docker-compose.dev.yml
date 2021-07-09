@@ -1,5 +1,6 @@
 version: "3"
 services:
+
   db:
     image: postgres:10
     ports:
@@ -8,6 +9,7 @@ services:
       POSTGRES_USER: digitalmarketplace
       POSTGRES_PASSWORD: digitalmarketplace
       POSTGRES_DB: digitalmarketplace
+
   keycloak:
     image: keycloak
     env_file:
@@ -49,7 +51,7 @@ services:
       - NODE_ENV=development
       - SERVER_HOST=0.0.0.0
       - SERVER_PORT=3000
-      - POSTGRESQL_SERVICE_HOST=localhost
+      - POSTGRESQL_SERVICE_HOST=db
       - POSTGRESQL_SERVICE_PORT=5432
       - TIMEZONE=Canada/Eastern
       - DATABASE_USERNAME=digitalmarketplace
@@ -61,7 +63,8 @@ services:
       - KEYCLOAK_ADMIN_PASS=admin
       - KEYCLOAK_CLIENT_ID=dm-app
       - KEYCLOAK_REALM=digitalmarketplace
-      - KEYCLOAK_URL=http://localhost:8080
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_PUBLIC_URL=http://localhost:8080
       - FILE_STORAGE_DIR=./tmp
       - SCHEDULED_DOWNTIME=
       - KNEX_DEBUG=false
