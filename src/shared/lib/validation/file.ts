@@ -3,7 +3,6 @@ import { FilePermissions, SUPPORTED_IMAGE_EXTENSIONS } from 'shared/lib/resource
 import { parseUserType, UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
 import { ArrayValidation, invalid, isValid, mapValid, valid, validateArray, validateGenericString, validateUUID, Validation } from 'shared/lib/validation';
-import { isArray, isString } from 'util';
 
 export function validateAvatarFilename(name: string): Validation<string> {
   return validateFileName(name, SUPPORTED_IMAGE_EXTENSIONS);
@@ -24,7 +23,7 @@ export function validateFileName(name: string, validExtensions: readonly string[
 }
 
 export function validateFilePermissions(raw: any): ArrayValidation<FilePermissions<Id, UserType>> {
-  raw = isArray(raw) ? raw : [raw];
+  raw = Array.isArray(raw) ? raw : [raw];
   const validatedFilePermissions = validateArray(raw, validateFilePermission);
   return mapValid(validatedFilePermissions, perms => {
     return Array
@@ -38,7 +37,7 @@ export function validateFilePermission(raw: any): Validation<FilePermissions<Id,
     case 'any':
       return valid<FilePermissions<Id, UserType>>(adt('any'));
     case 'user':
-      if (isString(raw.value)) {
+      if (typeof raw.value === 'string') {
         return mapValid(validateUUID(raw.value), v => adt('user', v));
       }
     case 'userType':

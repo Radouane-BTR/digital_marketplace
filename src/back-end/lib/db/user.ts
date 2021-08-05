@@ -110,10 +110,11 @@ export const readManyUsersByRole = tryDb<[UserType, boolean?], User[]>(async (co
 const tempLogger = makeDomainLogger(consoleAdapter, 'create-user-debug', 'development');
 export const createUser = tryDb<[CreateUserParams], User>(async (connection, user) => {
   const now = new Date();
+  const {locale, ...userData} =user
   try {
     const [result] = await connection<RawUser>('users')
       .insert({
-        ...user,
+        ...userData,
         id: generateUuid(),
         createdAt: now,
         updatedAt: now
@@ -131,11 +132,12 @@ export const createUser = tryDb<[CreateUserParams], User>(async (connection, use
 });
 
 export const updateUser = tryDb<[UpdateUserParams], User>(async (connection, user) => {
+  const {locale, ...userData} =user
   const now = new Date();
   const [result] = await connection<RawUser>('users')
   .where({ id: user && user.id })
   .update({
-    ...user,
+    ...userData,
     updatedAt: now
   } as UpdateUserParams, '*');
   if (!result) {

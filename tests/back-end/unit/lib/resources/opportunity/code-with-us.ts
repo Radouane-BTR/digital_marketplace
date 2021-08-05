@@ -4,7 +4,7 @@ import { connectToDatabase } from "back-end/index";
 import { addCWUOpportunityAddendum, awardCWUProposal, createCWUOpportunity, createCWUProposal, CreateCWUProposalParams, deleteCWUOpportunity, deleteCWUProposal, updateCWUOpportunityVersion, updateCWUProposal, UpdateCWUProposalParams, updateCWUProposalStatus } from "back-end/lib/db";
 import { CreateCWUOpportunityStatus, CWUOpportunity, CWUOpportunityStatus } from "shared/lib/resources/opportunity/code-with-us";
 import { SessionRecord } from "shared/lib/resources/session";
-import { cleanupDatabase, createOpUser, createUserSession, createVendorUser } from "unit/helpers/user";
+import { cleanupDatabase, createOpUser, createUserSession, createVendorUser } from "helpers/user";
 import { expect } from 'chai'
 import { SinonStub, stub } from 'sinon'
 import { CreateIndividualProponentRequestBody, CWUProposal, CWUProposalStatus } from "shared/lib/resources/proposal/code-with-us";

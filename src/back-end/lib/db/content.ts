@@ -118,7 +118,6 @@ export const createContent = tryDb<[ValidatedCreateRequestBody, Session], Conten
         createdBy: session?.user.id,
         slug
       }, '*');
-
     if (!rootContentRecord) {
       throw new Error('unable to create content root record');
     }
@@ -133,7 +132,6 @@ export const createContent = tryDb<[ValidatedCreateRequestBody, Session], Conten
         createdBy: session?.user.id,
         contentId: rootContentRecord.id
       }, '*');
-
     if (!versionContentRecord) {
       throw new Error('unable to create content version');
     }

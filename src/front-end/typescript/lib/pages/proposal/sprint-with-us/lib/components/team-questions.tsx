@@ -82,14 +82,14 @@ export type Errors = CreateSWUProposalTeamQuestionResponseValidationErrors[];
 export function setErrors(state: Immutable<State>, errors: Errors = []): Immutable<State> {
   return errors.reduce((acc, e, i) => {
     return acc
-      .updateIn(['responses', i, 'response'], s => FormField.setErrors(s, e.response || []));
+      .updateIn(['responses', i, 'response'], s => FormField.setErrorsIn(s, e.response || []));
   }, state);
 }
 
 export function validate(state: Immutable<State>): Immutable<State> {
   return state.responses.reduce((acc, r, i) => {
     return acc
-      .updateIn(['responses', i, 'response'], s => FormField.validate(s));
+      .updateIn(['responses', i, 'response'], s => FormField.validateIn(s));
   }, state);
 }
 

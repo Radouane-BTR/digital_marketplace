@@ -255,6 +255,15 @@ export function validate<Value, ChildState extends ChildStateBase<Value>>(state:
     : state;
 }
 
+export function validateIn<Value>(state: unknown): unknown {
+  const s = state as Immutable<State<Value, any>>
+  return (s).validate
+    ? validateAndSetValue(s, getValue(s), s.validate)
+    : state;
+}
+
+
+
 export function setValidate<Value, ChildState extends ChildStateBase<Value>>(
   state: Immutable<State<Value, ChildState>>,
   validateFn: Exclude<State<Value, ChildState>['validate'], null>,
@@ -266,6 +275,10 @@ export function setValidate<Value, ChildState extends ChildStateBase<Value>>(
 
 export function setErrors<Value, ChildState extends ChildStateBase<Value>>(state: Immutable<State<Value, ChildState>>, errors: string[]): Immutable<State<Value, ChildState>> {
   return state.set('errors', errors);
+}
+
+export function setErrorsIn<Value, ChildState extends ChildStateBase<Value>>(state: unknown, errors: string[]): Immutable<State<Value, ChildState>> {
+  return (state as Immutable<State<Value, any>>).set('errors', errors);
 }
 
 export function validateAndSetValue<Value, ChildState extends ChildStateBase<Value>>(state: Immutable<State<Value, ChildState>>, value: Value, validate: (value: Value) => Validation<Value>): Immutable<State<Value, ChildState>> {

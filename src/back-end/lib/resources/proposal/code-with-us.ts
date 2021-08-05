@@ -97,7 +97,7 @@ const resource: Resource = {
       if (request.query.opportunity) {
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, request.query.opportunity, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
-        return respond(404, ['Code With Us opportunity not found.']);
+          return respond(404, ['Code With Us opportunity not found.']);
         }
 
         if (!permissions.isSignedIn(request.session) || !await permissions.readManyCWUProposals(connection, request.session, validatedCWUOpportunity.value)) {

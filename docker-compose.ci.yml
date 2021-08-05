@@ -9,6 +9,7 @@ services:
       retries: 3
       start_period: 40s
     environment:
+      PGUSER: digitalmarketplace
       POSTGRES_USER: digitalmarketplace
       POSTGRES_PASSWORD: digitalmarketplace
       POSTGRES_DB: digitalmarketplace
@@ -22,6 +23,7 @@ services:
       retries: 3
       start_period: 40s
     environment:
+      PGUSER: digitalmarketplace
       POSTGRES_USER: digitalmarketplace
       POSTGRES_PASSWORD: digitalmarketplace
       POSTGRES_DB: dm_test
@@ -35,7 +37,10 @@ services:
         - GITHUBID=${GITHUBID}
         - GITHUBSECRET=${GITHUBSECRET}
         - KEYCLOAKURL=http://localhost:8080
-        - ROOTURL=http://localhost:3000
+        - ROOTURL=http://ui:3000
+        - KEYCLOAK_CLIENT_SECRET=3e1ac83e-553a-4811-8d5a-b0d5b8f4b332
+        - IDIR_CLIENT_SECRET=d62217e5-3171-4ba4-b715-18d07ec0ac89
+        - VENDOR_CLIENT_SECRET=20422e25-77a4-476a-8ddc-a3dc4a1a8747
     healthcheck:
       test: curl http://localhost:8080 --connect-timeout 1 --silent --stderr /dev/null > /dev/null
       interval: 5s
@@ -52,7 +57,7 @@ services:
       context: .
       target: development
     healthcheck:
-      test: curl http://localhost:3000 --connect-timeout 1 --silent > /dev/null
+      test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
       interval: 10s
       timeout: 10s
       retries: 5
@@ -83,7 +88,7 @@ services:
       - KEYCLOAK_ADMIN_PASS=admin
       - KEYCLOAK_CLIENT_ID=dm-app
       - KEYCLOAK_REALM=digitalmarketplace
-      - KEYCLOAK_URL=http://localhost:8080
+      - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_CLIENT_SECRET=random1234
       - FILE_STORAGE_DIR=./tmp
       - SCHEDULED_DOWNTIME=
@@ -94,6 +99,10 @@ services:
       - SWAGGER_ENABLE=true
       - SWAGGER_UI_PATH=/swagger
       - VENDOR_ACCOUNT_CREATION_DISABLED=1
+      - KEYCLOAK_CLIENT_SECRET=3e1ac83e-553a-4811-8d5a-b0d5b8f4b332
+      - SERVICE_TOKEN_HASH=$$2a$$10$$DopJPvHidYqWVKq.Sdcy5eTF82MvG1btPO.81NUtb/4XjiZa7ctQS
+      - VENDOR_IDP_SUFFIX=clicsequr
+      - VENDOR_IDP_NAME="ClicSEQUR Express"
       - CI=true
 
   selenium:

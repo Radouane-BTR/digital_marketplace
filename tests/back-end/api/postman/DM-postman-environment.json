@@ -3,28 +3,38 @@
 	"name": "DM - Environment",
 	"values": [
 		{
+			"key": "kc_proto",
+			"value": "http",
+			"enabled": true
+		},
+		{
 			"key": "kc_url",
-			"value": "",
+			"value": "keycloak:8080",
 			"enabled": true
 		},
 		{
 			"key": "realm_name",
-			"value": "",
+			"value": "digitalmarketplace",
 			"enabled": true
 		},
 		{
 			"key": "client_id",
-			"value": "",
+			"value": "marketplace-idp",
 			"enabled": true
 		},
 		{
 			"key": "client_secret",
-			"value": "",
+			"value": "2fe6e045-395b-4418-b214-af599f6186ad",
 			"enabled": true
 		},
 		{
 			"key": "api_url",
 			"value": "http://localhost:3000",
+			"enabled": true
+		},
+		{
+			"key": "uploaded_file_path",
+			"value": "README.md",
 			"enabled": true
 		},
 		{
@@ -53,53 +63,88 @@
 			"enabled": true
 		},
 		{
+			"key": "gov_realm_name",
+			"value": "idir",
+			"enabled": true
+		},
+		{
+			"key": "gov_client_id",
+			"value": "marketplace-idp",
+			"enabled": true
+		},
+		{
+			"key": "gov_client_secret",
+			"value": "d62217e5-3171-4ba4-b715-18d07ec0ac89",
+			"enabled": true
+		},
+		{
+			"key": "vendor_realm_name",
+			"value": "clicsequr",
+			"enabled": true
+		},
+		{
+			"key": "vendor_realm_secret",
+			"value": "clicsequr",
+			"enabled": true
+		},
+		{
+			"key": "vendor_client_id",
+			"value": "marketplace-idp",
+			"enabled": true
+		},
+		{
+			"key": "vendor_client_secret",
+			"value": "20422e25-77a4-476a-8ddc-a3dc4a1a8747",
+			"enabled": true
+		},
+		{
 			"key": "test_admin_username",
-			"value": "",
+			"value": "admin01",
 			"enabled": true
 		},
 		{
 			"key": "test_admin_password",
-			"value": "",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{
 			"key": "test_gov_username",
-			"value": "",
+			"value": "usagop01",
 			"enabled": true
 		},
 		{
 			"key": "test_gov_password",
-			"value": "",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor1_username",
-			"value": "",
+			"value": "vendor01",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor1_password",
-			"value": "",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor2_username",
-			"value": "",
+			"value": "vendor02",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor2_password",
-			"value": "",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor3_username",
-			"value": "",
+			"value": "vendor03",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor3_password",
-			"value": "",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{
@@ -169,12 +214,12 @@
 		},
 		{
 			"key": "test_vendor4_username",
-			"value": "test_vendor4",
+			"value": "vendor04",
 			"enabled": true
 		},
 		{
 			"key": "test_vendor4_password",
-			"value": "vendor",
+			"value": "123Soleil!",
 			"enabled": true
 		},
 		{

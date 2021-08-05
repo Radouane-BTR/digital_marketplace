@@ -577,6 +577,7 @@ const resource: Resource = {
               }
               break;
           }
+
           if (isInvalid(dbResult)) {
             return basicResponse(503, request.session, makeJsonResponseBody({ database: [db.ERROR_MESSAGE] }));
           }
@@ -592,7 +593,8 @@ const resource: Resource = {
   delete(connection) {
     return {
       async validateRequestBody(request) {
-        if (!(await permissions.deleteCWUOpportunity(connection, request.session, request.params.id))) {
+        const isAuthorized = (await permissions.deleteCWUOpportunity(connection, request.session, request.params.id))
+        if (!isAuthorized) {
           return invalid({
             permissions: [permissions.ERROR_MESSAGE]
           });

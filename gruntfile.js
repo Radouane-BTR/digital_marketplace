@@ -6,6 +6,7 @@ const NODE_ENV = process.env.NODE_ENV === "development" ? "development" : "produ
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || "digitalmarketplace@gov.bc.ca";
 const PATH_PREFIX = process.env.PATH_PREFIX || "";
 const {
+  BACKEND_URL,
   CWU_MAX_BUDGET,
   DEFAULT_PAGE_SIZE,
   GOV_IDP_SUFFIX,
@@ -22,6 +23,8 @@ const srcFrontEnd = path.resolve(__dirname, "./src/front-end");
 const srcBackEnd = path.resolve(__dirname, "./src/back-end");
 const srcScripts = path.resolve(__dirname, "./src/scripts");
 const srcShared = path.resolve(__dirname, "./src/shared");
+const srcMigrations = path.resolve(__dirname, "./src/migrations");
+const buildMigrations = path.resolve(__dirname, "./build/migrations");
 const buildFrontEnd = path.resolve(__dirname, "./build/front-end");
 const buildBackEnd = path.resolve(__dirname, "./build/back-end");
 const buildScripts = path.resolve(__dirname, "./build/scripts");
@@ -47,6 +50,7 @@ global.gruntConfig = {
       dir: tmpFrontEnd
     },
     env: {
+      BACKEND_URL,
       NODE_ENV,
       CONTACT_EMAIL,
       PATH_PREFIX,
@@ -83,6 +87,14 @@ global.gruntConfig = {
   shared: {
     src: {
       dir: srcShared
+    }
+  },
+  migrations: {
+    src: {
+      dir: srcMigrations,
+    },
+    build: {
+      dir: buildMigrations
     }
   }
 };
@@ -145,6 +157,9 @@ module.exports = function (grunt) {
   ]);
   grunt.registerTask("scripts-build-development", [
     "shell:scriptsTypeScript"
+  ]);
+  grunt.registerTask("migrations-build", [
+    "shell:migrationsTypeScript"
   ]);
   grunt.registerTask("scripts-build", [ `scripts-build-${NODE_ENV}` ]);
 };

@@ -1,4 +1,5 @@
 import { SessionRecord } from 'back-end/../shared/lib/resources/session';
+import { SILENT_LOGS } from 'back-end/config';
 import { Adapter, AdapterFunction } from 'back-end/lib/logger/adapters';
 import { reduce } from 'lodash';
 
@@ -42,12 +43,12 @@ const noOpLog: LogFunction = logWith((domain, msg) => { return; });
 
 export function makeDomainLogger(adapter: Adapter, domain: string, env: 'development' | 'production' | 'test'): DomainLogger {
   const { info, warn, error, debug } = makeLogger(adapter);
-  const isDev = env !== 'production';
+  const showDebug = env !== 'production' && !SILENT_LOGS;
   return {
-    info: info.bind(null, domain),
-    warn: warn.bind(null, domain),
-    error: error.bind(null, domain),
-    debug: isDev ? debug.bind(null, domain) : noOpLog.bind(null, domain)
+    info: SILENT_LOGS ? noOpLog.bind(null, domain) : info.bind(null, domain),
+    warn: SILENT_LOGS ? noOpLog.bind(null, domain) : warn.bind(null, domain),
+    error: SILENT_LOGS ? noOpLog.bind(null, domain) : error.bind(null, domain),
+    debug: showDebug ? debug.bind(null, domain) : noOpLog.bind(null, domain)
   };
 }
 

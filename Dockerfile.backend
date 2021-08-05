@@ -1,0 +1,28 @@
+FROM docker.io/node:lts-alpine AS base
+WORKDIR /usr/app
+ENV NODE_ENV=production
+
+FROM base AS builder-env
+WORKDIR /usr/app
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 build-base
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+RUN NODE_ENV=development npm i
+COPY . /usr/app
+
+FROM builder-env as backend-build
+WORKDIR /usr/app
+RUN npm run back-end:build
+RUN npm run migrations:build
+
+FROM base as backend
+COPY --from=backend-build /usr/app/package.json .
+COPY --from=backend-build /usr/app/package-lock.json .
+COPY --from=backend-build /usr/app/build/back-end .
+COPY --from=backend-build /usr/app/build/migrations .
+RUN npm i --production
+RUN mkdir tmp && chown node tmp -R
+EXPOSE 3000
+USER node
+CMD npm run migrations:prod:latest && node back-end/start.js

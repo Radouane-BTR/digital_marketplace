@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "eabcd1c2-0370-4c6f-9653-6ed269534e9a",
+		"_postman_id": "36449cb0-95df-4cbd-84a2-fb09bcf9f985",
 		"name": "digital-marketplace-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -14,11 +14,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bc826688-3218-4542-8fba-fa40d2eb3449",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('admin_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -27,11 +29,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "af42c41b-d232-4856-b170-48e9e2814611",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('gov_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('gov_client_id');",
+									"let clientSecret = pm.environment.get('gov_client_secret');",
 									"let username = pm.environment.get('test_admin_username');",
 									"let password = pm.environment.get('test_admin_password');",
 									"let scope = 'openid';",
@@ -115,7 +116,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "91479196-f2f3-4457-89c5-e46e24af8b6e",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -126,10 +126,16 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4a9713d6-d2b7-4b5e-b26e-8a7983b378cf",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"admin_user_id\", jsonData.user.id);"
+									"postman.setEnvironmentVariable(\"admin_user_id\", jsonData.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"SReponse contains user data!\", function () {",
+									"  pm.expect(jsonData.user.idpUsername).to.eql(pm.environment.get('test_admin_username'));",
+									"});",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -158,11 +164,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('gov_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -171,11 +179,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('gov_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('gov_client_id');",
+									"let clientSecret = pm.environment.get('gov_client_secret');",
 									"let username = pm.environment.get('test_gov_username');",
 									"let password = pm.environment.get('test_gov_password');",
 									"let scope = 'openid';",
@@ -261,7 +268,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "41f8db47-c92b-4f4a-bcb3-aa97331a821f",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -272,10 +278,14 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4eeee4ca-982e-4caa-9eaa-0d8fe147e2d1",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"gov_user_id\", jsonData.user.id);"
+									"console.log(jsonData)",
+									"postman.setEnvironmentVariable(\"gov_user_id\", jsonData.user.id);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -304,11 +314,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('vendor1_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -317,11 +329,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('vendor_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('vendor_client_id');",
+									"let clientSecret = pm.environment.get('vendor_client_secret');",
 									"let username = pm.environment.get('test_vendor1_username');",
 									"let password = pm.environment.get('test_vendor1_password');",
 									"let scope = 'openid';",
@@ -404,7 +415,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "940f53e1-4268-43c0-a013-408d74bd560f",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -415,10 +425,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e8fbe7ab-8c79-4469-8618-3a7b946bb937",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"vendor1_user_id\", jsonData.user.id);"
+									"postman.setEnvironmentVariable(\"vendor1_user_id\", jsonData.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -462,11 +474,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('vendor2_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -475,11 +489,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('vendor_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('vendor_client_id');",
+									"let clientSecret = pm.environment.get('vendor_client_secret');",
 									"let username = pm.environment.get('test_vendor2_username');",
 									"let password = pm.environment.get('test_vendor2_password');",
 									"let scope = 'openid';",
@@ -562,7 +575,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "fef751a1-e073-4010-b767-bb05030314e2",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -573,10 +585,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b64bc370-b10c-421f-8c5e-bcc9d71b94c3",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"vendor2_user_id\", jsonData.user.id);"
+									"postman.setEnvironmentVariable(\"vendor2_user_id\", jsonData.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -605,11 +619,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('vendor3_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -618,11 +634,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('vendor_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('vendor_client_id');",
+									"let clientSecret = pm.environment.get('vendor_client_secret');",
 									"let username = pm.environment.get('test_vendor3_username');",
 									"let password = pm.environment.get('test_vendor3_password');",
 									"let scope = 'openid';",
@@ -705,7 +720,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "4af2be66-8992-443d-a7ae-e3246081696d",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -716,10 +730,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "79304b17-8f5f-4ab3-8577-9dd5640877be",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"vendor3_user_id\", jsonData.user.id);"
+									"postman.setEnvironmentVariable(\"vendor3_user_id\", jsonData.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -748,11 +764,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('vendor4_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -761,11 +779,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('vendor_realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('vendor_client_id');",
+									"let clientSecret = pm.environment.get('vendor_client_secret');",
 									"let username = pm.environment.get('test_vendor4_username');",
 									"let password = pm.environment.get('test_vendor4_password');",
 									"let scope = 'openid';",
@@ -848,7 +865,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ab45c9b7-6291-4c34-ab7a-da797064621a",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor4_sid'));"
@@ -859,10 +875,12 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6a9cbd9a-7a68-4a47-aad8-dedbd72344ae",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"vendor4_user_id\", jsonData.user.id);"
+									"postman.setEnvironmentVariable(\"vendor4_user_id\", jsonData.user.id);",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -891,11 +909,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2738e875-7114-4fb8-b7bc-66543280cd81",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get(pm.environment.get('api_url'), 'sid', function (error, value) {",
 									"    pm.environment.set('gov_sid', value);",
+									"});",
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -904,7 +924,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "233aed5d-1eeb-4497-9fa1-9662a9f7ce04",
 								"exec": [
 									""
 								],
@@ -928,7 +947,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{api_url}}/auth/override-session/gov/test_gov/?token=foobar",
+							"raw": "{{api_url}}/auth/override-session/gov/usagop01/?token=foobar",
 							"host": [
 								"{{api_url}}"
 							],
@@ -936,7 +955,7 @@
 								"auth",
 								"override-session",
 								"gov",
-								"test_gov",
+								"usagop01",
 								""
 							],
 							"query": [
@@ -954,7 +973,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "aa026c25-2c34-4c2b-9eff-4a294f8dae29",
 						"type": "text/javascript",
 						"exec": [
 							""
@@ -964,15 +982,461 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "5ae40167-5949-4133-9864-ef7ce6b0ff56",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
+			]
+		},
+		{
+			"name": "File Operations",
+			"item": [
+				{
+					"name": "Vendor 1 - Create File (Public / Any)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "ferret",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "[{\"tag\": \"any\"}]",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "{{uploaded_file_path}}"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/api/files",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 2 - Read Public File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 1 - Create File (For Vendor 2 User)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "ferret",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "[{\"tag\": \"user\", \"value\": \"{{vendor2_user_id}}\"}]",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "{{uploaded_file_path}}"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/api/files",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 2 - Read Private File (Should Succeed)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 3 - Read Private File (Should Fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 1 - Create File (For Gov User Type)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody)",
+									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "ferret",
+									"type": "text"
+								},
+								{
+									"key": "metadata",
+									"value": "[{\"tag\": \"userType\", \"value\": \"GOV\"}]",
+									"type": "text"
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "{{uploaded_file_path}}"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{api_url}}/api/files",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor 2 - Read Gov-Only File (Should Fail)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gov - Read Gov-Only File (Should Succeed)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor - Read Gov-Only File (Should Succeed as Owner)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const jar = pm.cookies.jar();",
+									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/api/files/{{file_id}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"files",
+								"{{file_id}}"
+							]
+						}
+					},
+					"response": []
+				}
 			],
-			"protocolProfileBehavior": {}
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			]
 		},
 		{
 			"name": "CWU Opportunity / Proposals - Happy Path",
@@ -986,10 +1450,12 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
-											"postman.setEnvironmentVariable(\"file2_id\", jsonData.id)"
+											"postman.setEnvironmentVariable(\"file2_id\", jsonData.id)",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -997,7 +1463,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -1025,7 +1490,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/andrewsutherland/image/turtle.jpg"
+											"src": "yGpErkexn/Lettre-Motivation UQAR.pdf"
 										}
 									]
 								},
@@ -1048,10 +1513,12 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
-											"postman.setEnvironmentVariable(\"cwu_opp_id\", jsonData.id)"
+											"postman.setEnvironmentVariable(\"cwu_opp_id\", jsonData.id)",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1059,7 +1526,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "14b26607-74a3-4487-81d2-827bb1225425",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -1095,14 +1561,16 @@
 							"response": []
 						},
 						{
-							"name": "Admin - Update CWU Opportunity (Edit Draft)",
+							"name": "Gov - Update CWU Opportunity (Edit Draft)",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1110,10 +1578,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
-											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
+											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
 										],
 										"type": "text/javascript"
 									}
@@ -1152,9 +1619,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1162,7 +1631,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -1189,14 +1657,16 @@
 							"response": []
 						},
 						{
-							"name": "Gov - Publish CWU Opportunity",
+							"name": "Gov - Update CWU Opportunity",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1204,7 +1674,59 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "32491648-1a6c-44be-aa4a-2ba954e52bd7",
+										"exec": [
+											"const jar = pm.cookies.jar();",
+											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"tag\": \"edit\",\n    \"value\": {\n        \"title\": \"Test CWU Opportunity - updated by admin!\",\n        \"teaser\": \"Sample Teaser\",\n        \"remoteOk\": false,\n        \"remoteDesc\": \"Need you here\",\n        \"location\": \"Victoria\",\n        \"reward\": 70000,\n        \"skills\": [\n            \"foo\",\n            \"bar\"\n        ],\n        \"description\": \"Sample Description Lorem Ipsum\",\n        \"proposalDeadline\": \"{{$isoTimestamp}}\",\n        \"assignmentDate\": \"{{$isoTimestamp}}\",\n        \"startDate\": \"{{$isoTimestamp}}\",\n        \"completionDate\": \"{{$isoTimestamp}}\",\n        \"submissionInfo\": \"github.com\",\n        \"acceptanceCriteria\": \"Sample Acceptance Criteria\",\n        \"evaluationCriteria\": \"Sample Evaluation Criteria\",\n        \"status\": \"DRAFT\",\n        \"attachments\": []\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api_url}}/api/opportunities/code-with-us/{{cwu_opp_id}}",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"code-with-us",
+										"{{cwu_opp_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gov - Publish CWU Opportunity",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -1246,9 +1768,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1256,7 +1780,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -1293,14 +1816,60 @@
 							"response": []
 						},
 						{
-							"name": "Admin - Update CWU Opportunity",
+							"name": "Gov - Get All Opportunities",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const jar = pm.cookies.jar();",
+											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{api_url}}/api/opportunities/code-with-us",
+									"host": [
+										"{{api_url}}"
+									],
+									"path": [
+										"api",
+										"opportunities",
+										"code-with-us"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Gov - Create CWU Opportunity Copy",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
-											""
+											"var jsonData = JSON.parse(responseBody)",
+											"postman.setEnvironmentVariable(\"cwu_opp_id\", jsonData.id)",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1308,21 +1877,20 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
-											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
+											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"method": "PUT",
+								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"tag\": \"edit\",\n    \"value\": {\n        \"title\": \"Test CWU Opportunity - updated by admin!\",\n        \"teaser\": \"Sample Teaser\",\n        \"remoteOk\": false,\n        \"remoteDesc\": \"Need you here\",\n        \"location\": \"Victoria\",\n        \"reward\": 70000,\n        \"skills\": [\n            \"foo\",\n            \"bar\"\n        ],\n        \"description\": \"Sample Description Lorem Ipsum\",\n        \"proposalDeadline\": \"2021-02-15\",\n        \"assignmentDate\": \"2021-02-15\",\n        \"startDate\": \"2021-02-15\",\n        \"completionDate\": \"2021-02-20\",\n        \"submissionInfo\": \"github.com\",\n        \"acceptanceCriteria\": \"Sample Acceptance Criteria\",\n        \"evaluationCriteria\": \"Sample Evaluation Criteria\",\n        \"status\": \"DRAFT\",\n        \"attachments\": []\n    }\n}",
+									"raw": "{\n    \"title\": \"Test CWU Opportunity\",\n    \"teaser\": \"Sample Teaser\",\n    \"remoteOk\": false,\n    \"location\": \"Victoria\",\n    \"reward\": 70000,\n    \"skills\": [\n        \"foo\",\n        \"bar\"\n    ],\n    \"description\": \"Sample Description Lorem Ipsum\",\n    \"proposalDeadline\": \"2021-02-15\",\n    \"assignmentDate\": \"2021-02-15\",\n    \"startDate\": \"2021-02-15\",\n    \"completionDate\": \"2021-02-20\",\n    \"submissionInfo\": \"github.com\",\n    \"acceptanceCriteria\": \"Sample Acceptance Criteria\",\n    \"evaluationCriteria\": \"Sample Evaluation Criteria\",\n    \"status\": \"DRAFT\",\n    \"attachments\": []\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1330,29 +1898,30 @@
 									}
 								},
 								"url": {
-									"raw": "{{api_url}}/api/opportunities/code-with-us/{{cwu_opp_id}}",
+									"raw": "{{api_url}}/api/opportunities/code-with-us",
 									"host": [
 										"{{api_url}}"
 									],
 									"path": [
 										"api",
 										"opportunities",
-										"code-with-us",
-										"{{cwu_opp_id}}"
+										"code-with-us"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "Admin - Update CWU Opportunity - Add Note",
+							"name": "(ALT) Gov - Delete CWU Opportunity",
 							"event": [
 								{
 									"listen": "test",
 									"script": {
-										"id": "c5fe7681-6169-476a-ab3e-b996f7ade58b",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1360,62 +1929,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "88cb107f-3fce-43e8-a1b9-078f363d23cb",
 										"exec": [
 											"const jar = pm.cookies.jar();",
-											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"tag\": \"addNote\",\n    \"value\": {\n        \"note\": \"This is a sample note with attachments\",\n        \"attachments\": [\"{{file_id}}\", \"{{file2_id}}\"]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{api_url}}/api/opportunities/code-with-us/{{cwu_opp_id}}",
-									"host": [
-										"{{api_url}}"
-									],
-									"path": [
-										"api",
-										"opportunities",
-										"code-with-us",
-										"{{cwu_opp_id}}"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "(ALT) Admin - Delete CWU Opportunity",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"id": "f8c3703a-67c3-43a9-9788-4b443811ea7b",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								},
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "56785367-3f08-4c7a-845b-110afb6da95b",
-										"exec": [
-											"const jar = pm.cookies.jar();",
-											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
+											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
 										],
 										"type": "text/javascript"
 									}
@@ -1438,14 +1954,51 @@
 								}
 							},
 							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						},
 						{
-							"name": "Gov - Get All Opportunities",
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "First Proposal (VENDOR)",
+					"item": [
+						{
+							"name": "Gov - Create CWU Opportunity Copy",
 							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = JSON.parse(responseBody)",
+											"postman.setEnvironmentVariable(\"cwu_opp_id\", jsonData.id)",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -1455,8 +2008,17 @@
 								}
 							],
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Test CWU Opportunity\",\n    \"teaser\": \"Sample Teaser\",\n    \"remoteOk\": false,\n    \"location\": \"Victoria\",\n    \"reward\": 70000,\n    \"skills\": [\n        \"foo\",\n        \"bar\"\n    ],\n    \"description\": \"Sample Description Lorem Ipsum\",\n    \"proposalDeadline\": \"{{$isoTimestamp}}\",\n    \"assignmentDate\": \"{{$isoTimestamp}}\",\n    \"startDate\": \"{{$isoTimestamp}}\",\n    \"completionDate\": \"{{$isoTimestamp}}\",\n    \"submissionInfo\": \"github.com\",\n    \"acceptanceCriteria\": \"Sample Acceptance Criteria\",\n    \"evaluationCriteria\": \"Sample Evaluation Criteria\",\n    \"status\": \"PUBLISHED\",\n    \"attachments\": []\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
 									"raw": "{{api_url}}/api/opportunities/code-with-us",
 									"host": [
@@ -1470,43 +2032,13 @@
 								}
 							},
 							"response": []
-						}
-					],
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "e9f1259a-76a7-42b8-ba4b-f3914253dd46",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
 						},
-						{
-							"listen": "test",
-							"script": {
-								"id": "84ce5672-c3dd-4011-9505-334c15ed8ad8",
-								"type": "text/javascript",
-								"exec": [
-									""
-								]
-							}
-						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
-				},
-				{
-					"name": "First Proposal (VENDOR)",
-					"item": [
 						{
 							"name": "Vendor 1 - Get Current Session/Profile",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1517,10 +2049,12 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"vendor1_user_id\", jsonData.user.id);"
+											"postman.setEnvironmentVariable(\"vendor1_user_id\", jsonData.user.id);",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1549,10 +2083,21 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "7062c94b-0c55-4d47-a001-c61efbdbec80",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1590,7 +2135,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1601,9 +2145,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(200);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1633,9 +2179,9 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
+											"console.log(pm.environment.get('vendor1_sid'))",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
 										],
 										"type": "text/javascript"
@@ -1644,9 +2190,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1682,7 +2230,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1693,10 +2240,12 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
-											"postman.setEnvironmentVariable(\"cwu_proposal1_id\", jsonData.id);"
+											"postman.setEnvironmentVariable(\"cwu_proposal1_id\", jsonData.id);",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1734,7 +2283,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1745,9 +2293,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1786,7 +2336,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1797,9 +2346,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1829,7 +2380,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1840,9 +2390,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1881,7 +2433,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -1892,9 +2443,11 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
-											""
+											"",
+											"pm.test(\"Status code is 200\", function () {",
+											"  pm.response.to.have.status(201);",
+											"});"
 										],
 										"type": "text/javascript"
 									}
@@ -1931,7 +2484,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0d2ccd16-946a-4299-819b-9585c6fc2574",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -1941,16 +2493,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7d53994a-abb1-4daa-8174-869e5a65819d",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Second Proposal (VENDOR)",
@@ -1961,7 +2510,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -1972,7 +2520,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"vendor2_user_id\", jsonData.user.id);"
@@ -2004,7 +2551,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "dfdcd067-31dc-4b0b-afbd-02fe318921b9",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -2045,7 +2591,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -2056,7 +2601,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"cwu_proposal2_id\", jsonData.id);"
@@ -2097,7 +2641,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -2108,7 +2651,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"cwu_proposal2_id\", jsonData.id);"
@@ -2149,7 +2691,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0d2ccd16-946a-4299-819b-9585c6fc2574",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2159,16 +2700,13 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7d53994a-abb1-4daa-8174-869e5a65819d",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Close and Evaluate Proposals (GOV)",
@@ -2179,7 +2717,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2212,7 +2749,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2254,7 +2790,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2287,7 +2822,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2325,7 +2859,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2367,7 +2900,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2409,7 +2941,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "374f49e4-b152-4003-9a96-9c8f9be02808",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2451,7 +2982,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "0c9effb7-5fba-44a4-8304-ab7258da44e4",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2493,7 +3023,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2531,7 +3060,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2573,7 +3101,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2615,7 +3142,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2657,7 +3183,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2699,7 +3224,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2737,7 +3261,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2770,7 +3293,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "29bb5f14-8185-496e-8e8c-2e9e59055d49",
 										"exec": [
 											""
 										],
@@ -2780,7 +3302,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "2c1986ce-278a-4e1c-b231-8385676fcd35",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -2822,7 +3343,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -2855,7 +3375,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -2887,7 +3406,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "d5210b1e-851d-423a-9f40-d64b24aac9b0",
 								"type": "text/javascript",
 								"exec": [
 									""
@@ -2897,23 +3415,19 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7b3bcd91-a5c2-4984-870f-90f28ae0f97c",
 								"type": "text/javascript",
 								"exec": [
 									""
 								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				}
 			],
 			"event": [
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "6577ce0b-9255-40c0-9d29-f7bf83b3bab7",
 						"type": "text/javascript",
 						"exec": [
 							"var moment = require(\"moment\");",
@@ -2924,15 +3438,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "8194aedf-f979-47af-81e3-b6e6643e8848",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "SWU Opportunity / Proposals - Happy Path",
@@ -2946,7 +3458,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
 											"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
@@ -2957,7 +3468,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -2985,7 +3495,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/andrewsutherland/image/Ferret_2008.png"
+											"src": "{{uploaded_file_path}}"
 										}
 									]
 								},
@@ -3008,7 +3518,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "c5cf8077-63a9-40e0-b377-c40d8ec2bba5",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
 											"postman.setEnvironmentVariable(\"public_file_id\", jsonData.id)"
@@ -3019,7 +3528,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "732442e0-6b4e-42a6-b0a5-94568f9acd5d",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3047,7 +3555,7 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/andrewsutherland/image/Ferret_2008.png"
+											"src": "{{uploaded_file_path}}"
 										}
 									]
 								},
@@ -3070,7 +3578,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
 											"postman.setEnvironmentVariable(\"swu_opp_id\", jsonData.id)"
@@ -3081,7 +3588,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "14b26607-74a3-4487-81d2-827bb1225425",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -3122,7 +3628,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "fc3f1b64-2a13-45d0-a1b4-d55ad50dcd92",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody)",
 											"postman.setEnvironmentVariable(\"swu_opp_id\", jsonData.id)"
@@ -3133,7 +3638,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9f6b9a85-4058-4ab2-ac5d-13d5de80a527",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3174,7 +3678,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											""
 										],
@@ -3184,7 +3687,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3226,7 +3728,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											""
 										],
@@ -3236,7 +3737,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -3268,7 +3768,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											""
 										],
@@ -3278,7 +3777,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "32491648-1a6c-44be-aa4a-2ba954e52bd7",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -3320,7 +3818,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -3353,7 +3850,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											""
 										],
@@ -3363,7 +3859,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "85b4f81e-c050-47f9-8047-9a09d0d1dd69",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3390,9 +3885,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Publish & Edit Opportunity (ADMIN)",
@@ -3403,7 +3896,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "29bf6cc2-02d2-47b4-9e8e-d97c06b299f2",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3445,7 +3937,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "38bb8f3c-ef74-403d-b584-f5008adb5666",
 										"exec": [
 											""
 										],
@@ -3455,7 +3946,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e84351c7-2a8d-4ec9-8014-dee970ad9eca",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3497,7 +3987,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3539,7 +4028,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "daf3478e-4d25-42af-85eb-677f42e1429c",
 										"exec": [
 											""
 										],
@@ -3549,7 +4037,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e4544bf1-0390-4a2f-9851-7e141f96a91e",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3591,7 +4078,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3633,7 +4119,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -3660,9 +4145,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "First Proposal (VENDOR)",
@@ -3673,7 +4156,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3684,7 +4166,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"vendor1_user_id\", jsonData.user.id);"
@@ -3716,7 +4197,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3727,7 +4207,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -3767,7 +4246,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "1821ab14-403c-45ae-8ec5-14269ce52163",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3778,7 +4256,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "efd9c7d7-5e5c-44ea-97eb-506504600de9",
 										"exec": [
 											""
 										],
@@ -3818,7 +4295,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3829,7 +4305,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5dddc925-373c-4675-b775-f4b4a478472b",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"org_id\", jsonData.id);"
@@ -3869,7 +4344,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3880,7 +4354,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5dddc925-373c-4675-b775-f4b4a478472b",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"org_id\", jsonData.id);"
@@ -3912,7 +4385,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3923,7 +4395,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5dddc925-373c-4675-b775-f4b4a478472b",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"org_id\", jsonData.id);"
@@ -3955,7 +4426,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -3966,7 +4436,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"affiliation_id\", jsonData.id);"
@@ -4006,7 +4475,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -4017,7 +4485,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"vendor2_user_id\", jsonData.user.id);"
@@ -4049,7 +4516,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -4060,7 +4526,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4100,7 +4565,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -4111,7 +4575,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4142,7 +4605,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4153,7 +4615,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4193,7 +4654,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -4204,7 +4664,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4235,7 +4694,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4246,7 +4704,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"affiliation_id\", jsonData.id);"
@@ -4286,7 +4743,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4297,7 +4753,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"swu_proposal1_id\", jsonData.id);"
@@ -4338,7 +4793,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4349,7 +4803,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"swu_proposal1_id\", jsonData.id);"
@@ -4382,7 +4835,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4393,7 +4845,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4434,7 +4885,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4445,7 +4895,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4477,7 +4926,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4488,7 +4936,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4529,7 +4976,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4540,7 +4986,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4581,7 +5026,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4592,7 +5036,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4633,7 +5076,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4644,7 +5086,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"swu_proposal1_id\", jsonData.id);"
@@ -4685,7 +5126,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -4696,7 +5136,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"swu_proposal1_id\", jsonData.id);"
@@ -4722,9 +5161,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Second Proposal (VENDOR)",
@@ -4735,7 +5172,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -4746,7 +5182,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"vendor3_user_id\", jsonData.user.id);"
@@ -4778,7 +5213,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -4789,7 +5223,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -4829,7 +5262,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "f68cd0f4-4789-4ca6-9479-293d279c4538",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -4840,7 +5272,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "4e377cb9-97d3-422f-b1b9-80367047d3cf",
 										"exec": [
 											""
 										],
@@ -4880,7 +5311,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -4891,7 +5321,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "5dddc925-373c-4675-b775-f4b4a478472b",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"org2_id\", jsonData.id);"
@@ -4931,7 +5360,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -4942,7 +5370,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"affiliation2_id\", jsonData.id);"
@@ -4982,7 +5409,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor4_sid'));"
@@ -4993,7 +5419,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -5024,7 +5449,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -5035,7 +5459,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -5066,7 +5489,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor4_sid'));"
@@ -5077,7 +5499,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"vendor4_user_id\", jsonData.user.id);"
@@ -5109,7 +5530,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor4_sid'));"
@@ -5120,7 +5540,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -5160,7 +5579,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -5171,7 +5589,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											""
 										],
@@ -5211,7 +5628,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -5222,7 +5638,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 										"exec": [
 											"var jsonData = JSON.parse(responseBody);",
 											"postman.setEnvironmentVariable(\"swu_proposal2_id\", jsonData.id);"
@@ -5257,9 +5672,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Close and Evaluate Proposals (GOV)",
@@ -5270,7 +5683,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5302,7 +5714,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "9e281690-1a90-4339-b402-5774d5615966",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5335,7 +5746,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5399,7 +5809,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5437,7 +5846,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5479,7 +5887,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5521,7 +5928,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "e8dec6d9-49ff-4e22-bf2a-44e359fad0fd",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5563,7 +5969,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5605,7 +6010,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5647,7 +6051,6 @@
 								{
 									"listen": "test",
 									"script": {
-										"id": "965ab64f-9372-454f-9ccc-7cb76daec182",
 										"exec": [
 											""
 										],
@@ -5657,7 +6060,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "edf4935b-6fc8-422a-846a-b208e749c175",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5699,7 +6101,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5741,7 +6142,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5786,7 +6186,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5824,7 +6223,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5866,7 +6264,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5908,7 +6305,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5950,7 +6346,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -5992,7 +6387,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6037,7 +6431,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6075,7 +6468,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6117,7 +6509,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6159,7 +6550,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6201,7 +6591,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6239,7 +6628,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6281,7 +6669,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6314,7 +6701,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "4872502f-a3e2-4c7b-b43f-b3005fa87868",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -6341,9 +6727,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				},
 				{
 					"name": "Logout",
@@ -6354,7 +6738,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "726ec00b-588b-454a-8499-946b06b0f8ec",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6386,7 +6769,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "95e596eb-aebb-4b43-89d7-5095118d2f31",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -6418,7 +6800,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "95e596eb-aebb-4b43-89d7-5095118d2f31",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -6450,7 +6831,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "95e596eb-aebb-4b43-89d7-5095118d2f31",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -6482,7 +6862,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "95e596eb-aebb-4b43-89d7-5095118d2f31",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
@@ -6514,7 +6893,6 @@
 								{
 									"listen": "prerequest",
 									"script": {
-										"id": "95e596eb-aebb-4b43-89d7-5095118d2f31",
 										"exec": [
 											"const jar = pm.cookies.jar();",
 											"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor4_sid'));"
@@ -6540,9 +6918,7 @@
 							},
 							"response": []
 						}
-					],
-					"protocolProfileBehavior": {},
-					"_postman_isSubFolder": true
+					]
 				}
 			],
 			"description": "This collection will perform the following:\n\n- Log in an admin user, a gov user, and 4 vendors\n- Create a SWU opportunity, edit the draft and submit for review\n- Publish the SWU opportunity (admin)\n- Add an addendum to the opportunity\n- Create two vendor organizations\n- Add capabilities and accept terms to satisfy the RFQ (x 2)\n- Submit a proposal for each organization\n- Close the SWU opportunity by changing the proposal date (hook will set to EVAL)\n- Evaluate the team questions, code challenge, team scenario, price for each proposal\n- Award the proposal",
@@ -6550,7 +6926,6 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "e81d1074-920b-406a-a43a-156bfc14df82",
 						"type": "text/javascript",
 						"exec": [
 							"var moment = require(\"moment\");",
@@ -6561,15 +6936,13 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "a7e62263-96bf-4afc-8282-b4fa57aa16b8",
 						"type": "text/javascript",
 						"exec": [
 							""
 						]
 					}
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Admin Functions",
@@ -6580,7 +6953,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6611,7 +6983,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6642,7 +7013,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6674,7 +7044,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6706,7 +7075,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -6738,7 +7106,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6770,7 +7137,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6811,7 +7177,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -6843,7 +7208,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "50ba98fc-1bc2-4646-a45f-bcf9b5a6a035",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody)",
 									"postman.setEnvironmentVariable(\"content_slug\", jsonData.slug)",
@@ -6884,7 +7248,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c077b5b4-add9-46eb-afca-3d3c6734abd0",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody)",
 									"postman.setEnvironmentVariable(\"content_slug\", jsonData.slug)",
@@ -6944,7 +7307,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5d89fc92-137b-49fe-bd64-a1489f7a3d5e",
 								"exec": [
 									""
 								],
@@ -7034,8 +7396,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Misc User Functions",
@@ -7046,7 +7407,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody)",
 									"postman.setEnvironmentVariable(\"vendor1_avatar_id\", jsonData.id)"
@@ -7057,7 +7417,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7085,7 +7444,7 @@
 								{
 									"key": "file",
 									"type": "file",
-									"src": "/Users/andrewsutherland/image/Ferret_2008.png"
+									"src": "{{uploaded_file_path}}"
 								}
 							]
 						},
@@ -7108,7 +7467,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1ae0398d-00b8-4226-883f-8833c3c04476",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7149,7 +7507,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "bc3d92cd-35a5-4a89-9d17-71922f03fd2d",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7190,7 +7547,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "634d7acf-f349-4d92-b214-a3ba42d78fce",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -7231,7 +7587,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "bc3d92cd-35a5-4a89-9d17-71922f03fd2d",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -7272,7 +7627,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -7283,7 +7637,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"admin_user_id\", jsonData.user.id);"
@@ -7315,7 +7668,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "bc3d92cd-35a5-4a89-9d17-71922f03fd2d",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('admin_sid'));"
@@ -7356,7 +7708,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c760c0a7-890c-4690-9250-1be262e5aaa5",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -7367,7 +7718,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0241da88-fcea-4ffc-ab7f-1a4a59f70f75",
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
 									"postman.setEnvironmentVariable(\"gov_user_id\", jsonData.user.id);"
@@ -7399,7 +7749,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "bc3d92cd-35a5-4a89-9d17-71922f03fd2d",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -7413,7 +7762,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"tag\": \"updateProfile\",\n    \"value\": {\n        \"name\": \"test_gov GOV\",\n        \"email\": \"sutherlanda+vendor2@gmail.com\",\n        \"jobTitle\": \"\"\n    }\n}",
+							"raw": "{\n    \"tag\": \"updateProfile\",\n    \"value\": {\n        \"name\": \"usagop01 GOV\",\n        \"email\": \"sutherlanda+vendor2@gmail.com\",\n        \"jobTitle\": \"\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7440,7 +7789,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "2052c1b6-3819-4cc9-a21b-04ebae58eca2",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7481,7 +7829,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "1ac41bd3-927e-40cd-a91b-53dc99aacc64",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -7522,7 +7869,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "2052c1b6-3819-4cc9-a21b-04ebae58eca2",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7563,7 +7909,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "3b6b66a8-10cf-4d79-bacb-9cc0dee25323",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
@@ -7604,7 +7949,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "2052c1b6-3819-4cc9-a21b-04ebae58eca2",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7637,7 +7981,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7668,7 +8011,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "0ed807b7-74a9-4f5d-801e-a6a817a6c72b",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7709,7 +8051,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "db3c064f-184b-4a3e-b98a-f1bb65ca9148",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7740,7 +8081,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "52340347-258a-4175-8cad-2ad2730311b5",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7772,7 +8112,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "56f13127-b06f-4f4a-acc3-581d3d2b9643",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7804,7 +8143,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7835,7 +8173,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "e0140567-2889-4592-890c-0bfd7b503cf0",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
@@ -7866,7 +8203,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7903,7 +8239,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "34cc0b38-1b2e-4a6f-8011-f018e3e21703",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -7935,7 +8270,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "60c8f3ed-59e8-4610-a6f0-7598705778c3",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.get('localhost', 'sid', function (error, value) {",
@@ -7948,11 +8282,10 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "66ca3179-2037-46ea-ac93-6103ff122002",
 								"exec": [
-									"let tokenUrl = `https://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
-									"let clientId = pm.environment.get('client_id');",
-									"let clientSecret = pm.environment.get('client_secret');",
+									"let tokenUrl = `${pm.environment.get('kc_proto')}://${pm.environment.get('kc_url')}/auth/realms/${pm.environment.get('realm_name')}/protocol/openid-connect/token`;",
+									"let clientId = pm.environment.get('vendor_client_id');",
+									"let clientSecret = pm.environment.get('vendor_client_secret');",
 									"let username = pm.environment.get('test_vendor1_username');",
 									"let password = pm.environment.get('test_vendor1_password');",
 									"let scope = 'openid';",
@@ -8029,7 +8362,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1b099df6-a15c-479b-b496-60b756eda8b5",
 								"exec": [
 									""
 								],
@@ -8039,7 +8371,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "719c0014-e731-45af-b22e-af2b0a4a22e2",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -8071,7 +8402,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "09430ae7-6ba4-4366-8def-205623cd40ab",
 								"exec": [
 									""
 								],
@@ -8081,7 +8411,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "ff2ec00c-8a1c-4014-9b7a-8f0a472e65c6",
 								"exec": [
 									"const jar = pm.cookies.jar();",
 									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
@@ -8107,475 +8436,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "File Operations",
-			"item": [
-				{
-					"name": "Vendor 1 - Create File (Public / Any)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody)",
-									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "ferret",
-									"type": "text"
-								},
-								{
-									"key": "metadata",
-									"value": "[{\"tag\": \"any\"}]",
-									"type": "text"
-								},
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/Users/andrewsutherland/image/Ferret_2008.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{api_url}}/api/files",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 2 - Read Public File",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 1 - Create File (For Vendor 2 User)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody)",
-									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "ferret",
-									"type": "text"
-								},
-								{
-									"key": "metadata",
-									"value": "[{\"tag\": \"user\", \"value\": \"{{vendor2_user_id}}\"}]",
-									"type": "text"
-								},
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/Users/andrewsutherland/image/Ferret_2008.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{api_url}}/api/files",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 2 - Read Private File (Should Succeed)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 3 - Read Private File (Should Fail)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor3_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 1 - Create File (For Gov User Type)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									"var jsonData = JSON.parse(responseBody)",
-									"postman.setEnvironmentVariable(\"file_id\", jsonData.id)"
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "name",
-									"value": "ferret",
-									"type": "text"
-								},
-								{
-									"key": "metadata",
-									"value": "[{\"tag\": \"userType\", \"value\": \"GOV\"}]",
-									"type": "text"
-								},
-								{
-									"key": "file",
-									"type": "file",
-									"src": "/Users/andrewsutherland/image/Ferret_2008.png"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{api_url}}/api/files",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor 2 - Read Gov-Only File (Should Fail)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor2_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Gov - Read Gov-Only File (Should Succeed)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('gov_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Vendor - Read Gov-Only File (Should Succeed as Owner)",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "84b1e406-ef5e-49a0-8b95-3ed37708b9d0",
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"id": "3a3a62a6-8897-405a-ba9b-b5cae6f73452",
-								"exec": [
-									"const jar = pm.cookies.jar();",
-									"jar.set(pm.environment.get('api_url'), 'sid', pm.environment.get('vendor1_sid'));"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/files/{{file_id}}",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"files",
-								"{{file_id}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"id": "67a6631d-040a-4d87-9df2-68d738c18838",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"id": "004e0b51-734c-4e17-ad70-183fd8d431b9",
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

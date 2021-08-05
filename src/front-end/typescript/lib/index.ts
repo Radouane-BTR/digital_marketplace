@@ -1,3 +1,4 @@
+import { BACKEND_URL } from 'front-end/../../shared/config';
 import { PATH_PREFIX } from 'front-end/config';
 import { ComponentView, emptyPageAlerts, emptyPageBreadcrumbs, Immutable, PageGetAlerts, PageGetBreadcrumbs, PageGetContextualActions, PageGetMetadata, PageGetModal, PageMetadata, PageSidebar, Update } from 'front-end/lib/framework';
 import { prefix } from 'shared/lib';
@@ -7,6 +8,10 @@ import { getValidValue, isInvalid, mapValid, Validation } from 'shared/lib/valid
 
 export function prefixPath(path: string): string {
   return `/${prefix(PATH_PREFIX)(path)}`;
+}
+
+export function backendPrefixPath(path: string): string {
+  return `${BACKEND_URL}/${prefix(PATH_PREFIX)(path)}`;
 }
 
 export type WithState<State, OtherArgs extends unknown[] = [], Result = Immutable<State>> = (state: Immutable<State>, ...otherArgs: OtherArgs) => Result;
@@ -116,11 +121,11 @@ export function makePageMetadata(title?: string): PageMetadata {
 }
 
 export function getSignInUrl(userType: UserType, redirectOnSuccess?: string): string   {
-  let result = prefixPath(`auth/sign-in?provider=${userTypeToKeycloakIdentityProvider(userType)}`);
+  let result = backendPrefixPath(`auth/sign-in?provider=${userTypeToKeycloakIdentityProvider(userType)}`);
   if (redirectOnSuccess) { result += `&redirectOnSuccess=${window.encodeURIComponent(redirectOnSuccess)}`; }
   return result;
 }
 
 export function fileBlobPath(file: Pick<FileRecord, 'id'>) {
-  return prefixPath(`api/files/${file.id}?type=blob`);
+  return backendPrefixPath(`api/files/${file.id}?type=blob`);
 }

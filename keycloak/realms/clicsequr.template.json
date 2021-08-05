@@ -389,6 +389,56 @@
     },
     "notBefore" : 0,
     "groups" : [ ]
+  }, {
+    "id" : "0a65e5e4-2781-4ff7-b8ce-c429094aa1b8",
+    "createdTimestamp" : 1625867753649,
+    "username" : "vendor03",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Vendor",
+    "lastName" : "Test03",
+    "email" : "vendor03@example.com",
+    "credentials" : [ {
+      "id" : "1f2ace79-88d9-4561-a9e8-3d54a018b894",
+      "type" : "password",
+      "createdDate" : 1625867768023,
+      "secretData" : "{\"value\":\"pKDfe2bNmTbzikoHnjBJc2dV46qn/bV1WrVwuxWxhuuhVsYhJAYKVduZe25dHISA0292u88cqBAmswxKIuyjLw==\",\"salt\":\"38ukXRjDfcbgjHM9E9hwiQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "clientRoles" : {
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "0a65e5e4-2781-4ff7-b8ce-c429094aa1b9",
+    "createdTimestamp" : 1625867753649,
+    "username" : "vendor04",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Vendor",
+    "lastName" : "Test04",
+    "email" : "vendor04@example.com",
+    "credentials" : [ {
+      "id" : "1f2ace79-88d9-4561-a9e8-3d54a018b895",
+      "type" : "password",
+      "createdDate" : 1625867768023,
+      "secretData" : "{\"value\":\"pKDfe2bNmTbzikoHnjBJc2dV46qn/bV1WrVwuxWxhuuhVsYhJAYKVduZe25dHISA0292u88cqBAmswxKIuyjLw==\",\"salt\":\"38ukXRjDfcbgjHM9E9hwiQ==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "clientRoles" : {
+      "account" : [ "view-profile", "manage-account" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
   } ],
   "scopeMappings" : [ {
     "clientScope" : "offline_access",
@@ -569,6 +619,38 @@
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : true,
     "nodeReRegistrationTimeout" : -1,
+    "protocolMappers": [
+      {
+        "id": "b1e9a94e-2ddb-4898-8a01-a5b70cdd4053",
+        "name": "idp-alias",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-hardcoded-claim-mapper",
+        "consentRequired": false,
+        "config": {
+          "claim.value": "clicsequr",
+          "userinfo.token.claim": "true",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "loginSource",
+          "jsonType.label": "String",
+          "access.tokenResponse.claim": "false"
+        }
+      }, {
+        "id" : "57c7cbff-7df6-483e-8938-4caed5b02953",
+        "name" : "roles",
+        "protocol" : "openid-connect",
+        "protocolMapper" : "oidc-usermodel-realm-role-mapper",
+        "consentRequired" : false,
+        "config" : {
+          "multivalued" : "true",
+          "userinfo.token.claim" : "true",
+          "id.token.claim" : "true",
+          "access.token.claim" : "true",
+          "claim.name" : "roles",
+          "jsonType.label" : "String"
+        }
+      } 
+    ],
     "defaultClientScopes" : [ "web-origins", "role_list", "roles", "profile", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {

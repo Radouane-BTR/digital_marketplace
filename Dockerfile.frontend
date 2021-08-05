@@ -1,0 +1,21 @@
+FROM docker.io/node:lts-alpine AS base
+WORKDIR /usr/app
+ENV NODE_ENV=production
+
+FROM base AS builder-env
+WORKDIR /usr/app
+ENV PYTHONUNBUFFERED=1
+RUN apk add --update --no-cache python3 build-base
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+RUN NODE_ENV=development npm i
+COPY . /usr/app
+
+FROM builder-env as frontend-build
+WORKDIR /usr/app
+RUN npm run front-end:build
+
+FROM nginx:alpine as frontend
+COPY --from=frontend-build /usr/app/build/front-end /usr/share/nginx/html
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80

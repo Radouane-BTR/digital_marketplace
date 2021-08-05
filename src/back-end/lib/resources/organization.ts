@@ -81,7 +81,7 @@ const resource: Resource = {
       }
       // Only admins or the org owner can read the full org details
       if (await permissions.readOneOrganization(connection, request.session, validatedId.value)) {
-        const dbResult = await db.readOneOrganization(connection, validatedId.value, false, request.session);
+        const dbResult = await db.readOneOrganization(connection, validatedId.value, false, request.session?.user);
         if (isInvalid(dbResult)) {
           return respond(503, [db.ERROR_MESSAGE]);
         }
@@ -204,7 +204,7 @@ const resource: Resource = {
           if (!request.session) {
             return basicResponse(401, request.session, makeJsonResponseBody({ permissions: [permissions.ERROR_MESSAGE]}));
           }
-          const dbResult = await db.createOrganization(connection, request.body.session.user.id, request.body.body, request.session);
+          const dbResult = await db.createOrganization(connection, request.body.session.user.id, request.body.body, request.session.user);
           if (isInvalid(dbResult)) {
             return basicResponse(503, request.session, makeJsonResponseBody({ database: [db.ERROR_MESSAGE] }));
           }

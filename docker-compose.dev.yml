@@ -3,6 +3,7 @@ version: "3"
 
 volumes:
   node_modules:
+  frontend_build:
 
 services:
 
@@ -33,6 +34,8 @@ services:
         - KEYCLOAKURL=http://localhost:8080
         - ROOTURL=http://localhost:3000
         - KEYCLOAK_CLIENT_SECRET=3e1ac83e-553a-4811-8d5a-b0d5b8f4b332
+        - IDIR_CLIENT_SECRET=d62217e5-3171-4ba4-b715-18d07ec0ac89
+        - VENDOR_CLIENT_SECRET=20422e25-77a4-476a-8ddc-a3dc4a1a8747
     ports:
       - 8080:8080
     environment: 
@@ -49,6 +52,7 @@ services:
     volumes:
       - ./:/usr/app/
       - node_modules:/usr/app/node_modules
+      - frontend_build:/usr/app/build/front-end
     #command: bash -c "pm2-runtime ecosystem.config.js"
     depends_on: 
       - keycloak
@@ -89,6 +93,17 @@ services:
       - SWAGGER_UI_PATH=/swagger
       - VENDOR_ACCOUNT_CREATION_DISABLED=1
       - KEYCLOAK_CLIENT_SECRET=3e1ac83e-553a-4811-8d5a-b0d5b8f4b332
+      - SERVICE_TOKEN_HASH=$$2a$$10$$DopJPvHidYqWVKq.Sdcy5eTF82MvG1btPO.81NUtb/4XjiZa7ctQS
+
+  frontend:
+    image: nginx:alpine
+    ports:
+      - 4000:80
+    depends_on: 
+      - ui
+    volumes:
+      - frontend_build:/usr/share/nginx/html
+
   selenium:
     image: selenium/standalone-chrome-debug
     ports:

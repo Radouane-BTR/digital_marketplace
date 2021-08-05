@@ -23,6 +23,8 @@ export const SHOW_TEST_INDICATOR = parseBooleanEnvironmentVariable(process.env.S
 
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'digitalmarketplace@gov.bc.ca';
 
+export const BACKEND_URL = process.env.BACKEND_URL || ''; // Same server if empty
+
 // Government's identity provider
 export const GOV_IDP_SUFFIX = process.env.GOV_IDP_SUFFIX || 'idir';
 export const GOV_IDP_NAME = process.env.GOV_IDP_NAME || 'IDIR';

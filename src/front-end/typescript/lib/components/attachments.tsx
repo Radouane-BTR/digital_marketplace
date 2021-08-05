@@ -39,10 +39,10 @@ export type Params = Pick<State, 'canRemoveExistingAttachments' | 'existingAttac
 export function validate(state: Immutable<State>): Immutable<State> {
   return state.newAttachments.reduce((acc, a, i) => {
     return acc.updateIn(['newAttachments', i], newAttachment => {
-      const errors = getInvalidValue(validateNewName(newAttachment.newName), []);
+      const errors = getInvalidValue(validateNewName((newAttachment as NewAttachment).newName), []);
       return {
-        ...newAttachment,
-        errors
+        ...newAttachment as Immutable<State>,
+        errors: errors,
       };
     });
   }, state);

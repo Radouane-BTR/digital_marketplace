@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",
     "jsx": "react",
@@ -13,11 +13,14 @@
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "noErrorTruncation": true,
-    "baseUrl": ".",
+    "baseUrl": "../../src",
     "incremental": true,
     "paths": {
-      "back-end/*": ["../../src/back-end/*"],
-      "shared/*": ["../../src/shared/*"]
+      "back-end/*": ["back-end/*"],
+      "front-end/*": ["front-end/*"],
+      "shared/*": ["shared/*"],
+      "migrations/*": ["migrations/*"],
+      "helpers/*": ["../tests/back-end/unit/helpers/*"]
     },
     "types": ["node", "mocha"]
   },

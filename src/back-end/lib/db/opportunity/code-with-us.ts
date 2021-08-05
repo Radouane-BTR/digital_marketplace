@@ -19,7 +19,7 @@ import { User, UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
 import { getValidValue, isInvalid } from 'shared/lib/validation';
 
-interface CreateCWUOpportunityParams extends Omit<CWUOpportunity, 'createdBy' | 'createdAt' | 'updatedAt' | 'updatedBy' | 'status' | 'id' | 'addenda'> {
+export interface CreateCWUOpportunityParams extends Omit<CWUOpportunity, 'createdBy' | 'createdAt' | 'updatedAt' | 'updatedBy' | 'status' | 'id' | 'addenda'> {
   status: CreateCWUOpportunityStatus;
 }
 
@@ -372,17 +372,19 @@ export const createCWUOpportunity = tryDb<[CreateCWUOpportunityParams, Authentic
   // Create root opportunity record
   const now = new Date();
   const opportunityId = await connection.transaction(async trx => {
-    const [rootOppRecord] = await connection<RootOpportunityRecord>('cwuOpportunities')
-      .transacting(trx)
-      .insert({
-        id: generateUuid(),
-        createdAt: now,
-        createdBy: session.user.id
-      }, '*');
+    const query = connection<RootOpportunityRecord>('cwuOpportunities')
+    .transacting(trx)
+    .insert({
+      id: generateUuid(),
+      createdAt: now,
+      createdBy: session.user.id
+    }, '*')
+    const [rootOppRecord] = await query;
 
     if (!rootOppRecord) {
       throw new Error('unable to create opportunity root record');
     }
+
 
     // Create initial opportunity version
     const { attachments, status, ...restOfOpportunity } = opportunity;
@@ -395,7 +397,6 @@ export const createCWUOpportunity = tryDb<[CreateCWUOpportunityParams, Authentic
         createdAt: now,
         createdBy: session.user.id
       }, '*');
-
     if (!oppVersionRecord) {
       throw new Error('unable to create opportunity version');
     }
@@ -581,10 +582,10 @@ export const deleteCWUOpportunity = tryDb<[Id, AuthenticatedSession], CWUOpportu
 export const closeCWUOpportunities = tryDb<[], number>(async (connection) => {
   const now = new Date();
   return valid(await connection.transaction(async trx => {
-    const lapsedOpportunities = await generateCWUOpportunityQuery(trx, true)
-      .where({ status: CWUOpportunityStatus.Published })
-      .andWhere('proposalDeadline', '<=', now);
-
+    const query = generateCWUOpportunityQuery(trx, true)
+    .where({ status: CWUOpportunityStatus.Published })
+    .andWhere('proposalDeadline', '<=', now)
+    const lapsedOpportunities = await query;
     for (const lapsedOpportunity of lapsedOpportunities) {
       // Set the opportunity to EVALUATION status
       await connection('cwuOpportunityStatuses')
@@ -613,7 +614,6 @@ export const closeCWUOpportunities = tryDb<[], number>(async (connection) => {
           'statuses.status': CWUProposalStatus.Submitted
         })
         .select<Array<{ id: Id }>>('proposals.id'))?.map(result => result.id) || [];
-
       for (const proposalId of proposalIds) {
         // Set the proposal to UNDER_REVIEW status
         await connection('cwuProposalStatuses')

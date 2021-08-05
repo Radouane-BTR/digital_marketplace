@@ -2,6 +2,19 @@ import { Route, SharedState } from 'front-end/lib/app/types';
 import { GlobalComponentMsg, PageInit } from 'front-end/lib/framework';
 import { includes } from 'lodash';
 import { User, UserType } from 'shared/lib/resources/user';
+import Keycloak from 'keycloak-js'
+
+// Setup Keycloak instance as needed
+// Pass initialization options as required or leave blank to load from 'keycloak.json'
+const keycloakConfig:Keycloak.KeycloakConfig = {
+  url: 'http://localhost:8080/auth/',
+  realm: 'digitalmarketplace',
+  clientId: 'dm-app',
+
+}
+const keycloak:Keycloak.KeycloakInstance = Keycloak(keycloakConfig)
+
+export default keycloak
 
 export interface AccessControlParams<RouteParams, PageState, PageMsg, SuccessSharedState = SharedState, FailSharedState = SharedState> {
   success: PageInit<RouteParams, SuccessSharedState, PageState, PageMsg>;

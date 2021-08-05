@@ -17,6 +17,8 @@ export const DB_MIGRATIONS_TABLE_NAME = 'migrations';
 
 export const MAILER_REPLY = get('MAILER_REPLY', 'noreply@digitalmarketplace.gov.bc.ca');
 
+export const SILENT_LOGS = get('SILENT_LOGS', 'false') === 'true';
+
 // ENV CONFIG
 
 function get(name: string , fallback: string): string {
@@ -56,6 +58,9 @@ export const BASIC_AUTH_USERNAME = get('BASIC_AUTH_USERNAME', '');
 export const BASIC_AUTH_PASSWORD_HASH = get('BASIC_AUTH_PASSWORD_HASH', '');
 
 export const ORIGIN = get('ORIGIN', 'https://digital.gov.bc.ca/marketplace').replace(/\/*$/, '');
+
+export const BACKEND_ORIGIN = get('BACKEND_ORIGIN', ORIGIN).replace(/\/*$/, '');
+export const FRONTEND_ORIGIN = ORIGIN;
 
 export const SERVICE_TOKEN_HASH = get('SERVICE_TOKEN_HASH', '');
 

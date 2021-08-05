@@ -1,4 +1,4 @@
-import { BASIC_AUTH_PASSWORD_HASH, BASIC_AUTH_USERNAME, DB_MIGRATIONS_TABLE_NAME, ENV, getConfigErrors, KNEX_DEBUG, POSTGRES_URL, SCHEDULED_DOWNTIME, SERVER_HOST, SERVER_PORT } from 'back-end/config';
+import { BASIC_AUTH_PASSWORD_HASH, BASIC_AUTH_USERNAME, DB_MIGRATIONS_TABLE_NAME, ENV, getConfigErrors, KNEX_DEBUG, POSTGRES_URL, SCHEDULED_DOWNTIME } from 'back-end/config';
 import * as crud from 'back-end/lib/crud';
 import { Connection, readOneSession } from 'back-end/lib/db';
 import codeWithUsHook from 'back-end/lib/hooks/code-with-us';
@@ -28,7 +28,7 @@ import adminRouter from 'back-end/lib/routers/admin';
 import authRouter from 'back-end/lib/routers/auth';
 import frontEndRouter from 'back-end/lib/routers/front-end';
 import statusRouter from 'back-end/lib/routers/status';
-import { addHooksToRoute, makeErrorResponseBody, namespaceRoute, notFoundJsonRoute, Route, RouteHook, Router } from 'back-end/lib/server';
+import { addHooksToRoute, namespaceRoute, notFoundJsonRoute, Route, RouteHook, Router } from 'back-end/lib/server';
 import { express, ExpressAdapter } from 'back-end/lib/server/adapters';
 import { FileUploadMetadata, SupportedRequestBodies, SupportedResponseBodies } from 'back-end/lib/types';
 import Knex from 'knex';
@@ -44,21 +44,31 @@ type BasicRoute = Route<SupportedRequestBodies, any, any, any, SupportedResponse
 
 type AppRouter = Router<SupportedRequestBodies, any, any, any, SupportedResponseBodies, any, Session>;
 
-const logger = makeDomainLogger(consoleAdapter, 'back-end', ENV);
+export const serverLogger = makeDomainLogger(consoleAdapter, 'back-end', ENV);
+
+let dbConnection: Connection;
 
 export function connectToDatabase(): Connection {
   if (!POSTGRES_URL) {
     throw new Error('Missing POSTGRES_URL');
   }
-  return Knex({
-    client: 'pg',
-    connection: POSTGRES_URL as string,
-    migrations: {
-      tableName: DB_MIGRATIONS_TABLE_NAME
-    },
-    debug: KNEX_DEBUG
-  });
+
+  if (!dbConnection) {
+    dbConnection = Knex({
+      client: 'pg',
+      connection: POSTGRES_URL as string,
+      migrations: {
+        tableName: DB_MIGRATIONS_TABLE_NAME,
+        directory: __dirname + '/../migrations/tasks'
+      },
+      debug: KNEX_DEBUG
+    });
+  }
+
+  return dbConnection;
 }
+
+export const databaseConnection = connectToDatabase();
 
 const globalHooks = [
   loggerHook
@@ -141,16 +151,16 @@ export async function createDowntimeRouter(): Promise<AppRouter> {
   ])([]);
 }
 
-async function start() {
+export async function startServer(port?: number, host?: string) {
   // Ensure all environment variables are specified correctly.
   const configErrors = getConfigErrors();
   if (configErrors.length || !POSTGRES_URL) {
-    configErrors.forEach((error: string) => logger.error(error));
+    configErrors.forEach((error: string) => serverLogger.error(error));
     throw new Error('Invalid environment variable configuration.');
   }
   // Connect to Postgres.
   const connection = connectToDatabase();
-  logger.info('connected to the database');
+  serverLogger.info('connected to the database');
   // Create the router.
   let router: AppRouter = await (SCHEDULED_DOWNTIME ? createDowntimeRouter : createRouter)(connection);
   // Add the status router.
@@ -162,7 +172,7 @@ async function start() {
   // Bind the server to a port and listen for incoming connections.
   // Need to lock-in Session type here.
   const adapter: ExpressAdapter<any, any, any, any, Session, FileUploadMetadata | null> = express();
-  adapter({
+  const app = adapter({
     router,
     sessionIdToSession: async id => {
       //Do not touch the database:
@@ -180,23 +190,18 @@ async function start() {
           throw new Error(`Failed to read session: ${id}`);
         }
       } catch (e) {
-        logger.warn(e.message);
+        serverLogger.warn(e.message);
         return null;
       }
     },
     sessionToSessionId: (session) => session?.id || '',
-    host: SERVER_HOST,
-    port: SERVER_PORT,
     maxMultipartFilesSize: MAX_MULTIPART_FILES_SIZE,
     parseFileUploadMetadata(raw) {
       return parseFilePermissions(raw);
     }
   });
-  logger.info('server started', { host: SERVER_HOST, port: String(SERVER_PORT) });
+  serverLogger.info('server started', { host, port });
+  return (port && host)
+    ? app.listen(port, host)
+    : app.listen();
 }
-
-start()
-  .catch(error => {
-    logger.error('app startup failed', makeErrorResponseBody(error).value);
-    process.exit(1);
-  });

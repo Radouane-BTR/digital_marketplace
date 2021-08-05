@@ -74,7 +74,7 @@ function makeInit<K extends Tab.TabId>(): PageInit<RouteParams, SharedState, Sta
         profileUser,
         tab: [tabId, tabState],
         sidebar: await Tab.makeSidebarState(profileUser, viewerUser, tabId)
-      })) as State_<K>;
+      })) as unknown as State_<K>; // TODO: remove `as unknown`
     },
 
     async fail({ routeParams, dispatch, shared }) {

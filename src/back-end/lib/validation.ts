@@ -65,7 +65,7 @@ export async function validateOrganizationId(connection: db.Connection, orgId: I
     if (isInvalid(validatedId)) {
       return validatedId;
     }
-    const dbResult = await db.readOneOrganization(connection, orgId, allowInactive, session);
+    const dbResult = await db.readOneOrganization(connection, orgId, allowInactive, session?.user);
     if (isInvalid(dbResult)) {
       return invalid([db.ERROR_MESSAGE]);
     }

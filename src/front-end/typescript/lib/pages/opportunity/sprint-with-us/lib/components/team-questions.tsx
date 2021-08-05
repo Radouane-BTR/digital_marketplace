@@ -178,20 +178,20 @@ export type Errors = CreateSWUTeamQuestionValidationErrors[];
 export function setErrors(state: Immutable<State>, errors: Errors = []): Immutable<State> {
   return errors.reduce((acc, e, i) => {
     return acc
-      .updateIn(['questions', i, 'question'], s => FormField.setErrors(s, e.question || []))
-      .updateIn(['questions', i, 'guideline'], s => FormField.setErrors(s, e.guideline || []))
-      .updateIn(['questions', i, 'wordLimit'], s => FormField.setErrors(s, e.wordLimit || []))
-      .updateIn(['questions', i, 'score'], s => FormField.setErrors(s, e.score || []));
+      .updateIn(['questions', i, 'question'], s => FormField.setErrorsIn(s, e.question || []))
+      .updateIn(['questions', i, 'guideline'], s => FormField.setErrorsIn(s, e.guideline || []))
+      .updateIn(['questions', i, 'wordLimit'], s => FormField.setErrorsIn(s, e.wordLimit || []))
+      .updateIn(['questions', i, 'score'], s => FormField.setErrorsIn(s, e.score || []));
   }, state);
 }
 
 export function validate(state: Immutable<State>): Immutable<State> {
   return state.questions.reduce((acc, q, i) => {
     return acc
-      .updateIn(['questions', i, 'question'], s => FormField.validate(s))
-      .updateIn(['questions', i, 'guideline'], s => FormField.validate(s))
-      .updateIn(['questions', i, 'wordLimit'], s => FormField.validate(s))
-      .updateIn(['questions', i, 'score'], s => FormField.validate(s));
+      .updateIn(['questions', i, 'question'], s => FormField.validateIn(s))
+      .updateIn(['questions', i, 'guideline'], s => FormField.validateIn(s))
+      .updateIn(['questions', i, 'wordLimit'], s => FormField.validateIn(s))
+      .updateIn(['questions', i, 'score'], s => FormField.validateIn(s));
   }, state);
 }
 

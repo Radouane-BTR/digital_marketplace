@@ -142,10 +142,10 @@ export type Errors = CreateSWUProposalReferenceValidationErrors[];
 export function setErrors(state: Immutable<State>, errors: Errors): Immutable<State> {
   return errors.reduce(
     (acc, e, i) => acc
-      .updateIn(['references', i, 'name'], s => FormField.setErrors(s, e.name || []))
-      .updateIn(['references', i, 'company'], s => FormField.setErrors(s, e.company || []))
-      .updateIn(['references', i, 'phone'], s => FormField.setErrors(s, e.phone || []))
-      .updateIn(['references', i, 'email'], s => FormField.setErrors(s, e.email || [])),
+      .updateIn(['references', i, 'name'], s => FormField.setErrorsIn(s, e.name || []))
+      .updateIn(['references', i, 'company'], s => FormField.setErrorsIn(s, e.company || []))
+      .updateIn(['references', i, 'phone'], s => FormField.setErrorsIn(s, e.phone || []))
+      .updateIn(['references', i, 'email'], s => FormField.setErrorsIn(s, e.email || [])),
     state
   );
 }
@@ -153,10 +153,10 @@ export function setErrors(state: Immutable<State>, errors: Errors): Immutable<St
 export function validate(state: Immutable<State>): Immutable<State> {
   return state.references.reduce(
     (acc, r, i) => acc
-      .updateIn(['references', i, 'name'], s => FormField.validate(s))
-      .updateIn(['references', i, 'company'], s => FormField.validate(s))
-      .updateIn(['references', i, 'phone'], s => FormField.validate(s))
-      .updateIn(['references', i, 'email'], s => FormField.validate(s)),
+      .updateIn(['references', i, 'name'], s => FormField.validateIn(s))
+      .updateIn(['references', i, 'company'], s => FormField.validateIn(s))
+      .updateIn(['references', i, 'phone'], s => FormField.validateIn(s))
+      .updateIn(['references', i, 'email'], s => FormField.validateIn(s)),
     state
   );
 }

@@ -3,7 +3,7 @@ import * as Router from 'front-end/lib/framework/router';
 import { ThemeColor } from 'front-end/lib/types';
 import { AvailableIcons } from 'front-end/lib/views/icon';
 import * as Link from 'front-end/lib/views/link';
-import * as Immutable from 'immutable';
+import * as BaseImmutable from 'immutable';
 import { remove } from 'lodash';
 import { default as React, ReactElement } from 'react';
 import ReactDom from 'react-dom';
@@ -11,13 +11,14 @@ import 'shared/lib/i18n';
 import { adt, ADT, adtCurried } from 'shared/lib/types';
 export { newUrl, replaceUrl, replaceRoute, newRoute } from 'front-end/lib/framework/router';
 
-// Base logic.
+import keycloak from '../access-control'
 
+// Base logic.
 // TODO replace Immutable with TypeScript's built-in Readonly
-export type Immutable<State = unknown> = Immutable.RecordOf<State>;
+export type Immutable<State = unknown> = BaseImmutable.RecordOf<State>;
 
 export function immutable<State = unknown>(state: State): Immutable<State> {
-  return Immutable.Record(state)();
+  return BaseImmutable.Record(state)();
 }
 
 export type Dispatch<Msg> = (msg: Msg) => Promise<any>;
@@ -84,7 +85,7 @@ export function updateComponentChild<PS, PM, CS, CM>(params: UpdateChildParams<P
   if (NODE_ENV === 'development') { console.assert(childState); }
   if (!childState) { return [state]; }
   const [newChildState, newAsyncChildState] = childUpdate({
-    state: childState,
+    state: childState as Immutable<CS>,
     msg: childMsg
   });
   state = state.setIn(childStatePath, newChildState);
@@ -100,7 +101,7 @@ export function updateComponentChild<PS, PM, CS, CM>(params: UpdateChildParams<P
       const mappedDispatch = mapComponentDispatch(dispatch, mapChildMsg);
       let updated = false;
       if (newAsyncChildState) {
-        const newChildState = await newAsyncChildState(state.getIn(childStatePath), mappedDispatch);
+        const newChildState = await newAsyncChildState(state.getIn(childStatePath) as Immutable<CS>, mappedDispatch);
         if (newChildState) {
           state = state.setIn(childStatePath, newChildState);
           updated = true;
@@ -169,7 +170,7 @@ export function updateGlobalComponentChild<PS, PM, CS, CM, Route>(params: Update
   const childState = state.getIn(childStatePath);
   if (!childState) { return [state]; }
   const [newChildState, newAsyncChildState] = childUpdate({
-    state: childState,
+    state: childState as Immutable<CS>,
     msg: childMsg
   });
   state = state.setIn(childStatePath, newChildState);
@@ -185,7 +186,7 @@ export function updateGlobalComponentChild<PS, PM, CS, CM, Route>(params: Update
       const mappedDispatch = mapGlobalComponentDispatch(dispatch, mapChildMsg);
       let updated = false;
       if (newAsyncChildState) {
-        const newChildState = await newAsyncChildState(state.getIn(childStatePath), mappedDispatch);
+        const newChildState = await newAsyncChildState(state.getIn(childStatePath) as Immutable<CS>, mappedDispatch);
         if (newChildState) {
           state = state.setIn(childStatePath, newChildState);
           updated = true;
@@ -422,7 +423,7 @@ export function updateAppChild<PS, PM, CS, CM, Route>(params: UpdateChildParams<
   const childState = state.getIn(childStatePath);
   if (!childState) { return [state]; }
   const [newChildState, newAsyncChildState] = childUpdate({
-    state: childState,
+    state: childState as Immutable<CS>,
     msg: childMsg
   });
   state = state.setIn(childStatePath, newChildState);
@@ -438,7 +439,7 @@ export function updateAppChild<PS, PM, CS, CM, Route>(params: UpdateChildParams<
       const mappedDispatch = mapAppDispatch(dispatch, mapChildMsg);
       let updated = false;
       if (newAsyncChildState) {
-        const newChildState = await newAsyncChildState(state.getIn(childStatePath), mappedDispatch);
+        const newChildState = await newAsyncChildState(state.getIn(childStatePath) as Immutable<CS>, mappedDispatch);
         if (newChildState) {
           state = state.setIn(childStatePath, newChildState);
           updated = true;
@@ -472,7 +473,7 @@ export interface UpdateChildPageParams<PS, PM, CS, CM> extends UpdateChildParams
 export function updateAppChildPage<PS, PM, CS, CM, Route>(params: UpdateChildPageParams<PS, AppMsg<PM, Route>, CS, GlobalComponentMsg<CM, Route>>): UpdateReturnValue<PS, AppMsg<PM, Route>> {
   const [newState, newAsyncState] = updateAppChild(params);
   const setMetadata = (parentState: Immutable<PS>) => {
-    const pageState = parentState.getIn(params.childStatePath);
+    const pageState = parentState.getIn(params.childStatePath) as Immutable<CS>;
     const metadata = params.childGetMetadata(pageState);
     setPageMetadata(metadata);
   };
@@ -518,7 +519,7 @@ export interface StateManager<State, Msg> {
 export async function start<State, Msg extends ADT<any, any>, Route>(app: AppComponent<State, Msg, Route>, element: HTMLElement, debug: boolean): Promise<StateManager<State, AppMsg<Msg, Route>>> {
   // Initialize state.
   // We do not need the RecordFactory, so we create the Record immediately.
-  let state = Immutable.Record(await app.init(null))({});
+  let state = BaseImmutable.Record(await app.init(null))({});
   // Set up subscription state.
   const stateSubscriptions: Array<StateSubscription<State, AppMsg<Msg, Route>>> = [];
   const msgSubscriptions: Array<MsgSubscription<AppMsg<Msg, Route>>> = [];
@@ -569,6 +570,7 @@ export async function start<State, Msg extends ADT<any, any>, Route>(app: AppCom
     }
     return promise;
   }
+
   // Render the view whenever state changes.
   const render = (state: Immutable<State>, dispatch: Dispatch<AppMsg<Msg, Route>>): void => {
     ReactDom.render(
@@ -602,6 +604,19 @@ export async function start<State, Msg extends ADT<any, any>, Route>(app: AppCom
   };
   // Start the router.
   Router.start(routeManager);
-  // Return StateManager.
+
+  function initKeycloak() {
+    keycloak.init({ 
+      onLoad: 'check-sso',
+      flow: 'implicit',
+      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+    }).then(function(authenticated) {
+        alert(authenticated ? 'authenticated' : 'not authenticated');
+    }).catch(function() {
+        alert('failed to initialize');
+    });
+  }
+  initKeycloak()
+// Return StateManager.
   return stateManager;
 }

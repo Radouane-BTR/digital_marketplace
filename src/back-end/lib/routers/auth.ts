@@ -1,5 +1,5 @@
 import { KEYCLOAK_CLIENT_ID, KEYCLOAK_CLIENT_SECRET, KEYCLOAK_PUBLIC_URL, KEYCLOAK_REALM, KEYCLOAK_URL, SERVICE_TOKEN_HASH } from 'back-end/config';
-import { prefixPath } from 'back-end/lib';
+import { backendPrefixPath, prefixPath } from 'back-end/lib';
 import { Connection, createSession, createUser, deleteSession, findOneUserByTypeAndIdp, findOneUserByTypeAndUsername, readOneSession, updateUser } from 'back-end/lib/db';
 import { accountReactivatedSelf, userAccountRegistered } from 'back-end/lib/mailer/notifications/user';
 import { authenticatePassword } from 'back-end/lib/security';
@@ -48,7 +48,7 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
           const authQuery: KeyCloakAuthQuery = {
             client_id: KEYCLOAK_CLIENT_ID,
             client_secret: KEYCLOAK_CLIENT_SECRET,
-            redirect_uri: prefixPath('auth/callback'),
+            redirect_uri: backendPrefixPath('auth/callback'),
             response_mode: 'query',
             response_type: 'code',
             scope: 'openid',
@@ -98,7 +98,7 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
             client_id: KEYCLOAK_CLIENT_ID,
             client_secret: KEYCLOAK_CLIENT_SECRET,
             scope: 'openid',
-            redirect_uri: prefixPath('auth/callback')
+            redirect_uri: backendPrefixPath('auth/callback')
           };
 
           // If redirectOnSuccess was provided on callback, this must also be provided on token request (redirect_uri must match for each request)
@@ -163,7 +163,6 @@ async function makeRouter(connection: Connection): Promise<Router<any, any, any,
           if (!validRequestBody) {
             throw new Error('no request body provided');
           }
-
           const body: unknown = validRequestBody.tag === 'json' ? validRequestBody.value : {};
           const tokens = new TokenSet(body as TokenSetParameters);
           const { session } = await establishSessionWithClaims(connection, request, tokens) || {};

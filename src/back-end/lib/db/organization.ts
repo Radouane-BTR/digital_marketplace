@@ -11,7 +11,7 @@ import { MembershipStatus, MembershipType } from 'shared/lib/resources/affiliati
 import { FileRecord } from 'shared/lib/resources/file';
 import { Organization, OrganizationSlim, ReadManyResponseBody } from 'shared/lib/resources/organization';
 import { Session } from 'shared/lib/resources/session';
-import { User } from 'shared/lib/resources/user';
+import { User, UserType } from 'shared/lib/resources/user';
 import { Id } from 'shared/lib/types';
 import { getValidValue, isInvalid } from 'shared/lib/validation';
 
@@ -155,7 +155,7 @@ export const readOneOrganizationSlim = tryDb<[Id, boolean?, Session?], Organizat
  * Return a single organization.
  * Only return ownership/RFQ data if admin/owner.
  */
-export const readOneOrganization = tryDb<[Id, boolean?, Session?], Organization | null>(async (connection, id, allowInactive = false, session) => {
+export const readOneOrganization = tryDb<[Id, boolean?, User?], Organization | null>(async (connection, id, allowInactive = false, sessionUser) => {
   let query = generateOrganizationQuery(connection).where({ 'organizations.id': id });
 
   if (!allowInactive) {
@@ -164,7 +164,7 @@ export const readOneOrganization = tryDb<[Id, boolean?, Session?], Organization 
 
   const result = await query.first<RawOrganization>();
   if (result) {
-    if (!session || (isVendor(session) && result.owner !== session.user?.id)) {
+    if (!sessionUser || (sessionUser.type === UserType.Vendor && result.owner !== sessionUser?.id)) {
       delete result.owner;
       delete result.numTeamMembers;
       delete result.acceptedSWUTerms;
@@ -199,7 +199,6 @@ export const readOneOrganizationContactEmail = tryDb<[Id], string | null>(async 
  */
 export const readManyOrganizations = tryDb<[Session, boolean?, number?, number?], ReadManyResponseBody>(async (connection, session, allowInactive = false, page, pageSize) => {
   let query = generateOrganizationQuery(connection);
-
   if (!allowInactive) {
     query = query.andWhere({ 'organizations.active': true });
   }
@@ -214,7 +213,7 @@ export const readManyOrganizations = tryDb<[Session, boolean?, number?, number?]
       countQuery = countQuery.where({ active: true });
     }
     const [{count}] = await countQuery.count('id', {as: 'count'});
-    numPages = Math.ceil(parseInt(count, 10) / pageSize);
+    numPages = Math.ceil(parseInt(count.toString(), 10) / pageSize);
     //Reset page to first page if out of bounds.
     if (page > numPages) {
       page = 1;
@@ -278,7 +277,10 @@ export const readOwnedOrganizations = tryDb<[Session], OrganizationSlim[]>(async
   })));
 });
 
-export const createOrganization = tryDb<[Id, CreateOrganizationParams, Session], Organization>(async (connection, user, organization, session) => {
+/**
+ * Create an Organization associated to a user
+ */
+export const createOrganization = tryDb<[Id, CreateOrganizationParams, User], Organization>(async (connection, user, organization, sessionUser) => {
   const now = new Date();
   const result: RawOrganization = await connection.transaction(async trx => {
     // Create organization
@@ -303,7 +305,7 @@ export const createOrganization = tryDb<[Id, CreateOrganizationParams, Session],
     });
     return result;
   });
-  const dbResult = await readOneOrganization(connection, result.id, false, session);
+  const dbResult = await readOneOrganization(connection, result.id, false, sessionUser);
   if (isInvalid(dbResult) || !dbResult.value) {
     throw new Error('unable to create organization');
   }
@@ -324,7 +326,7 @@ export const updateOrganization = tryDb<[UpdateOrganizationParams, Session], Org
   if (!result || !result.id) {
     throw new Error('unable to update organization');
   }
-  const dbResult = await readOneOrganization(connection, result.id, true, session);
+  const dbResult = await readOneOrganization(connection, result.id, true, session?.user);
   if (isInvalid(dbResult) || !dbResult.value) {
     throw new Error('unable to update organization');
   }

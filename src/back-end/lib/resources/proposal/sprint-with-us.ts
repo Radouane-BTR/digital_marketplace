@@ -541,7 +541,7 @@ const resource: Resource = {
             }
 
             // Prior to submitting, re-check permissions and ensure organization is still SWU qualified
-            const proposalOrganization = validatedSWUProposal.value.organization && getValidValue(await db.readOneOrganization(connection, validatedSWUProposal.value.organization.id, false, request.session), null);
+            const proposalOrganization = validatedSWUProposal.value.organization && getValidValue(await db.readOneOrganization(connection, validatedSWUProposal.value.organization.id, false, request.session.user), null);
             if (!proposalOrganization || !await permissions.submitSWUProposal(connection, request.session, proposalOrganization)) {
               return invalid({
                 permissions: [permissions.ERROR_MESSAGE]

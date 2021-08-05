@@ -55,6 +55,13 @@
       "clientRole" : false,
       "containerId" : "idir",
       "attributes" : { }
+    }, {
+      "id" : "481a7170-5aac-4073-8fac-0d7239865221",
+      "name" : "dm_admin",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "digitalmarketplace",
+      "attributes" : { }
     } ],
     "client" : {
       "marketplace-idp" : [ ],
@@ -348,7 +355,7 @@
     } ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "realmRoles" : [ "uma_authorization", "offline_access", "dm_admin" ],
     "clientRoles" : {
       "account" : [ "manage-account", "view-profile" ]
     },
@@ -556,6 +563,39 @@
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : true,
     "nodeReRegistrationTimeout" : -1,
+    "protocolMappers": [
+      {
+        "id": "b1e9a94e-2ddb-4898-8a01-a5b70cdd4054",
+        "name": "idp-alias",
+        "protocol": "openid-connect",
+        "protocolMapper": "oidc-hardcoded-claim-mapper",
+        "consentRequired": false,
+        "config": {
+          "claim.value": "idir",
+          "userinfo.token.claim": "true",
+          "id.token.claim": "true",
+          "access.token.claim": "true",
+          "claim.name": "loginSource",
+          "jsonType.label": "String",
+          "access.tokenResponse.claim": "false"
+        }
+      }, {
+        "id" : "57c7cbff-7df6-483e-8938-4caed5b02954",
+        "name" : "roles",
+        "protocol" : "openid-connect",
+        "protocolMapper" : "oidc-usermodel-realm-role-mapper",
+        "consentRequired" : false,
+        "config" : {
+          "multivalued" : "true",
+          "userinfo.token.claim" : "true",
+          "id.token.claim" : "true",
+          "access.token.claim" : "true",
+          "claim.name" : "roles",
+          "jsonType.label" : "String"
+        }
+      } 
+    ],
+    
     "defaultClientScopes" : [ "web-origins", "role_list", "profile", "roles", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {

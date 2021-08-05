@@ -1189,7 +1189,7 @@
     "identityProviderAlias": "clicsequr",
     "identityProviderMapper": "hardcoded-attribute-idp-mapper",
     "config": {
-      "attribute.value": "CLICSEQUR",
+      "attribute.value": "clicsequr",
       "syncMode": "INHERIT",
       "attribute": "loginSource"
     }

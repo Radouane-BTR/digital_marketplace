@@ -1,3 +1,4 @@
+import { BACKEND_URL } from 'front-end/../../shared/config';
 import { prefixPath } from 'front-end/lib';
 import * as RichMarkdownEditor from 'front-end/lib/components/form-field/rich-markdown-editor';
 import { CrudApi, CrudClientAction, CrudClientActionWithBody, CrudResponse, makeCreate, makeCrudApi, makeRequest, makeSimpleCrudApi, OmitCrudApi, PickCrudApi, ReadManyActionTypes, SimpleResourceTypes, undefinedActions, UndefinedResourceTypes } from 'front-end/lib/http/crud';
@@ -23,7 +24,7 @@ import { adt, ClientHttpMethod, Id } from 'shared/lib/types';
 
 export { getValidValue, getInvalidValue, mapValid, mapInvalid, ResponseValidation, isValid, isInvalid, isUnhandled } from 'shared/lib/http';
 
-export const apiNamespace = (p: string) => `/${prefix(prefixPath('api'))(p)}`;
+export const apiNamespace = (p: string) => `${BACKEND_URL}/${prefix(prefixPath('api'))(p)}`;
 
 // Metrics
 

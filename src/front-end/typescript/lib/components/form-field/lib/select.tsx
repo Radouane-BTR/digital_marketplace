@@ -201,7 +201,7 @@ export const view: View<Props> = props => {
         ...baseProps,
         isMulti: true,
         value: props.value,
-        onChange(value, action) {
+        onChange(value: MultiValue, _action: any) {
           if (value && Array.isArray(value)) {
             props.onChange(value);
           } else if (value) {
@@ -210,7 +210,7 @@ export const view: View<Props> = props => {
             props.onChange([]);
           }
         }
-      } as SelectProps;
+      } as unknown as SelectProps;
     } else {
       return {
         ...baseProps,

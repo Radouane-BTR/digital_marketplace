@@ -38,11 +38,14 @@ fi
 #?KEYCLOAK_CLIENT_SECRET?
 KEYCLOAK_CLIENT_SECRET=$5
 
+#?IDIRCLIENTSECRET?
+IDIRCLIENTSECRET="$6"
+
+#?VENDORCLIENTSECRET?
+VENDORCLIENTSECRET="$7"
+
 #Add generated or constant Custom vars
 
-#?IDIRCLIENTSECRET?
-IDIRCLIENTSECRET="$(uuidgen)"
-VENDORCLIENTSECRET="$(uuidgen)"
 
 for REALMFILE in realms/*.template.json; do
   PRODREALMFILE="${REALMFILE%%.*}.json"
@@ -81,12 +84,20 @@ for REALMFILE in realms/*.template.json; do
 
     #?IDIRCLIENTSECRET?
     if [[ $LINE == *"?IDIRCLIENTSECRET?"* ]]; then
-      LINE=${LINE//\?IDIRCLIENTSECRET\?/"${IDIRCLIENTSECRET}"}
+      if [[ "$IDIRCLIENTSECRET" != "" ]]; then
+        LINE=${LINE//\?IDIRCLIENTSECRET\?/"${IDIRCLIENTSECRET}"}
+      else
+        LINE=${LINE//\?IDIRCLIENTSECRET\?/"$(uuidgen)"}
+      fi
     fi
 
     #?VENDORCLIENTSECRET?
     if [[ $LINE == *"?VENDORCLIENTSECRET?"* ]]; then
-      LINE=${LINE//\?VENDORCLIENTSECRET\?/"${VENDORCLIENTSECRET}"}
+      if [[ "$VENDORCLIENTSECRET" != "" ]]; then
+        LINE=${LINE//\?VENDORCLIENTSECRET\?/"${VENDORCLIENTSECRET}"}
+      else
+        LINE=${LINE//\?VENDORCLIENTSECRET\?/"$(uuidgen)"}
+      fi
     fi
 
     #?VENDORCLIENTSECRET?

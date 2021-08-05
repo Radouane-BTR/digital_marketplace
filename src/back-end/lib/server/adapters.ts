@@ -32,8 +32,6 @@ export interface AdapterRunParams<SupportedRequestBodies, ParsedReqBody, Validat
   router: Router<SupportedRequestBodies, ParsedReqBody, ValidatedReqBody, ReqBodyErrors, SupportedResponseBodies, HookState, Session>;
   sessionIdToSession: SessionIdToSession<Session>;
   sessionToSessionId: SessionToSessionId<Session>;
-  host: string;
-  port: number;
   maxMultipartFilesSize: number;
   parseFileUploadMetadata(raw: any): FileUploadMetaData;
 }
@@ -137,7 +135,7 @@ function parseMultipartRequest<FileUploadMetadata>(maxSize: number, parseFileUpl
 export function express<ParsedReqBody, ValidatedReqBody, ReqBodyErrors, HookState, Session, FileUploadMetaData>(): ExpressAdapter<ParsedReqBody, ValidatedReqBody, ReqBodyErrors, HookState, Session, FileUploadMetaData> {
   const logger = makeDomainLogger(consoleAdapter, 'adapter:express', ENV);
 
-  return ({ router, sessionIdToSession, sessionToSessionId, host, port, maxMultipartFilesSize, parseFileUploadMetadata }) => {
+  return ({ router, sessionIdToSession, sessionToSessionId, maxMultipartFilesSize, parseFileUploadMetadata }) => {
     function respond(response: Response<ExpressResponseBodies, Session>, expressRes: expressLib.Response): void {
       expressRes
         .status(response.code)
@@ -146,7 +144,7 @@ export function express<ParsedReqBody, ValidatedReqBody, ReqBodyErrors, HookStat
       const setSessionId = (id: string) => expressRes.cookie(SESSION_COOKIE_NAME, id, {
         signed: true,
         httpOnly: true,
-        sameSite: 'Lax',
+        sameSite: 'lax',
         expires: addDays(new Date(), 2) //Expire cookie if not re-used within 2 days.
       });
       const sessionId = sessionToSessionId(response.session);
@@ -222,7 +220,7 @@ export function express<ParsedReqBody, ValidatedReqBody, ReqBodyErrors, HookStat
           session,
           logger: makeDomainLogger(consoleAdapter, `request:${requestId}`, ENV),
           params: expressReq.params,
-          query: expressReq.query,
+          query: expressReq.query as Record<string, string>,
           body
         };
         // Run the before hook if specified.
@@ -294,7 +292,6 @@ export function express<ParsedReqBody, ValidatedReqBody, ReqBodyErrors, HookStat
     });
 
     // Listen for incoming connections.
-    app.listen(port, host);
 
     return app;
   };
