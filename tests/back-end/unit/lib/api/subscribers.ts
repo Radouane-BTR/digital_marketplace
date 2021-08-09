@@ -1,17 +1,14 @@
 import {
-  createOpportunity,
-  publishOpportunity,
-  validCwuOpportunity,
+  createCWUOpportunity,
+  publishCWUOpportunity,
 } from "helpers/opportunity";
-import { AgentWithCookie, getGovAgent, getVendorAgent } from "helpers/user";
+import { AgentWithCookie, getVendorAgent } from "helpers/user";
 
 describe("/api/subscribers/code-with-us", () => {
-  let govAgent: AgentWithCookie;
   let opportunity: any;
   before(async () => {
-    govAgent = await getGovAgent("usagop01");
-    opportunity = await createOpportunity(govAgent, validCwuOpportunity);
-    opportunity = await publishOpportunity(govAgent, opportunity);
+    opportunity = await createCWUOpportunity();
+    opportunity = await publishCWUOpportunity(opportunity);
   });
 
   context("As a vendor", () => {

@@ -411,7 +411,6 @@ async function isSubscribed(connection: Connection, oppId: Id, userId: Id): Prom
 export const readOneSWUOpportunity = tryDb<[Id, Session], SWUOpportunity | null>(async (connection, id, session) => {
   let query = generateSWUOpportunityQuery(connection, true)
     .where({ 'opportunities.id': id });
-
   if (!session || session.user.type === UserType.Vendor) {
     // Anonymous users and vendors can only see public opportunities
     query = query

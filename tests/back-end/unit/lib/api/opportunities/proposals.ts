@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import {
-  createOpportunity,
+  createCWUOpportunity,
   makeOpportunityEvaluatable,
-  publishOpportunity,
+  publishCWUOpportunity,
   submitProposal,
   validCwuOpportunity,
   validCwuProposal,
@@ -28,8 +28,8 @@ describe("/api/proposals/code-with-us", () => {
     before(async () => {
       await cleanupDatabase();
       govAgent = await getGovAgent("usagop01");
-      opportunity = await createOpportunity(govAgent, validCwuOpportunity);
-      opportunity = await publishOpportunity(govAgent, opportunity);
+      opportunity = await createCWUOpportunity();
+      opportunity = await publishCWUOpportunity(govAgent, opportunity);
       vendorAgent = await getVendorAgent("vendor01");
       vendor2Agent = await getVendorAgent("vendor02");
     });
@@ -162,11 +162,11 @@ describe("/api/proposals/code-with-us", () => {
       govAgent = await getGovAgent("usagop01");
 
       // Opportunity
-      opportunity = await createOpportunity(govAgent, {
+      opportunity = await createCWUOpportunity({
         ...validCwuOpportunity,
         assignmentDate: new Date(),
       });
-      opportunity = await publishOpportunity(govAgent, opportunity);
+      opportunity = await publishCWUOpportunity(govAgent, opportunity);
 
       // Agents
       vendorAgent = await getVendorAgent("vendor01");

@@ -52,11 +52,11 @@ interface ValidatedCreateSWUOpportunityPhaseBody extends Omit<CreateSWUOpportuni
 }
 
 export function validateFullTime(raw: any): Validation<boolean> {
-  return isBoolean(raw) ? valid(raw) : invalid(['You must provide a boolean value.']);
+  return typeof raw === 'boolean' ? valid(raw) : invalid(['You must provide a boolean value.']);
 }
 
 export function validatePhaseRequiredCapabilities(raw: any): ArrayValidation<CreateSWUOpportunityPhaseRequiredCapabilityBody, CreateSWUOpportunityPhaseRequiredCapabilityErrors> {
-  if (!isArray(raw)) { return invalid([{ parseFailure: ['Please provide an array of required capabilities.'] }]); }
+  if (!Array.isArray(raw)) { return invalid([{ parseFailure: ['Please provide an array of required capabilities.'] }]); }
   if (!raw.length) { return invalid([{ capability: ['Please select at least one required capability.'] }]); }
   return validateArrayCustom(raw, validatePhaseRequiredCapability, {});
 }
@@ -144,7 +144,6 @@ export function validateSWUOpportunityImplementationPhase(raw: any, prototypeCom
   const validatedCompletionDate = validateSWUOpportunityPhaseCompletionDate(rawCompletionDate, getValidValue(validatedStartDate, new Date()));
   const validatedMaxBudget = validateSWUOpportunityPhaseMaxBudget(getNumber(raw, 'maxBudget'), opportunityBudget);
   const validatedRequiredCapabilities = validatePhaseRequiredCapabilities(get(raw, 'requiredCapabilities'));
-
   if (allValid([
     validatedStartDate,
     validatedCompletionDate,

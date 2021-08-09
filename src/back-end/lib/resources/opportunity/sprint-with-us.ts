@@ -444,7 +444,6 @@ const resource: Resource = {
           return invalid({ notFound: ['The specified opportunity does not exist.'] });
         }
         const swuOpportunity = validatedSWUOpportunity.value;
-
         if (!await permissions.editSWUOpportunity(connection, request.session, request.params.id) || !permissions.isSignedIn(request.session)) {
           return invalid({
             permissions: [permissions.ERROR_MESSAGE]
@@ -474,7 +473,6 @@ const resource: Resource = {
                     prototypePhase,
                     implementationPhase,
                     teamQuestions } = request.body.value;
-
             if (!editableOpportunityStatuses.includes(swuOpportunity.status)) {
               return invalid({
                 permissions: [permissions.ERROR_MESSAGE]
