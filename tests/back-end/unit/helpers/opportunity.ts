@@ -1,20 +1,50 @@
 import { connectToDatabase } from "back-end/index";
 import { closeCWUOpportunities } from "back-end/lib/db";
-import { AgentWithCookie } from "./user";
+import CAPABILITY_NAMES_ONLY from "shared/lib/data/capabilities";
+import { SWUOpportunityStatus } from "shared/lib/resources/opportunity/sprint-with-us";
+import { AgentWithCookie, getAdminAgent, getGovAgent } from "./user";
 
 /**
- * Create an opportunity draft
+ * Create an CWU opportunity draft
  * 
  * @param agent The agent session of the government user
  * @param opportunity The opportunity
  * @returns 
  */
-export const createOpportunity = async (
-  agent: AgentWithCookie,
-  opportunity: object
+ export const createCWUOpportunity = async (
+  opportunity: object = validCwuOpportunity,
+  agent?: AgentWithCookie,
 ): Promise<any> => {
-  const response = await agent
-    .post("/api/opportunities/code-with-us")
+    return createOpportunity("/api/opportunities/code-with-us", opportunity, agent);
+};
+/**
+ * Create an SWU opportunity draft
+ * 
+ * @param agent The agent session of the government user
+ * @param opportunity The opportunity
+ * @returns 
+ */
+export const createSWUOpportunity = async (
+  opportunity: object = validSwuOpportunity,
+  agent?: AgentWithCookie
+): Promise<any> => {
+  return createOpportunity("/api/opportunities/sprint-with-us", opportunity, agent);
+};
+/**
+ * Create an CWU opportunity draft
+ * 
+ * @param path The API endpoint
+ * @param agent The agent session of the government user
+ * @param opportunity The opportunity
+ * @returns 
+ */
+export const createOpportunity = async (
+  path: string,
+  opportunity: object,
+  agent?: AgentWithCookie,
+): Promise<any> => {
+  const response = await (agent || await getGovAgent('usagop01'))
+    .post(path)
     .send(opportunity);
   if (response.statusCode !== 201) {
     throw new Error(JSON.stringify(response, null, 2));
@@ -23,18 +53,48 @@ export const createOpportunity = async (
 };
 
 /**
- * Publish an opportunity
+ * Publish a CWU opportunity
  * 
  * @param agent The agent session of the government user
  * @param opportunity The opportunity
  * @returns 
  */
+export const publishCWUOpportunity = async (
+  opportunity: any,
+  agent?: AgentWithCookie,
+): Promise<any> => {
+  return publishOpportunity(`/api/opportunities/code-with-us`, opportunity, (agent || await getGovAgent('usagop01')))
+};
+
+/**
+ * Publish a SWU opportunity
+ * 
+ * @param agent The agent session of the government user
+ * @param opportunity The opportunity
+ * @returns 
+ */
+export const publishSWUOpportunity = async (
+  opportunity: any,
+  agent?: AgentWithCookie,
+): Promise<any> => {
+  return publishOpportunity(`/api/opportunities/sprint-with-us`, opportunity, (agent || await getAdminAgent()))
+};
+
+/**
+ * Publish an opportunity
+ * 
+ * @param path The API endpoint
+ * @param agent The agent session of the government user
+ * @param opportunity The opportunity
+ * @returns 
+ */
 export const publishOpportunity = async (
+  path: string,
+  opportunity: any,
   agent: AgentWithCookie,
-  opportunity: any
 ): Promise<any> => {
   const response = await agent
-    .put(`/api/opportunities/code-with-us/${opportunity.id}`)
+    .put(`${path}/${opportunity.id}`)
     .send({
       tag: "publish",
       value: "Published",
@@ -94,6 +154,77 @@ export const validCwuProposal = {
   attachments: [],
   status: "DRAFT",
 };
+
+export const validSwuOpportunity = {
+  title: 'SWU Title',
+  teaser: '',
+  remoteOk: true,
+  remoteDesc: 'Mars',
+  location: 'Location',
+  totalMaxBudget: 2000000,
+  minTeamMembers: 3,
+  mandatorySkills: ['Mandatory Skill'],
+  optionalSkills: [],
+  description: 'Description',
+  proposalDeadline: futureDate,
+  assignmentDate: futureDate,
+  questionsWeight: 20,
+  codeChallengeWeight: 30,
+  scenarioWeight: 30,
+  priceWeight: 20,
+  status: SWUOpportunityStatus.Draft,
+  implementationPhase: {
+    phase: 'IMPLEMENTATION',
+    startDate: futureDate,
+    completionDate: futureDate,
+    maxBudget: 1500000,
+    createdAt: futureDate,
+    requiredCapabilities: [{ capability: CAPABILITY_NAMES_ONLY[0], fullTime: true }]
+  },
+  teamQuestions: [{ question: 'What is the answer ?', guideline: 'no', score: 100, wordLimit: 1}]
+}
+
+export const invalidSwuOpportunity = {
+  title: '', // Title should be filled
+  teaser: '',
+  remoteOk: true,
+  remoteDesc: '',
+  location: 'Location',
+  totalMaxBudget: 2000000,
+  minTeamMembers: 3,
+  mandatorySkills: ['Mandatory Skill'],
+  optionalSkills: [],
+  description: 'Description',
+  proposalDeadline: new Date('1929-11-29'), // Deadline should be in the future
+  assignmentDate: futureDate,
+  questionsWeight: 20,
+  codeChallengeWeight: 30,
+  scenarioWeight: 30,
+  priceWeight: 20,
+  status: SWUOpportunityStatus.Draft,
+  implementationPhase: {
+    phase: 'IMPLEMENTATION',
+    startDate: futureDate,
+    completionDate: futureDate,
+    maxBudget: 1500000,
+    createdAt: futureDate,
+  },
+
+}
+
+/**
+ * Create a SWU opportunity draft with the API
+ * 
+ * @returns SWU opportunity
+ */
+export async function createSWUDraft(){
+  const govAgent = await getGovAgent("usagop01");
+  const response = await govAgent
+    .post("/api/opportunities/sprint-with-us")
+    .send(validSwuOpportunity)
+    .expect(201)
+  return response.body
+}
 
 /**
  * Create and submit a proposal draft for the given opportunity

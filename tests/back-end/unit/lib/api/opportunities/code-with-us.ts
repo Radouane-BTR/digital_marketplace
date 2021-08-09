@@ -2,7 +2,7 @@ import { connectToDatabase } from "back-end/index";
 import { findOneUserByTypeAndUsername } from "back-end/lib/db";
 import { expect } from "chai";
 import { randomUUID } from "crypto";
-import { createOpportunity, publishOpportunity, validCwuOpportunity } from "helpers/opportunity";
+import { createCWUOpportunity, publishCWUOpportunity, validCwuOpportunity } from "helpers/opportunity";
 import {
   AgentWithCookie,
   cleanupDatabase,
@@ -72,7 +72,7 @@ describe("API", () => {
         let fileId: string; // The file ID that we will upload
         before(async () => {
           govAgent = await getGovAgent("usagop01");
-          const opportunity = await createOpportunity(govAgent, validCwuOpportunity)
+          const opportunity = await createCWUOpportunity()
           opportunityId = opportunity.id;
 
           // Create the file first
@@ -136,7 +136,7 @@ describe("API", () => {
           });
           it("Can't be published if invalid", async () => {
             // Create a new unpublished opportunity
-            const opportunity = await createOpportunity(govAgent, validCwuOpportunity)
+            const opportunity = await createCWUOpportunity()
             opportunityId = opportunity.id;
             // Make opportunity invalid
             await govAgent
@@ -196,9 +196,9 @@ describe("API", () => {
         await cleanupDatabase();
         govAgent = await getGovAgent("usagop01");
         vendorAgent = await getVendorAgent("vendor01");
-        publishedOpportunity = await createOpportunity(govAgent, validCwuOpportunity)
-        publishedOpportunity = await publishOpportunity(govAgent, publishedOpportunity)
-        draftOpportunity = await createOpportunity(govAgent, validCwuOpportunity)
+        publishedOpportunity = await createCWUOpportunity()
+        publishedOpportunity = await publishCWUOpportunity(publishedOpportunity)
+        draftOpportunity = await createCWUOpportunity()
       });
 
       context("Gov", () => {
@@ -225,7 +225,7 @@ describe("API", () => {
         before(async () => {
           await cleanupDatabase();
           govAgent = await getGovAgent("usagop01");
-          const opportunity = await createOpportunity(govAgent, validCwuOpportunity)
+          const opportunity = await createCWUOpportunity()
           opportunityId = opportunity.id;
         });
 
