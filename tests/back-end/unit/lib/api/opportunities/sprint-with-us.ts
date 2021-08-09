@@ -13,7 +13,7 @@ import {
 import { SWUOpportunityStatus } from "shared/lib/resources/opportunity/sprint-with-us";
 import { UserType } from "shared/lib/resources/user";
 
-describe.only("API", () => {
+describe("API", () => {
   let govAgent: AgentWithCookie;
   let adminAgent: AgentWithCookie;
   before(async () => {

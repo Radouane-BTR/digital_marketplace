@@ -29,7 +29,7 @@ describe("/api/proposals/code-with-us", () => {
       await cleanupDatabase();
       govAgent = await getGovAgent("usagop01");
       opportunity = await createCWUOpportunity();
-      opportunity = await publishCWUOpportunity(govAgent, opportunity);
+      opportunity = await publishCWUOpportunity(opportunity);
       vendorAgent = await getVendorAgent("vendor01");
       vendor2Agent = await getVendorAgent("vendor02");
     });
@@ -166,7 +166,7 @@ describe("/api/proposals/code-with-us", () => {
         ...validCwuOpportunity,
         assignmentDate: new Date(),
       });
-      opportunity = await publishCWUOpportunity(govAgent, opportunity);
+      opportunity = await publishCWUOpportunity(opportunity);
 
       // Agents
       vendorAgent = await getVendorAgent("vendor01");
