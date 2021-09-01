@@ -12,6 +12,7 @@ import { GOV_IDP_NAME, VENDOR_IDP_NAME } from 'shared/config';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 interface ValidState {
   redirectOnSuccess?: string;
@@ -46,11 +47,12 @@ const view: ComponentView<State, Msg> = viewValid(({ state }) => {
     <div>
       <Row className='pb-4'>
         <Col xs='12' className='mx-auto'>
-          <h2>Sign In</h2>
-          <p>Select one of the options available below to sign in to your Digital Marketplace account.</p>
+          <h2>{t('account.type.vendor.title')}</h2>
+          <p>{t('account.type.vendor.description')}</p>
         </Col>
       </Row>
-      <SignInCard title={t('account.type.vendor')}
+      <SignInCard 
+        title={t('account.type.vendor.type')}
         description={t('account.sign-in.description', {accountType: VENDOR_IDP_NAME})}
         buttonText={t('account.sign-in.button', {accountType: VENDOR_IDP_NAME})}
         redirectOnSuccess={state.redirectOnSuccess}
@@ -59,7 +61,7 @@ const view: ComponentView<State, Msg> = viewValid(({ state }) => {
       <SignInCard
         userType={UserType.Government}
         redirectOnSuccess={state.redirectOnSuccess}
-        title='Public Sector Employee'
+        title={t('account.sign-in.title')}
         description={t('account.sign-in.description', {accountType: GOV_IDP_NAME})}
         buttonText={t('account.sign-in.button', {accountType: GOV_IDP_NAME})} />
     </div>
@@ -74,10 +76,11 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     size: 'large',
     color: 'c-sidebar-instructional-bg',
     view: makeInstructionalSidebar<ValidState, Msg>({
-      getTitle: () => 'Welcome Back to the Digital Marketplace',
-      getDescription: () => 'Please sign in to access your Digital Marketplace account.',
+      getTitle: () => i18next.t('account.title'),
+      getDescription: () => i18next.t('account.description'),
       getFooter: ({ state }) => (
         <span>
+          // TODO : Must be desactivated
           Don't have an account?&nbsp;
           <Link dest={routeDest(adt('signUpStepOne', { redirectOnSuccess: state.redirectOnSuccess }))}>Sign up</Link>.
         </span>

@@ -56,6 +56,7 @@ import { SHOW_TEST_INDICATOR, VENDOR_ACCOUNT_CREATION_DISABLED } from 'shared/co
 import { hasAcceptedTermsOrIsAnonymous } from 'shared/lib/resources/session';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt, adtCurried } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 function makeViewPageProps<RouteParams, PageState, PageMsg>(
   props: ComponentViewProps<State, Msg>,
@@ -641,13 +642,14 @@ function navContextualLinks(props: ComponentViewProps<State, Msg>): Nav.Props['c
 
 function regularNavProps(props: ComponentViewProps<State, Msg>): Nav.Props {
   const { state, dispatch } = props;
+  // const { t } = useTranslation();
   const dispatchNav = mapComponentDispatch(dispatch, adtCurried<ADT<'nav', Nav.Msg>>('nav'));
   return {
     state: state.nav,
     dispatch: dispatchNav,
     isLoading: state.transitionLoading > 0,
     logoImageUrl: prefixPath('/images/quebec_logo_PIV.svg'),
-    title: 'Échanges entre concepteurs'  + (SHOW_TEST_INDICATOR ? ' - Expérimentation' : ''),
+    title: i18next.t('app-name')  + (SHOW_TEST_INDICATOR ? ' - Expérimentation' : ''),
     homeDest: routeDest(adt('landing', null)),
     accountMenus: navAccountMenus(state),
     appLinks: navAppLinks(state),

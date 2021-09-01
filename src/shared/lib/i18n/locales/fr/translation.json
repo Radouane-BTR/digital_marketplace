@@ -1,6 +1,8 @@
 {
+  "app-name": "Échanges entre concepteurs",
   "account": {
     "sign-in": {
+      "title" : "Employé du secteur public",
       "button": "S'authentifier avec {{accountType}}",
       "description": "Utilisez votre compte {{accountType}} pour vous authentifier à Échange entre concepteurs."
     },
@@ -13,13 +15,63 @@
         "description": "Choisissez le compte qui vous définit le mieux. L'accès à certaines fonctionnalités de l'application dépend du type de compte que vous sélectionnez.",
         "title": "Choisissez un type de compte"
       },
-      "vendor": "Prestataire"
-    }
+      "vendor": {
+        "type" : "Prestataire",
+        "title" : "S'authentifier",
+        "description" : "Sélectionnez l'une des options disponibles ci-dessous pour vous connecter à votre compte Digital Marketplace."
+      }    
+    },
+    "title": "Bienvenue sur le marché numérique",
+    "description": "Veuillez vous connecter pour accéder à votre compte Digital Marketplace."
   },
   "formatedDateTime": "{{date}} à {{time}}",
   "landing": {
-    "header": "Collaborez <br/>avec le gouvernement <br/>du Québec"
+    "header": "Collaborez <br/>avec le gouvernement <br/>du Québec",
+    "body": "Le marché numérique gouvernemental est une nouvelle plateforme qui contribue à bâtir un écosystème en matière d'innovation et de collaboration entre les entrepreneurs technologiques et le gouvernement du Québec.",
+    "info": "Rejoignez une communauté de développeurs, d'entrepreneurs <br/>et d'innovateurs pour participer au développement technologique de la fonction publique.",
+    "program-card": {
+      "develop" : {
+        "title": "Développez avec nous",
+        "description": "Soyez payé pour soumettre du code.<br/><br/>Des opportunités allant jusqu’à 70 000 $"
+      },
+      "co-create": {
+        "title": "Cocréez avec nous",
+        "description": "Fournissez une équipe Agile pour travailler avec un gestionnaire de produit gouvernemental dans un environnement DevOps moderne.<br/><br/>Des opportunités allant jusqu’à 2 000 000$."
+      }
+    },
+    "gov-role-info": {
+      "title": "Employés de la fonction publique",
+      "header": "Faites affaires avec des développeurs talentueux et qualifiés pour créer vos produits numériques.",
+      "role-one": {
+        "header": "Publiez une nouvelle opportunité",
+        "description": "Sélectionnez le programme qui convient à vos besoins, publiez votre opportunité et attendez que les propositions arrivent." 
+      },
+      "role-two": {
+        "header": "Affichez et gérez vos opportunités publiées",
+        "description": "Affichez un historique complet de vos opportunités publiées où vous pouvez examiner et évaluer toutes les propositions reçues, attribuer l'opportunité au soumissionaire retenu et plus encore." 
+      }
+    },
+    "vendor-role-info": {
+      "title": "Fournisseurs",
+      "header": "Collaborez avec la fonction publique afin de créer de produits numériques innovants.",
+      "role-one": {
+        "header": "Soumettez des propositions pour ouvrir des opportunités",
+        "description": "Enregistrez une version provisoire de votre proposition jusqu'à ce que vous soyez prêt à la soumettre." 
+      },
+      "role-two": {
+        "header": "Affichez et exportez vos propositions soumises",
+        "description": "Affichez toutes les soumissions passées et en suspens. Vous pourrez voir vos scores et classements une fois soumis." 
+      },
+      "role-three": {
+        "header": "Créez votre équipe",
+        "description": "Ajoutez des membres à votre organisation." 
+      }
+    },
+    "bottom-view" : {
+      "description" : "Découvrez les dernières opportunités<br /> sur le marché numérique"
+    }
   },
+  "tab-title": "{{title}} {{titleSeparator}} Échanges entre développeurs",
   "links": {
     "about": "À propos",
     "browse-opportunities": "Parcourez les opportunités",
@@ -27,11 +79,12 @@
     "opportunities": "Opportunités",
     "organizations": "Organisations",
     "sign-in": "Connexion",
-    "sign-up": "Créer un compte"
+    "sign-up": "Créer un compte",
+    "more-info": "Plus d'information"
   },
   "no": "Non",
   "notification": {
-    "anyQuestion": "If you have any questions, please send an email to {{email}}.",
+    "anyQuestion": "Pour toute question, veuillez envoyer un courriel à {{email}}.",
     "opportunity": {
       "cwu": {
         "actioned": {

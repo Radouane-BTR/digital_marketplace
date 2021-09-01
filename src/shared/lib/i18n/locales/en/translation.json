@@ -1,25 +1,77 @@
 {
+  "app-name": "Digital Marketplace",
   "account": {
     "sign-in": {
-      "button": "account.sign-in.button",
-      "description": "account.sign-in.description"
+      "title" : "Public Sector Employee",
+      "button": "Authenticate with {{accountType}}",
+      "description": "Use your {{accountType}} account to authenticate to Digital Marketplace."
     },
     "sign-up": {
-      "button": "account.sign-up.button",
-      "description": "account.sign-up.description"
+      "button": "Authenticate with {{accountType}}",
+      "description": "Providers must have an {{accountType}} account in order to authenticate to Digital Marketplace."
     },
     "type": {
       "select": {
-        "description": "account.type.select.description",
-        "title": "account.type.select.title"
+        "description": "Choose the account that best suits you. Access to certain features of the application depends on the type of account you select.",
+        "title": "Choose an account type"
       },
-      "vendor": "account.type.vendor"
-    }
+      "vendor": {
+        "type" : "Provider",
+        "title" : "Sign in",
+        "description" : "Select one of the options available below to sign in to your Digital Marketplace account."
+      }
+    },
+    "title": "Welcome to Digital marketplace",
+    "description": "Please login to access your Digital Marketplace account."
   },
   "formatedDateTime": "{{date}} at {{time}}",
   "landing": {
-    "header": "Collaborate <br/>with Québec<br/>government"
+    "header": "Collaborate <br/>with Québec government",
+    "body": "The Government Digital Marketplace is a new platform that helps build an ecosystem of innovation and collaboration between technology entrepreneurs and the Quebec government.",
+    "info": "Join a community of developers, entrepreneurs and innovators <br/>and innovators to participate in the development of public service technology development.",
+    "program-card": {
+      "develop" : {
+        "title": "Develop With Us",
+        "description": "Get paid <br/>to submit code.<br/><br/>Opportunities up to 70 000 $"
+      },
+      "co-create": {
+        "title": "Co-create With Us",
+        "description": "Provide an Agile team to work with a government product <br/>manager in a modern DevOps environment.<br/><br/>Opportunities up to 2 000 000$."
+      }
+    },
+    "gov-role-info": {
+      "title": "Public Service Employees",
+      "header": "Work with talented and skilled developers to create your digital products.",
+      "role-one": {
+        "header": "Post a new opportunity",
+        "description": "Select the program that suits your needs, post your opportunity and wait for proposals to arrive." 
+      },
+      "role-two": {
+        "header": "View and manage your published opportunities",
+        "description": "View a complete history of your published opportunities where you can review and evaluate all proposals received, award the opportunity to the successful bidder and more." 
+      }
+    },
+    "vendor-role-info": {
+      "title": "Suppliers",
+      "header": "Collaborate with the public service to create innovative digital products.",
+      "role-one": {
+        "header": "Submit proposals to open opportunities",
+        "description": "Save a draft of your proposal until you are ready to submit it." 
+      },
+      "role-two": {
+        "header": "View and export your submitted proposals",
+        "description": "View all past and pending submissions. You will be able to see your scores and rankings once submitted." 
+      },
+      "role-three": {
+        "header": "Create your team",
+        "description": "Add members to your organization." 
+      }
+    },
+    "bottom-view" : {
+      "description" : "Discover the latest opportunities in <br />digital marketplace"
+    }
   },
+  "tab-title": "{{title}} {{titleSeparator}} Digital Marketplace",
   "links": {
     "about": "About",
     "browse-opportunities": "Browse opportunities",
@@ -27,11 +79,12 @@
     "opportunities": "Opportunities",
     "organizations": "Organizations",
     "sign-in": "Sign in",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "more-info": "More information"
   },
   "no": "No",
   "notification": {
-    "anyQuestion": "Pour toute question, veuillez envoyer un courriel à {{email}}.",
+    "anyQuestion": "If you have any questions, please send an email to {{email}}.",
     "opportunity": {
       "cwu": {
         "actioned": {
@@ -39,6 +92,11 @@
             "description": "You have cancelled the following opportunity on the Digital Marketplace:",
             "summary": "CWU opportunity cancelled; sent to the administrator who actioned.",
             "title": "A Code With Us Opportunity Has Been Cancelled"
+          },
+          "suspended": {
+            "description": "You have suspended the following Digital Marketplace opportunity:",
+            "summary": "The Develop With Us opportunity has been cancelled; send the administrator who cancelled it.",
+            "title": "A Develop With Us opportunity has been suspended"
           }
         },
         "information": {

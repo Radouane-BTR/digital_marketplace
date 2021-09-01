@@ -5,6 +5,7 @@ import { prefix } from 'shared/lib';
 import { FileRecord } from 'shared/lib/resources/file';
 import { UserType, userTypeToKeycloakIdentityProvider } from 'shared/lib/resources/user';
 import { getValidValue, isInvalid, mapValid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export function prefixPath(path: string): string {
   return `/${prefix(PATH_PREFIX)(path)}`;
@@ -116,7 +117,8 @@ export const TITLE_SEPARATOR = '—';
 
 export function makePageMetadata(title?: string): PageMetadata {
   return {
-    title: `${title} ${TITLE_SEPARATOR} Échanges entre concepteurs`
+    title: i18next.t('tab-title', {title: title, titleSeparator: TITLE_SEPARATOR})
+    //title: `${title} ${TITLE_SEPARATOR} Échanges entre concepteurs`
   };
 }
 
