@@ -1,5 +1,8 @@
 {
   "app-name": "Digital Marketplace",
+  "formatedDateTime": "{{date}} at {{time}}",
+  "tab-title": "{{title}} {{titleSeparator}} Digital Marketplace",
+  "language": "English",
   "account": {
     "sign-in": {
       "title" : "Public Sector Employee",
@@ -24,7 +27,6 @@
     "title": "Welcome to Digital marketplace",
     "description": "Please login to access your Digital Marketplace account."
   },
-  "formatedDateTime": "{{date}} at {{time}}",
   "landing": {
     "header": "Collaborate <br/>with Québec government",
     "body": "The Government Digital Marketplace is a new platform that helps build an ecosystem of innovation and collaboration between technology entrepreneurs and the Quebec government.",
@@ -71,7 +73,99 @@
       "description" : "Discover the latest opportunities in <br />digital marketplace"
     }
   },
-  "tab-title": "{{title}} {{titleSeparator}} Digital Marketplace",
+  "organization": {
+    "my-organizations" : "My Organizations",
+    "isVendorNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>.<br />You must",
+    "isAdminNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>",
+    "sprint-with-us-terms": {
+      "title": "Conditions générales de Sprint With Us",
+      "acceptedSWUTermsText": "{{legalName}} agreed to the {{TITLE}} on {{acceptedSWUTermsFormatDate}} at {{acceptedSWUTermsFormatTime}}"
+    },
+    "list": {
+      "title": "Digital Marketplace Organizations",
+      "tableHeadCells" : {
+        "title": "Organisation name",
+        "owner": "owner"
+      }
+    },
+    "sprint-with-us":{
+      "title": "Sprint With Us Terms & Conditions",
+      "accept-terms" : "Accept Terms & Conditions"
+    },
+    "edit": {
+      "tab": {
+        "index":{
+          "team-title": "Team",
+          "qualification-title": "SWU Qualification",
+          "organization-title": "Organization"
+        },
+        "organization": {
+            "title":  "Archive Organization",
+            "description": "Archiving this organization means that it will no longer be available for opportunity proposals.",
+            "modal": {
+              "if":{
+                "title": "Archive Organization?",
+                "body": "Are you sure you want to archive this organization?",
+                "actions":{
+                  "archive" : "Archive Organization",
+                  "cancel": "Cancel"
+                }
+              },
+              "else": {
+                "title": "Save Changes?",
+                "body": "Are you sure you want to save the changes you've made to this organization?",
+                "actions":{
+                  "save" : "Save Changes",
+                  "cancel": "Cancel"
+                }
+              }
+            }
+          },
+        "qualification":{
+          "rows":{
+            "one":{
+              "title": "Requirements",
+              "description": "To qualify to submit proposals for Sprint With Us opportunities, your organization must meet the following requirements:",
+              "requirements": {
+                "one":{
+                  "name": "At least two team members.",
+                  "description": "Add team members from the \"Team\" tab to begin the process of satisfying this requirement."
+                },
+                "two": {
+                  "name": "Team members collectively possess all capabilities.",
+                  "description": "Your team members can choose their capabilities on their user profiles."
+                },
+                "three": {
+                  "name": "Agreed to {{swuTermsTitle}}",
+                  "description": "You can view the {{swuTermsTitle}} below."
+                }
+              }
+            },
+            "two":{
+              "title": "Terms & Conditions",
+              "description": "View the {{swuTermsTitle}} by clicking the button below.",
+              "link": "View Terms & Conditions"
+            }
+          }
+        },
+        "team":{
+          "title":  "Team Members",
+          "description": "Add team members to your organization by clicking on the \"Add Team Member(s)\" button above. Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization.",
+          "team-capabilities": "Team Capabilities",
+          "capabilities-description": "This is a summary of the capabilities your organization's team possesses as whole, only including the capabilities of confirmed (non-pending) members. Team members can claim capabilities in their user profiles in the \"Capabilities\" section.",
+          "add-member": "Add Team Member(s)",
+          "add-email-info": "Provide an email address for each team member to invite them to join your organization.",
+          "add-email-description": "Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization, and only enter the email addresses associated with their Digital Marketplace accounts.",
+          "remove-membre-title": "Remove {{userName}}?",
+          "remove-membre-info": "Are you sure you want to remove {{userName}} from this organization?",
+          "table-head": {
+            "one":"Team Member",
+            "two": "Capabilities"
+        }
+      }
+    }
+  }
+},
   "links": {
     "about": "About",
     "browse-opportunities": "Browse opportunities",
@@ -80,7 +174,15 @@
     "organizations": "Organizations",
     "sign-in": "Sign in",
     "sign-up": "Sign up",
-    "more-info": "More information"
+    "more-info": "More information",
+    "contact-us": "Contact us",
+    "create-opportunity": "Create Opportunity",
+    "create-organization": "Create Organization",    
+    "cancel": "Cancel",
+    "edit-organization": "Edit Organization",
+    "archive-organization": "Archive Organization",
+    "become-qualified": "apply to become a Qualified Supplier.",
+    "remove-member": "Remove Team Member"
   },
   "no": "No",
   "notification": {
@@ -125,6 +227,9 @@
         }
       }
     }
+  },
+  "form":{
+    "email": "Email Address"
   },
   "yes": "Yes"
 }

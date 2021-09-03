@@ -15,12 +15,15 @@ import { Organization } from 'shared/lib/resources/organization';
 import { isAdmin, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next'
 
-export const TITLE = 'Sprint With Us Terms & Conditions';
+export const TITLE =  i18next.t('organization.sprint-with-us-terms.title');
 
 export function acceptedSWUTermsText(organization: Organization, ifNotAcceptedText: string) {
   return organization.acceptedSWUTerms
-    ? `${organization.legalName} agreed to the ${TITLE} on ${formatDate(organization.acceptedSWUTerms)} at ${formatTime(organization.acceptedSWUTerms)}.`
+    ?  i18next.t('organization.sprint-with-us-terms.acceptedSWUTermsText', {legalName: organization.legalName, title: TITLE, 
+                  acceptedSWUTermsFormatDate: formatDate(organization.acceptedSWUTerms),  acceptedSWUTermsFormatTime : formatTime(organization.acceptedSWUTerms)}) 
+    // `${organization.legalName} agreed to the ${TITLE} on ${formatDate(organization.acceptedSWUTerms)} at ${formatTime(organization.acceptedSWUTerms)}.`
     : ifNotAcceptedText;
 }
 
@@ -116,12 +119,12 @@ const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) => {
                 className='ml-3'
                 color='primary'
                 onClick={() => dispatch(adt('accept'))}>
-                Accept Terms & Conditions
+                { i18next.t('organization.accept-terms') }
               </Link>
               <Link
                 color='secondary'
                 dest={routeDest(adt('orgEdit', { orgId: state.organization.id, tab: 'qualification' }) as Route)}>
-                Cancel
+                { i18next.t('links.cancel') }
               </Link>
             </div>)}
       </Col>

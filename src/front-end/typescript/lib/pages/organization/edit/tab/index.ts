@@ -10,6 +10,7 @@ import { AffiliationMember } from 'shared/lib/resources/affiliation';
 import { doesOrganizationMeetSWUQualification, Organization } from 'shared/lib/resources/organization';
 import { User } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 // Parent page types & functions.
 
@@ -57,20 +58,20 @@ export function idToDefinition<K extends TabId>(id: K, organization: Organizatio
       return {
         component: TeamTab.component,
         icon: 'users',
-        title: 'Team'
+        title: i18next.t('organization.edit.tab.index.team-title')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'qualification':
       return {
         component: QualificationTab.component,
         icon: 'shield',
-        title: 'SWU Qualification'
+        title: i18next.t('organization.edit.tab.index.qualification-title')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'organization':
     default:
       return {
         component: OrganizationTab.component,
         icon: 'building',
-        title: organization.legalName || 'Organization'
+        title: organization.legalName || i18next.t('organization.edit.tab.index.qualification-title')
       } as TabbedPage.TabDefinition<Tabs, K>;
   }
 }

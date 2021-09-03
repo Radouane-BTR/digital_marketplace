@@ -1,5 +1,8 @@
 {
   "app-name": "Échanges entre concepteurs",
+  "formatedDateTime": "{{date}} à {{time}}",
+  "tab-title": "{{title}} {{titleSeparator}} Échanges entre développeurs",
+  "language": "Français",
   "account": {
     "sign-in": {
       "title" : "Employé du secteur public",
@@ -24,7 +27,6 @@
     "title": "Bienvenue sur le marché numérique",
     "description": "Veuillez vous connecter pour accéder à votre compte Digital Marketplace."
   },
-  "formatedDateTime": "{{date}} à {{time}}",
   "landing": {
     "header": "Collaborez <br/>avec le gouvernement <br/>du Québec",
     "body": "Le marché numérique gouvernemental est une nouvelle plateforme qui contribue à bâtir un écosystème en matière d'innovation et de collaboration entre les entrepreneurs technologiques et le gouvernement du Québec.",
@@ -71,7 +73,98 @@
       "description" : "Découvrez les dernières opportunités<br /> sur le marché numérique"
     }
   },
-  "tab-title": "{{title}} {{titleSeparator}} Échanges entre développeurs",
+  "organization": {
+    "my-organizations" : "Mes organisations",
+    "isVendorNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint With Us</emphasis>.<br />Vous devez",
+    "isAdminNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint With Us</emphasis>.",
+    "sprint-with-us-terms": {
+      "title": "Conditions générales de Sprint With Us",
+      "acceptedSWUTermsText": "{{legalName}} a accepté le {{TITLE}} le {{acceptedSWUTermsFormatDate}} à {{acceptedSWUTermsFormatTime}}"
+    },
+    "list": {
+      "title": "Organisations de marchés numériques", 
+      "tableHeadCells" : {
+        "title": "Nom de l'organisation",
+        "owner": "propriétaire"
+      }
+    },
+    "sprint-with-us":{
+      "title": "Conditions générales de Sprint With Us",
+      "accept-terms" : "Accepter les termes et conditions"
+    },
+    "edit": {
+      "tab": {
+        "index":{
+          "team-title": "Équipe",
+          "qualification-title": "Qualification SWU",
+          "organization-title": "Organisation"
+        },
+        "organization": {
+            "title":  "Archiver Organisation",
+            "description": "L'archivage de cette organisation signifie qu'elle ne sera plus disponible pour les propositions d'opportunités.",
+            "modal": {
+              "if":{
+                "title": "Archiver Organisation?",
+                "body": "Êtes-vous sûr de vouloir archiver cette organisation ?",
+                "actions":{
+                  "archive" : "Archiver Organisation",
+                  "cancel": "Annuler"
+                }
+              },
+              "else": {
+                "title": "Sauvegarder les changements?",
+                "body": "Êtes-vous sûr de vouloir sauvegarder les changements que vous avez apportés à cette organisation ?",
+                "actions":{
+                  "save" : "Sauvegarder les changements",
+                  "cancel": "Annuler"
+                }
+              }
+            }
+          },
+        "qualification":{
+          "rows":{
+            "one":{
+              "title": "Exigences",
+              "description": "Pour pouvoir soumettre des propositions pour les opportunités Sprint With Us, votre organisation doit répondre aux exigences suivantes :",
+              "requirements": {
+                "one":{
+                  "name": "Au moins deux membres de l'équipe.",
+                  "description": "Ajoutez des membres de l'équipe à partir de l'onglet \"Équipe\" pour commencer le processus de satisfaction de cette exigence."
+                },
+                "two": {
+                  "name": "Les membres de l'équipe possèdent collectivement toutes les capacités.",
+                  "description": "Les membres de votre équipe peuvent choisir leurs capacités dans leur profil d'utilisateur."
+                },
+                "three": {
+                  "name": "accepté de {{swuTermsTitle}}",
+                  "description": "Vous pouvez consulter le {{swuTermsTitle}} ci-dessous."
+                }
+              }
+            },
+            "two":{
+              "title": "Termes et conditions",
+              "description": "Consultez le {{swuTermsTitle}} en cliquant sur le bouton ci-dessous.",
+              "link": "Voir les termes et conditions"
+            }
+          }
+        },
+        "team":{
+          "title":  "Membres de l'équipe",
+          "description": "Ajoutez des membres d'équipe à votre organisation en cliquant sur le bouton \"Ajouter Membre(s)\" ci-dessus. Veuillez vous assurer que les membres de l'équipe ont déjà ouvert un compte vendeur sur Digital Marketplace avant de les ajouter à votre organisation.",
+          "team-capabilities": "Capacités de l'équipe",
+          "capabilities-description": "Il s'agit d'un résumé des capacités que l'équipe de votre organisation possède dans son ensemble, incluant uniquement les capacités des membres confirmés (non en attente). Les membres de l'équipe peuvent revendiquer des capacités dans leur profil d'utilisateur, dans la section \"Capacités\".",
+          "add-email-info": "Fournissez une adresse électronique à chaque membre de l'équipe pour l'inviter à rejoindre votre organisation.",
+          "add-email-description": "Veuillez vous assurer que les membres de l'équipe se sont déjà inscrits à un compte vendeur Digital Marketplace avant de les ajouter à votre organisation, et ne saisissez que les adresses électroniques associées à leurs comptes Digital Marketplace.",
+          "remove-membre-title": "Supprimer {{userName}}?",
+          "remove-membre-info": "Êtes-vous sûr de vouloir retirer {{userName}} de cette organisation?",
+          "table-head": {
+            "one":"Membre de l'équipe",
+            "two": "Capacités"
+        }
+      }
+    }
+  }
+},
   "links": {
     "about": "À propos",
     "browse-opportunities": "Parcourez les opportunités",
@@ -80,7 +173,16 @@
     "organizations": "Organisations",
     "sign-in": "Connexion",
     "sign-up": "Créer un compte",
-    "more-info": "Plus d'information"
+    "more-info": "Plus d'information",
+    "contact-us": "Nous joindre",
+    "create-opportunity": "Créer une opportunité",
+    "create-organization": "Créer une organisation",
+    "cancel": "Annuler",
+    "edit-organization": "Modifier Organisation",
+    "archive-organization": "Archiver Organisation",
+    "become-qualified": "demander à devenir un fournisseur qualifié",
+    "remove-member": "Supprimer un membre de l'équipe",
+    "add-member": "Ajouter Member(s)"
   },
   "no": "Non",
   "notification": {
@@ -125,6 +227,9 @@
         }
       }
     }
+  },
+  "form":{
+    "email": "Adresse courriel"
   },
   "yes": "Oui"
 }

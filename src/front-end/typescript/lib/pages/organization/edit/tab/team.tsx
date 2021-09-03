@@ -20,6 +20,7 @@ import { AffiliationMember, memberIsOwner, memberIsPending, membersHaveCapabilit
 import { isVendor } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { validateUserEmail } from 'shared/lib/validation/affiliation';
+import i18next from 'i18next'
 
 type ModalId
   = ADT<'addTeamMembers'>
@@ -226,13 +227,13 @@ const update: Update<State, Msg> = ({ state, msg }) => {
 function membersTableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Team Member',
+      children: i18next.t('organization.edit.tab.team.table-head.one'),
       style: {
         width: '100%'
       }
     },
     {
-      children: 'Capabilities',
+      children: i18next.t('organization.edit.tab.team.table-head.two'),
       className: 'text-center'
     },
     {
@@ -302,8 +303,8 @@ const view: ComponentView<State, Msg> = props => {
         swuQualified={state.swuQualified} />
       <Row className='mt-5'>
         <Col xs='12'>
-          <h3>Team Members</h3>
-          <p className='mb-4'>Add team members to your organization by clicking on the "Add Team Member(s)" button above. Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization.</p>
+          <h3>{i18next.t('organization.edit.tab.team.title')}</h3>
+          <p className='mb-4'>{i18next.t('organization.edit.tab.team.description')}</p>
           {state.affiliations.length
             ? (<Table.view
                 headCells={membersTableHeadCells(state)}
@@ -316,8 +317,8 @@ const view: ComponentView<State, Msg> = props => {
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3>Team Capabilities</h3>
-            <p className='mb-4'>This is a summary of the capabilities your organization's team possesses as whole, only including the capabilities of confirmed (non-pending) members. Team members can claim capabilities in their user profiles in the "Capabilities" section.</p>
+            <h3>{i18next.t('organization.edit.tab.team.team-capabilities')}</h3>
+            <p className='mb-4'>{i18next.t('organization.edit.tab.team.capabilities-description')}</p>
             <Capabilities grid capabilities={state.capabilities} />
           </Col>
         </Row>
@@ -349,28 +350,28 @@ export const component: Tab.Component<State, Msg> = {
       case 'addTeamMembers': {
         const isValid = isAddTeamMembersEmailsValid(state);
         return {
-          title: 'Add Team Member(s)',
+          title: i18next.t('links.add-member'),
           onCloseMsg: adt('hideModal'),
           body: dispatch => {
             const addField = () => dispatch(adt('addTeamMembersEmailsAddField'));
             return (
               <div>
-                <p>Provide an email address for each team member to invite them to join your organization.</p>
-                <p><strong>Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization, and only enter the email addresses associated with their Digital Marketplace accounts.</strong></p>
+                <p>{i18next.t('organization.edit.tab.team.add-email-info')}</p>
+                <p><strong>{i18next.t('organization.edit.tab.team.add-email-description')}</strong></p>
                 {state.addTeamMembersEmails.map((s, i) => {
                   const isFirst = i === 0;
                   const isLast = i === state.addTeamMembersEmails.length - 1;
                   const props = {
                     extraChildProps: {},
                     className: 'flex-grow-1 mb-0',
-                    placeholder: 'Email Address',
+                    placeholder: i18next.t('form.email'),
                     dispatch: mapComponentDispatch(dispatch, v => adt('addTeamMembersEmails', [i, v]) as Msg),
                     state: s
                   };
                   return (
                     <div key={`organization-add-team-member-email-${i}`}>
                       {isFirst
-                        ? (<FormField.ConditionalLabel label='Email Addresses' required {...props} />)
+                        ? (<FormField.ConditionalLabel label={i18next.t('form.email')} required {...props} />)
                         : null}
                       <div className='mb-3 d-flex align-items-start flex-nowrap'>
                         <ShortText.view {...props} />
@@ -403,7 +404,7 @@ export const component: Tab.Component<State, Msg> = {
           },
           actions: [
             {
-              text: 'Add Team Member(s)',
+              text: i18next.t('links.add-member'),
               button: true,
               disabled: !isValid,
               color: 'primary',
@@ -411,7 +412,7 @@ export const component: Tab.Component<State, Msg> = {
               msg: adt('addTeamMembers')
             },
             {
-              text: 'Cancel',
+              text:  i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -427,14 +428,14 @@ export const component: Tab.Component<State, Msg> = {
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Remove Team Member',
+              text: i18next.t('links.remove-member'),
               icon: 'user-times',
               color: 'danger',
               msg: adt('removeTeamMember', affiliation),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -449,7 +450,7 @@ export const component: Tab.Component<State, Msg> = {
     const isRemoveTeamMemberLoading = !!state.removeTeamMemberLoading;
     const isLoading = isAddTeamMembersLoading || isRemoveTeamMemberLoading;
     return adt('links', [{
-      children: 'Add Team Member(s)',
+      children: i18next.t('links.add-member'),
       onClick: () => dispatch(adt('showModal', adt('addTeamMembers')) as Msg),
       button: true,
       loading: isAddTeamMembersLoading,

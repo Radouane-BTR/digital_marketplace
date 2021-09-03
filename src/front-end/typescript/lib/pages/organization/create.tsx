@@ -12,6 +12,7 @@ import { Col, Row } from 'reactstrap';
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next'; 
 
 interface ValidState {
   submitLoading: number;
@@ -107,7 +108,7 @@ const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) => {
     <div>
       <Row>
         <Col className='mb-5' xs='12'>
-          <h2>Create  Organization</h2>
+          <h2>Create Organization</h2>
         </Col>
       </Row>
       <Row>
@@ -140,7 +141,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     const isValid = OrgForm.isValid(state.orgForm);
     return adt('links', [
       {
-        children: 'Create Organization',
+        children: i18next.t('links.create-organization'),
         onClick: () => dispatch(adt('submit')),
         button: true,
         loading: isSubmitLoading,
@@ -149,7 +150,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         color: 'primary'
       },
       {
-        children: 'Cancel',
+        children: i18next.t('links.create-organization'),
         color: 'c-nav-fg-alt',
         dest: routeDest(adt('userProfile', {
           userId: state.user.id,
@@ -159,6 +160,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     ]);
   }),
   getMetadata() {
-    return makePageMetadata('Create Organization');
+    return makePageMetadata(i18next.t('links.create-organization'));
   }
 };

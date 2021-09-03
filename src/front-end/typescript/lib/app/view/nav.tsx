@@ -8,6 +8,8 @@ import React, { Fragment, MouseEvent } from 'react';
 import { ButtonDropdown, Col, Container, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row, Spinner } from 'reactstrap';
 import { ADT, adt, adtCurried } from 'shared/lib/types';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next'; 
+
 export type Params = null;
 
 export interface State {
@@ -364,7 +366,7 @@ const TopNavbar: View<Props> = props => {
                     </a>
                   </li>
                   <li>
-                    <a href="#">Nous joindre</a>
+                    <a href="#">{ i18next.t('links.contact-us') }</a>
                   </li>
                 </ul>
               </div>

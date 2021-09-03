@@ -9,6 +9,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { doesOrganizationMeetSWUQualificationNumTeamMembers } from 'shared/lib/resources/organization';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 export type State = Tab.Params;
 
@@ -51,36 +52,36 @@ const view: ComponentView<State, Msg> = ({ state }) => {
         swuQualified={state.swuQualified} />
       <Row className='mt-5'>
         <Col xs='12'>
-          <h3>Requirements</h3>
-          <p className='mb-4'>To qualify to submit proposals for Sprint With Us opportunities, your organization must meet the following requirements:</p>
+          <h3>{ i18next.t('organization.edit.tab.qualification.rows.one.title') }</h3>
+          <p className='mb-4'>{ i18next.t('organization.edit.tab.qualification.rows.one.description') }</p>
           <Requirement
             className='mb-4'
-            name='At least two team members.'
-            description='Add team members from the "Team" tab to begin the process of satisfying this requirement.'
+            name= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.one.name') }
+            description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.one.description') }
             checked={doesOrganizationMeetSWUQualificationNumTeamMembers(state.organization)} />
           <Requirement
             className='mb-4'
-            name='Team members collectively possess all capabilities.'
-            description='Your team members can choose their capabilities on their user profiles.'
+            name= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.two.name') }
+            description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.two.description') }
             checked={!!state.organization.possessAllCapabilities} />
           <Requirement
-            name={`Agreed to ${SWU_TERMS_TITLE}.`}
-            description={`You can view the ${SWU_TERMS_TITLE} below.`}
+            name= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.name', {swuTermsTitle: SWU_TERMS_TITLE})} //`Agreed to ${SWU_TERMS_TITLE}.`
+            description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.description', {swuTermsTitle: SWU_TERMS_TITLE})} //{`You can view the ${SWU_TERMS_TITLE} below.`}
             checked={!!state.organization.acceptedSWUTerms} />
         </Col>
       </Row>
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3>Terms & Conditions</h3>
+            <h3>{ i18next.t('organization.edit.tab.qualification.rows.two.title') }</h3>
             <p className='mb-4'>
-              {acceptedSWUTermsText(state.organization, `View the ${SWU_TERMS_TITLE} by clicking the button below.`)}
+              {acceptedSWUTermsText(state.organization, i18next.t('organization.edit.tab.qualification.rows.two.description', {swuTermsTitle: SWU_TERMS_TITLE}))}
             </p>
             <Link
               button
               color='primary'
               dest={routeDest(adt('orgSWUTerms', { orgId: state.organization.id }))}>
-              View Terms & Conditions
+              { i18next.t('organization.edit.tab.qualification.rows.two.link') }
             </Link>
           </Col>
         </Row>

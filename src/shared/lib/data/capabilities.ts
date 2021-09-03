@@ -1,6 +1,9 @@
+// import i18next from 'i18next'
+
 export const CAPABILITIES_WITH_DESCRIPTIONS = [
   {
-    name: 'Agile Coaching',
+    // name: i18next.t('from.email'),
+    name: 'Agile Caching',
     description: [
       'Embed an Agile culture using techniques from a wide range or Agile and lean methodologies and frameworks, while being methodology agnostic',
       'Help create an open and trust-based environment, which enables a focus on delivery and facilitates continuous improvement',

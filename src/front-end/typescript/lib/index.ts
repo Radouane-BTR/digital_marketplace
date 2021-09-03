@@ -118,7 +118,6 @@ export const TITLE_SEPARATOR = '—';
 export function makePageMetadata(title?: string): PageMetadata {
   return {
     title: i18next.t('tab-title', {title: title, titleSeparator: TITLE_SEPARATOR})
-    //title: `${title} ${TITLE_SEPARATOR} Échanges entre concepteurs`
   };
 }
 

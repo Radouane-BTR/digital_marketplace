@@ -88,6 +88,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     })
   }),
   getMetadata() {
-    return makePageMetadata('Sign In');
+    return makePageMetadata(i18next.t('links.sign-in'));
   }
 };

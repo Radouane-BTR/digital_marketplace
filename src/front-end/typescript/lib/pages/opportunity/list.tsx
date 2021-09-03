@@ -20,6 +20,7 @@ import * as CWU from 'shared/lib/resources/opportunity/code-with-us';
 import * as SWU from 'shared/lib/resources/opportunity/sprint-with-us';
 import { isVendor, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 type Opportunity
   = ADT<'cwu', CWU.CWUOpportunitySlim>
@@ -667,13 +668,13 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Opportunities');
+    return makePageMetadata(i18next.t('links.opportunities'));
   },
   getContextualActions({ state }) {
     if (!state.viewerUser || isVendor(state.viewerUser)) { return null; }
     return adt('links', [
       {
-        children: 'Create Opportunity',
+        children: i18next.t('create-opportunity'),
         button: true,
         disabled: isLoading(state),
         color: 'primary' as const,
