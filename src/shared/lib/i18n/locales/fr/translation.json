@@ -231,5 +231,121 @@
   "form":{
     "email": "Adresse courriel"
   },
-  "yes": "Oui"
+  "yes": "Oui",
+  "agile-coaching": {
+    "title": "Coaching Agile",
+    "descriptions":[
+      "Instaurer une culture Agile en utilisant des techniques issues d'un large éventail de méthodologies et de cadres Agiles et Lean, tout en étant agnostique sur le plan méthodologique.",
+      "Contribuer à créer un environnement ouvert et basé sur la confiance, qui permet de se concentrer sur la livraison et facilite l'amélioration continue.",
+      "Évaluer la culture d'une équipe et les processus de prestation en place pour identifier les améliorations et faciliter ces améliorations avec le bon type de soutien.",
+      "Présenter des outils et techniques pertinents tels que le coaching, le conseil, les ateliers et le mentorat.",
+      "S'engager avec les parties prenantes à tous les niveaux d'une organisation",
+      "Établir des lignes hiérarchiques claires, en accord avec les cadres supérieurs.",
+      "S'assurer que toutes les parties prenantes peuvent facilement trouver un état précis et actuel du projet ou du programme, sans interruption de la livraison.",
+      "Appliquer les meilleurs outils et techniques pour : les rôles, les comportements, la structure et la culture de l'équipe, les cérémonies et les pratiques Agile, le transfert et le partage des connaissances, la gestion des programmes, la coordination inter-équipes et la gouvernance globale de la fourniture de services numériques.",
+      "S'assurer que les mesures et les exigences clés qui soutiennent l'équipe et la livraison sont bien définies et maintenues.",
+      "Donner au personnel la capacité d'encadrer les autres",
+      "Fournir un coaching exécutif sur les considérations fondamentales de la conception du prestation de services numériques."
+    ]
+  },
+  "backend-development": {
+    "title": "Développement Backend",
+    "descriptions":[
+      "Développement web à l'aide de langages de programmation web open-source (exemple., Ruby, Python) et de frameworks (exemple., Django, Rails)",
+      "Développer et utiliser des API RESTful basées sur le web",
+      "Utiliser et travailler dans des environnements d'équipe qui utilisent des méthodologies Agile (exemple., Scrum, Lean)",
+      "Rédiger une documentation conviviale pour les développeurs (exemple, la documentation de l'API, les opérations de déploiement)",
+      "Développement piloté par les tests",
+      "Utiliser des systèmes de contrôle de version, notamment Git et GitHub",
+      "rechercher et apprendre rapidement de nouveaux outils et techniques de programmation",
+      "Travailler avec des systèmes de bases de données relationnelles et non relationnelles",
+      "Utiliser une technologie de recherche évolutive (exemple, ElasticSearch, Solr)",
+      "Manipuler de grands ensembles de données et mettre à l'échelle leur traitement et leur stockage",
+      "Utiliser et travailler avec des solutions et une communauté open source",
+      "Communiquer des concepts techniques à un public non technique"
+    ]
+  },
+  "delivery-management": {
+    "title": "Gestion des livraisons",
+    "descriptions":[
+      "Réaliser des projets et des produits en utilisant la méthodologie de gestion de projet Agile appropriée, en apprenant et en itérant fréquemment",
+      "Travailler avec les chefs de produit pour définir la feuille de route d'un produit donné et la traduire en récits d'utilisateurs",
+      "Diriger le processus de planification dynamique et collaboratif - en priorisant le travail à effectuer par rapport à la capacité et au potentiel de l'équipe",
+      "Gestion matricielle d'une équipe multidisciplinaire",
+      "S'assurer que tous les produits sont construits à un niveau de qualité approprié pour le stade (alpha/beta/implementation).",
+      "Partager activement et ouvertement les connaissances des meilleures pratiques."
+    ]
+  },
+  "devOps-engineering": {
+    "title": "Techniuque DevOps",
+    "descriptions":[
+      "Déployer et configurer des services en utilisant des fournisseurs d'infrastructure en tant que service (exemple, Amazon Web Services, Microsoft Azure, Google Compute Engine, RackSpace/OpenStack)",
+      "Configurer et gérer des serveurs basés sur Linux pour servir un site web dynamique",
+      "Déboguer les architectures de calcul en Grappe",
+      "Utiliser des scripts ou des compétences de base en programmation pour résoudre les problèmes",
+      "Installer et gérer des outils de surveillance open source",
+      "Configurer les outils de gestion (exemple, Puppet, Chef, Ansible, Salt)",
+      "Créer une architecture pour l'intégration et le déploiement continus, ainsi que pour la surveillance continue.",
+      "Utiliser les technologies de conteneurisation (exemple, LXC, Docker, Rocket)"
+    ] 
+  },
+  "frontend-development": {
+    "title": "Développement Frontend",
+    "descriptions":[
+      "Développement web frontal à l'aide de techniques et de cadres modernes (exemple, HTML5, CSS3, cadres CSS tels que LESS et SASS, Responsive Design, Bourbon, Twitter Bootstrap).",
+      "Développement JavaScript à l'aide de normes modernes, notamment le respect strict des modes, les techniques et outils de modularisation, ainsi que les frameworks et bibliothèques (exemple, jQuery, les frameworks MV* tels que Backbone.js et Ember.js, D3)",
+      "Consommer des API RESTful",
+      "Utiliser et travailler dans des environnements d'équipe qui utilisent des méthodologies Agile (par exemple, Scrum, Lean)",
+      "Utiliser des systèmes de contrôle de version, notamment Git et GitHub.",
+      "rechercher et apprendre rapidement de nouveaux outils et techniques de programmation",
+      "Utiliser et travailler avec des solutions et une communauté open source",
+      "Créer des mises en page web à partir d'images statiques",
+      "Créer des vues et des modèles dans des frameworks complets comme Rails, Express ou Django."
+    ] 
+  },
+  "security-engineering": {
+    "title": "Technique de sécurité",
+    "descriptions":[
+      "Réaliser des audits de sécurité, des analyses de risques, des tests de vulnérabilité au niveau des applications et des examens du code de sécurité",
+      "Élaborer et mettre en œuvre des solutions techniques pour contribuer à atténuer les vulnérabilités en matière de sécurité",
+      "Mener des recherches pour identifier de nouveaux vecteurs d'attaque"
+    ] 
+  },
+  "technical-architecture": {
+    "title": "Architecture technique",
+    "descriptions":[
+      "Architecturer le système global, en utilisant le prototypage et la preuve de concepts, qui peuvent inclure : des langages de programmation modernes (exemple, Ruby, Python, Node.js) et des frameworks web (exemple, Django, Rails) ; des techniques modernes de programmation web frontale (exemple, HTML5, CSS3, API RESTful) et des frameworks (exemple, Twitter Bootstrap, jQuery) ; bases de données relationnelles (exemple, PostgreSQL) et bases de données \"NoSQL\" (exemple, Cassandra, MongoDB) ; gestion automatisée de la configuration (exemple, Chef, Puppet, Ansible, Salt), intégration/déploiement continu et solutions de surveillance continue)",
+      "Utiliser des systèmes de contrôle de version, notamment Git et GitHub",
+      "Assurer l'alignement stratégique de la conception et de l'architecture techniques pour répondre à la croissance et à l'orientation de l'entreprise, et rester au fait des technologies émergentes",
+      "Déconstruire l'architecture de l'entreprise et du système pour soutenir un développement multi-équipes à interface propre",
+      "Développer des feuilles de route de produits, des backlogs et des critères de réussite mesurables, et rédiger des histoires d'utilisateurs (c'est-à-dire qu'il peut établir un chemin vers la livraison pour décomposer les histoires)",
+      "Communiquer et travailler clairement avec les parties prenantes à tous les niveaux"
+    ] 
+  },
+  "user-experience-design": {
+    "title": "UX Design",
+    "descriptions":[
+      "Utiliser et travailler dans des environnements d'équipe qui utilisent des méthodologies Agile (exemple, Scrum, Lean)",
+      "Établir un consensus avec une équipe de produits sur les fonctionnalités qui permettront d'atteindre les objectifs commerciaux et d'apporter de la valeur aux utilisateurs",
+      "Transformez les heuristiques de conception centrées sur l'utilisateur et les recherches sur l'utilisateur en conceptions de produits",
+      "Représenter visuellement les conceptions de produits de basse à haute fidélité, selon les besoins",
+      "Travailler efficacement avec les développeurs pour mettre en œuvre les conceptions de manière précise et rapide afin qu'elles puissent être testées auprès des utilisateurs",
+      "Réaliser des tests de convivialité, communiquer les résultats des tests à l'équipe et influencer l'équipe pour qu'elle priorise les améliorations en fonction des résultats",
+      "Produire des preuves quantitatives et qualitatives pour montrer que l'expérience des utilisateurs est réussie et s'améliore",
+      "Créer et maintenir des modèles de conception bien documentés"
+    ] 
+  },
+  "user-research": {
+    "title": "Recherche Utilisateur",
+    "descriptions":[
+      "Utiliser et travailler dans des environnements d'équipe qui utilisent des méthodologies Agile (exemple, Scrum, Lean)",
+      "Diriger les groupes pour qu'ils identifient leurs utilisateurs cibles et parviennent à un consensus sur ce qui doit être appris. ",
+      "Identifier, planifier, coordonner et exécuter des activités de recherche quantitative et qualitative ",
+      "Planifier et mener des recherches de manière à obtenir un retour d'information régulier et fréquent de la part des utilisateurs et à faire évoluer les résultats de manière itérative dans le développement du produit",
+      "Influencer d'autres membres de l'équipe produit pour qu'ils participent à la réalisation des recherches et à l'interprétation des résultats",
+      "Communiquer efficacement les résultats de la recherche aux membres de l'équipe et à un public plus large, verbalement et par le biais d'artefacts convaincants tels que des cartes de parcours utilisateur, des personas ou des présentations narratives ",
+      "Faire des recommandations pour la conception de produits et produire des idées de conception sur la base de preuves",
+      "Influencer une équipe de produits afin de prioriser les besoins des utilisateurs et prendre des décisions fondées sur des preuves."
+    ] 
+  }
 }
