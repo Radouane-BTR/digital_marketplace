@@ -272,7 +272,7 @@ export async function readyForEvalCWUOpportunityT(recipient: User, opportunity: 
 export function makeCWUOpportunityInformation(opportunity: CWUOpportunity, locale: string, showDueDate = true): templates.DescriptionListProps {
   i18n.changeLanguage(locale);
   const items = [
-    { name: i18n.t('notification.opportunity.cwu.information.type'), value: i18n.t('notification.opportunity.cwu.title') },
+    { name: i18n.t('notification.opportunity.cwu.information.type'), value: i18n.t('codeWithUs') },
     { name: i18n.t('notification.opportunity.cwu.information.value'), value: `$${formatAmount(opportunity.reward)}` },
     { name: i18n.t('notification.opportunity.cwu.information.location'), value: opportunity.location },
     { name: i18n.t('notification.opportunity.cwu.information.remoteOk'), value: opportunity.remoteOk ? i18n.t('yes') : i18n.t('no') }

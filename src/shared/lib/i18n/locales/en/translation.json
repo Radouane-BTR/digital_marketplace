@@ -74,6 +74,7 @@
     }
   },
   "organization": {
+    "edit-tab-title": "Sprint With Us Qualified",
     "my-organizations" : "My Organizations",
     "isVendorNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>.<br />You must",
     "isAdminNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>",
@@ -161,7 +162,9 @@
           "table-head": {
             "one":"Team Member",
             "two": "Capabilities"
-        }
+          },
+          "removeMembreTitle": "Remove {{userName}}?",
+          "removeMembreBody": "Are you sure you want to remove {{userName}} from this organization?"
       }
     }
   }
@@ -182,7 +185,22 @@
     "edit-organization": "Edit Organization",
     "archive-organization": "Archive Organization",
     "become-qualified": "apply to become a Qualified Supplier.",
-    "remove-member": "Remove Team Member"
+    "remove-member": "Remove Team Member",
+    "add-member": "Add Team Member(s)",
+    "create-first-opportunity": "Create Your First Opportunity",
+    "view-opportunities": "View All Opportunities",
+    "learnMoreSWU": "Qualified Supplier",
+    "readGuide": "Read Guide",
+    "submitProposal":"Submit Proposal",
+    "submitChanges": "Submit Changes",
+    "withdrawProposal": "Withdraw Proposal",
+    "deleteProposal": "Delete Proposal",
+    "saveChanges": "Save Changes",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "withdraw": "Withdraw",
+    "viewOpportunity": "View opportunity"
   },
   "no": "No",
   "notification": {
@@ -220,7 +238,6 @@
             "title": "A Code With Us Opportunity Has Been Suspended"
           }
         },
-        "title": "Code With Us",
         "updated": {
           "description": "The following Digital Marketplace opportunity has been updated:",
           "title": "A Code With Us Opportunity Has Been Updated"
@@ -229,9 +246,32 @@
     }
   },
   "form":{
-    "email": "Email Address"
+    "email": "Email Address",
+    "profile-picture": "Profile Picture (Optional)",
+    "choose-image": "Choose Image",
+    "legal-name": "Legal Name",
+    "website": "Website Url (Optional)",
+    "legal-address": "Legal Address",
+    "street-address": "Street Address",
+    "city": "City",
+    "province-state": "Province/State",
+    "postal-zipCode": "Postal / ZIP Code",
+    "country": "Country",
+    "contact-information": "Contact Information",
+    "contact-name": "Contact Name",
+    "job": "Job Title (Optional)",
+    "phone": "Phone Number (Optional)",
+    "contact-email": "Contact Email",
+    "avatar-error": "Please select a different avatar image."
   },
   "yes": "Yes",
+  "team-member":{
+    "capability" : "Capability",
+    "capabilities" : "Capabilities",
+    "title": "View Team Member",
+    "pending": "Pending",
+    "owner": "Owner"
+  },
   "agile-coaching": {
     "title": "Agile Coaching",
     "descriptions":[
@@ -347,5 +387,149 @@
       "Make recommendations for product design and producing design ideas based on evidence",
       "Influence a product team to prioritize user needs and make evidence-based decisions"
     ] 
-  }
+  },
+  "toasts": {
+    "created": {
+      "success-title": "Organization Created",
+      "success-body": "Your organization has been successfully created.",
+      "error-title": "Unable to Create Organization",
+      "error-body": "Your organization could not be created. Please try again later."
+    },
+    "updated": {
+      "success-title": "Organization Updated",
+      "success-body": "Your organization has been successfully updated.",
+      "error-title": "Unable to Update Organization",
+      "error-body": "Your organization could not be update. Please try again later."
+    },
+    "archived": {
+      "success-title": "Organization Archived",
+      "success-body": "Organization archived successfully.",
+      "error-title": "Unable to Archive Organization",
+      "error-body": "Unable to archive organization. Please try again later."
+    },
+    "addedTeamMembers": {
+      "success-title": "Added Team Members",
+      "success-body": "Successfully invited the following people to join this organization:",
+      "warning-title": "Unable to Add Unregistered Team Members",
+      "warning-body": "The following people have not yet registered with the Digital Marketplace. However, they have been sent an email that invites them to create an account. Once they have registered, please try adding them to this organization again.",
+      "error-title": "Unable to Add Team Members",
+      "error-body": "The following people could not be added to this organization:"
+    },
+    "removedTeamMember": {
+      "success-title": "Removed Team Member",
+      "success-body": "You have successfully removed {{name}} from this organization.",
+      "error-title": "Unable to Remove Team Member",
+      "error-body": "{{name}} could not be removed from this organization."
+    },
+    "acceptedSWUTerms": {
+      "success-title": "Accepted Terms & Conditions",
+      "success-body": "Successfully accepted the {{termsTitle}} for {{legalName}}.",
+      "error-title": "Unable to Accept Terms & Conditions",
+      "error-body": "An error occurred while attempting to accept the {{termsTitle}} for {{legalName}}. Please try again later."
+    },
+    "leftOrganization": {
+      "success-title": "Left Organization",
+      "success-body": "Successfully left {{legalName}}.",
+      "error-title": "Unable to Leave Organization",
+      "error-body": "An error occurred while attempting to leave {{legalName}}. Please try again later."
+    },
+    "approvedOrganizationRequest": {
+      "success-title": "Approved Request",
+      "success-body": "Successfully approved the request to join {{legalName}}.",
+      "error-title": "Unable to Approve Request",
+      "error-body": "An error occurred while attempting to approve the request to join {{legalName}}. Please try again later."
+    },
+    "rejectedOrganizationRequest": {
+      "success-title": "Rejected Request",
+      "success-body": "Successfully rejected the request to join {{legalName}}.",
+      "error-title": "Unable to Reject Reques",
+      "error-body": "An error occurred while attempting to reject the request to join {{legalName}}. Please try again later."
+    },
+    "statusChanged":{
+      "success-title": "Opportunity {{what}}",
+      "success-body": "Code With Us opportunity has been {{what}}.",
+      "error-title": "Unable to {{what}} Opportunity",
+      "error-body": "Code With Us opportunity could not be {{what}}. Please try again later."
+    },
+    "draftCreated": {
+      "success-title": "Draft Opportunity Saved",
+      "success-body": "Draft Code With Us opportunity has been saved. You can return to this page to complete and publish this opportunity at a later date.",
+      "error-title": "Unable to Save Draft Opportunity",
+      "error-body": "Draft Code With Us opportunity could not be saved. Please try again later."
+    },
+    "deleted": {
+      "success-title": "Opportunity Deleted",
+      "success-body": "Code With Us opportunity has been deleted.",
+      "error-title": "Unable to Delete Opportunity",
+      "error-body": "Code With Us opportunity could not be deleted."
+    },
+    "changesSaved": {
+      "success-title": "Opportunity Changes Saved",
+      "success-body": "Your changes to this Code With Us opportunity have been saved.",
+      "error-title": "Unable to Save Changes",
+      "error-body": "Your changes to this Code With Us opportunity could not be saved. Please fix the errors in the form and try again."
+    },
+    "changesPublished": {
+      "success-title": "Opportunity Changes Published",
+      "success-body": "Your changes to this Code With Us opportunity have been published.",
+      "error-title": "Unable to Publish Changes",
+      "error-body": "Your changes to this Code With Us opportunity could not be published. Please fix the errors in the form and try again."
+    },
+    "startedEditing": {
+      "error-title": "Unable to Edit Opportunity",
+      "error-body": "This opportunity cannot be edited at this time. Please try again later."
+    }
+  },
+  "you": "You",
+  "have": "have",
+  "isAgreeTermsAndConditions": "{{person}} agreed to the Terms and Conditions on {{formatDate}} at {{formatTime}}.",
+  "isNotAgreeTermsAndConditions": "{{person}} {{what}} not agreed to the Terms & Conditions.",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome-title": "Welcome to the Digital Marketplace!",
+    "isVendorBody": "Get started by browsing the opportunities posted to the Digital Marketplace.",
+    "isNotVendorBody": "Get started by creating your first opportunity or browsing the opportunities posted to the Digital Marketplace.",
+    "isVendorAlert": "You must <1>{{createOrgLink}}</1> and be a <4>{{createLearnMoreSWU}}</4> in order to submit proposals to Sprint With Us opportunities."
+  },
+  "SignedOut": "Signed Out",
+  "SignedOutMessageValid": "You have successfully signed out. Thank you for using the Digital Marketplace.",
+  "SignedOutMessageNotValid": "Signing out of the application failed.",
+  "codeWithUs": "Code With Us",
+  "sprintWithUs": "Sprint With Us",
+  "myProposals": "My Proposals",
+  "myOpportunities": "My Opportunities",
+  "title": "Title",
+  "opportunity": "Opportunity",
+  "dateCreated": "Date Created",
+  "status": "Statuts",
+  "editCWUproposal": "Edit Code With Us Proposal",
+  "proposal": "Proposal",
+  "proposalManagement":"Proposal Management",
+  "needHelp": "Need Help?",
+  "proposalsDue": "Proposals Due",
+  "totalScore": "Total Score",
+  "ranking": "Ranking",
+  "reviewTermsConditions": "Review Terms and Conditions",
+  "cwuTermsConditions": "Code With Us Terms & Conditions",
+  "withdrawCWUproposal":"Withdraw Code With Us Proposal?",
+  "withdrawBeforeCWUproposalBody": "Are you sure you want to withdraw your Code With Us proposal? You will still be able to resubmit your proposal prior to the opportunity's proposal deadline.",
+  "withdrawAfterCWUproposalBody": "Are you sure you want to withdraw your Code With Us proposal? Your proposal will no longer be considered for this opportunity.",
+  "deleteCWUproposal": "Delete Code With Us Proposal?",
+  "deleteCWUproposalBody": "Are you sure you want to delete your Code With Us proposal? You will not be able to recover the proposal once it has been deleted.",
+  "draft" : "Draft",
+  "published" : "Published",
+  "evaluation" : "Evaluation",
+  "awarded" : "Awarded",
+  "suspended" : "Suspended",
+  "canceled" : "Canceled",
+  "edited": "Edited",
+  "updated": "Updated",
+  "addendumAdded": "Addendum Added",
+  "open": "Open",
+  "closed": "Closed",
+  "suspend": "Suspend",
+  "Cancel": "Cancel",
+  "publish": "Publish",
+  "award": "Award",
+  "update": "Update"
 }

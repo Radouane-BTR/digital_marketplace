@@ -423,8 +423,8 @@ export const component: Tab.Component<State, Msg> = {
       case 'removeTeamMember': {
         const affiliation = state.showModal.value;
         return {
-          title: `Remove ${affiliation.user.name}?`,
-          body: () => `Are you sure you want to remove ${affiliation.user.name} from this organization?`,
+          title: i18next.t('team.removeMembreTitle', {userName : affiliation.user.name}),
+          body: () =>  i18next.t('team.removeMembreBody', {userName : affiliation.user.name}),
           onCloseMsg: adt('hideModal'),
           actions: [
             {

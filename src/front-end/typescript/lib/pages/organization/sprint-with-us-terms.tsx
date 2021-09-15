@@ -23,7 +23,6 @@ export function acceptedSWUTermsText(organization: Organization, ifNotAcceptedTe
   return organization.acceptedSWUTerms
     ?  i18next.t('organization.sprint-with-us-terms.acceptedSWUTermsText', {legalName: organization.legalName, title: TITLE, 
                   acceptedSWUTermsFormatDate: formatDate(organization.acceptedSWUTerms),  acceptedSWUTermsFormatTime : formatTime(organization.acceptedSWUTerms)}) 
-    // `${organization.legalName} agreed to the ${TITLE} on ${formatDate(organization.acceptedSWUTerms)} at ${formatTime(organization.acceptedSWUTerms)}.`
     : ifNotAcceptedText;
 }
 

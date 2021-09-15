@@ -5,11 +5,14 @@ import { FileRecord } from 'shared/lib/resources/file';
 import { UserSlim } from 'shared/lib/resources/user';
 import { ADT, BodyWithErrors, Id } from 'shared/lib/types';
 import { ErrorTypeFrom } from 'shared/lib/validation';
+// import i18next from 'i18next'; 
 
 export { Addendum } from 'shared/lib/resources/addendum';
 
 export const DEFAULT_OPPORTUNITY_TITLE = 'Untitled';
 export const FORMATTED_MAX_BUDGET = formatAmount(CWU_MAX_BUDGET, '$');
+// export const DRAFT = i18next.t('draft');
+// export const PUBLISHED = i18next.t('published','default');
 
 export enum CWUOpportunityStatus {
   Draft = 'DRAFT',

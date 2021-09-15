@@ -674,7 +674,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     if (!state.viewerUser || isVendor(state.viewerUser)) { return null; }
     return adt('links', [
       {
-        children: i18next.t('create-opportunity'),
+        children: i18next.t('links.create-opportunity'),
         button: true,
         disabled: isLoading(state),
         color: 'primary' as const,

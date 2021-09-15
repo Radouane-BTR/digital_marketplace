@@ -108,7 +108,7 @@ const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) => {
     <div>
       <Row>
         <Col className='mb-5' xs='12'>
-          <h2>Create Organization</h2>
+          <h2>{i18next.t('links.create-organization')}</h2>
         </Col>
       </Row>
       <Row>

@@ -86,7 +86,7 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
                 }];
               } else if (isAdmin(state.tab[1].viewerUser)) {
                 return [{
-                  text: (<div><Trans i18nKey="organization.isAdminNotQualified" /></div>)
+                  text: (<div><Trans i18nKey="organization.isAdminNotQualified" components={{ emphasis: <em />}} /></div>)
                 }];
               }
             }

@@ -65,8 +65,8 @@ const view: ComponentView<State, Msg> = ({ state }) => {
             description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.two.description') }
             checked={!!state.organization.possessAllCapabilities} />
           <Requirement
-            name= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.name', {swuTermsTitle: SWU_TERMS_TITLE})} //`Agreed to ${SWU_TERMS_TITLE}.`
-            description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.description', {swuTermsTitle: SWU_TERMS_TITLE})} //{`You can view the ${SWU_TERMS_TITLE} below.`}
+            name= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.name', {swuTermsTitle: SWU_TERMS_TITLE})}
+            description= { i18next.t('organization.edit.tab.qualification.rows.one.requirements.three.description', {swuTermsTitle: SWU_TERMS_TITLE})}
             checked={!!state.organization.acceptedSWUTerms} />
         </Col>
       </Row>

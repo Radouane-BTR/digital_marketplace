@@ -3,19 +3,20 @@ import Link, { iconLinkSymbol, rightPlacement, routeDest } from 'front-end/lib/v
 import React from 'react';
 import { CWUOpportunityStatus } from 'shared/lib/resources/opportunity/code-with-us';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export const statusChanged = {
   success: (s: CWUOpportunityStatus) => {
     const verb = cwuOpportunityStatusToPastTenseVerb(s);
     return {
-      title: `Opportunity ${verb}`,
-      body: `Code With Us opportunity has been ${verb.toLowerCase()}.`
+      title: i18next.t('toasts.statusChanged.success-title', {what: verb}),
+      body: i18next.t('toasts.statusChanged.success-title', {what: verb.toLowerCase()})
     };
   },
   error: (s: CWUOpportunityStatus) => {
     return {
-      title: `Unable to ${cwuOpportunityStatusToPresentTenseVerb(s)} Opportunity`,
-      body: `Code With Us opportunity could not be ${cwuOpportunityStatusToPastTenseVerb(s).toLowerCase()}. Please try again later.`
+      title: i18next.t('toasts.statusChanged.success-title', {what: cwuOpportunityStatusToPresentTenseVerb(s)}),
+      body: i18next.t('toasts.statusChanged.success-title', {what: cwuOpportunityStatusToPastTenseVerb(s).toLowerCase()})
     };
   }
 };
@@ -29,7 +30,7 @@ export const published = {
         <div>
           {body}
           <div className='mt-2'>
-            <Link newTab symbol_={rightPlacement(iconLinkSymbol('external-link'))} dest={routeDest(adt('opportunityCWUView', { opportunityId }))}>View opportunity</Link>
+            <Link newTab symbol_={rightPlacement(iconLinkSymbol('external-link'))} dest={routeDest(adt('opportunityCWUView', { opportunityId }))}>{i18next.t('links.viewOpportunity')}</Link>
           </div>
         </div>
       )
@@ -40,51 +41,51 @@ export const published = {
 
 export const draftCreated = {
   success: {
-    title: 'Draft Opportunity Saved',
-    body: 'Draft Code With Us opportunity has been saved. You can return to this page to complete and publish this opportunity at a later date.'
+    title: i18next.t('toasts.draftCreated.success-title'),
+    body: i18next.t('toasts.draftCreated.success-body'),
   },
   error: {
-    title: 'Unable to Save Draft Opportunity',
-    body: 'Draft Code With Us opportunity could not be saved. Please try again later.'
+    title: i18next.t('toasts.draftCreated.error-title'),
+    body: i18next.t('toasts.draftCreated.error-body'),
   }
 };
 
 export const deleted = {
   success: {
-    title: 'Opportunity Deleted',
-    body: 'Code With Us opportunity has been deleted.'
+    title: i18next.t('toasts.deleted.success-title'),
+    body: i18next.t('toasts.deleted.success-body')
   },
   error: {
-    title: 'Unable to Delete Opportunity',
-    body: 'Code With Us opportunity could not be deleted.'
+    title: i18next.t('toasts.deleted.error-title'),
+    body: i18next.t('toasts.deleted.error-body')
   }
 };
 
 export const changesSaved = {
   success: {
-    title: 'Opportunity Changes Saved',
-    body: 'Your changes to this Code With Us opportunity have been saved.'
+    title: i18next.t('toasts.changesSaved.success-title'),
+    body: i18next.t('toasts.changesSaved.success-body')
   },
   error: {
-    title: 'Unable to Save Changes',
-    body: 'Your changes to this Code With Us opportunity could not be saved. Please fix the errors in the form and try again.'
+    title: i18next.t('toasts.changesSaved.error-title'),
+    body: i18next.t('toasts.changesSaved.error-body')
   }
 };
 
 export const changesPublished = {
   success: {
-    title: 'Opportunity Changes Published',
-    body: 'Your changes to this Code With Us opportunity have been published.'
+    title: i18next.t('toasts.changesPublished.success-title'),
+    body: i18next.t('toasts.changesPublished.success-body')
   },
   error: {
-    title: 'Unable to Publish Changes',
-    body: 'Your changes to this Code With Us opportunity could not be published. Please fix the errors in the form and try again.'
+    title:  i18next.t('toasts.changesPublished.error-title'),
+    body:  i18next.t('toasts.changesPublished.error-body')
   }
 };
 
 export const startedEditing = {
   error: {
-    title: 'Unable to Edit Opportunity',
-    body: 'This opportunity cannot be edited at this time. Please try again later.'
+    title: i18next.t('toasts.startedEditing.error-title'),
+    body: i18next.t('toasts.startedEditing.error-body'),
   }
 };

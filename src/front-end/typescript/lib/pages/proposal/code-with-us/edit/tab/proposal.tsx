@@ -20,6 +20,7 @@ import { CWUProposal, CWUProposalStatus } from 'shared/lib/resources/proposal/co
 import { isVendor, User } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, isInvalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next'; 
 
 type ModalId = 'submit' | 'submitChanges' | 'saveChangesAndSubmit' | 'withdrawBeforeDeadline' | 'withdrawAfterDeadline' | 'delete';
 
@@ -323,14 +324,14 @@ const Reporting: ComponentView<ValidState, Msg> = ({ state }) => {
   const reportCards: Array<ReportCard | null> = [
     {
       icon: 'alarm-clock',
-      name: 'Proposals Due',
+      name: i18next.t('proposalsDue'),
       value: formatDateAtTime(proposal.opportunity.proposalDeadline, true)
     },
     showScoreAndRanking
       ? {
           icon: 'star-full',
           iconColor: 'c-report-card-icon-highlight',
-          name: 'Total Score',
+          name: i18next.t('totalScore'),
           value: proposal.score ? `${proposal.score}%` : EMPTY_STRING
         }
       : null,
@@ -338,7 +339,7 @@ const Reporting: ComponentView<ValidState, Msg> = ({ state }) => {
       ? {
           icon: 'trophy',
           iconColor: 'c-report-card-icon-highlight',
-          name: 'Ranking',
+          name: i18next.t('ranking'),
           value: proposal.rank ? formatAmount(proposal.rank, undefined, true) : EMPTY_STRING
         }
       : null
@@ -381,12 +382,12 @@ export const component: Tab.Component<State, Msg> = {
       case 'submit':
       case 'saveChangesAndSubmit':
         return {
-          title: 'Review Terms and Conditions',
+          title: i18next.t('reviewTermsConditions'),
           body: dispatch => (
             <SubmitProposalTerms.view
-              opportunityType='Code With Us'
+              opportunityType={i18next.t('codeWithUs')}
               action='submitting'
-              termsTitle='Code With Us Terms & Conditions'
+              termsTitle={i18next.t('cwdTermsConditions')}
               termsRoute={adt('contentView', 'code-with-us-terms-and-conditions')}
               state={state.submitTerms}
               dispatch={mapComponentDispatch(dispatch, msg => adt('submitTerms', msg) as Msg)} />
@@ -394,7 +395,7 @@ export const component: Tab.Component<State, Msg> = {
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Submit Proposal',
+              text: i18next.t('links.submitProposal'),
               icon: 'paper-plane',
               color: 'primary',
               msg: state.showModal === 'submit' ? adt('submit') : adt('saveChangesAndSubmit'),
@@ -402,7 +403,7 @@ export const component: Tab.Component<State, Msg> = {
               disabled: !hasAcceptedTerms
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -410,12 +411,12 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'submitChanges':
         return {
-          title: 'Review Terms and Conditions',
+          title: i18next.t('reviewTermsConditions'),
           body: dispatch => (
             <SubmitProposalTerms.view
-              opportunityType='Code With Us'
+              opportunityType={i18next.t('codeWithUs')}
               action='submitting changes to'
-              termsTitle='Code With Us Terms & Conditions'
+              termsTitle={i18next.t('cwdTermsConditions')}
               termsRoute={adt('contentView', 'code-with-us-terms-and-conditions')}
               state={state.submitTerms}
               dispatch={mapComponentDispatch(dispatch, msg => adt('submitTerms', msg) as Msg)} />
@@ -423,7 +424,7 @@ export const component: Tab.Component<State, Msg> = {
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Submit Changes',
+              text: i18next.t('links.submitChanges'),
               icon: 'paper-plane',
               color: 'primary',
               msg: adt('saveChanges'),
@@ -431,7 +432,7 @@ export const component: Tab.Component<State, Msg> = {
               disabled: !hasAcceptedTerms
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -439,19 +440,19 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'withdrawBeforeDeadline':
         return {
-          title: 'Withdraw Code With Us Proposal?',
-          body: () => 'Are you sure you want to withdraw your Code With Us proposal? You will still be able to resubmit your proposal prior to the opportunity\'s proposal deadline.',
+          title: i18next.t('withdrawCWUproposal'),
+          body: () => i18next.t('withdrawBeforeCWUproposalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Withdraw Proposal',
+              text:  i18next.t('links.withdrawProposal'),
               icon: 'ban',
               color: 'danger',
               msg: adt('withdraw'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -459,19 +460,19 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'withdrawAfterDeadline':
         return {
-          title: 'Withdraw Code With Us Proposal?',
-          body: () => 'Are you sure you want to withdraw your Code With Us proposal? Your proposal will no longer be considered for this opportunity.',
+          title: i18next.t('withdrawCWUproposal'),
+          body: () => i18next.t('withdrawAfterCWUproposalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Withdraw Proposal',
+              text: i18next.t('links.withdrawProposal'),
               icon: 'ban',
               color: 'danger',
               msg: adt('withdraw'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -479,19 +480,19 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'delete':
         return {
-          title: 'Delete Code With Us Proposal?',
-          body: () => 'Are you sure you want to delete your Code With Us proposal? You will not be able to recover the proposal once it has been deleted.',
+          title: i18next.t('deleteCWUproposal'),
+          body: () => i18next.t('deleteCWUproposalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Delete Proposal',
+              text: i18next.t('links.deleteProposal'),
               icon: 'trash',
               color: 'danger',
               msg: adt('delete'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -521,7 +522,7 @@ export const component: Tab.Component<State, Msg> = {
         // Submit Changes
         separateSubmitButton
           ? {
-              children: 'Submit Proposal',
+              children: i18next.t('links.submitProposal'),
               symbol_: leftPlacement(iconLinkSymbol('paper-plane')),
               button: true,
               loading: isSaveChangesAndSubmitLoading,
@@ -532,7 +533,7 @@ export const component: Tab.Component<State, Msg> = {
           : null,
         // Save Changes
         {
-          children: separateSubmitButton ? 'Save Changes' : 'Submit Changes',
+          children: separateSubmitButton ? i18next.t('links.saveChanges') : i18next.t('links.submitChanges'),
           disabled: disabled || (() => {
             if (isDraft) {
               // No validation required, always possible to save a draft.
@@ -549,7 +550,7 @@ export const component: Tab.Component<State, Msg> = {
         },
         // Cancel
         {
-          children: 'Cancel',
+          children: i18next.t('links.cancel'),
           disabled,
           onClick: () => dispatch(adt('cancelEditing')),
           color: 'c-nav-fg-alt'
@@ -566,13 +567,13 @@ export const component: Tab.Component<State, Msg> = {
               {
                 links: [
                   {
-                    children: 'Submit',
+                    children: i18next.t('links.submit'),
                     symbol_: leftPlacement(iconLinkSymbol('paper-plane')),
                     disabled: !isValid(),
                     onClick: () => dispatch(adt('showModal', 'submit' as const))
                   },
                   {
-                    children: 'Edit',
+                    children: i18next.t('links.edit'),
                     symbol_: leftPlacement(iconLinkSymbol('edit')),
                     onClick: () => dispatch(adt('startEditing'))
                   }
@@ -581,7 +582,7 @@ export const component: Tab.Component<State, Msg> = {
               {
                 links: [
                   {
-                    children: 'Delete',
+                    children: i18next.t('links.delete'),
                     symbol_: leftPlacement(iconLinkSymbol('trash')),
                     onClick: () => dispatch(adt('showModal', 'delete' as const))
                   }
@@ -595,7 +596,7 @@ export const component: Tab.Component<State, Msg> = {
               button: true,
               outline: true,
               color: 'c-nav-fg-alt',
-              children: 'Delete',
+              children: i18next.t('links.delete'),
               symbol_: leftPlacement(iconLinkSymbol('trash')),
               onClick: () => dispatch(adt('showModal', 'delete' as const))
             }
@@ -605,7 +606,7 @@ export const component: Tab.Component<State, Msg> = {
         return adt('links', [
           ...(isAcceptingProposals
             ? [{
-                children: 'Edit',
+                children: i18next.t('links.edit'),
                 symbol_: leftPlacement(iconLinkSymbol('edit')),
                 button: true,
                 color: 'primary',
@@ -615,7 +616,7 @@ export const component: Tab.Component<State, Msg> = {
               }]
             : []),
           {
-            children: 'Withdraw',
+            children: i18next.t('links.withdraw'),
             symbol_: leftPlacement(iconLinkSymbol('ban')),
             button: true,
             outline: true,
@@ -630,7 +631,7 @@ export const component: Tab.Component<State, Msg> = {
       case CWUProposalStatus.Awarded:
         return adt('links', [
           {
-            children: 'Withdraw',
+            children: i18next.t('links.withdraw'),
             symbol_: leftPlacement(iconLinkSymbol('ban')),
             button: true,
             outline: true,
@@ -644,7 +645,7 @@ export const component: Tab.Component<State, Msg> = {
         if (isAcceptingProposals) {
           return adt('links', [
             {
-              children: 'Submit',
+              children: i18next.t('links.submit'),
               symbol_: leftPlacement(iconLinkSymbol('paper-plane')),
               loading: isSubmitLoading,
               disabled,
@@ -653,7 +654,7 @@ export const component: Tab.Component<State, Msg> = {
               onClick: () => dispatch(adt('showModal', 'submit' as const))
             },
             {
-              children: 'Edit',
+              children: i18next.t('links.edit'),
               symbol_: leftPlacement(iconLinkSymbol('edit')),
               button: true,
               color: 'info',

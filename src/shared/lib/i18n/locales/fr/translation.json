@@ -74,6 +74,7 @@
     }
   },
   "organization": {
+    "edit-tab-title": "Qualifié Sprint With Us",
     "my-organizations" : "Mes organisations",
     "isVendorNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint With Us</emphasis>.<br />Vous devez",
     "isAdminNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint With Us</emphasis>.",
@@ -153,6 +154,7 @@
           "description": "Ajoutez des membres d'équipe à votre organisation en cliquant sur le bouton \"Ajouter Membre(s)\" ci-dessus. Veuillez vous assurer que les membres de l'équipe ont déjà ouvert un compte vendeur sur Digital Marketplace avant de les ajouter à votre organisation.",
           "team-capabilities": "Capacités de l'équipe",
           "capabilities-description": "Il s'agit d'un résumé des capacités que l'équipe de votre organisation possède dans son ensemble, incluant uniquement les capacités des membres confirmés (non en attente). Les membres de l'équipe peuvent revendiquer des capacités dans leur profil d'utilisateur, dans la section \"Capacités\".",
+          "add-member": "Ajouter membre(s) a l'équipe",
           "add-email-info": "Fournissez une adresse électronique à chaque membre de l'équipe pour l'inviter à rejoindre votre organisation.",
           "add-email-description": "Veuillez vous assurer que les membres de l'équipe se sont déjà inscrits à un compte vendeur Digital Marketplace avant de les ajouter à votre organisation, et ne saisissez que les adresses électroniques associées à leurs comptes Digital Marketplace.",
           "remove-membre-title": "Supprimer {{userName}}?",
@@ -160,7 +162,9 @@
           "table-head": {
             "one":"Membre de l'équipe",
             "two": "Capacités"
-        }
+          },
+          "removeMembreTitle": "Supprimer {{userName}}?",
+          "removeMembreBody": "Êtes-vous sûr de vouloir supprimer {{userName}} de cette organisation ?"
       }
     }
   }
@@ -175,14 +179,28 @@
     "sign-up": "Créer un compte",
     "more-info": "Plus d'information",
     "contact-us": "Nous joindre",
-    "create-opportunity": "Créer une opportunité",
-    "create-organization": "Créer une organisation",
+    "create-opportunity": "Créer opportunité",  
+    "create-organization": "Créer organisation",
     "cancel": "Annuler",
     "edit-organization": "Modifier Organisation",
     "archive-organization": "Archiver Organisation",
     "become-qualified": "demander à devenir un fournisseur qualifié",
     "remove-member": "Supprimer un membre de l'équipe",
-    "add-member": "Ajouter Member(s)"
+    "add-member": "Ajouter Member(s)",
+    "create-first-opportunity": "Créez votre première opportunité",
+    "view-opportunities": "Voir toutes les opportunités",
+    "learnMoreSWU": "Fournisseur qualifié",
+    "readGuide": "Lire le guide",
+    "submitProposal":"Soumettre proposition",
+    "submitChanges": "Soumettre changements",
+    "withdrawProposal": "Retirer proposition",
+    "deleteProposal": "Supprimer proposition",
+    "saveChanges": "Sauvegarder modifications",
+    "submit": "Soumettre",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "withdraw": "Retirer",
+    "viewOpportunity": "Consulter opportunité"
   },
   "no": "Non",
   "notification": {
@@ -220,7 +238,6 @@
             "title": "Une opportunité Développez Avec Nous a été suspendue"
           }
         },
-        "title": "Développez avec nous",
         "updated": {
           "description": "L'opportunité Digital Marketplace suivante a été mise à jour:",
           "title": "Une opportunité Développez Avec Nous a été mise à jour"
@@ -228,10 +245,33 @@
       }
     }
   },
-  "form":{
-    "email": "Adresse courriel"
+  "form": {
+    "email": "Adresse courriel",
+    "profile-picture": "Photo de profil (Optionnel)",
+    "choose-image": "Choisir une image",
+    "legal-name": "Nom légal",
+    "website": "Url du site web (Optionnel)",
+    "legal-address": "Adresse légale",
+    "street-address": "Adresse de la rue",
+    "city": "Ville",
+    "province-state": "Province/État",
+    "postal-zipCode": "Code postal / ZIP",
+    "country": "Pays",
+    "contact-information": "Informations de contact",
+    "contact-name": "Nom du contact",
+    "job": "Titre du poste (Optionnel)",
+    "phone": "Numéro de téléphone (Optionnel)",
+    "contact-email": "Courriel de contact",
+    "avatar-error": "Veuillez choisir une autre image avatar."
   },
   "yes": "Oui",
+  "team-member":{
+    "capability" : "Capacité",
+    "capabilities" : "Capacités",
+    "title": "Voir membre de l'équipe",
+    "pending": "En attente",
+    "owner": "Propriétaire"
+  },
   "agile-coaching": {
     "title": "Coaching Agile",
     "descriptions":[
@@ -347,5 +387,149 @@
       "Faire des recommandations pour la conception de produits et produire des idées de conception sur la base de preuves",
       "Influencer une équipe de produits afin de prioriser les besoins des utilisateurs et prendre des décisions fondées sur des preuves."
     ] 
-  }
+  },
+  "toasts": {
+    "created": {
+      "success-title": "Organisation Créée",
+      "success-body": "Votre organisation a été créée avec succès.",
+      "error-title": "Impossible de créer une organisation",
+      "error-body": "Votre organisation n'a pas pu être créée. Veuillez réessayer plus tard."
+    },
+    "updated": {
+      "success-title": "Organisation Modifier",
+      "success-body": "Votre organisation a été modifier avec succès.",
+      "error-title": "mpossible de modifier l'organisationn",
+      "error-body": "Votre organisation n'a pas pu être modifier. Veuillez réessayer plus tard."
+    },
+    "archived": {
+      "success-title": "Organisation Archivée",
+      "success-body": "Organisation archivée avec succès.",
+      "error-title": "Impossible d'archiver l'organisation",
+      "error-body": "Impossible d'archiver l'organisation. Veuillez réessayer plus tard."
+    },
+    "addedTeamMembers": {
+      "success-title": "Ajout de membres de l'équipe",
+      "success-body": "Vous avez réussi à inviter les personnes suivantes à rejoindre cette organisation :",
+      "warning-title": "Impossible d'ajouter des membres d'équipe non enregistrés",
+      "warning-body": "Les personnes suivantes ne se sont pas encore inscrites sur le Digital Market. Cependant, elles ont reçu un courriel les invitant à créer un compte. Une fois qu'elles se seront inscrites, veuillez essayer de les ajouter à nouveau à cette organisation.",
+      "error-title": "Impossible d'ajouter des membres d'équipe",
+      "error-body": "Les personnes suivantes n'ont pas pu être ajoutées à cette organisation :"
+    },
+    "removedTeamMember": {
+      "success-title": "Membre retiré de l'équipe",
+      "success-body": "Vous avez réussi à retirer {{name}} de cette organisation.",
+      "error-title": "Impossible de retirer un membre de l'équipe",
+      "error-body": "{{name}} ne pouvait pas être retiré de cette organisation."
+    },
+    "acceptedSWUTerms": {
+      "success-title": "Termes et conditions acceptés",
+      "success-body": "J'ai accepté avec succès le {{termsTitle}} pour {{legalName}}.",
+      "error-title": "Impossible d'accepter les termes et conditions",
+      "error-body": "Une erreur s'est produite lors de la tentative d'acceptation du {{termsTitle}} pour {{legalName}}. Veuillez réessayer plus tard."
+    },
+    "leftOrganization": {
+      "success-title": "Quitter Organisation",
+      "success-body": "Successfully left {{legalName}}.",
+      "error-title": "Unable to Leave Organization",
+      "error-body": "An error occurred while attempting to leave {{legalName}}. Please try again later."
+    },
+    "approvedOrganizationRequest": {
+      "success-title": "Demande approuvée",
+      "success-body": "La demande d'adhésion à {{legalName}} a été approuvée avec succès.",
+      "error-title": "Impossible d'approuver la demande",
+      "error-body": "Une erreur s'est produite lors de la tentative d'approbation de la demande d'adhésion à {{legalName}}. Veuillez réessayer plus tard."
+    },
+    "rejectedOrganizationRequest": {
+      "success-title": "Demande rejetée",
+      "success-body": "La demande d'adhésion à {{legalName}} a été rejetée avec succès.",
+      "error-title": "Impossible de rejeter la demande",
+      "error-body": "Une erreur s'est produite lors de la tentative de rejet de la demande d'adhésion à {{legalName}}. Veuillez réessayer plus tard."
+    },
+    "statusChanged":{
+      "success-title": "Opportunité {{what}}",
+      "success-body": "L'opportunité Code With Us a été {{what}}.",
+      "error-title": "Impossible de {{what}} Opportunité",
+      "error-body": "L'opportunité Code With Us ne pouvait pas être {{what}}. Veuillez réessayer plus tard."
+    },
+    "draftCreated": {
+      "success-title": "Brouillon d'opportunité enregistré",
+      "success-body": "Le brouillon de l'opportunité Code With Us a été enregistré. Vous pouvez revenir sur cette page pour compléter et publier cette opportunité à une date ultérieure.",
+      "error-title": "Impossible d'enregistrer le brouillon de l'opportunité",
+      "error-body": "Le brouillon de l'opportunité Code With Us n'a pas pu être enregistré. Veuillez réessayer plus tard."
+    },
+    "deleted": {
+      "success-title": "Opportunité supprimée",
+      "success-body": "L'opportunité Code With Us a été supprimée.",
+      "error-title": "Impossible de supprimer l'opportunité",
+      "error-body": "L'opportunité Code With Us n'a pas pu être supprimée."
+    },
+    "changesSaved": {
+      "success-title": "Modifications d'opportunité enregistrées",
+      "success-body": "Vos modifications à cette opportunité Code With Us ont été enregistrées.",
+      "error-title": "Impossible d'enregistrer les modifications",
+      "error-body": "Vos modifications à cette opportunité Code With Us n'ont pas pu être enregistrées. Veuillez corriger les erreurs dans le formulaire et réessayer."
+    },
+    "changesPublished": {
+      "success-title": "Modifications d'opportunité publiées",
+      "success-body": "Vos modifications à cette opportunité Code With Us ont été publiées.",
+      "error-title": "Impossible de publier les modifications",
+      "error-body": "Vos modifications à cette opportunité Code With Us n'ont pas pu être publiées. Veuillez corriger les erreurs dans le formulaire et réessayer."
+    },
+    "startedEditing": {
+      "error-title": "Impossible de modifier l'opportunité",
+      "error-body": "Cette opportunité ne peut pas être modifiée pour le moment. Veuillez réessayer plus tard."
+    }
+  },
+  "you": "Vous",
+  "have": "Avez",
+  "isAgreeTermsAndConditions": "{{person}} a accepté les conditions générales le {{formatDate}} à {{formatTime}}.",
+  "isNotAgreeTermsAndConditions": "{{person}} {{what}} n'a pas accepté les conditions générales.",
+  "dashboard": {
+    "title": "Tableau de bord",
+    "welcome-title": "Bienvenue au Digital Marketplace!",
+    "isVendorBody": "Commencez par parcourir les opportunités publiées sur le Digital Marketplace.",
+    "isNotVendorBody": "Commencez par créer votre première opportunité ou parcourez les opportunités publiées sur le Digital Marketplace.",
+    "isVendorAlert": "Vous devez <1>{{createOrgLink}}</1> et être un <4>{{createLearnMoreSWU}}</4> afin de soumettre des propositions aux opportunités Sprint With Us."
+  },
+  "SignedOut": "Se déconnecter",
+  "SignedOutMessageValid": "Vous êtes déconnecté avec succès. Merci d'utiliser le Digital Marketplace.",
+  "SignedOutMessageNotValid": "Échec de la déconnexion de l'application.",
+  "codeWithUs": "Codez avec nous",
+  "sprintWithUs": "Sprintez avec nous",
+  "myProposals": "Mes propositions",
+  "myOpportunities": "Mes opportunités",
+  "title": "Titre",
+  "opportunity": "Opportunité",
+  "dateCreated": "Date créée",
+  "status": "Statut",
+  "editCWUproposal": "Modifier Codez Avec Nous Proposition",
+  "proposal": "Proposition",
+  "proposalManagement":"Gestion des propositions",
+  "needHelp": "Besoin d'aide?",
+  "proposalsDue": "Propositions dues",
+  "totalScore": "Score total",
+  "ranking": "Classement",
+  "reviewTermsConditions": "Consulter les termes et conditions",
+  "cwdTermsConditions": "Code Avec Nous Termes et conditions",
+  "withdrawCWUproposal": "Retirer le Codez Avec Nous proposition",
+  "withdrawCWUproposalBody": "Êtes-vous sûr de vouloir retirer votre proposition Codez Avec Nous ? Vous pourrez toujours soumettre à nouveau votre proposition avant la date limite de proposition de l'opportunité.",
+  "withdrawAfterCWUproposalBody": "Êtes-vous sûr de vouloir retirer votre proposition Codez Avec Nous ? Votre proposition ne sera plus considérée pour cette opportunité.",
+  "deleteCWUproposal": "Supprimer le Codez Avec Nous proposition ?",
+  "deleteCWUproposalBody": "Êtes-vous sûr de vouloir supprimer votre proposition Codez Avec Nous ? Vous ne pourrez pas récupérer la proposition une fois qu'elle aura été supprimée.",
+  "draft" : "Brouillon",
+  "published" : "Publiée",
+  "evaluation" : "Évaluation",
+  "awarded" : "Récompensée",
+  "suspended" : "Suspendué",
+  "canceled" : "Annulée",
+  "updated": "Mis à jour",
+  "addendumAdded": "Addenda ajouté",
+  "edited": "Modifiée",
+  "open": "Ouverte",
+  "closed": "Fermée",
+  "suspend": "Suspend",
+  "Cancel": "Annuler",
+  "publish": "Publier",
+  "award": "Prix",
+  "update": "Mettre à jour"
 }

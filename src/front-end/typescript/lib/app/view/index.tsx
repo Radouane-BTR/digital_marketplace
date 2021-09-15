@@ -594,7 +594,7 @@ function navAppLinks(state: Immutable<State>): Nav.Props['appLinks'] {
     // User has signed in.
     links = links.concat([
       {
-        children: 'Dashboard',
+        children: t('dashboard.title'),
         active: state.activeRoute.tag === 'dashboard',
         dest: routeDest(adt('dashboard', null))
       },
