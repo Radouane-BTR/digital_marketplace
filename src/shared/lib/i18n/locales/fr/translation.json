@@ -200,7 +200,14 @@
     "edit": "Modifier",
     "delete": "Supprimer",
     "withdraw": "Retirer",
-    "viewOpportunity": "Consulter opportunité"
+    "viewOpportunity": "Consulter opportunité",
+    "reviewLatestVersion": "consultez la dernière version",
+    "agreeToTheUpdateTerms": "acceptez les conditions mises à jour",
+    "agreeAndContinue":"Accepter et continuer",
+    "publishAddendum":"Publier Addenda",
+    "addAddendum": "Ajouter Addenda",
+    "yesToCancel":"Oui, je veux annuler",
+    "goBack": "Retour"
   },
   "no": "Non",
   "notification": {
@@ -478,6 +485,12 @@
     "startedEditing": {
       "error-title": "Impossible de modifier l'opportunité",
       "error-body": "Cette opportunité ne peut pas être modifiée pour le moment. Veuillez réessayer plus tard."
+    },
+    "AddendaPublished":{
+      "success-title": "Addenda publié",
+      "success-body": "Votre addenda a été publié avec succès.",
+      "error-title": "Impossible de publier l'addenda",
+      "error-body": "Votre addenda n'a pas pu être publié. Veuillez réessayer plus tard."
     }
   },
   "you": "Vous",
@@ -510,6 +523,7 @@
   "totalScore": "Score total",
   "ranking": "Classement",
   "reviewTermsConditions": "Consulter les termes et conditions",
+  "reviewUpdatedTermsConditions": "Consulter les termes et conditions modifiers",
   "cwdTermsConditions": "Code Avec Nous Termes et conditions",
   "withdrawCWUproposal": "Retirer le Codez Avec Nous proposition",
   "withdrawCWUproposalBody": "Êtes-vous sûr de vouloir retirer votre proposition Codez Avec Nous ? Vous pourrez toujours soumettre à nouveau votre proposition avant la date limite de proposition de l'opportunité.",
@@ -531,5 +545,32 @@
   "Cancel": "Annuler",
   "publish": "Publier",
   "award": "Prix",
-  "update": "Mettre à jour"
+  "update": "Mettre à jour",
+  "termsTitleUpdated":"Les <1>{{appTermsTitle}}</1> ont été mis à jour.",
+  "emptyPageAlertText": "Veuillez enregistrer ce sur quoi vous travaillez",
+  "and": "et",
+  "created": "Créé",
+  "entryType": "Type Entrée",
+  "Note": "Remarque",
+  "appTermsTitle": "Termes et conditions du Digital Marketplace pour les enchères électroniques",
+  "govNameShort": "Gouv. Québec",
+  "govNameLong": "Gouvernement du Québec",
+  "regionNameShort": "QC",
+  "regionNameLong": "Québec",
+  "newAppTermsTextInfo": "Veuillez vous assurer d'avoir consulté la dernière version du",
+  "newAppTermsTextInfoCheck": "Je reconnais avoir lu, compris et accepté le <italic>{{appTermsTitle}}</italic>.",
+  "newAppTermsTextInfoCheckText": "Assurez-vous également d'avoir enregistré votre travail avant de continuer. Toute information non enregistrée dans les formulaires sera perdue.",
+  "postedOn": "Posté au",
+  "by": "par",
+  "newAddendum": "Nouvel Addenda",
+  "existingAddendum": "Addenda Existant",
+  "newAddendumHelp": "Fournissez des informations supplémentaires qui n'ont pas été fournies sur l'affichage original de l'opportunité.",
+  "bodyModalPublishAddendum": "Êtes-vous sûr de vouloir publier cet addendum ? Une fois publié, tous les abonnés seront informés.",
+  "bodyModalCancelPublishAddendum": "Es-tu sûre de vouloir annuler? Toute information que vous avez saisie sera perdue si vous le faites.",
+  "titleModalCancelPublishAddendum": "Annuler l'ajout d'un addenda ?",
+  "submitProposalTerms":{
+    "title": "Veuillez vous assurer d'avoir examiné le ",
+    "titleSuite": "avant {{what}} votre proposition pour cette opportunité {{type}}.",
+    "checkboxText": "Je reconnais avoir lu, compris et accepté le <italic>{{title}}</italic>."
+  }
 }

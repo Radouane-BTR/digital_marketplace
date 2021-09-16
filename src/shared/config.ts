@@ -1,3 +1,5 @@
+import i18next from 'i18next';
+
 export function parseBooleanEnvironmentVariable(raw?: string): boolean | null {
   switch (raw) {
     case '1':
@@ -21,6 +23,7 @@ export const VENDOR_ACCOUNT_CREATION_DISABLED = parseBooleanEnvironmentVariable(
 
 export const SHOW_TEST_INDICATOR = parseBooleanEnvironmentVariable(process.env.SHOW_TEST_INDICATOR) || false;
 
+// TODO : if we gonna work with a CONTACT_EMAIL, we need to change it for an email of gouv quebec
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'digitalmarketplace@gov.bc.ca';
 
 export const BACKEND_URL = process.env.BACKEND_URL || ''; // Same server if empty
@@ -33,24 +36,24 @@ export const GOV_IDP_NAME = process.env.GOV_IDP_NAME || 'IDIR';
 export const VENDOR_IDP_SUFFIX = process.env.VENDOR_IDP_SUFFIX || 'github';
 export const VENDOR_IDP_NAME = process.env.VENDOR_IDP_NAME || 'GitHub';
 
-export const TIMEZONE = process.env.TIMEZONE || 'America/Vancouver';
+export const TIMEZONE = process.env.TIMEZONE || 'America/Toronto';
 
 export const CWU_MAX_BUDGET = parseInt(process.env.CWU_MAX_BUDGET || '70000',10);
 
 export const SWU_MAX_BUDGET = parseInt(process.env.SWU_MAX_BUDGET || '2000000',10);
 
 export const COPY = {
-  appTermsTitle: 'Digital Marketplace Terms & Conditions for E-Bidding',
+  appTermsTitle: i18next.t('appTermsTitle'),
   gov: {
     name: {
-      short: 'B.C. Government',
-      long: 'Government of British Columbia'
+      short: i18next.t('govNameShort'),
+      long: i18next.t('govNameLong')
     }
   },
   region: {
     name: {
-      short: 'B.C.',
-      long: 'British Columbia'
+      short:  i18next.t('regionNameShort'),
+      long: i18next.t('regionNameLong')
     }
   }
 };

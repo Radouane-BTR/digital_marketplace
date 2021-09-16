@@ -200,7 +200,14 @@
     "edit": "Edit",
     "delete": "Delete",
     "withdraw": "Withdraw",
-    "viewOpportunity": "View opportunity"
+    "viewOpportunity": "View opportunity",
+    "reviewLatestVersion": "review the latest version",
+    "agreeToTheUpdateTerms": "agree to the updated terms",
+    "agreeAndContinue":"Agree & Continue",
+    "publishAddendum":"Publish Addendum",
+    "addAddendum": "Add Addendum",
+    "yesToCancel":"Yes, I want to cancel",
+    "goBack": "Go Back"
   },
   "no": "No",
   "notification": {
@@ -478,6 +485,12 @@
     "startedEditing": {
       "error-title": "Unable to Edit Opportunity",
       "error-body": "This opportunity cannot be edited at this time. Please try again later."
+    },
+    "AddendaPublished":{
+      "success-title": "Addendum Published",
+      "success-body": "Your addendum has been successfully published.",
+      "error-title": "Unable to Publish Addendum",
+      "error-body": "Your addendum could not be published. Please try again later."
     }
   },
   "you": "You",
@@ -510,6 +523,7 @@
   "totalScore": "Total Score",
   "ranking": "Ranking",
   "reviewTermsConditions": "Review Terms and Conditions",
+  "reviewUpdatedTermsConditions": "Review Updated Terms and Conditions",
   "cwuTermsConditions": "Code With Us Terms & Conditions",
   "withdrawCWUproposal":"Withdraw Code With Us Proposal?",
   "withdrawBeforeCWUproposalBody": "Are you sure you want to withdraw your Code With Us proposal? You will still be able to resubmit your proposal prior to the opportunity's proposal deadline.",
@@ -531,5 +545,32 @@
   "Cancel": "Cancel",
   "publish": "Publish",
   "award": "Award",
-  "update": "Update"
+  "update": "Update",
+  "termsTitleUpdated":"The <italic>{{appTermsTitle}}</italic> have been updated.",
+  "emptyPageAlertText": "Please save what you are working on",
+  "and": "and",
+  "created": "Created",
+  "entryType": "Entry Type",
+  "Note": "Note",
+  "appTermsTitle": "Digital Marketplace Terms & Conditions for E-Bidding",
+  "govNameShort": "Gouv. Québec",
+  "govNameLong": "Gouvernement du Québec",
+  "regionNameShort": "QC",
+  "regionNameLong": "Québec",
+  "newAppTermsTextInfo": "Please ensure you have reviewed the latest version of the",
+  "newAppTermsTextInfoCheck": "I acknowledge that I have read, fully understand and agree to the <italic>{{appTermsTitle}}</italic>.",
+  "newAppTermsTextInfoCheckText": "Also, make sure you have saved your work before continuing. Any unsaved information in forms will be lost.",
+  "postedOn": "Posted on",
+  "by": "by",
+  "newAddendum": "New Addendum",
+  "existingAddendum": "Existing Addendum",
+  "newAddendumHelp": "Provide additional information that was not provided on the original posting of the opportunity.",
+  "bodyModalPublishAddendum": "Are you sure you want to publish this addendum? Once published, all subscribers will be notified.",
+  "bodyModalCancelPublishAddendum": "Are you sure you want to cancel? Any information you may have entered will be lost if you do so.",
+  "titleModalCancelPublishAddendum": "Cancel Adding an Addendum?",
+  "submitProposalTerms":{
+    "title": "Please ensure you have reviewed the",
+    "titleSuite": "prior to {{what}} your proposal for this {{type}} opportunity.",
+    "checkboxText": "I acknowledge that I have read, fully understand and agree to the <italic>{{title}}</italic>."
+  }
 }

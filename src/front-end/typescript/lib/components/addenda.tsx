@@ -12,15 +12,16 @@ import { Addendum } from 'shared/lib/resources/opportunity/code-with-us';
 import { adt, ADT } from 'shared/lib/types';
 import * as validation from 'shared/lib/validation';
 import { validateAddendumText } from 'shared/lib/validation/addendum';
+import i18next from 'i18next';
 
 const toasts = {
   success: {
-    title: 'Addendum Published',
-    body: 'Your addendum has been successfully published.'
+    title: i18next.t('toasts.AddendaPublished.success-title'),
+    body: i18next.t('toasts.AddendaPublished.success-body')
   },
   error: {
-    title: 'Unable to Publish Addendum',
-    body: 'Your addendum could not be published. Please try again later.'
+    title: i18next.t('toasts.AddendaPublished.error-title'),
+    body: i18next.t('toasts.AddendaPublished.body-title')
   }
 };
 
@@ -179,7 +180,7 @@ export const AddendaList: View<{ addenda: Addendum[]; }> = ({ addenda }) => {
       {addenda.map((a, i) => (
         <div key={`addenda-list-${i}`} className={`border rounded overflow-hidden ${i < addenda.length - 1 ? 'mb-4' : ''}`}>
           <Markdown source={a.description} className='p-3' smallerHeadings openLinksInNewTabs />
-          <div className='bg-light text-secondary p-3 border-top'>Posted on {formatDateAndTime(a.createdAt, true)}{a.createdBy ? ` by ${a.createdBy.name}` : ''}</div>
+          <div className='bg-light text-secondary p-3 border-top'>{i18next.t('postedOn')} {formatDateAndTime(a.createdAt, true)}{a.createdBy ? ` ${i18next.t('by')} ${a.createdBy.name}` : ''}</div>
         </div>
       ))}
     </div>
@@ -204,8 +205,8 @@ export const view: View<Props> = props => {
             extraChildProps={{}}
             disabled={isDisabled}
             style={style}
-            label='New Addendum'
-            help='Provide additional information that was not provided on the original posting of the opportunity.'
+            label={i18next.t('newAddendum')}
+            help={i18next.t('newAddendumHelp')}
             required
             state={state.newAddendum}
             dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeNew', msg) as Msg)} />)
@@ -216,8 +217,8 @@ export const view: View<Props> = props => {
           extraChildProps={{}}
           disabled
           style={style}
-          label='Existing Addendum'
-          hint={`Created ${formatDateAndTime(addendum.createdAt)}`}
+          label={i18next.t('existingAddendum')}
+          hint={`${i18next.t('created')} ${formatDateAndTime(addendum.createdAt)}`}
           state={addendum.field}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
       ))}
@@ -229,7 +230,7 @@ export const getContextualActions: PageGetContextualActions<State, Msg> = ({ sta
     const isPublishLoading = state.publishLoading > 0;
     return adt('links', [
       {
-        children: 'Publish Addendum',
+        children: i18next.t('links.publishAddendum'),
         onClick: () => dispatch(adt('showModal', 'publish' as const)),
         button: true,
         disabled: isPublishLoading || !isValid(state),
@@ -238,7 +239,7 @@ export const getContextualActions: PageGetContextualActions<State, Msg> = ({ sta
         color: 'primary'
       },
       {
-        children: 'Cancel',
+        children: i18next.t('links.cancel'),
         disabled: isPublishLoading,
         onClick: () => dispatch(adt('showModal', 'cancel' as const))
       }
@@ -246,7 +247,7 @@ export const getContextualActions: PageGetContextualActions<State, Msg> = ({ sta
   } else {
     return adt('links', [
       {
-        children: 'Add Addendum',
+        children: i18next.t('links.addAddendum'),
         onClick: () => dispatch(adt('add')),
         button: true,
         symbol_: leftPlacement(iconLinkSymbol('file-plus')),
@@ -260,42 +261,42 @@ export const getModal: PageGetModal<State, Msg> = state => {
   switch (state.showModal) {
     case 'publish':
       return {
-        title: 'Publish Addendum?',
+        title: `${i18next.t('links.publishAddendum')}?`,
         onCloseMsg: adt('hideModal'),
         actions: [
           {
-            text: 'Publish Addendum',
+            text: i18next.t('links.publishAddendum'),
             icon: 'bullhorn',
             color: 'primary',
             button: true,
             msg: adt('publish')
           },
           {
-            text: 'Cancel',
+            text: i18next.t('links.cancel'),
             color: 'secondary',
             msg: adt('hideModal')
           }
         ],
-        body: () => 'Are you sure you want to publish this addendum? Once published, all subscribers will be notified.'
+        body: () => i18next.t('bodyModalPublishAddendum')
       };
     case 'cancel':
       return {
-        title: 'Cancel Adding an Addendum?',
+        title: i18next.t('titleModalCancelPublishAddendum'),
         onCloseMsg: adt('hideModal'),
         actions: [
           {
-            text: 'Yes, I want to cancel',
+            text: i18next.t('links.yesToCancel'),
             color: 'danger',
             button: true,
             msg: adt('cancel')
           },
           {
-            text: 'Go Back',
+            text: i18next.t('links.goBack'),
             color: 'secondary',
             msg: adt('hideModal')
           }
         ],
-        body: () => 'Are you sure you want to cancel? Any information you may have entered will be lost if you do so.'
+        body: () => i18next.t('bodyModalCancelPublishAddendum')
       };
     case null:
       return null;

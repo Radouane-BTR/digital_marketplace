@@ -7,7 +7,8 @@ import Link, { routeDest } from 'front-end/lib/views/link';
 import React from 'react';
 import { COPY } from 'shared/config';
 import { ADT, adt } from 'shared/lib/types';
-
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 export interface State {
   proposal: Immutable<Checkbox.State>;
   app: Immutable<Checkbox.State>;
@@ -76,17 +77,17 @@ export interface Props extends ComponentViewProps<State, Msg> {
 export const view: View<Props> = ({ opportunityType, action, termsTitle, termsRoute, state, dispatch }) => {
   return (
     <div>
-      <p>Please ensure you have reviewed the <Link newTab dest={routeDest(termsRoute)}>{termsTitle}</Link> and <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>{COPY.appTermsTitle}</Link> prior to {action} your proposal for this {opportunityType} opportunity.</p>
+      <p>{i18next.t('submitProposalTerms.title')} <Link newTab dest={routeDest(termsRoute)}>{termsTitle}</Link> {i18next.t('and')} <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>{COPY.appTermsTitle}</Link> {i18next.t('submitProposalTerms.titleSuite',{whar: action, type: opportunityType})}</p>
       <Checkbox.view
         extraChildProps={{
-          inlineLabel: (<span>I acknowledge that I have read, fully understand and agree to the <i>{termsTitle}</i>.</span>)
+          inlineLabel: (<span><Trans i18nKey="submitProposalTerms.checkboxText" values={{ title: termsTitle}} components={{ italic: <i /> }}/></span>)
         }}
         className='font-weight-bold'
         state={state.proposal}
         dispatch={mapComponentDispatch(dispatch, v => adt('proposal', v) as Msg)} />
       <Checkbox.view
         extraChildProps={{
-          inlineLabel: (<span>I acknowledge that I have read, fully understand and agree to the <i>{COPY.appTermsTitle}</i>.</span>)
+          inlineLabel: (<span><Trans i18nKey="submitProposalTerms.checkboxText" values={{ title: COPY.appTermsTitle}} components={{ italic: <i /> }}/></span>)
         }}
         className='font-weight-bold'
         state={state.app}
