@@ -290,10 +290,8 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
       info: isVendor(state.viewerUser) && !state.isQualified && state.table
         ? [{
             text: (<span>
-              {/* You must <Link dest={routeDest(adt('orgCreate', null))}>{i18next.t('links.create-organization')}</Link> and be a <Link dest={routeDest(adt('learnMoreSWU', null))}>{i18next.t('links.learnMoreSWU')}</Link> in order to submit proposals to Sprint With Us opportunities. */}
-              {/* TODO : to verify */}
-              <Trans i18nKey="isVendorAlert">
-                You must <Link dest={routeDest(adt('orgCreate', null))}>{i18next.t('links.create-organization')}</Link> and be a <Link dest={routeDest(adt('learnMoreSWU', null))}>{i18next.t('links.learnMoreSWU')}</Link> in order to submit proposals to Sprint With Us opportunities.
+              <Trans i18nKey="dashboard.isVendorAlert">
+                You must <Link dest={routeDest(adt('orgCreate', null))}>Create Organization</Link> and be a <Link dest={routeDest(adt('learnMoreSWU', null))}>Qualified Supplier</Link>
               </Trans>
               </span>)
           }]

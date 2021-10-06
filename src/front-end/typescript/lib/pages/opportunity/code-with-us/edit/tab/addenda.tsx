@@ -9,7 +9,7 @@ import { Col, Row } from 'reactstrap';
 import { Addendum } from 'shared/lib/resources/opportunity/code-with-us';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
-
+import i18next from 'i18next';
 export interface State extends Tab.Params {
   addenda: Immutable<Addenda.State>;
 }
@@ -37,7 +37,7 @@ const init: Init<Tab.Params, State> = async params => {
             }
             break;
         }
-        return outcome || invalid(['Unable to add addenda due to a system error.']);
+        return outcome || invalid([i18next.t('unableAddAddenda')]);
       }
     }))
   };
@@ -65,9 +65,9 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3 className='mb-4'>Addenda</h3>
+            <h3 className='mb-4'>{i18next.t('addenda')}</h3>
             <p className='mb-4'>
-              Provide additional information here to clarify or support the information in the original opportunity.
+              {i18next.t('additionalAddendaInformation')}
             </p>
             <Addenda.view
               dispatch={mapComponentDispatch(dispatch, msg => adt('addenda' as const, msg))}

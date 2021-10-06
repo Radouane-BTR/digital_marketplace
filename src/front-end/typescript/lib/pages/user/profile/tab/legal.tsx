@@ -10,6 +10,8 @@ import { Col, Row } from 'reactstrap';
 import { COPY } from 'shared/config';
 import { formatDate, formatTime } from 'shared/lib';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 
 // Only vendors can view this tab.
 
@@ -93,32 +95,32 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
     <div>
       <Row>
         <Col xs='12'>
-          <h2>Policies, Terms & Agreements</h2>
-          <p className='mb-0'>In this section, you will find all of the policies, terms and agreements relevant to vendors of the Digital Marketplace.</p>
+          <h2>{i18next.t('policiesTermsAndAgreements')}</h2>
+          <p className='mb-0'>{i18next.t('legalTermsDescription')}</p>
         </Col>
       </Row>
       <Row>
         <Col xs='12'>
           <div className='mt-5 pt-5 border-top'>
-            <h3>Privacy Policy</h3>
-            <div>Your personal information is being collected by the Ministry of Citizens’ Services under s.26(c) of the Freedom of Information and Protection of Privacy Act (FOIPPA). The collection, use and disclosure of your personal information is for the purpose of notifying, applying and awarding opportunities on the Digital Marketplace. If you have any questions, please contact: Zachary Woodward, Senior Director, Procurement, Ministry of Citizens’ Services, <Link dest={emailDest(['procurementadvisory@gov.bc.ca'])}>procurementadvisory@gov.bc.ca</Link>.</div>
-            <TermsSubtext>You agreed to the Digital Marketplace <i>Privacy Policy</i> when you created your Digital Marketplace account.</TermsSubtext>
+            <h3>{i18next.t('privacyPolicy')}</h3>
+            <div>{i18next.t('privacyPolicyDescriptionP1')} <Link dest={emailDest(['procurementadvisory@gov.bc.ca'])}>procurementadvisory@gov.bc.ca</Link>.</div>
+            <TermsSubtext><Trans i18nKey="privacyPolicyDescriptionP2" components={{ italic: <i /> }}/></TermsSubtext>
           </div>
         </Col>
         <Col xs='12'>
           <div className='mt-4'>
-            <h3>Terms & Conditions</h3>
+            <h3>{i18next.t('termsAndConditions')}</h3>
             <div className='mt-3'>
               <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))} symbol_={hasAcceptedLatest ? undefined : leftPlacement(iconLinkSymbol('warning'))} symbolClassName='text-warning'>{COPY.appTermsTitle}</Link>
               {acceptedTerms
-                ? (<TermsSubtext>You agreed to the <i>{COPY.appTermsTitle}</i> on {formatDate(acceptedTerms)} at {formatTime(acceptedTerms, true)}.</TermsSubtext>)
-                : (<TermsSubtext>The <i>{COPY.appTermsTitle}</i> have been updated. Please <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>review the latest version</Link> and <Link onClick={() => dispatch(adt('showModal', 'acceptNewTerms' as const))}>agree to the updated terms</Link>.</TermsSubtext>)}
+                ? (<TermsSubtext><Trans i18nKey="termsAndConditionsDescriptionP1" values={{title:COPY.appTermsTitle, date: formatDate(acceptedTerms), time: formatTime(acceptedTerms, true)}} components={{ italic: <i /> }}/></TermsSubtext>)
+                : (<TermsSubtext><Trans i18nKey="termsAndConditionsDescriptionP2" values={{title:COPY.appTermsTitle}} components={{ italic: <i /> }}/> <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>{i18next.t('reviewLatestVersion')}</Link> {i18next.t('and')} <Link onClick={() => dispatch(adt('showModal', 'acceptNewTerms' as const))}>{i18next.t('agreeToTheUpdateTerms')}</Link>.</TermsSubtext>)}
             </div>
             <div className='mt-3'>
-              <Link newTab dest={routeDest(adt('contentView', 'code-with-us-terms-and-conditions'))}>Code With Us Terms & Conditions</Link>
+              <Link newTab dest={routeDest(adt('contentView', 'code-with-us-terms-and-conditions'))}>{i18next.t('cwuTermsConditions')}</Link>
             </div>
             <div className='mt-3'>
-              <Link newTab dest={routeDest(adt('contentView', 'sprint-with-us-terms-and-conditions'))}>Sprint With Us Terms & Conditions</Link>
+              <Link newTab dest={routeDest(adt('contentView', 'sprint-with-us-terms-and-conditions'))}>{i18next.t('organization.sprint-with-us.title')}</Link>
             </div>
           </div>
         </Col>

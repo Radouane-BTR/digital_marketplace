@@ -16,6 +16,7 @@ import { CWUProposal } from 'shared/lib/resources/proposal/code-with-us';
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+// import i18next from 'i18next';
 
 interface ValidState {
   opportunity: CWUOpportunity;

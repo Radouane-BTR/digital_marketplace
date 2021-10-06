@@ -11,6 +11,8 @@ import { CWUOpportunityStatus, FORMATTED_MAX_BUDGET } from 'shared/lib/resources
 import { UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next'
+import { Trans } from 'react-i18next';
 
 type ModalId = 'publish' | 'cancel';
 
@@ -132,16 +134,16 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     size: 'large',
     color: 'c-sidebar-instructional-bg',
     view: makeInstructionalSidebar<ValidState,  Msg>({
-      getTitle: () => 'Create a Code With Us Opportunity',
+      getTitle: () => i18next.t('createCwuOpportunityTitle'),
       getDescription: () => (
         <div>
-          <p><em>Code With Us</em> opportunities pay a fixed price of up to {FORMATTED_MAX_BUDGET} for the delivery of code that meets your acceptance criteria.</p>
-          <p className='mb-0'>Use the form provided to create your <em>Code With Us</em> opportunity. You can either save a draft of your opportunity to complete the form at a later time, or you can complete the form now to publish your opportunity immediately.</p>
+          <p> <Trans i18nKey="createCwuOpportunityDescriptionP1" values={{ maxBudget: FORMATTED_MAX_BUDGET}} components={{ emph: <em /> }}/></p>
+          <p className='mb-0'><Trans i18nKey="createCwuOpportunityDescriptionP2" components={{ emph: <em /> }}/></p>
         </div>
       ),
       getFooter: () => (
         <span>
-          Need help? <Link newTab dest={routeDest(adt('contentView', 'code-with-us-opportunity-guide'))}>Read the guide</Link> to learn how to create and manage a <em>Code With Us</em> opportunity.
+          {i18next.t('needHelp')}? <Link newTab dest={routeDest(adt('contentView', 'code-with-us-opportunity-guide'))}>{i18next.t('links.readguide')}</Link> <Trans i18nKey="createCwuOpportunityFooter" components={{ emph: <em /> }}/>
         </span>
       )
     })
@@ -153,7 +155,7 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     const isValid = Form.isValid(state.form);
     return adt('links', [
       {
-        children: 'Publish',
+        children: i18next.t('links.publish'),
         symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
         button: true,
         loading: isPublishLoading,
@@ -162,7 +164,7 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
         onClick: () => dispatch(adt('showModal', 'publish' as const))
       },
       {
-        children: 'Save Draft',
+        children: i18next.t('links.saveDraft'),
         symbol_: leftPlacement(iconLinkSymbol('save')),
         loading: isSaveDraftLoading,
         disabled: isLoading,
@@ -171,7 +173,7 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
         onClick: () => dispatch(adt('saveDraft'))
       },
       {
-        children: 'Cancel',
+        children: i18next.t('links.cancel'),
         color: 'c-nav-fg-alt',
         disabled: isLoading,
         onClick: () => dispatch(adt('showModal', 'cancel' as const))
@@ -182,7 +184,7 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     ...emptyPageAlerts(),
     errors: state.showErrorAlert
     ? [{
-        text: `We were unable to ${state.showErrorAlert} your opportunity. Please fix the errors in the form below and try again.`,
+        text: i18next.t('createCwuOpportunityAlertActions', {alert: state.showErrorAlert}),
         dismissMsg: adt('dismissErrorAlert')
       }]
       : []
@@ -191,19 +193,19 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     switch (state.showModal) {
       case 'publish':
         return {
-          title: 'Publish Code With Us Opportunity?',
-          body: () => 'Are you sure you want to publish this opportunity? Once published, all subscribed users will be notified.',
+          title: i18next.t('modalPublishOpportunityTitle'),
+          body: () => i18next.t('modalPublishOpportunityBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Publish Opportunity',
+              text: i18next.t('links.publishOpportunity'),
               icon: 'bullhorn',
               color: 'primary',
               msg: adt('publish'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -211,18 +213,18 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
         };
       case 'cancel':
         return {
-          title: 'Cancel New Code With Us Opportunity?',
-          body: () => 'Are you sure you want to cancel? Any information you may have entered will be lost if you do so.',
+          title: i18next.t('modalCancelNewOpportunityTitle'),
+          body: () => i18next.t('bodyModalCancelBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Yes, I want to cancel',
+              text: i18next.t('links.yesToCancel'),
               color: 'danger',
               msg: newRoute(adt('opportunities' as const, null)),
               button: true
             },
             {
-              text: 'Go Back',
+              text: i18next.t('links.goBack'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -233,6 +235,6 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     }
   }),
   getMetadata() {
-    return makePageMetadata('Create a Code With Us Opportunity');
+    return makePageMetadata(i18next.t('createCWUTitle'));
   }
 };

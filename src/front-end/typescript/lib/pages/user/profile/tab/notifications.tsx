@@ -9,7 +9,8 @@ import * as Tab from 'front-end/lib/pages/user/profile/tab';
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { adt, ADT } from 'shared/lib/types';
-
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 export interface State extends Tab.Params {
   newOpportunitiesLoading: number;
   newOpportunities: Immutable<Checkbox.State>;
@@ -86,18 +87,18 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
     <div>
       <Row className='mb-4'>
         <Col xs='12'>
-          <h2>Notifications</h2>
-          <p>Email notifications will be sent to <b>{state.profileUser.email}</b> for the options selected below. If this email address is incorrect please update your profile.</p>
+          <h2>{i18next.t('notifications')}</h2>
+          <p><Trans i18nKey="notificationViewBody" values={{title: state.profileUser.email}} components={{ bold: <b /> }}/></p>
         </Col>
       </Row>
       <Row>
         <Col xs='12'>
           <Checkbox.view
             extraChildProps={{
-              inlineLabel: 'New opportunities.',
+              inlineLabel: i18next.t('newOpportunities'),
               loading: isNewOpportunitiesLoading
             }}
-            label='Notify me about...'
+            label= {`${i18next.t('notifyMeAbout')}...`}
             disabled={isLoading}
             state={state.newOpportunities}
             dispatch={mapComponentDispatch(dispatch, value => adt('newOpportunities' as const, value))} />

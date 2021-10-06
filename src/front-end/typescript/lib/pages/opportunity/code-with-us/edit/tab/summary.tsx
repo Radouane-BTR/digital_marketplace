@@ -13,6 +13,7 @@ import { formatAmount, formatDate } from 'shared/lib';
 import { NUM_SCORE_DECIMALS } from 'shared/lib/resources/proposal/code-with-us';
 import { isAdmin } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export type State = Tab.Params;
 
@@ -36,7 +37,7 @@ const SuccessfulProponent: ComponentView<State, Msg> = ({ state }) => {
   const isViewerAdmin = isAdmin(state.viewerUser);
   const items = [
     {
-      name: 'Awarded Proponent',
+      name: i18next.t('awardedProponent'),
       children: (() => {
         if (isViewerAdmin) {
           const nameRoute: Route = (() => {
@@ -65,7 +66,7 @@ const SuccessfulProponent: ComponentView<State, Msg> = ({ state }) => {
       })()
     },
     {
-      name: 'Submitted By',
+      name: i18next.t('submittedBy'),
       children: (() => {
         if (!successfulProponent.createdBy) { return null; }
         if (isViewerAdmin) {
@@ -80,7 +81,7 @@ const SuccessfulProponent: ComponentView<State, Msg> = ({ state }) => {
     <div className='mt-5 pt-5 border-top'>
       <Row>
         <Col xs='12'>
-          <h4 className='mb-4'>Successful Proponent</h4>
+          <h4 className='mb-4'>{i18next.t('successfulProponent')}</h4>
         </Col>
       </Row>
       <Row>
@@ -88,7 +89,7 @@ const SuccessfulProponent: ComponentView<State, Msg> = ({ state }) => {
           <ReportCard
             icon='star-full'
             iconColor='c-report-card-icon-highlight'
-            name='Winning Score'
+            name={i18next.t('winningScore')}
             value={`${successfulProponent.score ? `${successfulProponent.score.toFixed(NUM_SCORE_DECIMALS)}%` : EMPTY_STRING}`} />
         </Col>
         <Col xs='12' md='8' className='d-flex align-items-center flex-nowrap'>
@@ -104,28 +105,28 @@ const Details: ComponentView<State, Msg> = ({ state }) => {
   const skills = opportunity.skills;
   const items = [
     {
-      name: 'Assignment Date',
+      name: i18next.t('assignmentDate'),
       children: formatDate(opportunity.assignmentDate)
     },
     {
-      name: 'Start Date',
+      name: i18next.t('startDate'),
       children: formatDate(opportunity.startDate)
     }
   ];
   const reportCards: ReportCard[] = [
     {
       icon: 'alarm-clock',
-      name: 'Proposals Due',
+      name: i18next.t('proposalsDue'),
       value: formatDate(opportunity.proposalDeadline)
     },
     {
       icon: 'badge-dollar',
-      name: 'Value',
+      name: i18next.t('value'),
       value: formatAmount(opportunity.reward, '$')
     },
     {
       icon: 'map-marker',
-      name: 'Location',
+      name: i18next.t('location'),
       value: opportunity.location
     }
   ];
@@ -133,7 +134,7 @@ const Details: ComponentView<State, Msg> = ({ state }) => {
     <div className='mt-5 pt-5 border-top'>
       <Row>
         <Col xs='12'>
-          <h4 className='mb-4'>Details</h4>
+          <h4 className='mb-4'>{i18next.t('details')}</h4>
         </Col>
       </Row>
       <Row className='mb-5'>
@@ -146,7 +147,7 @@ const Details: ComponentView<State, Msg> = ({ state }) => {
           <DescriptionList items={items} />
         </Col>
         <Col xs='12' md='6'>
-          <div className='font-weight-bold mb-2 mt-3 mt-md-0'>Required Skills</div>
+          <div className='font-weight-bold mb-2 mt-3 mt-md-0'>{i18next.t('requiredSkills')}</div>
           <Skills skills={skills} />
         </Col>
       </Row>

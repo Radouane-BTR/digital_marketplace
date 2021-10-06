@@ -1,5 +1,3 @@
-import i18next from 'i18next';
-
 export function parseBooleanEnvironmentVariable(raw?: string): boolean | null {
   switch (raw) {
     case '1':
@@ -43,17 +41,17 @@ export const CWU_MAX_BUDGET = parseInt(process.env.CWU_MAX_BUDGET || '70000',10)
 export const SWU_MAX_BUDGET = parseInt(process.env.SWU_MAX_BUDGET || '2000000',10);
 
 export const COPY = {
-  appTermsTitle: i18next.t('appTermsTitle'),
+  appTermsTitle: 'Termes et conditions du Digital Marketplace pour les enchères électroniques',
   gov: {
     name: {
-      short: i18next.t('govNameShort'),
-      long: i18next.t('govNameLong')
+      short: 'Gouv. Québec',
+      long: 'Gouvernement du Québec'
     }
   },
   region: {
     name: {
-      short:  i18next.t('regionNameShort'),
-      long: i18next.t('regionNameLong')
+      short: 'QC',
+      long: 'Québec'
     }
   }
 };

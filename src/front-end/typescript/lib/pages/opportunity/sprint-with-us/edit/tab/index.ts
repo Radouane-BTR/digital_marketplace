@@ -13,6 +13,7 @@ import { routeDest } from 'front-end/lib/views/link';
 import { canAddAddendumToSWUOpportunity, SWUOpportunity } from 'shared/lib/resources/opportunity/sprint-with-us';
 import { User } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 // Parent page types & functions.
 
@@ -68,50 +69,50 @@ export function idToDefinition<K extends TabId>(id: K): TabbedPage.TabDefinition
       return {
         component: OpportunityTab.component,
         icon: 'file-code',
-        title: 'Opportunity'
+        title: i18next.t('opportunity')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'addenda':
       return {
         component: AddendaTab.component,
         icon: 'file-plus',
-        title: 'Addenda'
+        title: i18next.t('addenda')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'teamQuestions':
       return {
         component: TeamQuestionsTab.component,
         icon: 'comments-alt',
-        title: 'Team Questions'
+        title: i18next.t('teamQuestions')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'codeChallenge':
       return {
         component: CodeChallengeTab.component,
         icon: 'code',
-        title: 'Code Challenge'
+        title: i18next.t('codeChallenge')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'teamScenario':
       return {
         component: TeamScenarioTab.component,
         icon: 'users-class',
-        title: 'Team Scenario'
+        title: i18next.t('teamScenario')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'proposals':
       return {
         component: ProposalsTab.component,
         icon: 'comment-dollar',
-        title: 'Proposals'
+        title: i18next.t('proposals')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'history':
       return {
         component: HistoryTab.component,
         icon: 'history',
-        title: 'History'
+        title: i18next.t('history')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'summary':
     default:
       return {
         component: SummaryTab.component,
         icon: 'clipboard-list',
-        title: 'Summary'
+        title: i18next.t('summary')
       } as TabbedPage.TabDefinition<Tabs, K>;
   }
 }
@@ -129,22 +130,22 @@ export function makeSidebarLink(tab: TabId, opportunityId: Id, activeTab: TabId)
 export async function makeSidebarState(opportunity: SWUOpportunity, activeTab: TabId): Promise<Immutable<MenuSidebar.State>> {
   return immutable(await MenuSidebar.init({
     items: [
-      adt('heading', 'Summary'),
+      adt('heading', `${i18next.t('summary')}`),
       makeSidebarLink('summary',       opportunity.id,  activeTab),
-      adt('heading', 'Opportunity Management'),
+      adt('heading', `${i18next.t('opportunityManagement')}`),
       makeSidebarLink('opportunity',   opportunity.id,  activeTab),
       //Only show Addenda sidebar link if opportunity can have addenda.
       ...(canAddAddendumToSWUOpportunity(opportunity) ? [makeSidebarLink('addenda', opportunity.id, activeTab)] : []),
       makeSidebarLink('history',       opportunity.id,  activeTab),
-      adt('heading', 'Opportunity Evaluation'),
+      adt('heading', `${i18next.t('opportunityEvaluation')}`),
       makeSidebarLink('proposals',     opportunity.id,  activeTab),
       makeSidebarLink('teamQuestions', opportunity.id,  activeTab),
       makeSidebarLink('codeChallenge', opportunity.id,  activeTab),
       makeSidebarLink('teamScenario',  opportunity.id,  activeTab),
-      adt('heading', 'Need Help?'),
+      adt('heading', `${i18next.t('needHelp')}`),
       adt('link', {
         icon: 'external-link-alt',
-        text: 'Read Guide',
+        text: `${i18next.t('readGuide')}`,
         active: false,
         newTab: true,
         dest: routeDest(adt('contentView', 'sprint-with-us-opportunity-guide'))

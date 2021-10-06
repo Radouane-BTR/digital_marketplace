@@ -9,7 +9,7 @@ import * as ProfileTab from 'front-end/lib/pages/user/profile/tab/profile';
 import { routeDest } from 'front-end/lib/views/link';
 import { User, usersAreEquivalent, UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
-
+import i18next from 'i18next';
 // Parent page types & functions.
 
 export type ParentState<K extends TabId> = TabbedPage.ParentState<Tabs, K>;
@@ -76,33 +76,33 @@ export function idToDefinition<K extends TabId>(id: K): TabbedPage.TabDefinition
       return {
         component: NotificationsTab.component,
         icon: 'bell',
-        title: 'Notifications'
+        title: i18next.t('notifications')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'legal':
       return {
         component: LegalTab.component,
         icon: 'balance-scale',
-        title: 'Policies, Terms & Agreements'
+        title: i18next.t('policiesTermsAndAgreements')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'organizations':
       return {
         component: OrganizationsTab.component,
         icon: 'building',
-        title: 'Organizations'
+        title: i18next.t('links.organizations')
       } as TabbedPage.TabDefinition<Tabs, K>;
 
     case 'capabilities':
       return {
         component: CapabilitiesTab.component,
         icon: 'toolbox',
-        title: 'Capabilities' } as TabbedPage.TabDefinition<Tabs, K>;
+        title: i18next.t('capabilities') } as TabbedPage.TabDefinition<Tabs, K>;
 
     case 'profile':
     default:
       return {
         component: ProfileTab.component,
         icon: 'user',
-        title: 'Profile'
+        title: i18next.t('profile')
       } as TabbedPage.TabDefinition<Tabs, K>;
   }
 }

@@ -9,6 +9,7 @@ import { CWUOpportunity, DEFAULT_OPPORTUNITY_TITLE } from 'shared/lib/resources/
 import { UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 interface ValidState<K extends Tab.TabId> extends Tab.ParentState<K> {
   opportunity: CWUOpportunity;
@@ -79,7 +80,7 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
     getMetadata: getMetadataValid(TabbedPage.makeGetParentMetadata({
       idToDefinition,
       getTitleSuffix: state => state.opportunity.title || DEFAULT_OPPORTUNITY_TITLE
-    }), makePageMetadata('Edit Code With Us Opportunity'))
+    }), makePageMetadata(i18next.t('editCWUOpportunity')))
   };
 }
 

@@ -21,6 +21,7 @@ import * as CWUSubscriberResource from 'shared/lib/resources/subscribers/code-wi
 import * as SWUSubscriberResource from 'shared/lib/resources/subscribers/sprint-with-us';
 import * as UserResource from 'shared/lib/resources/user';
 import { adt, ClientHttpMethod, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export { getValidValue, getInvalidValue, mapValid, mapInvalid, ResponseValidation, isValid, isInvalid, isUnhandled } from 'shared/lib/http';
 
@@ -1030,7 +1031,7 @@ export function makeUploadMarkdownImage(metadata: FileResource.FileUploadMetadat
       });
     } else {
       return invalid([
-        'Unable to upload file.'
+        i18next.t('unableUploadFil')
       ]);
     }
   };

@@ -9,7 +9,7 @@ import { Col, Row } from 'reactstrap';
 import { Content, CreateRequestBody, CreateValidationErrors } from 'shared/lib/resources/content';
 import { adt, ADT } from 'shared/lib/types';
 import * as contentValidation from 'shared/lib/validation/content';
-
+import i18next from 'i18next';
 export interface State {
   content: Content | null;
   title: Immutable<ShortText.State>;
@@ -123,22 +123,22 @@ export const view: View<Props> = ({ state, dispatch, disabled }) => {
         <Col xs='12' md='9' lg='8'>
           <ShortText.view
             extraChildProps={{}}
-            label='Title'
-            placeholder='Title'
+            label={i18next.t('title')}
+            placeholder={i18next.t('title')}
             required
             disabled={disabled}
             state={state.title}
             dispatch={mapComponentDispatch(dispatch, value => adt('title' as const, value))} />
         </Col>
       </Row>
-      <Row>
+      <Row> 
         <Col xs='12' md='9' lg='8'>
           <ShortText.view
             extraChildProps={{}}
-            label='Slug'
-            placeholder='Slug, e.g. an-example-slug-123'
-            help={`A page slug determines the URL that people will use to access the page. A valid slug must start with a lowercase character or number, and can subsequently contain lowercase characters, numbers or hyphens (i.e. "-"). For example, "this-is-a-valid-slug123".`}
-            hint={slug ? (<span>This page {state.content?.slug !== slug ? 'will be' : 'is'} available at <b>{slugPath(slug)}</b>.</span>) : undefined}
+            label={i18next.t('content-form.slugLabel')}
+            placeholder={i18next.t('content-form.slugPlaceHolder')}
+            help={i18next.t('content-form.slugHelp')}
+            hint={slug ? (<span>{ state.content?.slug !== slug ? i18next.t('content-form.HasNotSlugHint') : i18next.t('content-form.HasSlugHint') } <b>{slugPath(slug)}</b>.</span>) : undefined}
             required={!state.content?.fixed}
             disabled={disabled || !!state.content?.fixed}
             state={state.slug}
@@ -148,9 +148,9 @@ export const view: View<Props> = ({ state, dispatch, disabled }) => {
       <Row>
         <Col xs='12' md='9' lg='8'>
           <RichMarkdownEditor.view
-            label='Body'
-            placeholder={`Enter the page's body here.`}
-            help={`Please enter the page's body in the provided text area. It can be formatted using Markdown.`}
+            label={i18next.t('body')}
+            placeholder={i18next.t('content-form.bodyPlaceHolder')}
+            help={i18next.t('content-form.bodyHelp')}
             extraChildProps={{
               style: { height: '60vh', minHeight: '400px' }
             }}

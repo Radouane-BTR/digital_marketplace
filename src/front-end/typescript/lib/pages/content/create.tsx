@@ -11,6 +11,7 @@ import { Col, Row } from 'reactstrap';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
 import { invalid, valid } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 type ModalId = 'publish';
 
@@ -97,7 +98,7 @@ export const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) =
     <div>
       <Row>
         <Col xs='12'>
-          <h1 className='mb-5'>Create a New Page</h1>
+          <h1 className='mb-5'>{i18next.t('createNewPage')}</h1>
         </Col>
       </Row>
       <Form.view state={state.form} dispatch={mapComponentDispatch(dispatch, msg => adt('form' as const, msg))} />
@@ -110,14 +111,14 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Create a New Page');
+    return makePageMetadata(i18next.t('createNewPage'));
   },
   getContextualActions: getContextualActionsValid(({ state, dispatch }) => {
     const loading = state.loading > 0;
     const isValid = Form.isValid(state.form);
     return adt('links', [
       {
-        children: 'Publish',
+        children: i18next.t('publish'),
         onClick: () => dispatch(adt('showModal', 'publish') as Msg),
         button: true,
         loading,
@@ -125,8 +126,8 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
         color: 'primary'
       },
-      {
-        children: 'Cancel',
+      { 
+        children: i18next.t('links.cancel'),
         color: 'c-nav-fg-alt',
         dest: routeDest(adt('contentList', null))
       }
@@ -136,19 +137,19 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     switch (state.showModal) {
       case 'publish':
         return {
-          title: 'Publish Page?',
-          body: () => 'Are you sure you want to publish this page? Once published, all users will be able to access it by navigating to its URL.',
+          title: `${i18next.t('content-toasts.published.success-title')}?`,
+          body: () => i18next.t('contentModalPublishBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Publish Page',
+              text: i18next.t('content-toasts.published.success-title'),
               icon: 'bullhorn',
               color: 'primary',
               msg: adt('publish'),
               button: true
             },
             {
-              text: 'Cancel',
+              text:  i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }

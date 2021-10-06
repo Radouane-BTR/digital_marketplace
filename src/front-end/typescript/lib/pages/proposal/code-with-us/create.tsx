@@ -14,6 +14,8 @@ import { CreateCWUProposalStatus, CWUProposalStatus } from 'shared/lib/resources
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, isInvalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next'
+import { Trans } from 'react-i18next';
 
 type ModalId
   = 'submit'
@@ -208,16 +210,16 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     size: 'large',
     color: 'c-sidebar-instructional-bg',
     view: makeInstructionalSidebar<ValidState, Msg>({
-      getTitle: () => 'Create a Code With Us Proposal',
+      getTitle: () => i18next.t('createCwuProposalTitle'),
       getDescription: state => (
         <div className='d-flex flex-column nowrap'>
           <Link newTab dest={routeDest(adt('opportunityCWUView', { opportunityId: state.opportunity.id }))} className='mb-3'>{state.opportunity.title}</Link>
-          <p className='mb-0'>Use the form provided to create your proposal for this <em>Code With Us</em> opportunity. You can either save a draft of your proposal to complete the form at a later time, or you can complete the form now to submit your proposal immediately.</p>
+          <p className='mb-0'><Trans i18nKey="createCwuProposalBody" components={{ emph: <em /> }}/></p>
         </div>
       ),
       getFooter: () => (
         <span>
-          Need help? <Link dest={routeDest(adt('contentView', 'code-with-us-proposal-guide'))}>Read the guide</Link> to learn how to create and manage a <em>Code With Us</em> proposal.
+          {i18next.t('needHelp')}? <Link dest={routeDest(adt('contentView', 'code-with-us-proposal-guide'))}>{i18next.t('links.readguide')}</Link> <Trans i18nKey="createCwuOpportunityFooter" components={{ emphasis: <em /> }}/>
         </span>
       )
     })
@@ -228,12 +230,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     switch (state.showModal) {
       case 'submit':
         return {
-          title: 'Review Terms and Conditions',
+          title:  i18next.t('reviewTermsConditions'),
           body: dispatch => (
             <SubmitProposalTerms.view
-              opportunityType='Code With Us'
+              opportunityType={i18next.t('codeWithUs')}
               action='submitting'
-              termsTitle='Code With Us Terms & Conditions'
+              termsTitle={i18next.t('cwdTermsConditions')}
               termsRoute={adt('contentView', 'code-with-us-terms-and-conditions')}
               state={state.submitTerms}
               dispatch={mapComponentDispatch(dispatch, msg => adt('submitTerms', msg) as Msg)} />
@@ -241,7 +243,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Submit Proposal',
+              text:  i18next.t('links.submitProposal'),
               icon: 'paper-plane',
               color: 'primary',
               msg: adt('submit'),
@@ -249,7 +251,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
               disabled: !hasAcceptedTerms
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -257,12 +259,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         };
       case 'cancel':
         return {
-          title: 'Cancel New Code With Us Proposal?',
-          body: () => 'Are you sure you want to cancel? Any information you may have entered will be lost if you do so.',
+          title: i18next.t('modalCancelNewProposalTitle'),
+          body: () =>  i18next.t('bodyModalCancelBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Yes, I want to cancel',
+              text: i18next.t('links.yesToCancel'),
               color: 'danger',
               msg: newRoute(adt('opportunityCWUView' as const, {
                 opportunityId: state.opportunity.id
@@ -270,7 +272,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
               button: true
             },
             {
-              text: 'Go Back',
+              text: i18next.t('links.goBack'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -282,8 +284,8 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   }),
 
   getMetadata: getMetadataValid(state => {
-    return makePageMetadata(`Create Code With Us Proposal — ${state.opportunity.title}`);
-  }, makePageMetadata('Create Code With Us Proposal')),
+    return makePageMetadata(`${i18next.t('createCwuProposalTitle')} — ${state.opportunity.title}`);
+  }, makePageMetadata(i18next.t('createCwuProposalTitle'))),
 
   getContextualActions: getContextualActionsValid( ({state, dispatch}) => {
     const isSubmitLoading   = state.submitLoading > 0;
@@ -292,7 +294,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     const isValid            = () => Form.isValid(state.form);
     return adt('links', [
       {
-        children: 'Submit',
+        children: i18next.t('links.submit'),
         symbol_: leftPlacement(iconLinkSymbol('paper-plane')),
         button: true,
         loading: isSubmitLoading,
@@ -301,7 +303,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         onClick: () => dispatch(adt('showModal', 'submit' as const))
       },
       {
-        children: 'Save Draft',
+        children:  i18next.t('links.saveDraft'),
         symbol_: leftPlacement(iconLinkSymbol('save')),
         loading: isSaveDraftLoading,
         disabled: isLoading,
@@ -310,7 +312,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         onClick: () => dispatch(adt('saveDraft'))
       },
       {
-        children: 'Cancel',
+        children:  i18next.t('links.cancel'),
         color: 'c-nav-fg-alt',
         disabled: isLoading,
         onClick: () => dispatch(adt('showModal', 'cancel' as const))

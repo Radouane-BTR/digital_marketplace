@@ -17,6 +17,7 @@ import { Col, Row } from 'reactstrap';
 import { canSWUOpportunityBeScreenedInToTeamScenario, canViewSWUOpportunityProposals, hasSWUOpportunityPassedCodeChallenge, SWUOpportunity, SWUOpportunityStatus } from 'shared/lib/resources/opportunity/sprint-with-us';
 import { canSWUProposalBeScreenedToFromTeamScenario, compareSWUProposalsForPublicSector, getSWUProponentName, isSWUProposalInCodeChallenge, NUM_SCORE_DECIMALS, SWUProposalSlim, SWUProposalStatus } from 'shared/lib/resources/proposal/sprint-with-us';
 import { ADT, adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 type ModalId
   = ADT<'completeCodeChallenge'>;
@@ -171,7 +172,7 @@ const makeCardData = (opportunity: SWUOpportunity, proposals: SWUProposalSlim[])
   return [
     {
       icon: 'users',
-      name: `Participant${numProposals === 1 ? '' : 's'}`,
+      name: numProposals === 1 ? i18next.t('participant') : i18next.t('participants'),
       value: numProposals ? String(numProposals) : EMPTY_STRING
     },
     {
@@ -190,7 +191,7 @@ const makeCardData = (opportunity: SWUOpportunity, proposals: SWUProposalSlim[])
 };
 
 const WaitForCodeChallenge: ComponentView<State, Msg> = ({ state }) => {
-  return (<div>Participants will be displayed here once this opportunity has reached the Code Challenge.</div>);
+  return (<div>{i18next.t('waitForCodeChallengeBody')}</div>);
 };
 
 const ContextMenuCell: View<{ disabled: boolean; loading: boolean; proposal: SWUProposalSlim; dispatch: Dispatch<Msg>; }> = ({ disabled, loading, proposal, dispatch }) => {
@@ -205,7 +206,7 @@ const ContextMenuCell: View<{ disabled: boolean; loading: boolean; proposal: SWU
           disabled={disabled || loading}
           loading={loading}
           onClick={() => dispatch(adt('screenInToTeamScenario' as const, proposal.id)) }>
-          Screen In
+          {i18next.t('links.screenIn')}
         </Link>
       );
     case SWUProposalStatus.UnderReviewTeamScenario:
@@ -218,7 +219,7 @@ const ContextMenuCell: View<{ disabled: boolean; loading: boolean; proposal: SWU
           disabled={disabled || loading}
           loading={loading}
           onClick={() => dispatch(adt('screenOutOfTeamScenario' as const, proposal.id)) }>
-          Screen Out
+          {i18next.t('links.screenOut')}
         </Link>
       );
     default:
@@ -288,17 +289,17 @@ function evaluationTableBodyRows(state: Immutable<State>, dispatch: Dispatch<Msg
 function evaluationTableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Proponent',
+      children: i18next.t('proponent'),
       className: 'text-nowrap',
       style: { width: '100%', minWidth: '240px' }
     },
     {
-      children: 'Status',
+      children: i18next.t('status'),
       className: 'text-nowrap',
       style: { width: '0px' }
     },
     {
-      children: 'Code Challenge',
+      children: i18next.t('codeChallenge'),
       className: 'text-nowrap text-center',
       style: { width: '0px' }
     },
@@ -337,7 +338,7 @@ const view: ComponentView<State, Msg> = (props) => {
       <div className='border-top mt-5 pt-5'>
         <Row>
           <Col xs='12' className='d-flex flex-column flex-md-row justify-content-md-between align-items-start align-items-md-center mb-4'>
-            <h4 className='mb-0'>Code Challenge Participants</h4>
+            <h4 className='mb-0'>{i18next.t('codeChallengeParticipants')}</h4>
           </Col>
           <Col xs='12'>
             {state.canViewProposals && state.proposals.length
@@ -361,7 +362,7 @@ export const component: Tab.Component<State, Msg> = {
     const isScreenToFromLoading = !!state.screenToFromLoading;
     const isLoading = isCompleteCodeChallengeLoading || isScreenToFromLoading;
     return adt('links', [{
-      children: 'Complete Code Challenge',
+      children: i18next.t('completeCodeChallenge'),
       symbol_: leftPlacement(iconLinkSymbol('code-outline')),
       color: 'primary',
       button: true,
@@ -381,18 +382,18 @@ export const component: Tab.Component<State, Msg> = {
     switch (state.showModal.tag) {
       case 'completeCodeChallenge':
         return {
-          title: 'Complete Code Challenge?',
+          title: `${i18next.t('completeCodeChallenge')} ?`,
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Complete Code Challenge',
+              text: i18next.t('completeCodeChallenge'),
               icon: 'code-outline',
               color: 'primary',
               button: true,
               msg: adt('completeCodeChallenge')
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }

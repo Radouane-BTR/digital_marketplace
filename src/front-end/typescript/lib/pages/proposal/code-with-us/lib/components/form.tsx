@@ -21,6 +21,7 @@ import { isVendor, User } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
 import * as proposalValidation from 'shared/lib/validation/proposal/code-with-us';
+import i18next from 'i18next';
 
 type ProponentType = 'individual' | 'organization';
 
@@ -128,13 +129,13 @@ export const init: Init<Params, State> = async ({ viewerUser, canRemoveExistingA
 
     proponentType: immutable(await ProponentTypeRadioGroup.init({
       errors: [],
-      validate: v => v === null ? invalid(['Please select a proponent type.']) : valid(v),
+      validate: v => v === null ? invalid([i18next.t('pleaseSelectProponentType')]) : valid(v),
       child: {
         id: 'cwu-proposal-proponent-type',
         value: proposal?.proponent.tag || null,
         options: [
-          { label: 'Individual', value: 'individual' },
-          { label: 'Organization', value: 'organization' }
+          { label: i18next.t('individual'), value: 'individual' },
+          { label: i18next.t('organization.edit.tab.index.organization-title'), value: 'organization' }
         ]
       }
     })),
@@ -233,7 +234,7 @@ export const init: Init<Params, State> = async ({ viewerUser, canRemoveExistingA
     organization: immutable(await Select.init({
       errors: [],
       validate: option => {
-        if (!option) { return invalid(['Please select an organization.']); }
+        if (!option) { return invalid([i18next.t('pleaseSelectOrganization')]); }
         return valid(option);
       },
       child: {
@@ -603,11 +604,11 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Legal Name'
-          help='Provide the first and last name of the individual that will complete the work as outlined in the opportunity’s acceptance criteria.'
+          placeholder={i18next.t('form.legal-name')}
+          help={i18next.t('legalNameHelp')}
           required
           extraChildProps={{}}
-          label='Legal Name'
+          label={i18next.t('legalName')}
           state={state.legalName}
           dispatch={mapComponentDispatch(dispatch, value => adt('legalName' as const, value)) }
         />
@@ -616,10 +617,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='vendor@email.com'
+          placeholder={i18next.t('emailPlaceHolder')}
           required
           extraChildProps={{}}
-          label='Email Address'
+          label={i18next.t('form.email')}
           state={state.email}
           dispatch={mapComponentDispatch(dispatch, value => adt('email' as const, value)) }
         />
@@ -628,9 +629,9 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Phone Number'
+          placeholder={i18next.t('phoneNumber')}
           extraChildProps={{}}
-          label='Phone Number'
+          label={i18next.t('phoneNumber')}
           state={state.phone}
           dispatch={mapComponentDispatch(dispatch, value => adt('phone' as const, value)) }
         />
@@ -639,10 +640,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Street Address'
+          placeholder={i18next.t('form.street-address')}
           required
           extraChildProps={{}}
-          label='Street Address'
+          label={i18next.t('form.street-address')}
           state={state.street1}
           dispatch={mapComponentDispatch(dispatch, value => adt('street1' as const, value)) }
         />
@@ -651,9 +652,9 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Street Address'
+          placeholder={i18next.t('form.street-address')}
           extraChildProps={{}}
-          label='Street Address'
+          label={i18next.t('form.street-address')}
           state={state.street2}
           dispatch={mapComponentDispatch(dispatch, value => adt('street2' as const, value)) }
         />
@@ -662,10 +663,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='7' xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='City'
+          placeholder={i18next.t('form.city')}
           required
           extraChildProps={{}}
-          label='City'
+          label={i18next.t('form.city')}
           state={state.city}
           dispatch={mapComponentDispatch(dispatch, value => adt('city' as const, value)) }
         />
@@ -674,10 +675,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='5' xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Province / State'
+          placeholder={i18next.t('form.province-state')}
           required
           extraChildProps={{}}
-          label='Province / State'
+          label={i18next.t('form.province-state')}
           state={state.region}
           dispatch={mapComponentDispatch(dispatch, value => adt('region' as const, value)) }
         />
@@ -686,10 +687,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='5' xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Postal / ZIP Code'
+          placeholder={i18next.t('form.postal-zipCode')}
           required
           extraChildProps={{}}
-          label='Postal / ZIP Code'
+          label={i18next.t('form.postal-zipCode')}
           state={state.mailCode}
           dispatch={mapComponentDispatch(dispatch, value => adt('mailCode' as const, value)) }
         />
@@ -698,10 +699,10 @@ const IndividualProponent: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='7' xs='12'>
         <ShortText.view
           disabled={disabled}
-          placeholder='Country'
+          placeholder={i18next.t('form.country')}
           required
           extraChildProps={{}}
-          label='Country'
+          label={i18next.t('form.country')}
           state={state.country}
           dispatch={mapComponentDispatch(dispatch, value => adt('country' as const, value)) }
         />
@@ -717,11 +718,11 @@ const OrganizationProponent: View<Props> = ({ state, dispatch, disabled }) => {
         <Select.view
           disabled={disabled}
           extraChildProps={{}}
-          label='Organization'
-          placeholder='Organization'
-          help={`Select the Organization that will complete the work as outlined in the opportunity's acceptance criteria.`}
+          label={i18next.t('organization.edit.tab.index.organization-title')}
+          placeholder={i18next.t('organization.edit.tab.index.organization-title')}
+          help={i18next.t('selectOrganizationHelp')}
           hint={isVendor(state.viewerUser)
-            ? (<span>If the organization you are looking for is not listed in this dropdown, please ensure that you have created the organization in <Link newTab dest={routeDest(adt('userProfile', { userId: state.viewerUser.id, tab: 'organizations' as const }))}>your user profile</Link>. Also, please make sure that you have saved this proposal beforehand to avoid losing any unsaved changes you might have made.</span>)
+            ? (<span>{i18next.t('selectOrganizationHintP1')} <Link newTab dest={routeDest(adt('userProfile', { userId: state.viewerUser.id, tab: 'organizations' as const }))}>{i18next.t('selectOrganizationHintLink')}</Link>. {i18next.t('selectOrganizationHintP2')}</span>)
             : undefined}
           required
           state={state.organization}
@@ -750,7 +751,7 @@ const ProponentView: View<Props> = props => {
       <Row>
         <Col xs='12'>
           <p className='mb-4'>
-            Will you be submitting a proposal for this opportunity as an Individual or Organization?
+          {i18next.t('proponentViewBody')}
           </p>
         </Col>
         <Col xs='12'>
@@ -769,9 +770,7 @@ const ProponentView: View<Props> = props => {
             <Row>
               <Col xs='12'>
                 <p className='mb-4'>
-                  Please provide the following details for the proponent that will
-                  complete the work as outlined by the Acceptance Criteria of the
-                  opportunity.
+                  {i18next.t('proponentViewBodyActiveView')}
                 </p>
               </Col>
             </Row>
@@ -783,18 +782,18 @@ const ProponentView: View<Props> = props => {
 };
 
 const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
+  // const textLink = i18next.t('proposalEvaluationCriteria') as String;
   return (
     <Row>
       <Col xs='12'>
         <p className='mb-4'>
-          Enter your proposal and any additional comments in the spaces provided
-          below. Be sure to address the Proposal Evaluation Criteria.
+          {i18next.t('proposalViewBody')}
         </p>
       </Col>
       <Col xs='12'>
         <Alert color='primary' fade={false} className='mb-4'>
           <Link color='inherit' className='font-weight-bold d-flex justify-content-between flex-nowrap align-items-center w-100' onClick={() => dispatch(adt('toggleEvaluationCriteria'))}>
-            Proposal Evaluation Criteria
+            Critères d'évaluation de la proposition
             <Icon name={state.showEvaluationCriteria ? 'chevron-up' : 'chevron-down'} className='o-75'/>
           </Link>
           {state.showEvaluationCriteria
@@ -809,8 +808,8 @@ const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
           extraChildProps={{
             style: { height: '60vh', minHeight: '400px' }
           }}
-          label='Proposal'
-          help='Provide your complete proposal here. Be sure to address the Proposal Evaluation Criteria as outlined on the opportunity. You can format your proposal with Markdown.'
+          label={i18next.t('proposal')}
+          help={i18next.t('proposalViewHelp')}
           state={state.proposalText}
           dispatch={mapComponentDispatch(dispatch, value => adt('proposalText' as const, value))} />
       </Col>
@@ -820,8 +819,8 @@ const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
           extraChildProps={{
             style: { height: '300px' }
           }}
-          label='Additional Comments'
-          help='Provide any additional information or comments that are relevant to your proposal submission. You can format your additional comments with Markdown.'
+          label={i18next.t('additionalComments')}
+          help={i18next.t('additionalCommentsHelp')}
           state={state.additionalComments}
           dispatch={mapComponentDispatch(dispatch, value => adt('additionalComments' as const, value))} />
       </Col>
@@ -839,7 +838,7 @@ const AttachmentsView: View<Props> = ({ state, dispatch, disabled }) => {
     <Row>
       <Col xs='12'>
         <p>
-          Upload any supporting material for your proposal here. Attachments must be smaller than 10MB.
+          {i18next.t('proposalAttachmentsViewBody')}
         </p>
         <Attachments.view
           dispatch={mapComponentDispatch(dispatch, msg => adt('attachments' as const, msg))}
@@ -864,7 +863,7 @@ export const view: View<Props> = props => {
     <TabbedFormComponent.view
       valid={isValid(state)}
       disabled={props.disabled}
-      getTabLabel={a => a}
+      getTabLabel={a => i18next.t(a.toLowerCase())}
       isTabValid={tab => {
         switch (tab) {
           case 'Proponent':    return isProponentTabValid(state);

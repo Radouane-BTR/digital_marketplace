@@ -9,7 +9,7 @@ import { Col, Row, Spinner } from 'reactstrap';
 import { CAPABILITIES_WITH_DESCRIPTIONS } from 'shared/lib/data/capabilities';
 import { usersAreEquivalent } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
-
+import i18next from 'i18next';
 export interface Capability {
   name: string;
   description: string[];
@@ -117,11 +117,11 @@ const view: ComponentView<State, Msg> = props => {
   return (
     <Row>
       <Col xs='12'>
-        <h2>Capabilities & Skills</h2>
-        <p className='mb-5'>Sprint With Us opportunities require teams with the capabilities and skills shown below. Select the capabilities that you possess by clicking on their names or checkboxes. Let us know what you can do!</p>
+        <h2>{i18next.t('capabilitiesAndSkills')}</h2>
+        <p className='mb-5'>{i18next.t('sprintWUcapabilitiesAndSkillsDescription')}</p>
       </Col>
       <Col xs='12'>
-        <h4 className='mb-4'>Capabilities</h4>
+        <h4 className='mb-4'>{i18next.t('capabilities')}</h4>
         <div className='border-top'>
           {state.capabilities.map((capability, i) => (
             <Capability

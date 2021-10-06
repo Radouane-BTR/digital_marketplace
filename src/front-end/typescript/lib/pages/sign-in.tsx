@@ -82,7 +82,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         <span>
           // TODO : Must be desactivated
           Don't have an account?&nbsp;
-          <Link dest={routeDest(adt('signUpStepOne', { redirectOnSuccess: state.redirectOnSuccess }))}>Sign up</Link>.
+          <Link dest={routeDest(adt('signUpStepOne', { redirectOnSuccess: state.redirectOnSuccess }))}>{i18next.t('links.sign-up')}</Link>.
         </span>
       )
     })
