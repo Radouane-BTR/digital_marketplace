@@ -13,6 +13,7 @@ import { UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
 import { allValid, getInvalidValue, invalid, isInvalid, valid, Validation } from 'shared/lib/validation';
 import * as fileValidation from 'shared/lib/validation/file';
+import i18next from 'i18next';
 
 export function hashFile(originalName: string, data: Buffer): string {
   const hash = shajs('sha1');
@@ -57,7 +58,7 @@ const resource: Resource = {
         }
         const file = dbResult.value;
         if (!file) {
-          return respond(404, ['File not found.']);
+          return respond(404, [i18next.t('fileNotFound')]);
         }
         if (!getBlob) { return respond(200, file); }
         const dbResultBlob = await db.readOneFileBlob(connection, file.fileBlob);
@@ -65,7 +66,7 @@ const resource: Resource = {
           return respond(503, [db.ERROR_MESSAGE]);
         }
         if (!dbResultBlob.value) {
-          return respond(404, ['File not found.']);
+          return respond(404, [i18next.t('i18next')]);
         }
         return basicResponse(200, request.session, adt('file', {
           buffer: dbResultBlob.value.blob,
@@ -94,7 +95,7 @@ const resource: Resource = {
       async validateRequestBody(request): Promise<Validation<ValidatedCreateRequestBody, CreateValidationErrors>> {
         if (!request.body) {
           return invalid({
-            requestBodyType: ['You need to submit a valid multipart request to create a file.']
+            requestBodyType: [i18next.t('invalidateRequestBody')]
           });
         }
         if (!permissions.createFile(request.session)) {
@@ -104,7 +105,7 @@ const resource: Resource = {
         }
         const { name, metadata, path } = request.body;
         const validatedOriginalFileName = fileValidation.validateFileName(name);
-        const validatedFilePermissions = metadata ? valid(metadata) : invalid(['Invalid metadata provided.']);
+        const validatedFilePermissions = metadata ? valid(metadata) : invalid([i18next.t('invalidMetadataProvided')]);
         const validatedFilePath = validateFilePath(path);
 
         if (allValid([validatedOriginalFileName, validatedFilePermissions, validatedFilePath])) {

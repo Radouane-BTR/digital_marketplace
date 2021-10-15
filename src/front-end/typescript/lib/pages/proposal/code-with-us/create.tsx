@@ -235,7 +235,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
             <SubmitProposalTerms.view
               opportunityType={i18next.t('codeWithUs')}
               action='submitting'
-              termsTitle={i18next.t('cwdTermsConditions')}
+              termsTitle={i18next.t('cwuTermsConditions')}
               termsRoute={adt('contentView', 'code-with-us-terms-and-conditions')}
               state={state.submitTerms}
               dispatch={mapComponentDispatch(dispatch, msg => adt('submitTerms', msg) as Msg)} />

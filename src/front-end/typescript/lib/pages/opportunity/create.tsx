@@ -68,7 +68,7 @@ const view: ComponentView<State, Msg> = () => {
             {
               button: true,
               dest: routeDest(adt('opportunityCWUCreate', null)),
-              children: ['Get Started'],
+              children: [i18next.t('links.getStarted')],
               color: 'primary' as TextColor
             }
           ]}

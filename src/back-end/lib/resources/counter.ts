@@ -7,6 +7,7 @@ import { UpdateRequestBody, UpdateValidationErrors } from 'shared/lib/resources/
 import { Session } from 'shared/lib/resources/session';
 import { getInvalidValue, invalid, isInvalid, isValid } from 'shared/lib/validation';
 import { validateCounterName, validateCounterNames } from 'shared/lib/validation/counter';
+import i18next from 'i18next';
 
 type ValidatedUpdateRequestBody = string;
 
@@ -40,7 +41,7 @@ const resource: Resource = {
       const names = request.query.counters?.split(',') || [];
       const validatedCounterNames = validateCounterNames(names);
       if (isInvalid(validatedCounterNames)) {
-        return respond(400, ['Invalid counter names provided']);
+        return respond(400, [`${i18next.t('invalidCounterNamesProvided')}`]);
       }
 
       if (validatedCounterNames.value.length === 0 && !permissions.readAllCounters(request.session)) {

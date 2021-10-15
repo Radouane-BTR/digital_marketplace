@@ -59,7 +59,7 @@ export async function accountDeactivatedSelfT(user: User): Promise<Emails> {
           <Trans i18nKey="accountDeactivatedBody" components={{ paragraph: <p /> }} />
         </div>
       ),
-      callsToAction: [signInCallToAction('Sign In to Reactivate Account')]
+      callsToAction: [signInCallToAction(i18next.t('signInToReactivateAccount'))]
     })
   }];
 }

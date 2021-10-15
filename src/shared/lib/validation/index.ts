@@ -4,6 +4,7 @@ import moment from 'moment';
 import { compareDates, countWords, formatAmount, formatDate, formatDateAndTime, formatTime } from 'shared/lib';
 import CAPABILITIES from 'shared/lib/data/capabilities';
 import { adt, ADT, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export type ErrorTypeFrom<T> = {
   [p in keyof T]?: string[];
@@ -147,47 +148,47 @@ export async function optionalAsync<Value, Valid, Invalid>(v: Value | OptionalNo
   return isOptionalNotDefined(v) ? valid<undefined>(undefined) : await validate(v as Value);
 }
 
-export function validateGenericString(value: string, name: string, min = 1, max = 100, characters = 'characters'): Validation<string> {
+export function validateGenericString(value: string, name: string, min = 1, max = 100, characters = i18next.t('characters')): Validation<string> {
   if (value.length < min || value.length > max) {
-    return invalid([`${name} must be between ${min} and ${max} ${characters} long.`]);
+    return invalid([i18next.t('validateGenericStringWordsText',{name: name, min: min, max: max, text: characters})]);
   } else {
     return valid(value);
   }
 }
 
-export function validateGenericStringWords(value: string, name: string, min = 1, max = 3000, words = 'words'): Validation<string> {
+export function validateGenericStringWords(value: string, name: string, min = 1, max = 3000, words = i18next.t('words')): Validation<string> {
   const count = countWords(value);
   if (count < min || count > max) {
-    return invalid([`${name} must be between ${min} and ${max} ${words} long.`]);
+    return invalid([i18next.t('validateGenericStringWordsText',{name: name, min: min, max: max, text: words})]);
   } else {
     return valid(value);
   }
 }
 
-export function validateStringInArray(value: string, availableValues: immutable.Set<string>, name: string, indefiniteArticle = 'a', caseSensitive = false): Validation<string> {
+export function validateStringInArray(value: string, availableValues: immutable.Set<string>, name: string, indefiniteArticle =  i18next.t('a'), caseSensitive = false): Validation<string> {
   if (!value) {
-    return invalid([`Please select ${indefiniteArticle} ${name}`]);
+    return invalid([i18next.t('validateStringInArray.isNotSelected',{article: indefiniteArticle, text: name})]);
   }
   if (!caseSensitive) {
     availableValues = availableValues.map(v => v.toUpperCase());
     value = value.toUpperCase();
   }
   if (!availableValues.includes(value)) {
-    return invalid([`"${value}" is not a valid ${name}.`]);
+    return invalid([i18next.t('validateStringInArray.isNotSelected',{value: value, text: name})]);
   } else {
     return valid(value);
   }
 }
 
-export function validateNumber(raw: string | number, min?: number, max?: number, name = 'number', article = 'a', format = true, integer = true): Validation<number> {
+export function validateNumber(raw: string | number, min?: number, max?: number, name =  i18next.t('number'), article = i18next.t('a'), format = true, integer = true): Validation<number> {
   const parsed = integer ? parseInt(`${raw}`, 10) : parseFloat(`${raw}`);
-  if (isNaN(parsed)) { return invalid([`Please enter a valid ${name}.`]); }
+  if (isNaN(parsed)) { return invalid([i18next.t('validateNumber.isNotValidText', {name: name})]); }
   const errors: string[] = [];
   if (min !== undefined && parsed < min) {
-    errors.push(`Please enter ${article} ${name} greater than or equal to ${format ? formatAmount(min) : min}.`);
+    errors.push(i18next.t('validateNumber.isMinText', {article: article, name: name, value: format ? formatAmount(min) : min}));
   }
   if (max !== undefined && parsed > max) {
-    errors.push(`Please enter ${article} ${name} less than or equal to ${format ? formatAmount(max) : max}.`);
+    errors.push(i18next.t('validateNumber.isMaxText', {article: article, name: name, value: format ? formatAmount(max) : max}));
   }
   if (errors.length) {
     return invalid(errors);
@@ -195,14 +196,14 @@ export function validateNumber(raw: string | number, min?: number, max?: number,
   return valid(parsed);
 }
 
-export function validateNumberWithPrecision(raw: string | number, min?: number, max?: number, maxPrecision = 5, name = 'number', article = 'a', format = true): Validation<number> {
+export function validateNumberWithPrecision(raw: string | number, min?: number, max?: number, maxPrecision = 5, name =  i18next.t('number'), article = i18next.t('a'), format = true): Validation<number> {
   const validatedNumber = validateNumber(raw, min, max, name, article, format, false);
   if (isInvalid(validatedNumber)) {
     return validatedNumber;
   }
   const parts = validatedNumber.value.toString().split('.');
   if (parts.length > 1 && parts[1].length > maxPrecision) {
-    return invalid([`Please enter ${article} ${name} with precision less than or equal to ${maxPrecision} decimal places.`]);
+    return invalid([i18next.t('invalidNumberWithPrecision', {article: article, name: name, maxPrecision: maxPrecision})]);
   }
   return validatedNumber;
 }
@@ -217,7 +218,7 @@ function parseDate(raw: string): Date | null {
 export function validateGenericDate(raw: string, name: string, preposition: string, format: (d: Date) => string, minDate?: Date, maxDate?: Date, modifyParsed?: (_: Date) => Date): Validation<Date> {
   let date: Date | null = parseDate(raw);
   if (!date) {
-    return invalid(['Please enter a valid date.']);
+    return invalid([i18next.t('invalidDate')]);
   }
   date = modifyParsed ? modifyParsed(date) : date;
   const validMinDate = !minDate || compareDates(date, minDate) !== -1;
@@ -227,31 +228,31 @@ export function validateGenericDate(raw: string, name: string, preposition: stri
   } else {
     const errors: string[] = [];
     if (!validMinDate && minDate) {
-      errors.push(`Please select a ${name} ${preposition ? `${preposition} or ` : ''}after ${format(minDate)}.`);
+      errors.push(`${i18next.t('invalidMinMaxDate', {name: name})} ${preposition ? `${preposition} ${i18next.t('or')} ` : ''}${i18next.t('after')} ${format(minDate)}.`);
     }
     if (!validMaxDate && maxDate) {
-      errors.push(`Please select a ${name} ${preposition ? `${preposition} or ` : ''}earlier than ${format(maxDate)}.`);
+      errors.push(`${i18next.t('invalidMinMaxDate', {name: name})} ${preposition ? `${preposition} ${i18next.t('or')} ` : ''}${i18next.t('earlierThan')} ${format(maxDate)}.`);
     }
     return invalid(errors);
   }
 }
 
 export function validateDatetime(raw: string, minDate?: Date, maxDate?: Date, modifyParsed?: (_: Date) => Date): Validation<Date> {
-  return validateGenericDate(raw, 'date/time', 'at', formatDateAndTime, minDate, maxDate, modifyParsed);
+  return validateGenericDate(raw, i18next.t('date/time'), i18next.t('at'), formatDateAndTime, minDate, maxDate, modifyParsed);
 }
 
 export function validateDate(raw: string, minDate?: Date, maxDate?: Date, modifyParsed?: (_: Date) => Date): Validation<Date> {
-  return validateGenericDate(raw, 'date', 'on', formatDate, minDate, maxDate, modifyParsed);
+  return validateGenericDate(raw, 'date', i18next.t('on'), formatDate, minDate, maxDate, modifyParsed);
 }
 
 export function validateTime(raw: string, minDate?: Date, maxDate?: Date): Validation<Date> {
-  return validateGenericDate(raw, 'time', 'at', formatTime, minDate, maxDate);
+  return validateGenericDate(raw, i18next.t('time'), i18next.t('at'), formatTime, minDate, maxDate);
 }
 
 export function validateUrl(url: string): Validation<string> {
   url = url.toLowerCase();
   if (!url.match(/(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i)) {
-    return invalid(['Please enter a valid URL.']);
+    return invalid([i18next.t('invalidUrl')]);
   } else {
     return valid(url);
   }
@@ -259,7 +260,7 @@ export function validateUrl(url: string): Validation<string> {
 
 export function validatePhoneNumber(phone: string): Validation<string> {
   if (!phone.match(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/i)) {
-    return invalid(['Please enter a valid phone number.']);
+    return invalid([i18next.t('invalidPhoneNumber')]);
   } else {
     return valid(phone);
   }
@@ -268,7 +269,7 @@ export function validatePhoneNumber(phone: string): Validation<string> {
 export function validateEmail(email: string): Validation<string> {
   email = email.toLowerCase();
   if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/i)) {
-    return invalid([ 'Please enter a valid email.' ]);
+    return invalid([i18next.t('invalidEmail')]);
   } else {
     return valid(email);
   }
@@ -280,7 +281,7 @@ export const UUID_REGEXP = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-
 // Validates a v4 UUID
 export function validateUUID(raw: string): Validation<Id> {
   if (!raw.match(UUID_REGEXP)) {
-    return invalid(['Invalid identifier provided.']);
+    return invalid([i18next.t('invalidateUUID')]);
   } else {
     return valid(raw);
   }
@@ -288,11 +289,11 @@ export function validateUUID(raw: string): Validation<Id> {
 
 // Validate capabilities for SWU opportunities and proposals
 export function validateCapability(raw: string): Validation<string> {
-  return CAPABILITIES.includes(raw) ? valid(raw) : invalid(['Please select a capability from the list.']);
+  return CAPABILITIES.includes(raw) ? valid(raw) : invalid([i18next.t('invalidCapability')]);
 }
 
 export function validateCapabilities(raw: string[], minCapabilities = 1): ArrayValidation<string> {
-  if (raw.length < minCapabilities) { return invalid([[`Please select at least ${minCapabilities} capabilit${minCapabilities === 1 ? 'y' : 'ies'}.`]]); }
+  if (raw.length < minCapabilities) { return invalid([[`${i18next.t('invalidCapabilities', {minCapabilities: minCapabilities})} ${minCapabilities === 1 ? i18next.t('team-member.capability') : i18next.t('team-member.capabilities')}.`]]); }
   const validatedArray = validateArray(raw, validateCapability);
   return mapValid(validatedArray, v => uniq(v));
 }

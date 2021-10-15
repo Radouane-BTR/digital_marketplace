@@ -118,7 +118,7 @@ const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) => {
                 className='ml-3'
                 color='primary'
                 onClick={() => dispatch(adt('accept'))}>
-                { i18next.t('organization.accept-terms') }
+                { i18next.t('organization.sprint-with-us.accept-terms') }
               </Link>
               <Link
                 color='secondary'

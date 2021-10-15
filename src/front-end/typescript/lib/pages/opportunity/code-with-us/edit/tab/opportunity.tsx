@@ -567,7 +567,7 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: i18next.t('links.cacnel'),
+                  children: i18next.t('links.cancel'),
                   symbol_: leftPlacement(iconLinkSymbol('minus-circle')),
                   onClick: () => dispatch(adt('showModal', 'cancel' as const))
                 }
@@ -578,7 +578,7 @@ export const component: Tab.Component<State, Msg> = {
       case CWUOpportunityStatus.Evaluation:
         return adt('links', [
           {
-            children: i18next.t('links.cacnel'),
+            children: i18next.t('links.cancel'),
             symbol_: leftPlacement(iconLinkSymbol('minus-circle')),
             onClick: () => dispatch(adt('showModal', 'cancel' as const)),
             button: true,

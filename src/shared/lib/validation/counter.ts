@@ -1,11 +1,12 @@
 import { invalid, valid, validateArray, validateGenericString, Validation} from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export function validateCounterName(raw: string): Validation<string, string[]> {
-  const isValid = validateGenericString(raw, 'Counter name') && raw.match(/^[a-zA-Z0-9.-]+$/);
+  const isValid = validateGenericString(raw, i18next.t('counterName')) && raw.match(/^[a-zA-Z0-9.-]+$/);
   if (isValid) {
     return valid(raw);
   } else {
-    return invalid(['Counter name is not alphanumeric.']);
+    return invalid([i18next.t('invalidCounterName')]);
   }
 }
 

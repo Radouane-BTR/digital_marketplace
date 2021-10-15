@@ -13,7 +13,7 @@ import { AuthenticatedSession, Session } from 'shared/lib/resources/session';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { allValid, getInvalidValue, getValidValue, invalid, isInvalid, valid, Validation } from 'shared/lib/validation';
 import * as proposalValidation from 'shared/lib/validation/proposal/code-with-us';
-
+import i18next from 'i18next';
 
 interface ValidatedCreateRequestBody {
   session: AuthenticatedSession;
@@ -97,7 +97,7 @@ const resource: Resource = {
       if (request.query.opportunity) {
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, request.query.opportunity, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
-          return respond(404, ['Code With Us opportunity not found.']);
+          return respond(404, [`${i18next.t('cwuOpportunityNotFound')}`]);
         }
 
         if (!permissions.isSignedIn(request.session) || !await permissions.readManyCWUProposals(connection, request.session, validatedCWUOpportunity.value)) {
@@ -127,7 +127,7 @@ const resource: Resource = {
 
       const validatedCWUProposal = await validateCWUProposalId(connection, request.params.id, request.session);
       if (isInvalid(validatedCWUProposal)) {
-        return respond(404, ['Proposal not found.']);
+        return respond(404, [i18next.t('proposalNotFound')]);
       }
 
       if (!await permissions.readOneCWUProposal(connection, request.session, validatedCWUProposal.value)) {
@@ -177,7 +177,7 @@ const resource: Resource = {
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, opportunity, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
           return invalid({
-            notFound: ['The specified opportunity does not exist.']
+            notFound: [i18next.t('opportunityNotExistText')]
           });
         }
 
@@ -190,7 +190,7 @@ const resource: Resource = {
         }
         if (dbResult.value) {
           return invalid({
-            conflict: ['You already have a proposal for this opportunity.']
+            conflict: [i18next.t('alreadyHaveProposalForOpprtunity')]
           });
         }
 
@@ -288,7 +288,7 @@ const resource: Resource = {
         if (!request.body) { return invalid({ proposal: adt('parseFailure' as const) }); }
         const validatedCWUProposal = await validateCWUProposalId(connection, request.params.id, request.session);
         if (isInvalid(validatedCWUProposal)) {
-          return invalid({ notFound: ['The specified proposal does not exist.'] });
+          return invalid({ notFound: [i18next.t('proposalNotExistText')] });
         }
 
         const cwuOpportunity = getValidValue(await db.readOneCWUOpportunity(connection, validatedCWUProposal.value.opportunity.id, request.session), undefined);
@@ -502,7 +502,7 @@ const resource: Resource = {
         }
         const validatedCWUProposal = await validateCWUProposalId(connection, request.params.id, request.session);
         if (isInvalid(validatedCWUProposal)) {
-          return invalid({ status: ['You can not delete a proposal that is not a draft.'] });
+          return invalid({ status: [i18next.t('proposalDeleteIfNotDraftText')] });
         }
         if (validatedCWUProposal.value.status !== CWUProposalStatus.Draft) {
           return invalid({ permissions: [permissions.ERROR_MESSAGE] });

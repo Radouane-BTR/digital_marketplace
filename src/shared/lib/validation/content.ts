@@ -11,7 +11,7 @@ export function validateBody(raw: string): Validation<string> {
 
 export function validateSlug(raw: string): Validation<string> {
   if (!raw.match(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)) {
-    return invalid([ 'Please enter a valid slug.' ]);
+    return invalid([ i18next.t('invalidSlug') ]);
   } else {
     return valid(raw);
   }

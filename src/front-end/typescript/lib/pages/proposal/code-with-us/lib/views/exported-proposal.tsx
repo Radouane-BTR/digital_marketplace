@@ -8,6 +8,7 @@ import { Col, Row } from 'reactstrap';
 import { formatDateAndTime } from 'shared/lib';
 import { CWUProposal, getCWUProponentName, getCWUProponentTypeTitleCase } from 'shared/lib/resources/proposal/code-with-us';
 import { User } from 'shared/lib/resources/user';
+import i18next from 'i18next';
 
 export interface Props {
   className?: string;
@@ -22,32 +23,32 @@ export const ExportedPropsal: View<Props> = ({ proposal, showOpportunityInformat
     <div className={className}>
       <Row>
         <Col xs='12'>
-          <h3 className='mb-4'>Vendor Proposal</h3>
+          <h3 className='mb-4'>{i18next.t('vendorProposal')}</h3>
           <DescriptionList
             items={[
-              { name: 'ID', children: proposal.id },
-              showOpportunityInformation ? { name: 'Opportunity', children: proposal.opportunity.title } : null,
-              showOpportunityInformation ? { name: 'Opportunity Type', children: 'Code With Us' } : null,
-              { name: 'Proponent', children: getCWUProponentName(proposal) },
-              { name: 'Proponent Type', children: getCWUProponentTypeTitleCase(proposal) },
-              { name: 'Vendor', children: proposal.createdBy.name },
+              { name: i18next.t('id'), children: proposal.id },
+              showOpportunityInformation ? { name: i18next.t('opportunity'), children: proposal.opportunity.title } : null,
+              showOpportunityInformation ? { name: i18next.t('opportunityType'), children: i18next.t('codeWithUs') } : null,
+              { name: i18next.t('proponent'), children: getCWUProponentName(proposal) },
+              { name: i18next.t('proponentType'), children: getCWUProponentTypeTitleCase(proposal) },
+              { name: i18next.t('vendor'), children: proposal.createdBy.name },
               proposal.score ? { name: 'Score', children: `${proposal.score}%` } : null,
-              exportedBy ? { name: 'Exported By', children: exportedBy.name } : null,
-              exportedAt ? { name: 'Exported On', children: formatDateAndTime(exportedAt) } : null
+              exportedBy ? { name: i18next.t('exportedBy'), children: exportedBy.name } : null,
+              exportedAt ? { name: i18next.t('exportedOn'), children: formatDateAndTime(exportedAt) } : null
             ]}
           />
         </Col>
       </Row>
       <Row className='mt-5'>
         <Col xs='12'>
-          <h5 className='mb-4'>Proposal:</h5>
+          <h5 className='mb-4'>{i18next.t('proposal')}:</h5>
           <div><ProposalMarkdown box source={proposal.proposalText} noLinks={false} noImages={false} /></div>
         </Col>
       </Row>
       {proposal.additionalComments
         ? (<Row className='mt-5'>
             <Col xs='12'>
-              <h5 className='mb-4'>Additional Comments:</h5>
+              <h5 className='mb-4'>{i18next.t('additionalComments')}:</h5>
               <div><ProposalMarkdown box source={proposal.additionalComments} noLinks={false} noImages={false} /></div>
             </Col>
           </Row>)
@@ -55,7 +56,7 @@ export const ExportedPropsal: View<Props> = ({ proposal, showOpportunityInformat
         {proposal.attachments.length
           ? (<Row className='mt-5'>
               <Col xs='12'>
-                <h5 className='mb-4'>Attachments:</h5>
+                <h5 className='mb-4'>{i18next.t('attachments')}:</h5>
                 {proposal.attachments.map((a, i) => (
                   <Link
                     key={`cwu-proposal-export-attachment-${i}`}

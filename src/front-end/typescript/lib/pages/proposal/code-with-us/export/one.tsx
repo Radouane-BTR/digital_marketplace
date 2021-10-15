@@ -10,6 +10,7 @@ import { CWUProposal, getCWUProponentName } from 'shared/lib/resources/proposal/
 import { User } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 interface ValidState {
   proposal: CWUProposal;
@@ -63,12 +64,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata: getMetadataValid(state => {
-    return makePageMetadata(`${getCWUProponentName(state.proposal)} ${TITLE_SEPARATOR} ${state.proposal.opportunity.title} ${TITLE_SEPARATOR} Exported Code With Us Proposal`);
-  }, makePageMetadata('Exported Code With Us Proposal')),
+    return makePageMetadata(`${getCWUProponentName(state.proposal)} ${TITLE_SEPARATOR} ${state.proposal.opportunity.title} ${TITLE_SEPARATOR} ${i18next.t('exportedCWUProposal')}`);
+  }, makePageMetadata(i18next.t('exportedCWUProposal'))),
   getContextualActions({ state, dispatch }) {
     return adt('links', [
       {
-        children: 'Print',
+        children: i18next.t('links.print'),
         symbol_: leftPlacement(iconLinkSymbol('print')),
         color: 'primary',
         button: true,

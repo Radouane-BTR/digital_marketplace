@@ -7,6 +7,7 @@ import { routeDest } from 'front-end/lib/views/link';
 import { CWUProposal } from 'shared/lib/resources/proposal/code-with-us';
 import { User } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 // Parent page types & functions.
 
@@ -50,14 +51,14 @@ export function idToDefinition<K extends TabId>(id: K): TabbedPage.TabDefinition
       return {
         component: HistoryTab.component,
         icon: 'history',
-        title: 'Proposal History'
+        title: i18next.t('proposalHistory')
       } as TabbedPage.TabDefinition<Tabs, K>;
     case 'proposal':
     default:
       return {
         component: ProposalTab.component,
         icon: 'comment-dollar',
-        title: 'Proposal Details'
+        title: i18next.t('proposalDetails')
       } as TabbedPage.TabDefinition<Tabs, K>;
   }
 }
@@ -75,13 +76,13 @@ export function makeSidebarLink(tab: TabId, proposalId: Id, opportunityId: Id, a
 export async function makeSidebarState(proposalId: Id, opportunityId: Id, activeTab: TabId): Promise<Immutable<MenuSidebar.State>> {
   return immutable(await MenuSidebar.init({
     backLink: {
-      text: 'Back to Opportunity',
+      text: i18next.t('backToOpportunity'),
       route: adt('opportunityCWUEdit', { opportunityId, tab: 'proposals' as const })
     },
     items: [
-      adt('heading', 'Vendor Proposal'),
+      adt('heading', `${i18next.t('vendorProposal')}`),
       makeSidebarLink('proposal', proposalId, opportunityId, activeTab),
-      adt('heading', 'Management'),
+      adt('heading', `${i18next.t('management')}`),
       makeSidebarLink('history', proposalId, opportunityId, activeTab)
     ]
   }));

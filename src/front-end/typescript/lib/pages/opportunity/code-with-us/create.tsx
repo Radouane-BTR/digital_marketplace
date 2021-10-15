@@ -235,6 +235,6 @@ export const component: PageComponent<RouteParams,  SharedState, State, Msg> = {
     }
   }),
   getMetadata() {
-    return makePageMetadata(i18next.t('createCWUTitle'));
+    return makePageMetadata(i18next.t('createCwuOpportunityTitle'));
   }
 };

@@ -187,8 +187,8 @@ export const init: Init<Params, State> = async ({ canRemoveExistingAttachments, 
           return null;
         })(),
         options: [
-          { label: i18next.t('Yes'), value: 'yes' },
-          { label: i18next.t('No'), value: 'no' }
+          { label: i18next.t('yes'), value: 'yes' },
+          { label: i18next.t('no'), value: 'no' }
         ]
       }
     })),
