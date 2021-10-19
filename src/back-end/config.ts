@@ -15,7 +15,7 @@ export const TOTAL_AWARDED_VALUE_OFFSET = 13211500;
 
 export const DB_MIGRATIONS_TABLE_NAME = 'migrations';
 
-export const MAILER_REPLY = get('MAILER_REPLY', 'boutiri.radouane@gmail.com');
+export const MAILER_REPLY = get('MAILER_REPLY', 'adresse@gmail.com');
 
 export const SILENT_LOGS = get('SILENT_LOGS', 'false') === 'true';
 
@@ -113,8 +113,8 @@ const productionMailerConfigOptions = {
 const developmentGmailMailerConfigOptions = {
   service: 'gmail',
   auth: {
-    user: get('MAILER_GMAIL_USER', 'boutiri.radouane@gmail.com'),
-    pass: get('MAILER_GMAIL_PASS', 'h2a3e11350.@')
+    user: get('MAILER_GMAIL_USER', 'noreply@digitalmarketplace.gov.bc.ca'),
+    pass: get('MAILER_GMAIL_PASS', '')
   },
   tls: {
     rejectUnauthorized: false
@@ -129,7 +129,7 @@ const developmentSendmailMailerConfigOptions: SendmailTransport.Options = {
   newline: 'unix'
 };
 
-const developmentMailerConfigOptions = get('MAILER_GMAIL_USER', 'boutiri.radouane@gmail.com')
+const developmentMailerConfigOptions = get('MAILER_GMAIL_USER', '')
 ? developmentGmailMailerConfigOptions
 : developmentSendmailMailerConfigOptions;
 

@@ -821,7 +821,7 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
         <DateField.view
           extraChildProps={{}}
           label={i18next.t('detailsViewCompletionDateLabel')}
-          help={i18next.t('detailsViewCompletionDatehelp')}
+          help={i18next.t('detailsViewCompletionDateHelp')}
           state={state.completionDate}
           disabled={disabled}
           dispatch={mapComponentDispatch(dispatch, value => adt('completionDate' as const, value))} />

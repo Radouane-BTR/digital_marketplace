@@ -1163,5 +1163,7 @@
   "invalidateRequestBody": "Vous devez soumettre une demande en plusieurs parties valide pour créer un fichier.",
   "invalidMetadataProvided.": "Métadonnées fournies non valides.",
   "organizationNotFound": "Organisation introuvable.",
-  "exportProposal": "Exporter la proposition"
+  "exportProposal": "Exporter la proposition",
+  "next": "Suivant",
+  "previous": "Précédent"
 }

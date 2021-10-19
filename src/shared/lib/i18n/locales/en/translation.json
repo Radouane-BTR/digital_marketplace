@@ -1163,5 +1163,7 @@
   "invalidateRequestBody": "You need to submit a valid multipart request to create a file.",
   "invalidMetadataProvided.": "Invalid metadata provided.",
   "organizationNotFound": "Organization not found.",
-  "exportProposal": "Export Proposal"
+  "exportProposal": "Export Proposal",
+  "next": "Next",
+  "previous": "Previous"
 }
