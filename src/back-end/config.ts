@@ -113,7 +113,7 @@ const productionMailerConfigOptions = {
 const developmentGmailMailerConfigOptions = {
   service: 'gmail',
   auth: {
-    user: get('MAILER_GMAIL_USER', 'noreply@digitalmarketplace.gov.bc.ca'),
+    user: get('MAILER_GMAIL_USER', ''),
     pass: get('MAILER_GMAIL_PASS', '')
   },
   tls: {
