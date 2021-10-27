@@ -818,6 +818,7 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
       </Col>
       <Col xs='12' md='6'>
         <DateField.view
+          required
           extraChildProps={{}}
           label='Completion Date'
           help='Choose a date that you expect the successful proponent to meet the opportunity’s acceptance criteria.'

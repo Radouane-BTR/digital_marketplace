@@ -4,6 +4,7 @@ import { setDateTo4PM } from 'shared/lib';
 import { CreateCWUOpportunityStatus, CWUOpportunity, CWUOpportunityStatus, isCWUOpportunityClosed, parseCWUOpportunityStatus } from 'shared/lib/resources/opportunity/code-with-us';
 import { ArrayValidation, invalid, mapValid, optional, valid, validateArray, validateDate, validateGenericString, validateNumber, Validation } from 'shared/lib/validation';
 import { isBoolean } from 'util';
+import moment from 'moment';
 
 export { validateAddendumText } from 'shared/lib/validation/addendum';
 
@@ -72,8 +73,15 @@ export function validateStartDate(raw: string, assignmentDate: Date): Validation
 }
 
 export function validateCompletionDate(raw: string | undefined, startDate: Date): Validation<Date | undefined> {
-  return optional(raw, v => validateDate(v, setDateTo4PM(startDate), undefined, setDateTo4PM));
+  const parsed = moment(raw);
+  let date: Date | null =  parsed.isValid() ? parsed.toDate() : null;
+  if (!date) {
+    return invalid(['veuillez entrer une date valide']);
+  } else {
+    return optional(raw, v => validateDate(v, setDateTo4PM(startDate), undefined, setDateTo4PM));
+  }
 }
+
 
 export function validateSubmissionInfo(raw: string): Validation<string> {
   return validateGenericString(raw, 'Project Submission Info', 0, 500);

@@ -1,6 +1,5 @@
 version: "3"
-
-
+  
 volumes:
   node_modules:
   frontend_build:
@@ -8,14 +7,18 @@ volumes:
 services:
 
   db:
-    image: postgres:10
+    #image: postgres:10
+    image: dockerlocal.artifactory.itp.extra/devexchange/postgres:10
     environment:
       POSTGRES_USER: digitalmarketplace
       POSTGRES_PASSWORD: digitalmarketplace
       POSTGRES_DB: digitalmarketplace
+    ports: 
+      - 5432:5432
 
   db-test:
-    image: postgres:10
+    #image: postgres:10
+    image: dockerlocal.artifactory.itp.extra/devexchange/postgres:10
     environment:
       POSTGRES_USER: digitalmarketplace
       POSTGRES_PASSWORD: digitalmarketplace
@@ -94,18 +97,12 @@ services:
       - VENDOR_ACCOUNT_CREATION_DISABLED=1
       - KEYCLOAK_CLIENT_SECRET=3e1ac83e-553a-4811-8d5a-b0d5b8f4b332
       - SERVICE_TOKEN_HASH=$$2a$$10$$DopJPvHidYqWVKq.Sdcy5eTF82MvG1btPO.81NUtb/4XjiZa7ctQS
+      - A=1
 
-  frontend:
-    image: nginx:alpine
-    ports:
-      - 4000:80
-    depends_on: 
-      - ui
-    volumes:
-      - frontend_build:/usr/share/nginx/html
 
   selenium:
-    image: selenium/standalone-chrome-debug
+    #image: selenium/standalone-chrome-debug
+    image: dockerlocal.artifactory.itp.extra/devexchange/selenium/standalone-chrome-debug:latest
     ports:
       - 4444:4444
       - 5999:5900
