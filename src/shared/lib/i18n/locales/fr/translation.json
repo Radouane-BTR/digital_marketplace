@@ -246,7 +246,8 @@
     "viewOrganization": "Voir l'organisation",
     "viewOrganizations": "Voir les organisations",
     "viewProposal": "Afficher la proposition",
-    "print": "Imprimer"
+    "print": "Imprimer",
+    "addAttachment": "Ajouter pièces jointes"
   },
   "no": "Non",
   "notification": {
@@ -683,7 +684,7 @@
   "unableAddAddenda": "Impossible d'ajouter des addenda en raison d'une erreur système.",
   "additionalAddendaInformation": "Fournissez des informations supplémentaires ici pour clarifier ou étayer les informations de l'opportunité d'origine.",
   "Addenda": "Addenda",
-  "history": "Histoire",
+  "history": "Historique",
   "proposals": "Les propositions",
   "summary": "Sommaire",
   "opportunityManagement": "Gestion des opportunités",
@@ -730,7 +731,7 @@
   "isNotValideOption": "veuillez sélectionner une option.",
   "overviewViewTitleHelp": "Donnez un titre bref et abrégé à l'opportunité qui met en évidence le travail que vous devez faire.",
   "overviewViewTitlePlaceHolder": "Titre de l'Opportunité",
-  "Teaser": "Teaser",
+  "teaser": "Introduction",
   "overviewViewTeaserHelp": "Fournissez 1 à 2 phrases qui inciteront les lecteurs à postuler à cette opportunité et qui décrivent ce que vous les invitez à faire.",
   "overviewViewTeaserPlaceHolder": "Fournissez 1 à 2 phrases qui décrivent aux lecteurs ce que vous les invitez à faire.",
   "overviewViewRemote": "Travail à distance",
@@ -908,7 +909,7 @@
   "privacyPolicy": "Politique de confidentialité",
   "privacyPolicyDescriptionP1": "Vos renseignements personnels sont recueillis par le ministère des Services aux citoyens en vertu de l'article 26 (c) de la Loi sur l'accès à l'information et la protection de la vie privée (FOIPPA). La collecte, l'utilisation et la divulgation de vos informations personnelles ont pour but de notifier, d'appliquer et d'attribuer des opportunités sur le marché numérique. Si vous avez des questions, veuillez communiquer avec : Zachary Woodward, directeur principal, Approvisionnement, ministère des Services aux citoyens,",
   "privacyPolicyDescriptionP2": "Vous avez accepté la <italic>Politique de confidentialité</italic> de Digital Marketplace lorsque vous avez créé votre compte Digital Marketplace.",
-  "termsAndConditions": "Termes et conditions",
+  "termsAndConditions": "conditions générales",
   "termsAndConditionsDescriptionP1": "Vous avez accepté les <italic>{{title}}</italic> le {{date}} à {{time}}.",
   "termsAndConditionsDescriptionP2": "Les <italic>{{title}}</italic> ont été mis à jour. S'il vous plaît",
   "notificationViewBody": "Des notifications par e-mail seront envoyées à <bold>{{email}}</bold> pour les options sélectionnées ci-dessous. Si cette adresse e-mail est incorrecte, veuillez mettre à jour votre profil.",
@@ -1165,5 +1166,15 @@
   "organizationNotFound": "Organisation introuvable.",
   "exportProposal": "Exporter la proposition",
   "next": "Suivant",
-  "previous": "Précédent"
+  "previous": "Précédent",
+  "stepOneInstructionalSidebar": {
+    "title": "Créez votre compte Échanges Entre Concepteurs.",
+    "description": "Rejoignez une communauté de développeurs, d'entrepreneurs et d'innovateurs du service public qui améliorent les services publics.",
+    "footer": "Vous avez déjà un compte?"
+  },
+  "stepTwoInstructionalSidebar": {
+    "title": "Vous avez presque terminé !",
+    "description": "Votre compte {{type}} pour le programme \"Échanges entre concepteurs\" est presque prêt. Veuillez s'il vous plaît confirmer les informations de votre profile ici-bas."
+  },
+  "stepOnePageMetadataTitle": "Inscrire - Connecter"
 }

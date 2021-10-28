@@ -12,6 +12,7 @@ import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 interface ValidState {
   redirectOnSuccess?: string;
@@ -80,12 +81,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     size: 'large',
     color: 'c-sidebar-instructional-bg',
     view: makeInstructionalSidebar<ValidState, Msg>({
-      getTitle: () => 'Create Your Digital Marketplace Account.',
-      getDescription: () => 'Join a community of developers, entrepreneurs and public service innovators who are making public services better.',
+      getTitle: () => i18next.t('stepOneInstructionalSidebar.title'),
+      getDescription: () => i18next.t('stepOneInstructionalSidebar.description'),
       getFooter: ({ state }) => (
         <span>
-          Already have an account?&nbsp;
-          <Link dest={routeDest(adt('signIn', { redirectOnSuccess: state.redirectOnSuccess }))}>Sign in</Link>.
+          {i18next.t('stepOneInstructionalSidebar.footer')}&nbsp;
+          <Link dest={routeDest(adt('signIn', { redirectOnSuccess: state.redirectOnSuccess }))}>{i18next.t('links.sign-in')}</Link>.
         </span>
       )
     })

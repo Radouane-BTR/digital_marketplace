@@ -246,7 +246,8 @@
     "viewOrganization": "View Organization",
     "viewOrganizations": "View Organizations",
     "viewProposal": "View Proposal",
-    "print": "Print"
+    "print": "Print",
+    "addAttachment": "Add Attachment"
   },
   "no": "No",
   "notification": {
@@ -793,7 +794,7 @@
   "searchByTitleLocation": "Search by Title or Location",
   "underReview": "Under Review",
   "opportunityListIsNotificationsOn": "Stop notifying me about new opportunities",
-  "opportunityListIsNtNotificationsOn": "Notify me about new opportunities",
+  "opportunityListIsNtNotificationsOn": "Notify me about new opportunities.",
   "unpublishedOpportunities": "Unpublished Opportunities",
   "noUnpublishedOpportunitiesFoundByCriteria": "There are no unpublished opportunities that match your search criteria.",
   "noUnpublishedOpportunitiesFound": "There are no unpublished opportunities that match your search criteria.",
@@ -1165,5 +1166,16 @@
   "organizationNotFound": "Organization not found.",
   "exportProposal": "Export Proposal",
   "next": "Next",
-  "previous": "Previous"
+  "previous": "Previous",
+  "termAndConditionCheck": "I acknowledge that I have read and agree to the",
+  "stepOneInstructionalSidebar": {
+    "title": "Create Your Digital Marketplace Account.",
+    "description": "Join a community of developers, entrepreneurs and public service innovators who are making public services better.",
+    "footer": " Already have an account?"
+  },
+  "stepTwoInstructionalSidebar": {
+    "title": "You're almost done!",
+    "description": "Your {{type}} account for the Digital Marketplace is almost ready. Please confirm your information below to complete your profile."
+  },
+  "stepOnePageMetadataTitle": "Sign Up - Step One"
 }
