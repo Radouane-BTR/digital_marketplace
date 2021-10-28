@@ -20,15 +20,15 @@
       "vendor": {
         "type" : "Prestataire",
         "title" : "S'authentifier",
-        "description" : "Sélectionnez l'une des options disponibles ci-dessous pour vous connecter à votre compte Digital Marketplace."
+        "description" : "Sélectionnez l'une des options disponibles ci-dessous pour vous connecter à votre compte Échanges Entre Concepteurs."
       }    
     },
-    "title": "Bienvenue sur le Digital Marketplace",
-    "description": "Veuillez vous connecter pour accéder à votre compte Digital Marketplace."
+    "title": "Bienvenue sur Échanges Entre Concepteurs",
+    "description": "Veuillez vous connecter pour accéder à votre compte Échanges Entre Concepteurs."
   },
   "landing": {
     "header": "Collaborez <br/>avec le gouvernement <br/>du Québec",
-    "body": "Le Digital Marketplace gouvernemental est une nouvelle plateforme qui contribue à bâtir un écosystème en matière d'innovation et de collaboration entre les entrepreneurs technologiques et le gouvernement du Québec.",
+    "body": "Échanges Entre Concepteurs gouvernemental est une nouvelle plateforme qui contribue à bâtir un écosystème en matière d'innovation et de collaboration entre les entrepreneurs technologiques et le gouvernement du Québec.",
     "info": "Rejoignez une communauté de développeurs, d'entrepreneurs <br/>et d'innovateurs pour participer au développement technologique de la fonction publique.",
     "program-card": {
       "develop" : {
@@ -69,7 +69,7 @@
       }
     },
     "bottom-view" : {
-      "description" : "Découvrez les dernières opportunités<br /> sur le Digital Marketplace"
+      "description" : "Découvrez les dernières opportunités<br /> sur le Échanges Entre Concepteurs"
     }
   },
   "organization": {
@@ -150,12 +150,12 @@
         },
         "team":{
           "title":  "Membres de l'équipe",
-          "description": "Ajoutez des membres d'équipe à votre organisation en cliquant sur le bouton \"Ajouter Membre(s)\" ci-dessus. Veuillez vous assurer que les membres de l'équipe ont déjà ouvert un compte vendeur sur Digital Marketplace avant de les ajouter à votre organisation.",
+          "description": "Ajoutez des membres d'équipe à votre organisation en cliquant sur le bouton \"Ajouter Membre(s)\" ci-dessus. Veuillez vous assurer que les membres de l'équipe ont déjà ouvert un compte vendeur sur Échanges Entre Concepteurs avant de les ajouter à votre organisation.",
           "team-capabilities": "Capacités de l'équipe",
           "capabilities-description": "Il s'agit d'un résumé des capacités que l'équipe de votre organisation possède dans son ensemble, incluant uniquement les capacités des membres confirmés (non en attente). Les membres de l'équipe peuvent revendiquer des capacités dans leur profil d'utilisateur, dans la section \"Capacités\".",
           "add-member": "Ajouter membre(s) a l'équipe",
           "add-email-info": "Fournissez une adresse électronique à chaque membre de l'équipe pour l'inviter à rejoindre votre organisation.",
-          "add-email-description": "Veuillez vous assurer que les membres de l'équipe se sont déjà inscrits à un compte vendeur Digital Marketplace avant de les ajouter à votre organisation, et ne saisissez que les adresses électroniques associées à leurs comptes Digital Marketplace.",
+          "add-email-description": "Veuillez vous assurer que les membres de l'équipe se sont déjà inscrits à un compte vendeur Échanges Entre Concepteurs avant de les ajouter à votre organisation, et ne saisissez que les adresses électroniques associées à leurs comptes Échanges Entre Concepteurs.",
           "remove-membre-title": "Supprimer {{userName}}?",
           "remove-membre-info": "Êtes-vous sûr de vouloir retirer {{userName}} de cette organisation?",
           "table-head": {
@@ -256,12 +256,12 @@
       "cwu": {
         "actioned": {
           "cancelled": {
-            "description": "Vous avez annulé l'opportunité Digital Marketplace suivante:",
+            "description": "Vous avez annulé l'opportunité Échanges Entre Concepteurs suivante:",
             "summary": "L'opportunité Développez Avec Nous a été annulée; envoyé à l'administateur qui l'a annulée.",
             "title": "Une opportunité Développez Avec Nous a été annulée"
           },
           "suspended": {
-            "description": "Vous avez suspendu l'opportunité Digital Marketplace suivante:",
+            "description": "Vous avez suspendu l'opportunité Échanges Entre Concepteurs suivante:",
             "summary": "L'opportunité Développez Avec Nous a été annulée; envoyé l'administateur qui l'a annulée.",
             "title": "Une opportunité Développez Avec Nous a été suspendue"
           }
@@ -275,18 +275,18 @@
         },
         "subscribed": {
           "cancelled": {
-            "description": "L'opportunité Digital Marketplace suivante a été annulée:",
+            "description": "L'opportunité Échanges Entre Concepteurs suivante a été annulée:",
             "title": "Une opportunité Développez Avec Nous a été annulée"
           },
           "suspended": {
-            "description": "L'opportunité Digital Marketplace suivante a été suspendue:",
+            "description": "L'opportunité Échanges Entre Concepteurs suivante a été suspendue:",
             "notifyTheyMayChange": "Si vous avez déjà soumis une proposition à cette opportunité, vous pouvez y apporter des modification pendant que l'opportunité est suspendue.",
             "summary": "L'opportunité Développez Avec Nous a été annulée; envoyé aux utilisateurs abonnés et aux soumissionaires.",
             "title": "Une opportunité Développez Avec Nous a été suspendue"
           }
         },
         "updated": {
-          "description": "L'opportunité Digital Marketplace suivante a été mise à jour:",
+          "description": "L'opportunité Échanges Entre Concepteurs suivante a été mise à jour:",
           "title": "Une opportunité Développez Avec Nous a été mise à jour"
         }
       }
@@ -599,13 +599,13 @@
   "isNotAgreeTermsAndConditions": "{{person}} {{what}} n'a pas accepté les conditions générales.",
   "dashboard": {
     "title": "Tableau de bord",
-    "welcome-title": "Bienvenue au Digital Marketplace!",
-    "isVendorBody": "Commencez par parcourir les opportunités publiées sur le Digital Marketplace.",
-    "isNotVendorBody": "Commencez par créer votre première opportunité ou parcourez les opportunités publiées sur le Digital Marketplace.",
+    "welcome-title": "Bienvenue au Échanges Entre Concepteurs!",
+    "isVendorBody": "Commencez par parcourir les opportunités publiées sur le Échanges Entre Concepteurs.",
+    "isNotVendorBody": "Commencez par créer votre première opportunité ou parcourez les opportunités publiées sur Échanges Entre Concepteurs.",
     "isVendorAlert": "Vous devez <1>Créer une organisation</1> et être un <3>Fournisseur qualifié</3> afin de soumettre des propositions aux opportunités Sprint Avec Nous."
   },
   "SignedOut": "Se déconnecter",
-  "SignedOutMessageValid": "Vous êtes déconnecté avec succès. Merci d'utiliser le Digital Marketplace.",
+  "SignedOutMessageValid": "Vous êtes déconnecté avec succès. Merci d'utiliser Échanges Entre Concepteurs.",
   "SignedOutMessageNotValid": "Échec de la déconnexion de l'application.",
   "codeWithUs": "Développe Avec Nous",
   "sprintWithUs": "Sprinter avec nous",
@@ -663,7 +663,7 @@
   "created": "Créé",
   "entryType": "Type Entrée",
   "Note": "Remarque",
-  "appTermsTitle": "Termes et conditions du Digital Marketplace pour les enchères électroniques",
+  "appTermsTitle": "Termes et conditions du Échanges Entre Concepteurs pour les enchères électroniques",
   "newAppTermsTextInfo": "Veuillez vous assurer d'avoir consulté la dernière version du",
   "newAppTermsTextInfoCheck": "Je reconnais avoir lu, compris et accepté le <italic>{{appTermsTitle}}</italic>.",
   "newAppTermsTextInfoCheckText": "Assurez-vous également d'avoir enregistré votre travail avant de continuer. Toute information non enregistrée dans les formulaires sera perdue.",
@@ -781,7 +781,7 @@
   "proposalEvaluationCriteria": "Critères d'évaluation de la proposition",
   "proposalEvaluationCriteriaViewText": "Votre proposition sera notée selon les critères suivants :",
   "howToApply": "Comment Appliquer",
-  "CWUhowToApplyViewBodyP1-1": "Pour soumettre une proposition pour cette opportunité Développe Avec Nous, vous devez avoir créé un compte fournisseur Digital Marketplace.",
+  "CWUhowToApplyViewBodyP1-1": "Pour soumettre une proposition pour cette opportunité Développe Avec Nous, vous devez avoir créé un compte fournisseur Échanges Entre Concepteurs.",
   "CWUhowToApplyViewBodyP1-2": "Si vous avez déjà un compte fournisseur, veuillez ",
   "CWUhowToApplyViewBodyP2": "Veuillez noter que vous ne pourrez pas soumettre de proposition si la date limite de proposition de l'opportunité est dépassée. ",
   "alertSubmitProposalPush": "Vous avez soumis une proposition pour cette opportunité le {{date}}.",
@@ -804,21 +804,21 @@
   "closedOpportunities": "Opportunités fermées",
   "noClosedOpportunitiesFoundByCriteria": "Aucune opportunité fermée ne correspond à vos critères de recherche.",
   "noClosedOpportunitiesFound": "Il n'y a actuellement aucune opportunité fermée.",
-  "userAccountRegisteredDescription": "Merci d'avoir créé un compte pour l'application Web Digital Marketplace.",
+  "userAccountRegisteredDescription": "Merci d'avoir créé un compte pour l'application Web Échanges Entre Concepteurs.",
   "inviteToRegisterTitle": "{{legalName}} vous a envoyé une demande d'équipe",
-  "inviteToRegisterBodyP1": "{{legalName}} vous a demandé de rejoindre son équipe sur le Digital Marketplace.",
-  "inviteToRegisterBodyP2": "Pour rejoindre l'équipe de l'organisation, vous devez d'abord {{linkTo}} pour un compte Digital Marketplace. Une fois que vous vous êtes inscrit, vous pouvez rejoindre leur équipe et être inclus dans les propositions d'opportunités Sprint Avec Nous.",
+  "inviteToRegisterBodyP1": "{{legalName}} vous a demandé de rejoindre son équipe sur Échanges Entre Concepteurs.",
+  "inviteToRegisterBodyP2": "Pour rejoindre l'équipe de l'organisation, vous devez d'abord {{linkTo}} pour un compte Échanges Entre Concepteurs. Une fois que vous vous êtes inscrit, vous pouvez rejoindre leur équipe et être inclus dans les propositions d'opportunités Sprint Avec Nous.",
   "accountDeactivatedTitle": "Votre compte a été désactivé",
   "accountDeactivatedSummary": "Le compte utilisateur a été désactivé par l'utilisateur.",
-  "accountDeactivatedBody": "<paragraph>Vous avez réussi à désactiver votre compte Digital Marketplace.</paragraph><paragraph>Vous pouvez réactiver votre compte en vous reconnectant à l'application Web.</paragraph>",
+  "accountDeactivatedBody": "<paragraph>Vous avez réussi à désactiver votre compte Échanges Entre Concepteurs.</paragraph><paragraph>Vous pouvez réactiver votre compte en vous reconnectant à l'application Web.</paragraph>",
   "signInToReactivateAccount": "Connectez-vous pour réactiver le compte",
   "accountDeactivatedAdminSummary": "Le compte utilisateur a été désactivé par un administrateur.",
-  "accountDeactivatedAdminBody": "<paragraph>Votre compte Digital Marketplace a été désactivé par un administrateur.</paragraph><paragraph>Vous n'avez plus accès à l'application Web.</paragraph><paragraph>Si vous avez des questions, vous pouvez envoyer un e-mail à les administrateurs du Digital Marketplace à {{linkTo}}.</paragraph>",
+  "accountDeactivatedAdminBody": "<paragraph>Votre compte Échanges Entre Concepteurs a été désactivé par un administrateur.</paragraph><paragraph>Vous n'avez plus accès à l'application Web.</paragraph><paragraph>Si vous avez des questions, vous pouvez envoyer un e-mail à les administrateurs du Échanges Entre Concepteurs à {{linkTo}}.</paragraph>",
   "accountReactivatedTitle": "Votre compte a été réactivé",
-  "accountReactivatedDescription": "Vous avez réactivé avec succès votre compte Digital Marketplace.",
+  "accountReactivatedDescription": "Vous avez réactivé avec succès votre compte Échanges Entre Concepteurs.",
   "accountReactivatedSummary": "Le compte utilisateur a été réactivé par l'utilisateur.",
   "accountReactivatedAdminSummary": "Le compte utilisateur a été réactivé par un administrateur.",
-  "accountReactivatedAdminBody": "<paragraph>Votre compte Digital Marketplace a été réactivé par un administrateur.</paragraph><paragraph>Si vous avez des questions, vous pouvez envoyer un e-mail aux administrateurs Digital Marketplace à l'adresse {{linkTo}}.</paragraph>",
+  "accountReactivatedAdminBody": "<paragraph>Votre compte Échanges Entre Concepteurs a été réactivé par un administrateur.</paragraph><paragraph>Si vous avez des questions, vous pouvez envoyer un e-mail aux administrateurs Échanges Entre Concepteurs à l'adresse {{linkTo}}.</paragraph>",
   "participant": "Participante",
   "participants": "Participantes",
   "topCCscore": "Meilleur score CC",
@@ -865,7 +865,7 @@
   "pricingIncentivesDescription": "Ce ne sont pas des contrats de temps et de matériaux ! Pour chaque phase, vous facturerez un prix fixe à votre équipe interdisciplinaire pour répondre aux livrables de la période. Il y a des incitations à terminer une phase plus tôt !",
   "sprintWithUsHowToApplyViewBody": "Pour postuler aux opportunités de <emphasis>Sprint Avec Nous</emphasis>, procédez comme suit :",
   "signInVendorAccount": "Connectez-vous à votre compte fournisseur",
-  "signInVendorAccountDescription": "à votre compte de fournisseur du Digital Marketplace à l'aide de {{idpName}}. Si vous n'avez pas encore de compte, vous devez",
+  "signInVendorAccountDescription": "à votre compte de fournisseur du Échanges Entre Concepteurs à l'aide de {{idpName}}. Si vous n'avez pas encore de compte, vous devez",
   "first": "d'abord",
   "registerYourOrganization": "Enregistrez votre organisation",
   "registerYourOrganizationDescriptionP1": "Accédez à la page <emphasis>Organisations</emphasis> et cliquez sur le bouton <bold>+ Créer organisation</bold>. Remplissez le formulaire en fournissant toutes les informations requises et soumettez-le.",
@@ -886,7 +886,7 @@
   "deactivateAccount": "Désactiver le compte",
   "reactivateAccount": "Réactiver le compte",
   "accountIsActiveDescription": "La désactivation de {{your}} compte signifie que {{you}} n'aura plus accès à la place de marché numérique.",
-  "accountIsNotActiveDescription": "Réactivez votre compte {{yourFull}} pour permettre à {{your}} l'accès au Digital Marketplace.",
+  "accountIsNotActiveDescription": "Réactivez votre compte {{yourFull}} pour permettre à {{your}} l'accès au Échanges Entre Concepteurs.",
   "your": "ton",
   "their": "leur",
   "they": "ils",
@@ -896,9 +896,9 @@
   "activeReactiveModalTitle": "{{action}} {{who}} compte ?",
   "user's": "l'utilisateur du",
   "activeReactiveModalAction": "{{action}} le compte",
-  "AdminDeactivatingUserModalBody": "Voulez-vous vraiment désactiver le compte de cet utilisateur ? Ils ne pourront plus accéder au Digital Marketplace.",
-  "AdminReactivatingUserModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Digital Marketplace.",
-  "userDeactivatingSelfModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Digital Marketplace.",
+  "AdminDeactivatingUserModalBody": "Voulez-vous vraiment désactiver le compte de cet utilisateur ? Ils ne pourront plus accéder au Échanges Entre Concepteurs.",
+  "AdminReactivatingUserModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Échanges Entre Concepteurs.",
+  "userDeactivatingSelfModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Échanges Entre Concepteurs.",
   "capabilitiesAndSkills": "Capacités Et Compétences",
   "sprintWUcapabilitiesAndSkillsDescription": "Les opportunités Sprint Avec Nous nécessitent des équipes dotées des capacités et des compétences indiquées ci-dessous. Sélectionnez les capacités que vous possédez en cliquant sur leurs noms ou leurs cases à cocher. Faites-nous savoir ce que vous pouvez faire!",
   "capabilities": "Capacités",
@@ -908,7 +908,7 @@
   "legalTermsDescription": "Dans cette section, vous trouverez toutes les politiques, conditions et accords pertinents pour les fournisseurs de la place de marché numérique.",
   "privacyPolicy": "Politique de confidentialité",
   "privacyPolicyDescriptionP1": "Vos renseignements personnels sont recueillis par le ministère des Services aux citoyens en vertu de l'article 26 (c) de la Loi sur l'accès à l'information et la protection de la vie privée (FOIPPA). La collecte, l'utilisation et la divulgation de vos informations personnelles ont pour but de notifier, d'appliquer et d'attribuer des opportunités sur le marché numérique. Si vous avez des questions, veuillez communiquer avec : Zachary Woodward, directeur principal, Approvisionnement, ministère des Services aux citoyens,",
-  "privacyPolicyDescriptionP2": "Vous avez accepté la <italic>Politique de confidentialité</italic> de Digital Marketplace lorsque vous avez créé votre compte Digital Marketplace.",
+  "privacyPolicyDescriptionP2": "Vous avez accepté la <italic>Politique de confidentialité</italic> de Échanges Entre Concepteurs lorsque vous avez créé votre compte Échanges Entre Concepteurs.",
   "termsAndConditions": "conditions générales",
   "termsAndConditionsDescriptionP1": "Vous avez accepté les <italic>{{title}}</italic> le {{date}} à {{time}}.",
   "termsAndConditionsDescriptionP2": "Les <italic>{{title}}</italic> ont été mis à jour. S'il vous plaît",

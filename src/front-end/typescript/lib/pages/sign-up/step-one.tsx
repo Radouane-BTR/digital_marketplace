@@ -92,6 +92,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     })
   }),
   getMetadata() {
-    return makePageMetadata('Sign Up - Step One');
+    return makePageMetadata(i18next.t('stepOnePageMetadataTitle'));
   }
 };
