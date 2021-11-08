@@ -12,6 +12,7 @@ import { Addendum } from 'shared/lib/resources/opportunity/code-with-us';
 import { adt, ADT } from 'shared/lib/types';
 import * as validation from 'shared/lib/validation';
 import { validateAddendumText } from 'shared/lib/validation/addendum';
+// import Icon from 'front-end/lib/views/icon';
 
 const toasts = {
   success: {
@@ -31,7 +32,7 @@ interface ExistingAddendum extends Addendum {
 // Either return the updated list of existing addenda, or the list of errors for the new addendum field.
 export type PublishNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 
-type ModalId = 'publish' | 'cancel';
+type ModalId = 'publish' | 'save' | 'cancel';
 
 export interface State {
   isEditing: boolean;
@@ -46,6 +47,7 @@ type InnerMsg
   = ADT<'showModal', ModalId>
   | ADT<'hideModal'>
   | ADT<'add'>
+  | ADT<'save'>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
@@ -114,6 +116,8 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
       return [state.set('showModal', msg.value)];
     case 'hideModal':
       return [state.set('showModal', null)];
+    case 'save':
+        return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec createdDate null, et status a Draft
     case 'add':
       return [
         state,
@@ -210,6 +214,7 @@ export const view: View<Props> = props => {
             state={state.newAddendum}
             dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeNew', msg) as Msg)} />)
         : null}
+        <span>fsdf</span>
       {state.existingAddenda.map((addendum, i) => (
         <RichMarkdownEditor.view
           key={`existing-addendum-${i}`}
@@ -219,6 +224,10 @@ export const view: View<Props> = props => {
           label='Existing Addendum'
           hint={`Created ${formatDateAndTime(addendum.createdAt)}`}
           state={addendum.field}
+          // action= {{
+          //   icon: (<Icon hover className='ml-auto' name='times' color='secondary' onClick={() => dispatch(adt('onChangeNew', msg))} />)
+          //   onClick: () => dispatch(adt('showModal', 'publish' as const)),
+          // }}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
       ))}
     </div>);
@@ -227,6 +236,8 @@ export const view: View<Props> = props => {
 export const getContextualActions: PageGetContextualActions<State, Msg> = ({ state, dispatch }) => {
   if (state.isEditing) {
     const isPublishLoading = state.publishLoading > 0;
+    const isSaveDraftLoading = state.publishLoading > 0; // TODO : Enlever le mock avec un frais attribut 
+    // const isLoading = isPublishLoading || isSaveDraftLoading;
     return adt('links', [
       {
         children: 'Publish Addendum',
@@ -236,6 +247,15 @@ export const getContextualActions: PageGetContextualActions<State, Msg> = ({ sta
         loading: isPublishLoading,
         symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
         color: 'primary'
+      },
+      {
+        children: 'Save Draft',
+        onClick: () => dispatch(adt('showModal', 'save' as const)),
+        button: true,
+        disabled: isPublishLoading || !isValid(state),
+        loading: isSaveDraftLoading,
+        symbol_: leftPlacement(iconLinkSymbol('save')),
+        color: 'success'
       },
       {
         children: 'Cancel',
@@ -277,6 +297,26 @@ export const getModal: PageGetModal<State, Msg> = state => {
           }
         ],
         body: () => 'Are you sure you want to publish this addendum? Once published, all subscribers will be notified.'
+      };
+      case 'save':
+      return {
+        title: 'Save Addendum?',
+        onCloseMsg: adt('hideModal'),
+        actions: [
+          {
+            text: 'Save Addendum',
+            icon: 'save',
+            color: 'primary',
+            button: true,
+            msg: adt('save')
+          },
+          {
+            text: 'Cancel',
+            color: 'secondary',
+            msg: adt('hideModal')
+          }
+        ],
+        body: () => 'Are you sure you want to save this addendum? Once saved, all subscribers will be not see this addenda until you published.'
       };
     case 'cancel':
       return {

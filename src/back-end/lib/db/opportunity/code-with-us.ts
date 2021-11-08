@@ -18,6 +18,7 @@ import { AuthenticatedSession, Session, SessionRecord } from 'shared/lib/resourc
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
 import { getValidValue, isInvalid } from 'shared/lib/validation';
+import { CWUOpportunityAddendaStatus } from 'shared/lib/resources/addendum';
 
 export interface CreateCWUOpportunityParams extends Omit<CWUOpportunity, 'createdBy' | 'createdAt' | 'updatedAt' | 'updatedBy' | 'status' | 'id' | 'addenda'> {
   status: CreateCWUOpportunityStatus;
@@ -51,8 +52,9 @@ interface RawCWUOpportunitySlim extends Omit<CWUOpportunitySlim, 'createdBy' | '
   updatedBy?: Id;
 }
 
-interface RawCWUOpportunityAddendum extends Omit<Addendum, 'createdBy'> {
+interface RawCWUOpportunityAddendum extends Omit<Addendum, 'createdBy' | 'status'> {
   createdBy?: Id;
+  status?: CWUOpportunityAddendaStatus;
 }
 
 interface RawCWUOpportunityHistoryRecord extends Omit<CWUOpportunityHistoryRecord, 'createdBy' | 'type'> {
@@ -108,7 +110,8 @@ async function rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection: Con
 
   return {
     ...restOfRaw,
-    createdBy: createdBy || undefined
+    createdBy: createdBy || undefined,
+    status: CWUOpportunityAddendaStatus.Published
   };
 }
 
@@ -524,6 +527,47 @@ export const updateCWUOpportunityStatus = tryDb<[Id, CWUOpportunityStatus, strin
   return valid(dbResult.value);
 });
 
+// TODO : ajouter l'opperation SAVE addenda et modifier add pour inserer les nouvelles colonnes
+export const saveCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSession], CWUOpportunity>(async (connection, id, addendumText, session) => {
+  const now = new Date();
+  await connection.transaction(async trx => {
+    const [addendum] = await connection<RawCWUOpportunityAddendum & { opportunity: Id }>('cwuOpportunityAddenda')
+      .transacting(trx)
+      .insert({
+        id: generateUuid(),
+        opportunity: id,
+        description: addendumText,
+        createdBy: session.user.id,
+        createdAt: now,
+        status: CWUOpportunityAddendaStatus.Draft
+      }, '*');
+
+    if (!addendum) {
+      throw new Error('unable to save addendum');
+    }
+
+    // Add a history record for the addendum addition
+    await connection<RawCWUOpportunityHistoryRecord & { opportunity: Id }>('cwuOpportunityStatuses')
+      .transacting(trx)
+      .insert({
+        id: generateUuid(),
+        opportunity: id,
+        createdAt: now,
+        createdBy: session.user.id,
+        event: CWUOpportunityEvent.AddendumAdded,
+        note: ''
+      });
+  });
+
+  const dbResult = await readOneCWUOpportunity(connection, id, session);
+  if (isInvalid(dbResult) || !dbResult.value) {
+    throw new Error('unable to add addendum');
+  }
+  logCWUOpportunityChange( 'CWU addendum added', dbResult.value as CWUOpportunity, session as SessionRecord)
+  return valid(dbResult.value);
+});
+
+
 export const addCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSession], CWUOpportunity>(async (connection, id, addendumText, session) => {
   const now = new Date();
   await connection.transaction(async trx => {
@@ -534,7 +578,8 @@ export const addCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSession
         opportunity: id,
         description: addendumText,
         createdBy: session.user.id,
-        createdAt: now
+        createdAt: now,
+        status: CWUOpportunityAddendaStatus.Published
       }, '*');
 
     if (!addendum) {
