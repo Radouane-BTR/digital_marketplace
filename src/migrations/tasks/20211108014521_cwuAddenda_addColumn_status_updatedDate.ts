@@ -23,9 +23,18 @@ export async function up(connection: Knex): Promise<void> {
 }
 
 export async function down(connection: Knex): Promise<void> {
-    await connection('cwuOpportunityAddenda')
-      .whereNull('status')
-      .update({ completionDate: CWUOpportunityAddendaStatus.Published });
 
-    logger.info('Completed reverting cwuOpportunityVersions table.');
+  await connection.schema.alterTable('cwuOpportunityAddenda', table => {
+    table.dropColumn('status');
+  });
+
+  await connection.schema.alterTable('cwuOpportunityAddenda', table => {
+    table.dropColumn('updatedAt');
+  });
+
+  await connection.schema.alterTable('cwuOpportunityAddenda', table => {
+    table.dropColumn('updatedBy');
+  });
+
+  logger.info('Completed reverting cwuOpportunityAddenda table.');
 }

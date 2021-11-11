@@ -28,16 +28,16 @@ const published = {
   }
 };
 
-const saved = {
-  success: {
-    title: 'Addendum Saved',
-    body: 'Your addendum has been successfully saved.'
-  },
-  error: {
-    title: 'Unable to Save Addendum',
-    body: 'Your addendum could not be saved. Please try again later.'
-  }
-};
+// const saved = {
+//   success: {
+//     title: 'Addendum Saved',
+//     body: 'Your addendum has been successfully saved.'
+//   },
+//   error: {
+//     title: 'Unable to Save Addendum',
+//     body: 'Your addendum could not be saved. Please try again later.'
+//   }
+// };
 
 interface ExistingAddendum extends Addendum {
   field: Immutable<RichMarkdownEditor.State>;
@@ -87,7 +87,7 @@ type InnerMsg
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
-export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum'> {
+export interface Params extends Pick<State, 'publishNewAddendum' > {
   existingAddenda: Addendum[];
   newAddendum?: {
     errors: string[];
@@ -128,7 +128,7 @@ export const init: Init<Params, State> = async params => {
   }
   return {
     publishNewAddendum: params.publishNewAddendum,
-    saveNewAddendum: params.saveNewAddendum,
+    // saveNewAddendum: params.saveNewAddendum,
     isEditing: false,
     publishLoading: 0,
     showModal: null,
@@ -279,9 +279,15 @@ export const view: View<Props> = props => {
           state={addendum.field}
           componentBefore={
           <div>
-            <Badge text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
-            <strong className='mx-2'>Edit</strong>
-            <Icon hover className='ml-auto' name='times' color='secondary' />
+            <Badge className='mx-2 ml-auto mb-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
+            <span className='mx-2'>
+              <Icon hover className='ml-auto' name='edit' color='secondary' />
+              <strong >Edit</strong>
+            </span>
+            <span className='mx-2'>
+              <Icon hover className='ml-auto' name='trash' color='secondary' />
+              <strong >Delete</strong>
+            </span>
           </div>}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
       ))}

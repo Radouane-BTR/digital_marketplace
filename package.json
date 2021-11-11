@@ -32,6 +32,7 @@
     "migrations:rollback": "npm run migrations:helper -- migrate:rollback",
     "migrations:up": "npm run migrations:helper -- migrate:up",
     "migrations:down": "npm run migrations:helper -- migrate:down",
+    "migrations:list": "npm run migrations:helper -- migrate:list",
     "migrations:build": "npx grunt migrations-build",
     "scripts:run": "npx grunt scripts-build && node build/scripts/scripts/start.js",
     "typedoc:build": "npm run back-end:typedoc; npm run front-end:typedoc; npm run shared:typedoc",
