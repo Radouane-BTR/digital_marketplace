@@ -70,7 +70,7 @@ export interface State {
   publishLoading: number;
   showModal: ModalId | null;
   publishNewAddendum: PublishNewAddendum;
-  // saveNewAddendum?: SaveNewAddendum;
+  saveNewAddendum: SaveNewAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
 }
@@ -168,26 +168,27 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('newAddendum', null)
       ];
     case 'save':
-      return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec une status a Draft
-      // return [
-      //   startPublishLoading(state).set('showModal', null),
-      //   async (state, dispatch) => {
-      //     state = stopPublishLoading(state);
-      //     const newAddendum = getNewAddendum(state);
-      //     if (!newAddendum) { return state; }
-      //     const result = await state.saveNewAddendum(newAddendum);
-      //     if (validation.isValid(result)) {
-      //       dispatch(toast(adt('success', saved.success)));
-      //       return immutable(await init({
-      //         saveNewAddendum: state.saveNewAddendum,
-      //         existingAddenda: result.value
-      //       }));
-      //     } else {
-      //       dispatch(toast(adt('error', saved.error)));
-      //       return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
-      //     }
-      //   }
-      // ];
+      // return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec createdDate null, et status a Draft
+      return [
+        startPublishLoading(state).set('showModal', null),
+        async (state, dispatch) => {
+          state = stopPublishLoading(state);
+          const newAddendum = getNewAddendum(state);
+          if (!newAddendum) { return state; }
+          const result = await state.saveNewAddendum(newAddendum);
+          if (validation.isValid(result)) {
+            dispatch(toast(adt('success', saved.success)));
+            return immutable(await init({
+              publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.saveNewAddendum,
+              existingAddenda: result.value
+            }));
+          } else {
+            dispatch(toast(adt('error', saved.error)));
+            return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
+          }
+        }
+      ];
     case 'publish':
       return [
         startPublishLoading(state).set('showModal', null),
@@ -200,6 +201,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
               publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.publishNewAddendum,
               existingAddenda: result.value
             }));
           } else {

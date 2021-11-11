@@ -578,7 +578,9 @@ const resource: Resource = {
               }
               break;
             case 'saveAddendum':
-              dbResult = await db.addCWUOpportunityAddendum(connection, request.params.id, body.value, session);
+              const doPublish = false;
+              const id = 'abcd1234';
+              dbResult = await db.saveCWUOpportunityAddendum(connection, request.params.id, body.value, doPublish, id, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
                 cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
