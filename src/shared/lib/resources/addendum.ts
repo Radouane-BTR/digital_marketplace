@@ -6,6 +6,14 @@ export enum CWUOpportunityAddendaStatus {
   Published = 'PUBLISHED',
   Deleted = 'DELETED'
 };
+
+export function parseCWUOpportunityStatus(raw: string): CWUOpportunityAddendaStatus | null {
+  switch (raw) {
+    case CWUOpportunityAddendaStatus.Draft: return CWUOpportunityAddendaStatus.Draft;
+    case CWUOpportunityAddendaStatus.Published: return CWUOpportunityAddendaStatus.Published;
+    default: return null;
+  }
+}
 export interface Addendum {
   id: Id;
   createdAt: Date;

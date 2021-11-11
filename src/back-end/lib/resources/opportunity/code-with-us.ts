@@ -34,7 +34,8 @@ interface ValidatedUpdateRequestBody {
       | ADT<'startEvaluation', string>
       | ADT<'suspend', string>
       | ADT<'cancel', string>
-      | ADT<'addAddendum', string>;
+      | ADT<'addAddendum', string>
+      | ADT<'saveAddendum', string>;
 }
 
 type ValidatedDeleteRequestBody = Id;
@@ -570,6 +571,13 @@ const resource: Resource = {
               }
               break;
             case 'addAddendum':
+              dbResult = await db.addCWUOpportunityAddendum(connection, request.params.id, body.value, session);
+              // Notify all subscribed users on the opportunity of the update
+              if (isValid(dbResult)) {
+                cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
+              }
+              break;
+            case 'saveAddendum':
               dbResult = await db.addCWUOpportunityAddendum(connection, request.params.id, body.value, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {

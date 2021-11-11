@@ -61,6 +61,7 @@ export interface ViewProps<Value, ChildState extends ChildStateBase<Value>, Inne
   disabled?: boolean;
   placeholder?: string;
   label?: string;
+  componentBefore?: ViewElementChildren;
   help?: ViewElementChildren;
   hint?: ViewElementChildren;
   action?: {
@@ -211,6 +212,7 @@ function makeView<Value, ChildParams extends ChildParamsBase<Value>, ChildState 
       <FormGroup className={`form-field-${state.child.id} d-flex flex-column ${props.className || ''}`} style={style}>
         <ConditionalLabel {...props} />
         <ConditionalHelp {...props} />
+        {props.componentBefore}
         <ChildView
           {...extraChildProps}
           state={state.child}
