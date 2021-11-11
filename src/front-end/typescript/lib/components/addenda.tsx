@@ -276,15 +276,15 @@ export const view: View<Props> = props => {
           hint={`Created ${formatDateAndTime(addendum.createdAt)}`}
           state={addendum.field}
           componentBefore={
-          <div>
-            <Badge className='mx-2 ml-auto mb-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
+          <div className='mb-2'>
+            <Badge className='mx-2 ml-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
             <span className='mx-2'>
-              <Icon hover className='ml-auto' name='edit' color='secondary' />
-              <strong >Edit</strong>
+                <Icon hover className='ml-auto' name='edit' color='secondary' />
+                <strong >Edit</strong>
             </span>
             <span className='mx-2'>
-              <Icon hover className='ml-auto' name='trash' color='secondary' />
-              <strong >Delete</strong>
+                <Icon hover className='ml-auto' name='trash' color='secondary' />
+                <strong >Delete</strong>
             </span>
           </div>}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
