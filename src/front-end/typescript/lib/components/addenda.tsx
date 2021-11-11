@@ -69,8 +69,8 @@ export interface State {
   isEditing: boolean;
   publishLoading: number;
   showModal: ModalId | null;
-  publishNewAddendum?: PublishNewAddendum;
-  saveNewAddendum?: SaveNewAddendum;
+  publishNewAddendum: PublishNewAddendum;
+  saveNewAddendum: SaveNewAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
 }
@@ -179,6 +179,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           if (validation.isValid(result)) {
             dispatch(toast(adt('success', saved.success)));
             return immutable(await init({
+              publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.saveNewAddendum,
               existingAddenda: result.value
             }));
@@ -200,6 +201,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
               publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.publishNewAddendum,
               existingAddenda: result.value
             }));
           } else {

@@ -12,7 +12,9 @@ const logger = makeDomainLogger(consoleAdapter, 'migrations', 'development');
 
 export async function up(connection: Knex): Promise<void> {
   await connection.schema.alterTable('cwuOpportunityAddenda', table => {
-    table.enu('status', Object.values(CWUOpportunityAddendaStatus)).notNullable();
+    table.enu('status', Object.values(CWUOpportunityAddendaStatus))
+    .defaultTo(CWUOpportunityAddendaStatus.Published)
+    .notNullable();
     table.timestamp('updatedAt');
     table.uuid('updatedBy').references('id').inTable('users');
   });
