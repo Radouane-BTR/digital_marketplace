@@ -28,16 +28,16 @@ const published = {
   }
 };
 
-// const saved = {
-//   success: {
-//     title: 'Addendum Saved',
-//     body: 'Your addendum has been successfully saved.'
-//   },
-//   error: {
-//     title: 'Unable to Save Addendum',
-//     body: 'Your addendum could not be saved. Please try again later.'
-//   }
-// };
+const saved = {
+  success: {
+    title: 'Addendum Saved',
+    body: 'Your addendum has been successfully saved.'
+  },
+  error: {
+    title: 'Unable to Save Addendum',
+    body: 'Your addendum could not be saved. Please try again later.'
+  }
+};
 
 interface ExistingAddendum extends Addendum {
   field: Immutable<RichMarkdownEditor.State>;
@@ -70,7 +70,7 @@ export interface State {
   publishLoading: number;
   showModal: ModalId | null;
   publishNewAddendum: PublishNewAddendum;
-  // saveNewAddendum?: SaveNewAddendum;
+  saveNewAddendum: SaveNewAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
 }
@@ -87,7 +87,7 @@ type InnerMsg
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
-export interface Params extends Pick<State, 'publishNewAddendum' > {
+export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' > {
   existingAddenda: Addendum[];
   newAddendum?: {
     errors: string[];
@@ -128,7 +128,7 @@ export const init: Init<Params, State> = async params => {
   }
   return {
     publishNewAddendum: params.publishNewAddendum,
-    // saveNewAddendum: params.saveNewAddendum,
+    saveNewAddendum: params.saveNewAddendum,
     isEditing: false,
     publishLoading: 0,
     showModal: null,
@@ -168,26 +168,27 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('newAddendum', null)
       ];
     case 'save':
-      return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec une status a Draft
-      // return [
-      //   startPublishLoading(state).set('showModal', null),
-      //   async (state, dispatch) => {
-      //     state = stopPublishLoading(state);
-      //     const newAddendum = getNewAddendum(state);
-      //     if (!newAddendum) { return state; }
-      //     const result = await state.saveNewAddendum(newAddendum);
-      //     if (validation.isValid(result)) {
-      //       dispatch(toast(adt('success', saved.success)));
-      //       return immutable(await init({
-      //         saveNewAddendum: state.saveNewAddendum,
-      //         existingAddenda: result.value
-      //       }));
-      //     } else {
-      //       dispatch(toast(adt('error', saved.error)));
-      //       return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
-      //     }
-      //   }
-      // ];
+      // return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec status a Draft
+      return [
+        startPublishLoading(state).set('showModal', null),
+        async (state, dispatch) => {
+          state = stopPublishLoading(state);
+          const newAddendum = getNewAddendum(state);
+          if (!newAddendum) { return state; }
+          const result = await state.saveNewAddendum(newAddendum);
+          if (validation.isValid(result)) {
+            dispatch(toast(adt('success', saved.success)));
+            return immutable(await init({
+              publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.saveNewAddendum,
+              existingAddenda: result.value
+            }));
+          } else {
+            dispatch(toast(adt('error', saved.error)));
+            return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
+          }
+        }
+      ];
     case 'publish':
       return [
         startPublishLoading(state).set('showModal', null),
@@ -200,6 +201,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
               publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.publishNewAddendum,
               existingAddenda: result.value
             }));
           } else {

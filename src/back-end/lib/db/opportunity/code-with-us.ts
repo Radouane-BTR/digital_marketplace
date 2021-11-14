@@ -528,7 +528,11 @@ export const updateCWUOpportunityStatus = tryDb<[Id, CWUOpportunityStatus, strin
 });
 
 // TODO : ajouter l'opperation SAVE addenda et modifier add pour inserer les nouvelles colonnes
-export const saveCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSession], CWUOpportunity>(async (connection, id, addendumText, session) => {
+export const saveCWUOpportunityAddendum = tryDb<[Id, string, boolean, string | null, AuthenticatedSession], CWUOpportunity>(async (connection, id, addendumText, addendumIsPublished, addendumId, session) => {
+  // Si pas d'ID fourni on créé un nouvel addenda
+  if(!id){ return addCWUOpportunityAddendum(connection, id, addendumText, session); }
+
+  // TODO: faire un update et non un create
   const now = new Date();
   await connection.transaction(async trx => {
     const [addendum] = await connection<RawCWUOpportunityAddendum & { opportunity: Id }>('cwuOpportunityAddenda')
@@ -566,7 +570,6 @@ export const saveCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSessio
   logCWUOpportunityChange( 'CWU addendum added', dbResult.value as CWUOpportunity, session as SessionRecord)
   return valid(dbResult.value);
 });
-
 
 export const addCWUOpportunityAddendum = tryDb<[Id, string, AuthenticatedSession], CWUOpportunity>(async (connection, id, addendumText, session) => {
   const now = new Date();
