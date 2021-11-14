@@ -66,7 +66,7 @@ const resource: Resource = {
           return respond(503, [db.ERROR_MESSAGE]);
         }
         if (!dbResultBlob.value) {
-          return respond(404, [i18next.t('i18next')]);
+          return respond(404, [i18next.t('fileNotFound')]);
         }
         return basicResponse(200, request.session, adt('file', {
           buffer: dbResultBlob.value.blob,

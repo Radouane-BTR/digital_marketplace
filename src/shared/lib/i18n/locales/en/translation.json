@@ -32,11 +32,9 @@
     "info": "Join a community of developers, entrepreneurs and innovators <br/>and innovators to participate in the development of public service technology development.",
     "program-card": {
       "develop" : {
-        "title": "Develop With Us",
         "description": "Get paid <br/>to submit code.<br/><br/>Opportunities up to 70 000 $"
       },
       "co-create": {
-        "title": "Co-create With Us",
         "description": "Provide an Agile team to work with a government product <br/>manager in a modern DevOps environment.<br/><br/>Opportunities up to 2 000 000$."
       }
     },
@@ -1155,9 +1153,9 @@
   "proposalNotExistText": "The specified proposal does not exist.",
   "proposalDeleteIfNotDraftText": "You can not delete a proposal that is not a draft.",
   "contentNotFound": "Content not found",
-  "slugInUseText": "This slug is already in use.",
+  "slugAlreadyInUse": "This slug is already in use.",
   "contentNotExistText": "The specified content does not exists.",
-  "slugWithFixedContentChangeText": "You cannot change the slug of fixed content.",
+  "slugWithFixedContentChangeTextError": "You cannot change the slug of fixed content.",
   "fixedContentCantDeleted": "You cannot delete fixed content.",
   "invalidCounterNamesProvided": "Invalid counter names provided",
   "fileNotFound": "File not found.",

@@ -32,11 +32,9 @@
     "info": "Rejoignez une communauté de développeurs, d'entrepreneurs <br/>et d'innovateurs pour participer au développement technologique de la fonction publique.",
     "program-card": {
       "develop" : {
-        "title": "Développez avec nous",
         "description": "Soyez payé pour soumettre du code.<br/><br/>Des opportunités allant jusqu’à 70 000 $"
       },
       "co-create": {
-        "title": "Cocréez avec nous",
         "description": "Fournissez une équipe Agile pour travailler avec un gestionnaire de produit gouvernemental dans un environnement DevOps moderne.<br/><br/>Des opportunités allant jusqu’à 2 000 000$."
       }
     },
@@ -73,12 +71,12 @@
     }
   },
   "organization": {
-    "edit-tab-title": "Qualifié Sprint Avec Nous",
+    "edit-tab-title": "Qualifié Collaborer Avec Nous",
     "my-organizations" : "Mes organisations",
-    "isVendorNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint Avec Nous</emphasis>.<br />Vous devez",
-    "isAdminNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Sprint Avec Nous</emphasis>.",
+    "isVendorNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Collaborer Avec Nous</emphasis>.<br />Vous devez",
+    "isAdminNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Collaborer Avec Nous</emphasis>.",
     "sprint-with-us-terms": {
-      "title": "Sprint Avec Nous Conditions Générales",
+      "title": "Collaborer Avec Nous Conditions Générales",
       "acceptedSWUTermsText": "{{legalName}} a accepté le {{TITLE}} le {{acceptedSWUTermsFormatDate}} à {{acceptedSWUTermsFormatTime}}"
     },
     "list": {
@@ -89,7 +87,7 @@
       }
     },
     "sprint-with-us":{
-      "title": "Sprint Avec Nous Terms et conditions",
+      "title": "Collaborer Avec Nous Terms et conditions",
       "accept-terms" : "Accepter les termes et conditions"
     },
     "edit": {
@@ -125,7 +123,7 @@
           "rows":{
             "one":{
               "title": "Exigences",
-              "description": "Pour pouvoir soumettre des propositions pour les opportunités Sprint Avec Nous, votre organisation doit répondre aux exigences suivantes :",
+              "description": "Pour pouvoir soumettre des propositions pour les opportunités Collaborer Avec Nous, votre organisation doit répondre aux exigences suivantes :",
               "requirements": {
                 "one":{
                   "name": "Au moins deux membres de l'équipe.",
@@ -602,7 +600,7 @@
     "welcome-title": "Bienvenue au Échanges Entre Concepteurs!",
     "isVendorBody": "Commencez par parcourir les opportunités publiées sur le Échanges Entre Concepteurs.",
     "isNotVendorBody": "Commencez par créer votre première opportunité ou parcourez les opportunités publiées sur Échanges Entre Concepteurs.",
-    "isVendorAlert": "Vous devez <1>Créer une organisation</1> et être un <3>Fournisseur qualifié</3> afin de soumettre des propositions aux opportunités Sprint Avec Nous."
+    "isVendorAlert": "Vous devez <1>Créer une organisation</1> et être un <3>Fournisseur qualifié</3> afin de soumettre des propositions aux opportunités Collaborer Avec Nous."
   },
   "SignedOut": "Se déconnecter",
   "SignedOutMessageValid": "Vous êtes déconnecté avec succès. Merci d'utiliser Échanges Entre Concepteurs.",
@@ -807,7 +805,7 @@
   "userAccountRegisteredDescription": "Merci d'avoir créé un compte pour l'application Web Échanges Entre Concepteurs.",
   "inviteToRegisterTitle": "{{legalName}} vous a envoyé une demande d'équipe",
   "inviteToRegisterBodyP1": "{{legalName}} vous a demandé de rejoindre son équipe sur Échanges Entre Concepteurs.",
-  "inviteToRegisterBodyP2": "Pour rejoindre l'équipe de l'organisation, vous devez d'abord {{linkTo}} pour un compte Échanges Entre Concepteurs. Une fois que vous vous êtes inscrit, vous pouvez rejoindre leur équipe et être inclus dans les propositions d'opportunités Sprint Avec Nous.",
+  "inviteToRegisterBodyP2": "Pour rejoindre l'équipe de l'organisation, vous devez d'abord {{linkTo}} pour un compte Échanges Entre Concepteurs. Une fois que vous vous êtes inscrit, vous pouvez rejoindre leur équipe et être inclus dans les propositions d'opportunités Collaborer Avec Nous.",
   "accountDeactivatedTitle": "Votre compte a été désactivé",
   "accountDeactivatedSummary": "Le compte utilisateur a été désactivé par l'utilisateur.",
   "accountDeactivatedBody": "<paragraph>Vous avez réussi à désactiver votre compte Échanges Entre Concepteurs.</paragraph><paragraph>Vous pouvez réactiver votre compte en vous reconnectant à l'application Web.</paragraph>",
@@ -850,7 +848,7 @@
   "publicSectorDescriptionP2": "Publiez une opportunité, évaluez les propositions, affectez un développeur et mettez-vous au travail !",
   "sprintWithUsDescription": "est un mécanisme d'approvisionnement qui permet à {{regionNameLong}} de se procurer des équipes de développement de logiciels Agile.",
   "whatToExpect": "À quoi s'attendre",
-  "whatToExpectDescription": "Si votre organisation se voit attribuer une opportunité Sprint Avec Nous, voici ce à quoi vous pouvez vous attendre lorsque vous travaillez avec nous :", 
+  "whatToExpectDescription": "Si votre organisation se voit attribuer une opportunité Collaborer Avec Nous, voici ce à quoi vous pouvez vous attendre lorsque vous travaillez avec nous :", 
   "governmentProductManagers": "Chefs de produits gouvernementaux",
   "governmentProductManagersDescription": "Vous travaillerez en étroite collaboration avec un chef de produit gouvernemental formé qui possède l'expertise et la responsabilité de gérer le service.",
   "interdisciplinaryTeams": "Équipes interdisciplinaires",
@@ -863,7 +861,7 @@
   "agilePhasesDescription": "Ne vous attendez pas à de longues exigences. C'est Agile. Vous commencerez par Inception pour comprendre le problème de l'entreprise, puis créerez une preuve de concept pour démontrer la faisabilité de la solution. Enfin, vous construirez le reste du produit dans Implémentation.",
   "pricingIncentives": "Prix et Encitations",
   "pricingIncentivesDescription": "Ce ne sont pas des contrats de temps et de matériaux ! Pour chaque phase, vous facturerez un prix fixe à votre équipe interdisciplinaire pour répondre aux livrables de la période. Il y a des incitations à terminer une phase plus tôt !",
-  "sprintWithUsHowToApplyViewBody": "Pour postuler aux opportunités de <emphasis>Sprint Avec Nous</emphasis>, procédez comme suit :",
+  "sprintWithUsHowToApplyViewBody": "Pour postuler aux opportunités de <emphasis>Collaborer Avec Nous</emphasis>, procédez comme suit :",
   "signInVendorAccount": "Connectez-vous à votre compte fournisseur",
   "signInVendorAccountDescription": "à votre compte de fournisseur du Échanges Entre Concepteurs à l'aide de {{idpName}}. Si vous n'avez pas encore de compte, vous devez",
   "first": "d'abord",
@@ -871,7 +869,7 @@
   "registerYourOrganizationDescriptionP1": "Accédez à la page <emphasis>Organisations</emphasis> et cliquez sur le bouton <bold>+ Créer organisation</bold>. Remplissez le formulaire en fournissant toutes les informations requises et soumettez-le.",
   "registerYourOrganizationDescriptionP2": "De même, vous pouvez enregistrer votre organisation via votre profil d'utilisateur.",
   "becomeQualifiedSupplier": "Devenez un fournisseur qualifié",
-  "becomeQualifiedSupplierDescriptionP1": "Vous devez être considéré comme un fournisseur qualifié pour postuler aux opportunités de <emphasis>Sprint Avec Nous</emphasis>.",
+  "becomeQualifiedSupplierDescriptionP1": "Vous devez être considéré comme un fournisseur qualifié pour postuler aux opportunités de <emphasis>Collaborer Avec Nous</emphasis>.",
   "becomeQualifiedSupplierDescriptionP2": "Pour terminer le processus de qualification, accédez à votre organisation enregistrée via votre profil d'utilisateur et accédez à l'onglet <emphasis>Qualification SWU</emphasis>. Remplissez les conditions requises pour devenir un fournisseur qualifié.",
   "users": "Utilisateurs",
   "accountType": "Type de compte",
@@ -900,7 +898,7 @@
   "AdminReactivatingUserModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Échanges Entre Concepteurs.",
   "userDeactivatingSelfModalBody": "Êtes-vous sûr de vouloir désactiver votre compte ? Vous ne pourrez plus accéder au Échanges Entre Concepteurs.",
   "capabilitiesAndSkills": "Capacités Et Compétences",
-  "sprintWUcapabilitiesAndSkillsDescription": "Les opportunités Sprint Avec Nous nécessitent des équipes dotées des capacités et des compétences indiquées ci-dessous. Sélectionnez les capacités que vous possédez en cliquant sur leurs noms ou leurs cases à cocher. Faites-nous savoir ce que vous pouvez faire!",
+  "sprintWUcapabilitiesAndSkillsDescription": "Les opportunités Collaborer Avec Nous nécessitent des équipes dotées des capacités et des compétences indiquées ci-dessous. Sélectionnez les capacités que vous possédez en cliquant sur leurs noms ou leurs cases à cocher. Faites-nous savoir ce que vous pouvez faire!",
   "capabilities": "Capacités",
   "notifications": "Notifications",
   "policiesTermsAndAgreements": "Politiques, Accords et Conditions",
@@ -1155,9 +1153,9 @@
   "proposalNotExistText": "La proposition spécifiée n'existe pas.",
   "proposalDeleteIfNotDraftText": "Vous ne pouvez pas supprimer une proposition qui n'est pas un brouillon.",
   "contentNotFound": "Contenu introuvable",
-  "slugInUseText": "Ce lien relatif est déjà utilisée.",
+  "slugAlreadyInUse": "Ce lien relatif est déjà utilisée.",
   "contentNotExistText": "Le contenu spécifié n'existe pas.",
-  "slugWithFixedContentChangeText": "Vous ne pouvez pas changer le lien relatif d'un contenu fixe.",
+  "slugWithFixedContentChangeTextError": "Vous ne pouvez pas changer le lien relatif d'un contenu fixe.",
   "fixedContentCantDeleted": "Vous ne pouvez pas supprimer un contenu fixe.",
   "invalidounterNamesProvided": "Noms de compteur fournis non valides ",
   "fileNotFound": "Fichier introuvable.",
@@ -1167,6 +1165,7 @@
   "exportProposal": "Exporter la proposition",
   "next": "Suivant",
   "previous": "Précédent",
+  "termAndConditionCheck": "Je reconnais avoir lu et accepté les",
   "stepOneInstructionalSidebar": {
     "title": "Créez votre compte Échanges Entre Concepteurs.",
     "description": "Rejoignez une communauté de développeurs, d'entrepreneurs et d'innovateurs du service public qui améliorent les services publics.",

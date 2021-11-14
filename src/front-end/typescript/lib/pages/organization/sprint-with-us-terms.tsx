@@ -21,7 +21,7 @@ export const TITLE =  i18next.t('organization.sprint-with-us-terms.title');
 
 export function acceptedSWUTermsText(organization: Organization, ifNotAcceptedText: string) {
   return organization.acceptedSWUTerms
-    ?  i18next.t('organization.sprint-with-us-terms.acceptedSWUTermsText', {legalName: organization.legalName, title: TITLE, 
+    ?  i18next.t('organization.sprint-with-us-terms.acceptedSWUTermsText', {legalName: organization.legalName, TITLE, 
                   acceptedSWUTermsFormatDate: formatDate(organization.acceptedSWUTerms),  acceptedSWUTermsFormatTime : formatTime(organization.acceptedSWUTerms)}) 
     : ifNotAcceptedText;
 }

@@ -74,7 +74,7 @@ export const approvedRequestToJoin = makeSend(approvedRequestToJoinT);
 export async function approvedRequestToJoinT(recipient: User, affiliation: Affiliation): Promise<Emails> {
   const memberName = affiliation.user.name;
   const organizationName = affiliation.organization.legalName;
-  const title = i18next.t('mailerNotifications.approvedRequestToJoinTitle', {memberName: memberName});
+  const title = i18next.t('mailerNotifications.approvedRequestToJoinTitle', {memberName});
   return [{
     to: recipient.email || [],
     subject: title,
@@ -84,7 +84,7 @@ export async function approvedRequestToJoinT(recipient: User, affiliation: Affil
         <div>
           <Trans 
             i18nKey="mailerNotifications.approvedRequestToJoinBody" 
-            values={{ memberName: memberName, organizationName: organizationName}}
+            values={{ memberName, organizationName}}
             components={{ paragraph: <p /> }} 
           />
         </div>

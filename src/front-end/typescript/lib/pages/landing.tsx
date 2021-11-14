@@ -114,7 +114,7 @@ const Programs: View = () => {
         <Row>
           <ProgramCard
             img={prefixPath('/images/illustrations/developpez_avec_nous.svg')}
-            title= {t('landing.program-card.develop.title')}
+            title= {t('codeWithUs')}
             className='mb-4 mb-md-0'
             description={
               <div>
@@ -134,7 +134,7 @@ const Programs: View = () => {
           />
           <ProgramCard
             img={prefixPath('/images/illustrations/cocreez_avec_nous.svg')}
-            title= {t('landing.program-card.co-create.title')}
+            title= {t('sprintWithUs')}
             className='mb-4 mb-md-0'
             description={
               (<div>

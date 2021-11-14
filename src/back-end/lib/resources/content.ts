@@ -121,7 +121,7 @@ const resource: Resource = {
             }
             if (isValid(dbResult) && dbResult.value) {
               return invalid({
-                slug: [i18next.t('slugInUseText')]
+                slug: [i18next.t('slugAlreadyInUse')]
               });
             }
           }
@@ -184,7 +184,7 @@ const resource: Resource = {
           // If content is fixed, and slug is being updated, disallow
           if (existingContent.fixed && existingContent.slug !== validatedSlug.value) {
             return invalid({
-              fixed: [i18next.t('slugWithFixedContentChangeText')]
+              fixed: [i18next.t('slugWithFixedContentChangeTextError')]
             });
           }
           // If slug name is being updated, check to see if new slug name is available
@@ -197,7 +197,7 @@ const resource: Resource = {
             }
             if (isValid(dbResult) && dbResult.value) {
               return invalid({
-                slug: [i18next.t('slugInUseText')]
+                slug: [i18next.t('slugAlreadyInUse')]
               });
             }
           }
