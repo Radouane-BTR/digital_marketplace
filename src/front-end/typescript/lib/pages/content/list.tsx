@@ -13,6 +13,7 @@ import { Content } from 'shared/lib/resources/content';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
 import { invalid, valid } from 'shared/lib/validation';
+import i18next from 'i18next'; 
 
 interface TableContent extends Content {
   slugPath: string;
@@ -78,7 +79,7 @@ export const update: Update<State, Msg> = updateValid(({ state, msg }) => {
 function tableHeadCells(state: Immutable<ValidState>): Table.HeadCells {
   return [
     {
-      children: 'Title',
+      children: i18next.t('title'),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -86,17 +87,17 @@ function tableHeadCells(state: Immutable<ValidState>): Table.HeadCells {
       }
     },
     {
-      children: 'Fixed?',
+      children: `${i18next.t('fixed')}?`,
       className: 'text-center',
       style: { width: '0px' }
     },
     {
-      children: 'Updated',
+      children: i18next.t('updated'),
       className: 'text-nowrap',
       style: { width: '0px' }
     },
     {
-      children: 'Created',
+      children: i18next.t('created'),
       className: 'text-nowrap',
       style: { width: '0px' }
     }
@@ -136,8 +137,8 @@ export const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) =
     <div>
       <Row>
         <Col xs='12'>
-          <h1 className='mb-5'>Content Management</h1>
-          <h2 className='mb-4'>Pages</h2>
+          <h1 className='mb-5'>{i18next.t('contentManagement')}</h1>
+          <h2 className='mb-4'>{i18next.t('Pages')}</h2>
           <Table.view
             headCells={tableHeadCells(state)}
             bodyRows={tableBodyRows(state)}
@@ -159,7 +160,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   getContextualActions: getContextualActionsValid(({ state, dispatch }) => {
     return adt('links', [
       {
-        children: 'Create Page',
+        children: i18next.t('links.createPage'),
         button: true,
         symbol_: leftPlacement(iconLinkSymbol('file-plus')),
         color: 'primary',

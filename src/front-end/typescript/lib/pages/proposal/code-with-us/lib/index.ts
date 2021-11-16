@@ -1,6 +1,7 @@
 import { ThemeColor } from 'front-end/lib/types';
 import { CWUProposalEvent, CWUProposalStatus } from 'shared/lib/resources/proposal/code-with-us';
 import { UserType } from 'shared/lib/resources/user';
+import i18next from 'i18next';
 
 export function cwuProposalStatusToColor(s: CWUProposalStatus, viewerUserType: UserType): ThemeColor {
   switch (s) {
@@ -17,41 +18,41 @@ export function cwuProposalStatusToColor(s: CWUProposalStatus, viewerUserType: U
 
 export function cwuProposalStatusToTitleCase(s: CWUProposalStatus, viewerUserType: UserType): string {
   switch (s) {
-    case CWUProposalStatus.Draft        : return 'Draft';
-    case CWUProposalStatus.Submitted    : return 'Submitted';
-    case CWUProposalStatus.UnderReview  : return 'Under Review';
-    case CWUProposalStatus.Evaluated    : return viewerUserType === UserType.Vendor ? 'Under Review' : 'Evaluated';
-    case CWUProposalStatus.Awarded      : return 'Awarded';
-    case CWUProposalStatus.NotAwarded   : return 'Not Awarded';
-    case CWUProposalStatus.Disqualified : return 'Disqualified';
-    case CWUProposalStatus.Withdrawn    : return 'Withdrawn';
+    case CWUProposalStatus.Draft        : return i18next.t('draft');
+    case CWUProposalStatus.Submitted    : return i18next.t('submitted');
+    case CWUProposalStatus.UnderReview  : return i18next.t('underReview');
+    case CWUProposalStatus.Evaluated    : return viewerUserType === UserType.Vendor ? i18next.t('underReview') : i18next.t('evaluated');
+    case CWUProposalStatus.Awarded      : return i18next.t('awarded');
+    case CWUProposalStatus.NotAwarded   : return i18next.t('notAwarded');
+    case CWUProposalStatus.Disqualified : return i18next.t('disqualified');
+    case CWUProposalStatus.Withdrawn    : return i18next.t('withdrawn');
   }
 }
 
 export function cwuProposalEventToTitleCase(e: CWUProposalEvent): string {
   switch (e) {
-    case CWUProposalEvent.ScoreEntered  : return 'Score Entered';
+    case CWUProposalEvent.ScoreEntered  : return i18next.t('scoreEntered');
   }
 }
 
 export function cwuProposalStatusToPresentTenseVerb(s: CWUProposalStatus): string {
   switch (s) {
-    case CWUProposalStatus.Draft: return 'Save';
-    case CWUProposalStatus.Submitted: return 'Submit';
-    case CWUProposalStatus.Awarded: return 'Award';
-    case CWUProposalStatus.Withdrawn: return 'Withdraw';
-    case CWUProposalStatus.Evaluated: return 'Score';
-    default: return 'Update';
+    case CWUProposalStatus.Draft: return i18next.t('save');
+    case CWUProposalStatus.Submitted: return i18next.t('submit');
+    case CWUProposalStatus.Awarded: return i18next.t('award');
+    case CWUProposalStatus.Withdrawn: return i18next.t('withdrawn');
+    case CWUProposalStatus.Evaluated: return i18next.t('score');
+    default: return i18next.t('update');
   }
 }
 
 export function cwuProposalStatusToPastTenseVerb(s: CWUProposalStatus): string {
   switch (s) {
-    case CWUProposalStatus.Draft: return 'Saved';
-    case CWUProposalStatus.Submitted: return 'Submitted';
-    case CWUProposalStatus.Awarded: return 'Awarded';
-    case CWUProposalStatus.Withdrawn: return 'Withdrawn';
-    case CWUProposalStatus.Evaluated: return 'Scored';
-    default: return 'Update';
+    case CWUProposalStatus.Draft: return i18next.t('saved');
+    case CWUProposalStatus.Submitted: return i18next.t('submitted');
+    case CWUProposalStatus.Awarded: return i18next.t('awarded');
+    case CWUProposalStatus.Withdrawn: return i18next.t('withdrawn');
+    case CWUProposalStatus.Evaluated: return i18next.t('scored');
+    default: return i18next.t('update');
   }
 }

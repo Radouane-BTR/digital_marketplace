@@ -21,6 +21,7 @@ export const VENDOR_ACCOUNT_CREATION_DISABLED = parseBooleanEnvironmentVariable(
 
 export const SHOW_TEST_INDICATOR = parseBooleanEnvironmentVariable(process.env.SHOW_TEST_INDICATOR) || false;
 
+// TODO : if we gonna work with a CONTACT_EMAIL, we need to change it for an email of gouv quebec
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'digitalmarketplace@gov.bc.ca';
 
 export const BACKEND_URL = process.env.BACKEND_URL || ''; // Same server if empty
@@ -40,17 +41,17 @@ export const CWU_MAX_BUDGET = parseInt(process.env.CWU_MAX_BUDGET || '70000',10)
 export const SWU_MAX_BUDGET = parseInt(process.env.SWU_MAX_BUDGET || '2000000',10);
 
 export const COPY = {
-  appTermsTitle: 'Digital Marketplace Terms & Conditions for E-Bidding',
+  appTermsTitle: 'Termes et conditions du Digital Marketplace pour les enchères électroniques',
   gov: {
     name: {
-      short: 'B.C. Government',
-      long: 'Government of British Columbia'
+      short: 'Gouv. Québec',
+      long: 'Gouvernement du Québec'
     }
   },
   region: {
     name: {
-      short: 'B.C.',
-      long: 'British Columbia'
+      short: 'QC',
+      long: 'Québec'
     }
   }
 };

@@ -15,6 +15,7 @@ import { CreateRequestBody, Organization, UpdateProfileRequestBody, UpdateProfil
 import { adt, ADT, Id } from 'shared/lib/types';
 import { ErrorTypeFrom, invalid, valid, validateThenMapValid, Validation } from 'shared/lib/validation';
 import * as orgValidation from 'shared/lib/validation/organization';
+import i18next from 'i18next'
 
 export interface Params {
   organization?: Organization;
@@ -369,7 +370,7 @@ export const view: View<Props> = props => {
             }}
             src={state.newLogoImage ? state.newLogoImage.path : orgLogoPath(state.organization)} />
           <div className='ml-3 d-flex flex-column align-items-start flex-nowrap'>
-            <div className='mb-2'><b>Profile Picture (Optional)</b></div>
+            <div className='mb-2'><b>{i18next.t('form.profile-picture')}</b></div>
             <FileLink
               button
               outline
@@ -381,7 +382,7 @@ export const view: View<Props> = props => {
               onChange={file => dispatch(adt('onChangeAvatar', file))}
               accept={SUPPORTED_IMAGE_EXTENSIONS}
               color='primary'>
-              Choose Image
+              {i18next.t('form.choose-image')}
             </FileLink>
             {state.newLogoImage && state.newLogoImage.errors.length
               ? (<div className='mt-2 small text-danger'>{state.newLogoImage.errors.map((e, i) => (<div key={`org-logo-error-${i}`}>{e}</div>))}</div>)
@@ -392,7 +393,7 @@ export const view: View<Props> = props => {
         <Col xs='12'>
           <ShortText.view
             extraChildProps={{}}
-            label='Legal Name'
+            label={i18next.t('form.legal-name')}
             required
             disabled={disabled}
             state={state.legalName}
@@ -403,7 +404,7 @@ export const view: View<Props> = props => {
           <div className='mb-5 pb-5 border-bottom'>
             <ShortText.view
               extraChildProps={{}}
-              label='Website Url (Optional)'
+              label={i18next.t('form.website')}
               disabled={disabled}
               state={state.websiteUrl}
               dispatch={mapComponentDispatch(dispatch, value => adt('websiteUrl' as const, value))} />
@@ -411,13 +412,13 @@ export const view: View<Props> = props => {
         </Col>
 
         <Col xs='12'>
-          <h3 className='mb-4'>Legal Address</h3>
+          <h3 className='mb-4'>{i18next.t('form.legal-address')}</h3>
         </Col >
 
         <Col xs='12'>
           <ShortText.view
             extraChildProps={{}}
-            label='Street Address'
+            label={i18next.t('form.street-address')}
             required
             disabled={disabled}
             state={state.streetAddress1}
@@ -427,7 +428,7 @@ export const view: View<Props> = props => {
         <Col xs='12'>
           <ShortText.view
             extraChildProps={{}}
-            label='Street Address'
+            label={i18next.t('form.street-address')}
             disabled={disabled}
             state={state.streetAddress2}
             dispatch={mapComponentDispatch(dispatch, value => adt('streetAddress2' as const, value))} />
@@ -436,7 +437,7 @@ export const view: View<Props> = props => {
         <Col xs='12' md='8'>
           <ShortText.view
             extraChildProps={{}}
-            label='City'
+            label={i18next.t('form.city')}
             required
             disabled={disabled}
             state={state.city}
@@ -446,7 +447,7 @@ export const view: View<Props> = props => {
         <Col xs='12' md='4'>
           <ShortText.view
             extraChildProps={{}}
-            label='Province/State'
+            label={i18next.t('form.province-state')}
             required
             disabled={disabled}
             state={state.region}
@@ -459,7 +460,7 @@ export const view: View<Props> = props => {
               <Col md='5'>
                 <ShortText.view
                   extraChildProps={{}}
-                  label='Postal / ZIP Code'
+                  label={i18next.t('form.postal-zipCode')}
                   required
                   disabled={disabled}
                   state={state.mailCode}
@@ -469,7 +470,7 @@ export const view: View<Props> = props => {
               <Col md='7'>
                 <ShortText.view
                   extraChildProps={{}}
-                  label='Country'
+                  label={i18next.t('form.country')}
                   required
                   disabled={disabled}
                   state={state.country}
@@ -480,13 +481,13 @@ export const view: View<Props> = props => {
         </Col>
 
         <Col xs='12'>
-          <h3 className='mb-4'>Contact Information</h3>
+          <h3 className='mb-4'>{i18next.t('form.contact-information')}</h3>
         </Col >
 
         <Col xs='12'>
           <ShortText.view
             extraChildProps={{}}
-            label='Contact Name'
+            label={i18next.t('form.contact-name')}
             required
             disabled={disabled}
             state={state.contactName}
@@ -496,7 +497,7 @@ export const view: View<Props> = props => {
         <Col xs='12'>
           <ShortText.view
             extraChildProps={{}}
-            label='Job Title (Optional)'
+            label={i18next.t('form.job')}
             disabled={disabled}
             state={state.contactTitle}
             dispatch={mapComponentDispatch(dispatch, value => adt('contactTitle' as const, value))} />
@@ -505,7 +506,7 @@ export const view: View<Props> = props => {
         <Col xs='12' md='7'>
           <ShortText.view
             extraChildProps={{}}
-            label='Contact Email'
+            label={i18next.t('form.contact-email')}
             required
             disabled={disabled}
             state={state.contactEmail}
@@ -515,7 +516,7 @@ export const view: View<Props> = props => {
         <Col xs='12' md='5'>
           <ShortText.view
             extraChildProps={{}}
-            label='Phone Number (Optional)'
+            label={i18next.t('form.phone')}
             disabled={disabled}
             state={state.contactPhone}
             dispatch={mapComponentDispatch(dispatch, value => adt('contactPhone' as const, value))} />
@@ -556,7 +557,7 @@ export async function persist(params: PersistParams): Promise<PersistReturnValue
       case 'unhandled':
       case 'invalid':
         return invalid(setErrors(state, {
-          newLogoImage: ['Please select a different avatar image.']
+          newLogoImage: [i18next.t('form.avatar-error')]
         }));
     }
   }

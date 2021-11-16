@@ -7,6 +7,7 @@ import rehypeRaw from 'rehype-raw'
 import rehypeSanitize from 'rehype-sanitize'
 import ReactMarkdown from 'react-markdown';
 import { decodeMarkdownImageUrlToFileId } from 'shared/lib/resources/file';
+import i18next from "i18next";
 
 interface Props {
   source: string;
@@ -50,7 +51,7 @@ const Markdown: View<Props> = ({ source, box, className = '', escapeHtml = true,
   const renderers = {
     a: noLinks
       ? () => { //React-Markdown types are not helpful here.
-        return (<span className='text-danger font-weight-bold'>[Link Redacted]</span>);
+        return (<span className='text-danger font-weight-bold'>[{i18next.t('linkRedacted')}]</span>);
       }
       : (props: any) => {
         const href = isRelativeUrl(props.href) && !isHashLink(props.href) ? prefixPath(props.href) : props.href;
@@ -62,7 +63,7 @@ const Markdown: View<Props> = ({ source, box, className = '', escapeHtml = true,
       },
     img: noImages
       ? () => { //React-Markdown types are not helpful here.
-        return (<span className='text-danger font-weight-bold'>[Image Redacted]</span>);
+        return (<span className='text-danger font-weight-bold'>[{i18next.t('imageRedacted')}]</span>);
       }
       : (props: any) => {
         return (<img {...props} src={decodeImgSrc(props.src || '')} />);

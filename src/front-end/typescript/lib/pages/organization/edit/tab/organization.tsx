@@ -12,6 +12,7 @@ import { Col, Row } from 'reactstrap';
 import * as OrgResource from 'shared/lib/resources/organization';
 import { User } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 export interface State extends Tab.Params {
   isEditing: boolean;
@@ -183,15 +184,15 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <Row>
         <Col>
           <div className='mt-5 pt-5 border-top'>
-            <h3>Archive Organization</h3>
-            <p className='mb-4'>Archiving this organization means that it will no longer be available for opportunity proposals.</p>
+            <h3>{i18next.t('organization.edit.tab.organization.title')}</h3>
+            <p className='mb-4'>{i18next.t('organization.edit.tab.organization.description')}</p>
           </div>
         </Col>
       </Row>
       <Row>
         <Col>
           <Link button loading={isArchiveLoading} disabled={isLoading} color='danger' symbol_={leftPlacement(iconLinkSymbol('minus-circle'))} onClick={() => dispatch(adt('archive'))}>
-            Archive Organization
+          {i18next.t('links.archive-organization')}
           </Link>
         </Col>
       </Row>
@@ -207,19 +208,19 @@ export const component: Tab.Component<State, Msg> = {
   getModal: state => {
     if (state.showArchiveModal) {
       return {
-        title: 'Archive Organization?',
-        body: () => 'Are you sure you want to archive this organization?',
+        title: i18next.t('organization.edit.tab.organization.modal.if.title'),
+        body: () => i18next.t('organization.edit.tab.organization.modal.if.body'),
         onCloseMsg: adt('hideArchiveModal'),
         actions: [
           {
-            text: 'Archive Organization',
+            text: i18next.t('organization.edit.tab.organization.modal.if.actions.archive'),
             icon: 'minus-circle',
             color: 'danger',
             msg: adt('archive'),
             button: true
           },
           {
-            text: 'Cancel',
+            text: i18next.t('organization.edit.tab.organization.modal.if.actions.cancel'),
             color: 'secondary',
             msg: adt('hideArchiveModal')
           }
@@ -227,19 +228,19 @@ export const component: Tab.Component<State, Msg> = {
       };
     } else if (state.showSaveChangesModal) {
       return {
-        title: 'Save Changes?',
-        body: () => 'Are you sure you want to save the changes you\'ve made to this organization?',
+        title: i18next.t('organization.edit.tab.organization.modal.else.title'),
+        body: () => i18next.t('organization.edit.tab.organization.modal.else.body'),
         onCloseMsg: adt('hideSaveChangesModal'),
         actions: [
           {
-            text: 'Save Changes',
+            text: i18next.t('organization.edit.tab.organization.modal.else.actions.save'),
             icon: 'check',
             color: 'success',
             msg: adt('saveChanges'),
             button: true
           },
           {
-            text: 'Cancel',
+            text: i18next.t('organization.edit.tab.organization.modal.else.actions.cancel'),
             color: 'secondary',
             msg: adt('hideSaveChangesModal')
           }
@@ -256,7 +257,7 @@ export const component: Tab.Component<State, Msg> = {
     const isValid = OrgForm.isValid(state.orgForm);
     if (!state.isEditing) {
       return adt('links', [{
-        children: 'Edit Organization',
+        children: i18next.t('links.edit-organization'),
         onClick: () => dispatch(adt('startEditing')),
         button: true,
         loading: isEditingLoading,
@@ -267,7 +268,7 @@ export const component: Tab.Component<State, Msg> = {
     } else {
       return adt('links', [
         {
-          children: 'Save Changes',
+          children: i18next.t('organization.edit.tab.organization.modal.else.actions.save'),
           disabled: !isValid || isLoading,
           onClick: () => dispatch(adt('saveChanges')),
           button: true,
@@ -276,7 +277,7 @@ export const component: Tab.Component<State, Msg> = {
           color: 'success'
         },
         {
-          children: 'Cancel',
+          children: i18next.t('organization.edit.tab.organization.modal.else.actions.cancel'),
           disabled: isLoading,
           onClick: () => dispatch(adt('cancelEditing')),
           color: 'c-nav-fg-alt'

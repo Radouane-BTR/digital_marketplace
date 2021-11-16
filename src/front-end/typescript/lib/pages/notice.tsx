@@ -1,3 +1,4 @@
+import i18next from 'i18next';
 import { makePageMetadata } from 'front-end/lib';
 import { Route, SharedState } from 'front-end/lib/app/types';
 import { ComponentView, GlobalComponentMsg, PageComponent, PageInit, Update } from 'front-end/lib/framework';
@@ -26,10 +27,10 @@ function noticeIdToState(noticeId: NoticeId): State {
 
     case 'deactivatedOwnAccount':
       return {
-        title: 'Account Deactivation Successful',
-        body: 'You have successfully deactivated your account.',
+        title: i18next.t('noticeIfdeactivatedOwnAccountTitle'),
+        body: i18next.t('noticeIfdeactivatedOwnAccountBody'),
         button: {
-          text: 'Back to Home',
+          text: i18next.t('links.backToHome'),
           route: {
             tag: 'landing',
             value: null
@@ -39,8 +40,8 @@ function noticeIdToState(noticeId: NoticeId): State {
 
     case 'authFailure':
       return {
-        title: 'Sign-In Failed',
-        body: 'Please try again using the "Sign-In" button.'
+        title: i18next.t('noticeIfauthFailureTitle'),
+        body: i18next.t('noticeIfauthFailureBody')
       };
   }
 }

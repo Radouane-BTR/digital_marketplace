@@ -11,6 +11,7 @@ import { AuthenticatedSession } from 'shared/lib/resources/session';
 import { User } from 'shared/lib/resources/user';
 import { Id } from 'shared/lib/types';
 import { getValidValue } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export async function handleCWUProposalSubmitted(connection: db.Connection, proposalId: Id, session: AuthenticatedSession): Promise<void> {
   // Notify the submitting user
@@ -75,8 +76,8 @@ export async function handleCWUProposalWithdrawn(connection: db.Connection, prop
 export const successfulCWUProposalSubmission = makeSend(successfulCWUProposalSubmissionT);
 
 export async function successfulCWUProposalSubmissionT(recipient: User, opportunity: CWUOpportunity, proposal: CWUProposal): Promise<Emails> {
-  const title = 'Your Code With Us Opportunity Proposal Has Been Submitted';
-  const description = 'You have successfully submitted a proposal for the following Digital Marketplace opportunity:';
+  const title =  i18next.t('mailerNotifications.successfulCWUProposalSubmissionTitle');
+  const description = i18next.t('mailerNotifications.successfulCWUProposalSubmissionDescription');
   return [{
     to: recipient.email || [],
     subject: title,
@@ -86,10 +87,10 @@ export async function successfulCWUProposalSubmissionT(recipient: User, opportun
       descriptionLists: [makeCWUOpportunityInformation(opportunity, recipient.locale)],
       body: (
         <div>
-          <p style={{...templates.styles.utilities.font.italic}}>What Happens Next?</p>
-          <p>If you would like to make changes to your proposal, simply <templates.Link text='sign in' url={templates.makeUrl('sign-in')} /> and access the proposal via your dashboard.  All changes must be submitted prior to the proposal deadline.</p>
-          <p>Once the proposal deadline has been reached, your proposal will be reviewed and assigned a score.  After all proposals have been evaluated, you will be notified if you have been awarded the opportunity or if your proposal was unsuccessful.</p>
-          <p>Good luck!</p>
+          <p style={{...templates.styles.utilities.font.italic}}>{i18next.t('whatHappensNext')}?</p>
+          <p>{i18next.t('mailerNotifications.successfulCWUProposalSubmissionBodyP2-1')} <templates.Link text={i18next.t('links.sign-in')} url={templates.makeUrl('sign-in')} /> {i18next.t('mailerNotifications.successfulCWUProposalSubmissionBodyP2-2')}</p>
+          <p>{i18next.t('mailerNotifications.successfulCWUProposalSubmissionBodyP3')}</p>
+          <p>{i18next.t('goodLuck')}!</p>
         </div>
       ),
       callsToAction: [viewCWUOpportunityCallToAction(opportunity), viewCWUProposalCallToAction(proposal)]
@@ -100,10 +101,10 @@ export async function successfulCWUProposalSubmissionT(recipient: User, opportun
 export const awardedCWUProposalSubmission = makeSend(awardedCWUProposalSubmissionT);
 
 export async function awardedCWUProposalSubmissionT(recipient: User, opportunity: CWUOpportunity, proposal: CWUProposal | CWUProposalSlim): Promise<Emails> {
-  const title = 'You Have Been Awarded a Code With Us Opportunity';
-  const description = 'Congratulations!  You have been awarded the following Digital Marketplace opportunity:';
+  const title = i18next.t('mailerNotifications.awardedCWUProposalSubmissionTitle');
+  const description = i18next.t('mailerNotifications.awardedCWUProposalSubmissionDescription');
   return[{
-    summary: 'CWU opportunity awarded; sent to successful proponent.',
+    summary: i18next.t('mailerNotifications.awardedCWUProposalSubmissionSummary'),
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
@@ -112,9 +113,9 @@ export async function awardedCWUProposalSubmissionT(recipient: User, opportunity
       descriptionLists: [makeCWUOpportunityInformation(opportunity, recipient.locale, false)],
       body: (
         <div>
-          <p>If you would like to view your total score, <templates.Link text='sign in' url={templates.makeUrl('sign-in')} /> and access your proposal via your dashboard.</p>
-          <p style={{...templates.styles.utilities.font.italic}}>What Happens Next?</p>
-          <p>A member of the Digital Marketplace or the owner of the opportunity will be in touch with you shortly to discuss next steps.</p>
+          <p>{i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP1-1')} <templates.Link text={i18next.t('links.sign-in')} url={templates.makeUrl('sign-in')} /> {i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP1-2')}</p>
+          <p style={{...templates.styles.utilities.font.italic}}>{i18next.t('whatHappensNext')}?</p>
+          <p>{i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP3')}</p>
         </div>
       ),
       callsToAction: [viewCWUOpportunityCallToAction(opportunity), viewCWUProposalCallToAction(proposal)]
@@ -125,10 +126,10 @@ export async function awardedCWUProposalSubmissionT(recipient: User, opportunity
 export const unsuccessfulCWUProposalSubmission = makeSend(unsuccessfulCWUProposalSubmissionT);
 
 export async function unsuccessfulCWUProposalSubmissionT(recipient: User, opportunity: CWUOpportunity, proposal: CWUProposal | CWUProposalSlim): Promise<Emails> {
-  const title = 'A Code With Us Opportunity Has Closed';
-  const description = 'The following Digital Marketplace opportunity that you submitted a proposal to has closed:';
+  const title = i18next.t('mailerNotifications.unsuccessfulCWUProposalSubmissionTitle');
+  const description = i18next.t('mailerNotifications.unsuccessfulCWUProposalSubmissionDescription');
   return[{
-    summary: 'CWU opportunity awarded; sent to unsuccessful proponents.',
+    summary: i18next.t('mailerNotifications.unsuccessfulCWUProposalSubmissionSummary'),
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
@@ -137,9 +138,9 @@ export async function unsuccessfulCWUProposalSubmissionT(recipient: User, opport
       descriptionLists: [makeCWUOpportunityInformation(opportunity, recipient.locale, false)],
       body: (
         <div>
-          <p>The opportunity has been awarded to {opportunity.successfulProponent?.name || EMPTY_STRING}.</p>
-          <p>If you would like to view your total score, <templates.Link text='sign in' url={templates.makeUrl('sign-in')} /> and access your proposal via your dashboard.</p>
-          <p>Thank you for your submission and we wish you luck on the next opportunity.</p>
+          <p>{i18next.t('mailerNotifications.unsuccessfulCWUProposalSubmissionBodyP1')} {opportunity.successfulProponent?.name || EMPTY_STRING}.</p>
+          <p>{i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP1-1')} <templates.Link text={i18next.t('links.sign-in')} url={templates.makeUrl('sign-in')} /> {i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP1-2')}</p>
+          <p>{i18next.t('mailerNotifications.awardedCWUProposalSubmissionBodyP3')}</p>
         </div>
       ),
       callsToAction: [viewCWUOpportunityCallToAction(opportunity), viewCWUProposalCallToAction(proposal)]
@@ -150,8 +151,8 @@ export async function unsuccessfulCWUProposalSubmissionT(recipient: User, opport
 export const disqualifiedCWUProposalSubmission = makeSend(disqualifiedCWUProposalSubmissionT);
 
 export async function disqualifiedCWUProposalSubmissionT(recipient: User, opportunity: CWUOpportunity, proposal: CWUProposal | CWUProposalSlim): Promise<Emails> {
-  const title = 'Your Code With Us Proposal Has Been Disqualified';
-  const description = 'The proposal that you submitted for the following Digital Marketplace opportunity has been disqualified:';
+  const title = i18next.t('mailerNotifications.disqualifiedCWUProposalSubmissionTitle');
+  const description = i18next.t('mailerNotifications.disqualifiedCWUProposalSubmissionDescription');
   return[{
     to: recipient.email || [],
     subject: title,
@@ -161,7 +162,7 @@ export async function disqualifiedCWUProposalSubmissionT(recipient: User, opport
       descriptionLists: [makeCWUOpportunityInformation(opportunity, recipient.locale)],
       body: (
         <div>
-          <p>If you have any questions, please send an email to <templates.Link text={CONTACT_EMAIL} url={CONTACT_EMAIL} />.</p>
+          <p>{i18next.t('notification.anyQuestion', {email: <templates.Link text={CONTACT_EMAIL} url={CONTACT_EMAIL} />})}</p>
         </div>
       ),
       callsToAction: [viewCWUOpportunityCallToAction(opportunity), viewCWUProposalCallToAction(proposal)]
@@ -172,10 +173,10 @@ export async function disqualifiedCWUProposalSubmissionT(recipient: User, opport
 export const withdrawnCWUProposalSubmissionProposalAuthor = makeSend(withdrawnCWUProposalSubmissionProposalAuthorT);
 
 export async function withdrawnCWUProposalSubmissionProposalAuthorT(recipient: User, opportunity: CWUOpportunity): Promise<Emails> {
-  const title = 'Your Proposal Has Been Withdrawn';
-  const description = 'Your proposal for the following Digital Marketplace opportunity has been withdrawn:';
+  const title = i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionProposalAuthorTitle');
+  const description = i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionProposalAuthorDescription');
   return[{
-    summary: 'CWU proposal withdrawn; sent to proponent who has withdrawn.',
+    summary: i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionProposalAuthorSummary'),
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
@@ -184,7 +185,7 @@ export async function withdrawnCWUProposalSubmissionProposalAuthorT(recipient: U
       descriptionLists: [makeCWUOpportunityInformation(opportunity, recipient.locale)],
       body: (
         <div>
-          <p>If you would like to resubmit a proposal to the opportunity you may do so prior to the proposal deadline.</p>
+          <p>{i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionProposalAuthorBody')}</p>
         </div>
       ),
       callsToAction: [viewCWUOpportunityCallToAction(opportunity)]
@@ -195,10 +196,10 @@ export async function withdrawnCWUProposalSubmissionProposalAuthorT(recipient: U
 export const withdrawnCWUProposalSubmission = makeSend(withdrawnCWUProposalSubmissionT);
 
 export async function withdrawnCWUProposalSubmissionT(recipient: User, withdrawnProponent: User, opportunity: CWUOpportunity): Promise<Emails> {
-  const title = 'A Proposal Has Been Withdrawn';
-  const description = `${withdrawnProponent.name} has withdrawn their proposal for the following Digital Marketplace opportunity:`;
+  const title = i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionTitle');
+  const description = i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionDescription', {name: withdrawnProponent.name});
   return[{
-    summary: 'CWU proposal withdrawn; sent to the opportunity author.',
+    summary: i18next.t('mailerNotifications.withdrawnCWUProposalSubmissionSummary'),
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
@@ -212,7 +213,7 @@ export async function withdrawnCWUProposalSubmissionT(recipient: User, withdrawn
 
 export function viewCWUProposalCallToAction(proposal: CWUProposal | CWUProposalSlim) {
   return {
-    text: 'View Proposal',
+    text:  i18next.t('links.viewProposal'),
     url: templates.makeUrl(`/proposals/code-with-us/${proposal.id}`),
     style: templates.styles.classes.buttonInfo
   };

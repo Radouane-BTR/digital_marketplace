@@ -7,6 +7,7 @@ import EditTabHeader from 'front-end/lib/pages/opportunity/code-with-us/lib/view
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export interface State extends Tab.Params {
   history: Immutable<History.State>;
@@ -50,7 +51,7 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3 className='mb-4'>History</h3>
+            <h3 className='mb-4'>{i18next.t('history')}</h3>
             <History.view
               state={state.history}
               dispatch={mapComponentDispatch(dispatch, msg => adt('history' as const, msg))} />

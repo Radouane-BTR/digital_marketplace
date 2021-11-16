@@ -16,6 +16,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { isAdmin, isPublicSectorEmployee, User, usersAreEquivalent, UserStatus } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export interface State extends Tab.Params {
   saveChangesLoading: number;
@@ -251,13 +252,13 @@ const ViewDetails: ComponentView<State, Msg> = props => {
       <Col xs='12'>
         <div className='pb-5 mb-5 border-bottom'>
           {isAdmin(props.state.viewerUser)
-            ? (<DescriptionItem name='Status' className='mb-3'>
+            ? (<DescriptionItem name={i18next.t('accountType')} className='mb-3'>
                 <Badge
                   text={userStatusToTitleCase(profileUser.status)}
                   color={userStatusToColor(profileUser.status)} />
               </DescriptionItem>)
             : null}
-          <DescriptionItem name='Account Type'>
+          <DescriptionItem name={i18next.t('status')}>
             {userTypeToTitleCase(profileUser.type)}
           </DescriptionItem>
           <ViewPermissions {...props} />
@@ -273,7 +274,7 @@ const ViewProfileFormHeading: ComponentView<State, Msg> = ({ state, dispatch }) 
   return (
     <Row>
       <Col xs='12' className='mb-4'>
-        <h3>Profile Information</h3>
+        <h3>{i18next.t('profileInformation')}</h3>
       </Col>
     </Row>
   );
@@ -302,10 +303,10 @@ const ViewAccountActivation: ComponentView<State, Msg> = ({ state, dispatch }) =
   // Admins can't reactivate/deactivate their own accounts
   if (isAdmin(state.profileUser) && isOwner) { return null; }
   const isActive = state.profileUser.status === UserStatus.Active;
-  const yourFull = isOwner ? 'your' : 'this user\'s';
-  const your = isOwner ? 'your' : 'their';
-  const you = isOwner ? 'you' : 'they';
-  const title = isActive ? 'Deactivate Account' : 'Reactivate Account';
+  const yourFull = isOwner ? i18next.t('your') : i18next.t('thisUsers');
+  const your = isOwner ?  i18next.t('your') :  i18next.t('their');
+  const you = isOwner ? i18next.t('you') : i18next.t('they');
+  const title = isActive ?  i18next.t('deactivateAccount') :  i18next.t('reactivateAccount');
   const isSaveChangesLoading = state.saveChangesLoading > 0;
   const isStartEditingFormLoading = state.startEditingFormLoading > 0;
   const isSavePermissionsLoading = state.savePermissionsLoading > 0;
@@ -318,8 +319,8 @@ const ViewAccountActivation: ComponentView<State, Msg> = ({ state, dispatch }) =
           <h3>{title}</h3>
           <p className='mb-4'>
             {isActive
-              ? `Deactivating ${your} account means that ${you} will no longer have access to the Digital Marketplace.`
-              : `Reactivate ${yourFull} account to enable ${your} access to the Digital Marketplace.`}
+              ? i18next.t('accountIsActiveDescription', { your: your, you: you} )
+              : i18next.t('accountIsNotActiveDescription',{ yourFull: yourFull, your: your} ) }
           </p>
           <Link
             button
@@ -361,33 +362,33 @@ export const component: Tab.Component<State, Msg> = {
     if (state.showActivationModal) {
       const isActive = state.profileUser.status === UserStatus.Active;
       const isOwner = usersAreEquivalent(state.profileUser, state.viewerUser);
-      const your = isOwner ? 'your' : 'user\'s';
-      const action = isActive ? 'deactivate' : 'reactivate';
+      const your = isOwner ? i18next.t('your') : i18next.t('user\'s');
+      const action = isActive ? i18next.t('deactivate') : i18next.t('reactivate');
       return {
-        title: `${startCase(action)} ${your} account?`,
+        title: i18next.t('activeReactiveModalTitle', {action: startCase(action), who: your}),
         body: () => {
           if (!isOwner && isActive) {
             // Admin deactivating user.
-            return 'Are you sure you want to deactivate this user’s account? They will no longer be able to access the Digital Marketplace.';
+            return i18next.t('AdminDeactivatingUserModalBody');
           } else if (!isOwner && !isActive) {
             // Admin reactivating user.
-            return 'Are you sure you want to reactivate this user’s account? They will be notified that their access to the Digital Marketplace has been renewed.';
+            return i18next.t('AdminReactivatingUserModalBody');
           } else {
             // User deactivating self.
-            return 'Are you sure you want to deactivate your account? You will no longer be able to access the Digital Marketplace.';
+            return i18next.t('userDeactivatingSelfModalBody');
           }
         },
         onCloseMsg: adt('hideActivationModal'),
         actions: [
           {
-            text: `${startCase(action)} Account`,
+            text: i18next.t('activeReactiveModalAction', {action: startCase(action)}),
             icon: isActive ? 'user-minus' : 'user-plus',
             color: isActive ? 'danger' : 'success',
             msg: adt('toggleAccountActivation'),
             button: true
           },
           {
-            text: 'Cancel',
+            text: i18next.t('links.cancel'),
             color: 'secondary',
             msg: adt('hideActivationModal')
           }
@@ -408,7 +409,7 @@ export const component: Tab.Component<State, Msg> = {
     const isDisabled = isSaveChangesLoading || isStartEditingFormLoading || isSavePermissionsLoading || isAccountActivationLoading;
     if (!isEditingForm) {
       return adt('links', [{
-        children: 'Edit Profile',
+        children: i18next.t('links.editProfile'),
         onClick: () => dispatch(adt('startEditingForm')),
         button: true,
         loading: isStartEditingFormLoading,
@@ -419,7 +420,7 @@ export const component: Tab.Component<State, Msg> = {
     } else {
       return adt('links', [
         {
-          children: 'Save Changes',
+          children: i18next.t('links.saveChanges'),
           disabled: !isValid || isDisabled,
           onClick: () => dispatch(adt('saveChanges')),
           button: true,
@@ -428,7 +429,7 @@ export const component: Tab.Component<State, Msg> = {
           color: 'success'
         },
         {
-          children: 'Cancel',
+          children: i18next.t('links.cancel'),
           disabled: isDisabled,
           onClick: () => dispatch(adt('cancelEditingForm')),
           color: 'c-nav-fg-alt'

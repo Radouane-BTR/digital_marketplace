@@ -1,37 +1,255 @@
 {
+  "app-name": "Digital Marketplace",
+  "formatedDateTime": "{{date}} at {{time}}",
+  "tab-title": "{{title}} {{titleSeparator}} Digital Marketplace",
   "account": {
     "sign-in": {
-      "button": "account.sign-in.button",
-      "description": "account.sign-in.description"
+      "title" : "Public Sector Employee",
+      "button": "Authenticate with {{accountType}}",
+      "description": "Use your {{accountType}} account to authenticate to Digital Marketplace."
     },
     "sign-up": {
-      "button": "account.sign-up.button",
-      "description": "account.sign-up.description"
+      "button": "Authenticate with {{accountType}}",
+      "description": "Providers must have an {{accountType}} account in order to authenticate to Digital Marketplace."
     },
     "type": {
       "select": {
-        "description": "account.type.select.description",
-        "title": "account.type.select.title"
+        "description": "Choose the account that best suits you. Access to certain features of the application depends on the type of account you select.",
+        "title": "Choose an account type"
       },
-      "vendor": "account.type.vendor"
+      "vendor": {
+        "type" : "Provider",
+        "title" : "Sign in",
+        "description" : "Select one of the options available below to sign in to your Digital Marketplace account."
+      }
+    },
+    "title": "Welcome to Digital marketplace",
+    "description": "Please login to access your Digital Marketplace account."
+  },
+  "landing": {
+    "header": "Collaborate <br/>with Québec government",
+    "body": "The Government Digital Marketplace is a new platform that helps build an ecosystem of innovation and collaboration between technology entrepreneurs and the Quebec government.",
+    "info": "Join a community of developers, entrepreneurs and innovators <br/>and innovators to participate in the development of public service technology development.",
+    "program-card": {
+      "develop" : {
+        "description": "Get paid <br/>to submit code.<br/><br/>Opportunities up to 70 000 $"
+      },
+      "co-create": {
+        "description": "Provide an Agile team to work with a government product <br/>manager in a modern DevOps environment.<br/><br/>Opportunities up to 2 000 000$."
+      }
+    },
+    "gov-role-info": {
+      "title": "Public Service Employees",
+      "header": "Work with talented and skilled developers to create your digital products.",
+      "role-one": {
+        "header": "Post a new opportunity",
+        "description": "Select the program that suits your needs, post your opportunity and wait for proposals to arrive." 
+      },
+      "role-two": {
+        "header": "View and manage your published opportunities",
+        "description": "View a complete history of your published opportunities where you can review and evaluate all proposals received, award the opportunity to the successful bidder and more." 
+      }
+    },
+    "vendor-role-info": {
+      "title": "Suppliers",
+      "header": "Collaborate with the public service to create innovative digital products.",
+      "role-one": {
+        "header": "Submit proposals to open opportunities",
+        "description": "Save a draft of your proposal until you are ready to submit it." 
+      },
+      "role-two": {
+        "header": "View and export your submitted proposals",
+        "description": "View all past and pending submissions. You will be able to see your scores and rankings once submitted." 
+      },
+      "role-three": {
+        "header": "Create your team",
+        "description": "Add members to your organization." 
+      }
+    },
+    "bottom-view" : {
+      "description" : "Discover the latest opportunities in <br />digital marketplace"
     }
   },
-  "formatedDateTime": "{{date}} at {{time}}",
-  "landing": {
-    "header": "Collaborate <br/>with Québec<br/>government"
-  },
+  "organization": {
+    "edit-tab-title": "Sprint With Us Qualified",
+    "my-organizations" : "My Organizations",
+    "isVendorNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>.<br />You must",
+    "isAdminNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>",
+    "sprint-with-us-terms": {
+      "title": "Conditions générales de Sprint With Us",
+      "acceptedSWUTermsText": "{{legalName}} agreed to the {{title}} on {{acceptedSWUTermsFormatDate}} at {{acceptedSWUTermsFormatTime}}"
+    },
+    "list": {
+      "title": "Digital Marketplace Organizations",
+      "tableHeadCells" : {
+        "title": "Organisation name",
+        "owner": "owner"
+      }
+    },
+    "sprint-with-us":{
+      "title": "Sprint With Us Terms & Conditions",
+      "accept-terms" : "Accept Terms & Conditions"
+    },
+    "edit": {
+      "tab": {
+        "index":{
+          "team-title": "Team",
+          "qualification-title": "SWU Qualification",
+          "organization-title": "Organization"
+        },
+        "organization": {
+            "title":  "Archive Organization",
+            "description": "Archiving this organization means that it will no longer be available for opportunity proposals.",
+            "modal": {
+              "if":{
+                "title": "Archive Organization?",
+                "body": "Are you sure you want to archive this organization?",
+                "actions":{
+                  "archive" : "Archive Organization",
+                  "cancel": "Cancel"
+                }
+              },
+              "else": {
+                "title": "Save Changes?",
+                "body": "Are you sure you want to save the changes you've made to this organization?",
+                "actions":{
+                  "save" : "Save Changes",
+                  "cancel": "Cancel"
+                }
+              }
+            }
+          },
+        "qualification":{
+          "rows":{
+            "one":{
+              "title": "Requirements",
+              "description": "To qualify to submit proposals for Sprint With Us opportunities, your organization must meet the following requirements:",
+              "requirements": {
+                "one":{
+                  "name": "At least two team members.",
+                  "description": "Add team members from the \"Team\" tab to begin the process of satisfying this requirement."
+                },
+                "two": {
+                  "name": "Team members collectively possess all capabilities.",
+                  "description": "Your team members can choose their capabilities on their user profiles."
+                },
+                "three": {
+                  "name": "Agreed to {{swuTermsTitle}}",
+                  "description": "You can view the {{swuTermsTitle}} below."
+                }
+              }
+            },
+            "two":{
+              "title": "Terms & Conditions",
+              "description": "View the {{swuTermsTitle}} by clicking the button below.",
+              "link": "View Terms & Conditions"
+            }
+          }
+        },
+        "team":{
+          "title":  "Team Members",
+          "description": "Add team members to your organization by clicking on the \"Add Team Member(s)\" button above. Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization.",
+          "team-capabilities": "Team Capabilities",
+          "capabilities-description": "This is a summary of the capabilities your organization's team possesses as whole, only including the capabilities of confirmed (non-pending) members. Team members can claim capabilities in their user profiles in the \"Capabilities\" section.",
+          "add-member": "Add Team Member(s)",
+          "add-email-info": "Provide an email address for each team member to invite them to join your organization.",
+          "add-email-description": "Please ensure team members have already signed up for a Digital Marketplace Vendor account before adding them to your organization, and only enter the email addresses associated with their Digital Marketplace accounts.",
+          "remove-membre-title": "Remove {{userName}}?",
+          "remove-membre-info": "Are you sure you want to remove {{userName}} from this organization?",
+          "table-head": {
+            "one":"Team Member",
+            "two": "Capabilities"
+          },
+          "removeMembreTitle": "Remove {{userName}}?",
+          "removeMembreBody": "Are you sure you want to remove {{userName}} from this organization?"
+      }
+    }
+  }
+},
   "links": {
     "about": "About",
     "browse-opportunities": "Browse opportunities",
     "home": "Home",
+    "disclaimer": "Disclaimer",
+    "privacy": "Privacy",
     "opportunities": "Opportunities",
     "organizations": "Organizations",
+    "accessibility": "Accessibility",
+    "copyright": "Copyright",
     "sign-in": "Sign in",
-    "sign-up": "Sign up"
+    "sign-up": "Sign up",
+    "more-info": "More information",
+    "contact-us": "Contact us",
+    "source-code": "Source Code",
+    "phone": "Phone",
+    "create-opportunity": "Create Opportunity",
+    "create-organization": "Create Organization",    
+    "cancel": "Cancel",
+    "edit-organization": "Edit Organization",
+    "archive-organization": "Archive Organization",
+    "become-qualified": "apply to become a Qualified Supplier.",
+    "remove-member": "Remove Team Member",
+    "add-member": "Add Team Member(s)",
+    "create-first-opportunity": "Create Your First Opportunity",
+    "view-opportunities": "View All Opportunities",
+    "learnMoreSWU": "Qualified Supplier",
+    "readGuide": "Read Guide",
+    "submitProposal":"Submit Proposal",
+    "submitChanges": "Submit Changes",
+    "withdrawProposal": "Withdraw Proposal",
+    "deleteProposal": "Delete Proposal",
+    "startProposal": "Start Proposal",
+    "saveChanges": "Save Changes",
+    "submit": "Submit",
+    "edit": "Edit",
+    "delete": "Delete",
+    "withdraw": "Withdraw",
+    "viewOpportunity": "View opportunity",
+    "reviewLatestVersion": "review the latest version",
+    "agreeToTheUpdateTerms": "agree to the updated terms",
+    "agreeAndContinue":"Agree & Continue",
+    "publishAddendum":"Publish Addendum",
+    "addAddendum": "Add Addendum",
+    "yesToCancel":"Yes, I want to cancel",
+    "goBack": "Go Back",
+    "publishOpportunity": "Publish Opportunity",
+    "publishChangesOpportunity": "Publish Changes",
+    "suspendOpportunity": "Suspend Opportunity",
+    "deleteOpportunity": "Delete Opportunity",
+    "editOpportunity": "Edit Opportunity",
+    "cancelOpportunity":"Cancel Opportunity",
+    "publish":"Publish",
+    "exportAllProposals": "Export All Proposals",
+    "awardOpportunity": "Award Opportunity",
+    "informationOnProcurement": "information on procurement",
+    "readguide": "Read the guide",
+    "saveDraft": "Save Draft",
+    "learnMore": "Learn More",
+    "screenIn": "Screen In",
+    "screenOut": "Screen Out",
+    "here": "Here",
+    "editProfile": "Edit Profile",
+    "Approve": "Approve",
+    "reject": "Reject",
+    "leave": "Leave",
+    "backToHome": "Back to Home",
+    "contact": "Contact",
+    "mail": "Email",
+    "follow-us": "Follow us",
+    "TechnicalProblems": "Technical problems",
+    "serviceOffices":"Service offices",
+    "notifyVendors": "Notify Vendors",
+    "createPage": "Create Page",
+    "getStarted": "Get Started",
+    "viewOrganization": "View Organization",
+    "viewOrganizations": "View Organizations",
+    "viewProposal": "View Proposal",
+    "print": "Print",
+    "addAttachment": "Add Attachment"
   },
   "no": "No",
   "notification": {
-    "anyQuestion": "Pour toute question, veuillez envoyer un courriel à {{email}}.",
+    "anyQuestion": "If you have any questions, please send an email to {{email}}.",
     "opportunity": {
       "cwu": {
         "actioned": {
@@ -39,6 +257,11 @@
             "description": "You have cancelled the following opportunity on the Digital Marketplace:",
             "summary": "CWU opportunity cancelled; sent to the administrator who actioned.",
             "title": "A Code With Us Opportunity Has Been Cancelled"
+          },
+          "suspended": {
+            "description": "You have suspended the following Digital Marketplace opportunity:",
+            "summary": "The Develop With Us opportunity has been cancelled; send the administrator who cancelled it.",
+            "title": "A Develop With Us opportunity has been suspended"
           }
         },
         "information": {
@@ -60,7 +283,6 @@
             "title": "A Code With Us Opportunity Has Been Suspended"
           }
         },
-        "title": "Code With Us",
         "updated": {
           "description": "The following Digital Marketplace opportunity has been updated:",
           "title": "A Code With Us Opportunity Has Been Updated"
@@ -68,5 +290,890 @@
       }
     }
   },
-  "yes": "Yes"
+  "form":{
+    "email": "Email Address",
+    "profile-picture": "Profile Picture (Optional)",
+    "choose-image": "Choose Image",
+    "legal-name": "Legal Name",
+    "website": "Website Url (Optional)",
+    "legal-address": "Legal Address",
+    "street-address": "Street Address",
+    "city": "City",
+    "province-state": "Province / State",
+    "postal-zipCode": "Postal / ZIP Code",
+    "country": "Country",
+    "contact-information": "Contact Information",
+    "contact-name": "Contact Name",
+    "job": "Job Title (Optional)",
+    "phone": "Phone Number (Optional)",
+    "contact-email": "Contact Email",
+    "avatar-error": "Please select a different avatar image."
+    },
+  "yes": "Yes",
+  "team-member":{
+    "capability" : "Capability",
+    "capabilities" : "Capabilities",
+    "title": "View Team Member",
+    "pending": "Pending",
+    "owner": "Owner"
+  },
+  "agile-coaching": {
+    "title": "Agile Coaching",
+    "descriptions":[
+      "Embed an Agile culture using techniques from a wide range or Agile and lean methodologies and frameworks, while being methodology agnostic",
+      "Help create an open and trust-based environment, which enables a focus on delivery and facilitates continuous improvement",
+      "Assess the culture of a team and delivery processes in place to identify improvements and facilitate these improvements with the right type of support",
+      "Showcase relevant tools and techniques such as coaching, advising, workshops, and mentoring",
+      "Engage with stakeholders at all levels of an organization",
+      "Develop clear lines of escalation, in agreement with senior managers",
+      "Ensure any stakeholder can easily find out an accurate and current project or program status, without disruption to delivery",
+      "Apply best tools and techniques to: team roles, behaviours, structure and culture, Agile ceremonies and practices, knowledge transfer and sharing, program management, cross-team coordination, and overall governance of digital service delivery",
+      "Ensure key metrics and requirements that support the team and delivery are well defined and maintained",
+      "Equip staff with the ability to coach others",
+      "Provide executive coaching on the fundamental considerations of digital service delivery design"
+    ]
+  },
+  "backend-development": {
+    "title": "Backend Development",
+    "descriptions":[
+      "Web development using open-source web programming languages (e.g., Ruby, Python) and frameworks (e.g., Django, Rails)",
+      "Develop and consume web-based, RESTful APIs",
+      "Use and work in team environments that use Agile methodologies (e.g., Scrum, Lean)",
+      "Author developer-friendly documentation (e.g., API documentation, deployment operations)",
+      "Test-driven development",
+      "Use version control systems, specifically Git and GitHub",
+      "Quickly research and learn new programming tools and techniques",
+      "Work with relational and non-relational database systems",
+      "Use scalable search technology (e.g. ElasticSearch, Solr)",
+      "Handle large data sets and scaling their handling and storage",
+      "Use and work with open source solutions and community",
+      "Communicate technical concepts to a non-technical audience"
+    ]
+  },
+  "delivery-management": {
+    "title": "Delivery Management",
+    "descriptions":[
+      "Deliver projects and products using the appropriate Agile project management methodology, learning & iterating frequently",
+      "Work with  product managers to define the roadmap for any given product and translating this into user stories",
+      "Lead the collaborative, dynamic planning process – prioritizing the work that needs to be done against the capacity and capability of the team",
+      "Matrix-manage a multi-disciplinary team",
+      "Ensure all products are built to an appropriate level of quality for the stage (alpha/beta/implementation)",
+      "Actively and openly share knowledge of best practices"
+    ]
+  },
+  "devOps-engineering": {
+    "title": "DevOps Engineering",
+    "descriptions":[
+      "Deploy and configure services using infrastructure as a service providers (e.g., Amazon Web Services, Microsoft Azure, Google Compute Engine, RackSpace/OpenStack)",
+      "Configure and manage Linux-based servers to serve a dynamic website",
+      "Debug cluster-based computing architectures",
+      "Use scripting or basic programming skills to solve problems",
+      "Install and manage open source monitoring tools",
+      "Configure management tools (e.g., Puppet, Chef, Ansible, Salt)",
+      "Create architecture for continuous integration and deployment, and continuous monitoring",
+      "Use containerization technologies (e.g., LXC, Docker, Rocket)"
+    ] 
+  },
+  "frontend-development": {
+    "title": "Frontend Development",
+    "descriptions":[
+      "Frontend web development using modern techniques and frameworks (e.g., HTML5, CSS3, CSS frameworks like LESS and SASS, Responsive Design, Bourbon, Twitter Bootstrap)",
+      "JavaScript development using modern standards, including strict mode compliance, modularization techniques and tools, and frameworks and libraries (e.g., jQuery, MV* frameworks such as Backbone.js and Ember.js, D3)",
+      "Consume RESTful APIs",
+      "Use and work in team environments that use Agile methodologies (e.g., Scrum, Lean)",
+      "Use version control systems, specifically Git and GitHub",
+      "Quickly research and learn new programming tools and techniques",
+      "Use and work with open source solutions and community",
+      "Create web layouts from static images",
+      "Create views and templates in full-stack frameworks like Rails, Express, or Django"
+    ] 
+  },
+  "security-engineering": {
+    "title": "Security Engineering",
+    "descriptions":[
+      "Perform security audits, risk analysis, application-level vulnerability testing, and security code reviews",
+      "Develop and implement technical solutions to help mitigate security vulnerabilities",
+      "Conduct research to identify new attack vectors"
+    ] 
+  },
+  "technical-architecture": {
+    "title": "Technical Architecture",
+    "descriptions":[
+      "Architect the overall system, by using prototyping and proof of concepts, which may include: modern programming languages (e.g., Ruby, Python, Node.js) and web frameworks (e.g., Django, Rails); modern front-end web programming techniques (e.g., HTML5, CSS3, RESTful APIs) and frameworks (e.g., Twitter Bootstrap, jQuery); relational databases (e.g., PostgreSQL), and “NoSQL” databases (e.g., Cassandra, MongoDB); automated configuration management (e.g., Chef, Puppet, Ansible, Salt), continuous integration/deployment, and continuous monitoring solutions",
+      "Use version control systems, specifically Git and GitHub",
+      "Ensure strategic alignment of technical design and architecture to meet business growth and direction, and stay on top of emerging technologies",
+      "Deconstruct business and system architecture to support clean-interface multi-team development",
+      "Develop product roadmaps, backlogs, and measurable success criteria, and writing user stories (i.e., can establish a path to delivery for breaking down stories)",
+      "Clearly communicate and work with stakeholders at every level"
+    ] 
+  },
+  "user-experience-design": {
+    "title": "User Experience Design",
+    "descriptions":[
+      "Use and work in team environments that use Agile methodologies (e.g., Scrum, Lean)",
+      "Build consensus with a product team on features that will meet business goals and deliver value to users",
+      "Turn user-centered design heuristics and user research into product designs",
+      "Represent product designs visually from low- to -high fidelity as needed",
+      "Work effectively with developers to implement designs accurately and quickly so they can be tested with users",
+      "Conduct usability testing, communicating test results to the team and influencing the team to prioritize improvements based on the results",
+      "Produce quantitative and qualitative evidence to show that user experience is successful and improving",
+      "Create and maintain well-documented design patterns"
+    ] 
+  },
+  "user-research": {
+    "title": "User Research",
+    "descriptions":[
+      "Use and work in team environments that use Agile methodologies (e.g., Scrum, Lean)",
+      "Lead groups to identify their target users and come to consensus about what needs to be learned ",
+      "Identify, plan, coordinate and execute quantitative and qualitative research activities ",
+      "Plan and conduct research in such a way as to get regular and frequent feedback from users and bring findings to bear iteratively on product development",
+      "Influence other product team members to participate in conducting research and interpreting findings",
+      "Effectively communicate research insights to team members and broader audiences verbally and through compelling artifacts such as user journey maps, personas or storytelling presentations ",
+      "Make recommendations for product design and producing design ideas based on evidence",
+      "Influence a product team to prioritize user needs and make evidence-based decisions"
+    ] 
+  },
+  "toasts": {
+    "created": {
+      "success-title": "Organization Created",
+      "success-body": "Your organization has been successfully created.",
+      "error-title": "Unable to Create Organization",
+      "error-body": "Your organization could not be created. Please try again later."
+    },
+    "updated": {
+      "success-title": "Organization Updated",
+      "success-body": "Your organization has been successfully updated.",
+      "error-title": "Unable to Update Organization",
+      "error-body": "Your organization could not be update. Please try again later."
+    },
+    "archived": {
+      "success-title": "Organization Archived",
+      "success-body": "Organization archived successfully.",
+      "error-title": "Unable to Archive Organization",
+      "error-body": "Unable to archive organization. Please try again later."
+    },
+    "addedTeamMembers": {
+      "success-title": "Added Team Members",
+      "success-body": "Successfully invited the following people to join this organization:",
+      "warning-title": "Unable to Add Unregistered Team Members",
+      "warning-body": "The following people have not yet registered with the Digital Marketplace. However, they have been sent an email that invites them to create an account. Once they have registered, please try adding them to this organization again.",
+      "error-title": "Unable to Add Team Members",
+      "error-body": "The following people could not be added to this organization:"
+    },
+    "removedTeamMember": {
+      "success-title": "Removed Team Member",
+      "success-body": "You have successfully removed {{name}} from this organization.",
+      "error-title": "Unable to Remove Team Member",
+      "error-body": "{{name}} could not be removed from this organization."
+    },
+    "acceptedSWUTerms": {
+      "success-title": "Accepted Terms & Conditions",
+      "success-body": "Successfully accepted the {{termsTitle}} for {{legalName}}.",
+      "error-title": "Unable to Accept Terms & Conditions",
+      "error-body": "An error occurred while attempting to accept the {{termsTitle}} for {{legalName}}. Please try again later."
+    },
+    "leftOrganization": {
+      "success-title": "Left Organization",
+      "success-body": "Successfully left {{legalName}}.",
+      "error-title": "Unable to Leave Organization",
+      "error-body": "An error occurred while attempting to leave {{legalName}}. Please try again later."
+    },
+    "approvedOrganizationRequest": {
+      "success-title": "Approved Request",
+      "success-body": "Successfully approved the request to join {{legalName}}.",
+      "error-title": "Unable to Approve Request",
+      "error-body": "An error occurred while attempting to approve the request to join {{legalName}}. Please try again later."
+    },
+    "rejectedOrganizationRequest": {
+      "success-title": "Rejected Request",
+      "success-body": "Successfully rejected the request to join {{legalName}}.",
+      "error-title": "Unable to Reject Reques",
+      "error-body": "An error occurred while attempting to reject the request to join {{legalName}}. Please try again later."
+    },
+    "statusChanged":{
+      "success-title": "Opportunity {{what}}",
+      "success-body": "Code With Us opportunity has been {{what}}.",
+      "error-title": "Unable to {{what}} Opportunity",
+      "error-body": "Code With Us opportunity could not be {{what}}. Please try again later."
+    },
+    "draftCreated": {
+      "success-title": "Draft Opportunity Saved",
+      "success-body": "Draft Code With Us opportunity has been saved. You can return to this page to complete and publish this opportunity at a later date.",
+      "error-title": "Unable to Save Draft Opportunity",
+      "error-body": "Draft Code With Us opportunity could not be saved. Please try again later."
+    },
+    "deleted": {
+      "success-title": "Opportunity Deleted",
+      "success-body": "Code With Us opportunity has been deleted.",
+      "error-title": "Unable to Delete Opportunity",
+      "error-body": "Code With Us opportunity could not be deleted."
+    },
+    "changesSaved": {
+      "success-title": "Opportunity Changes Saved",
+      "success-body": "Your changes to this Code With Us opportunity have been saved.",
+      "error-title": "Unable to Save Changes",
+      "error-body": "Your changes to this Code With Us opportunity could not be saved. Please fix the errors in the form and try again."
+    },
+    "changesPublished": {
+      "success-title": "Opportunity Changes Published",
+      "success-body": "Your changes to this Code With Us opportunity have been published.",
+      "error-title": "Unable to Publish Changes",
+      "error-body": "Your changes to this Code With Us opportunity could not be published. Please fix the errors in the form and try again."
+    },
+    "startedEditing": {
+      "error-title": "Unable to Edit Opportunity",
+      "error-body": "This opportunity cannot be edited at this time. Please try again later."
+    },
+    "AddendaPublished":{
+      "success-title": "Addendum Published",
+      "success-body": "Your addendum has been successfully published.",
+      "error-title": "Unable to Publish Addendum",
+      "error-body": "Your addendum could not be published. Please try again later."
+    },
+    "updatedProfil":{
+      "success-title": "Profile Updated",
+      "success-body": "Your profile has been successfully updated.",
+      "error-title": "Unable to Update Profile",
+      "error-body": "Your profile could not be updated. Please try again later."
+    },
+    "deactivatedProfil": {
+      "success-title": "Profile Deactivated",
+      "success-body": "Profile deactivated successfully.",
+      "error-title": "Unable to Deactivate Profile",
+      "error-body": "Unable to deactivate profile. Please try again later."
+    },
+    "reactivatedProfil": {
+      "success-title": "Profile Reactivated",
+      "success-body": "Profile Reactivated successfully.",
+      "error-title": "Unable to Reactivated Profile",
+      "error-body": "Unable to Reactivated profile. Please try again later."
+    },
+    "adminStatusChanged": {
+      "success-title": "Admin Permissions Updated",
+      "success-body": "This user's administrative permissions have been successfully updated.",
+      "error-title": "Unable to Update Admin Permissions",
+      "error-body": "This user's administrative permissions could not be updated. Please try again later."
+    },
+    "proposalSubmitted": {
+      "success-title": "Proposal Submitted",
+      "success-body": "Your Code With Us proposal has been submitted. You can make changes to, and resubmit, your proposal prior to the opportunity's proposal deadline.",
+      "error-title": "Unable to Submit Proposal",
+      "error-body": "Your Code With Us proposal could not be submitted. Please fix any errors in the form and try again."
+    },
+    "propsalStatusChanged": {
+      "success-title": "Proposal {{verb}}",
+      "success-body": "Code With Us proposal has been {{verb}}",
+      "error-title": "Unable to {{verb}} Proposal",
+      "error-body": "Code With Us proposal could not be ${cwuProposalStatusToPastTenseVerb(s).toLowerCase()}. Please try again later."
+    },
+    "propsalDraftCreated": {
+      "success-title": "Draft Proposal Saved",
+      "success-body": "Your draft Code With Us proposal has been saved. You can return to this page to complete and submit your proposal prior to the opportunity's proposal deadline.",
+      "error-title": "Unable to Save Draft Proposal",
+      "error-body": "Your draft Code With Us proposal could not be saved. Please try again later."
+    },
+    "propsalDeleted": {
+      "success-title": "Proposal Deleted",
+      "success-body": "Your Code With Us proposal has been deleted.",
+      "error-title": "Unable to Delete Proposal",
+      "error-body": "Your Code With Us proposal could not be deleted. Please try again later."
+    },
+    "propsalChangesSaved": {
+      "success-title": "Proposal Changes Saved",
+      "success-body": "Your changes to your Code With Us proposal have been saved.",
+      "error-title": "Unable to Save Proposal",
+      "error-body": "Your changes to your Code With Us proposal could not be saved. Please try again later."
+    },
+    "propsalChangesSubmitted": {
+      "success-title": "Proposal Changes Submitted",
+      "success-body": "Your changes to your Code With Us proposal have been submitted.",
+      "error-title": "Unable to Submit Proposal Changes",
+      "error-body": "Your changes to your Code With Us proposal could not be submitted. Please try again later."
+    } 
+  },
+  "you": "You",
+  "have": "have",
+  "isAgreeTermsAndConditions": "{{person}} agreed to the Terms and Conditions on {{formatDate}} at {{formatTime}}.",
+  "isNotAgreeTermsAndConditions": "{{person}} {{what}} not agreed to the Terms & Conditions.",
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome-title": "Welcome to the Digital Marketplace!",
+    "isVendorBody": "Get started by browsing the opportunities posted to the Digital Marketplace.",
+    "isNotVendorBody": "Get started by creating your first opportunity or browsing the opportunities posted to the Digital Marketplace.",
+    "isVendorAlert": "You must <1>Create Organization</1> and be a <3>Qualified Supplier</3> in order to submit proposals to Sprint With Us opportunities."
+  },
+  "SignedOut": "Signed Out",
+  "SignedOutMessageValid": "You have successfully signed out. Thank you for using the Digital Marketplace.",
+  "SignedOutMessageNotValid": "Signing out of the application failed.",
+  "codeWithUs": "Code With Us",
+  "sprintWithUs": "Sprint With Us",
+  "myProposals": "My Proposals",
+  "myOpportunities": "My Opportunities",
+  "title": "Title",
+  "opportunity": "Opportunity",
+  "opportunityType": "Opportunity Type",
+  "dateCreated": "Date Created",
+  "status": "Statuts",
+  "editCWUproposal": "Edit Code With Us Proposal",
+  "proposal": "Proposal",
+  "proposalManagement":"Proposal Management",
+  "needHelp": "Need Help",
+  "proposalsDue": "Proposals Due",
+  "totalScore": "Total Score",
+  "ranking": "Ranking",
+  "reviewTermsConditions": "Review Terms and Conditions",
+  "reviewUpdatedTermsConditions": "Review Updated Terms and Conditions",
+  "cwuTermsConditions": "Code With Us Terms & Conditions",
+  "withdrawCWUproposal":"Withdraw Code With Us Proposal?",
+  "withdrawBeforeCWUproposalBody": "Are you sure you want to withdraw your Code With Us proposal? You will still be able to resubmit your proposal prior to the opportunity's proposal deadline.",
+  "withdrawAfterCWUproposalBody": "Are you sure you want to withdraw your Code With Us proposal? Your proposal will no longer be considered for this opportunity.",
+  "deleteCWUproposal": "Delete Code With Us Proposal?",
+  "deleteCWUproposalBody": "Are you sure you want to delete your Code With Us proposal? You will not be able to recover the proposal once it has been deleted.",
+  "draft" : "Draft",
+  "published" : "Published",
+  "evaluation" : "Evaluation",
+  "awarded" : "Awarded",
+  "notAwarded" : "Not Awarded",
+  "suspended" : "Suspended",
+  "canceled" : "Canceled",
+  "edited": "Edited",
+  "updated": "Updated",
+  "submitted": "Submitted",
+  "evaluated": "Evaluated",
+  "disqualified": "Disqualified",
+  "withdrawn": "Withdrawn",
+  "saved": "Saved",
+  "scored": "Scored",
+  "scoreEntered": "Score Entered",
+  "save": "Save",
+  "addendumAdded": "Addendum Added",
+  "open": "Open",
+  "closed": "Closed",
+  "closes": "Closes",
+  "suspend": "Suspend",
+  "Cancel": "Cancel",
+  "publish": "Publish",
+  "award": "Award",
+  "update": "Update",
+  "termsTitleUpdated":"The <italic>{{appTermsTitle}}</italic> have been updated.",
+  "emptyPageAlertText": "Please save what you are working on",
+  "and": "and",
+  "created": "Created",
+  "entryType": "Entry Type",
+  "Note": "Note",
+  "appTermsTitle": "Digital Marketplace Terms & Conditions for E-Bidding",
+  "newAppTermsTextInfo": "Please ensure you have reviewed the latest version of the",
+  "newAppTermsTextInfoCheck": "I acknowledge that I have read, fully understand and agree to the <italic>{{appTermsTitle}}</italic>.",
+  "newAppTermsTextInfoCheckText": "Also, make sure you have saved your work before continuing. Any unsaved information in forms will be lost.",
+  "postedOn": "Posted on",
+  "by": "by",
+  "newAddendum": "New Addendum",
+  "existingAddendum": "Existing Addendum",
+  "newAddendumHelp": "Provide additional information that was not provided on the original posting of the opportunity.",
+  "bodyModalPublishAddendum": "Are you sure you want to publish this addendum? Once published, all subscribers will be notified.",
+  "bodyModalCancelBody": "Are you sure you want to cancel? Any information you may have entered will be lost if you do so.",
+  "titleModalCancelPublishAddendum": "Cancel Adding an Addendum?",
+  "submitProposalTerms":{
+    "title": "Please ensure you have reviewed the",
+    "titleSuite": "prior to {{what}} your proposal for this {{type}} opportunity.",
+    "checkboxText": "I acknowledge that I have read, fully understand and agree to the <italic>{{title}}</italic>."
+  },
+  "unableUploadFil": "Unable to upload file.",
+  "unableAddAddenda": "Unable to add addenda due to a system error.",
+  "additionalAddendaInformation": "Provide additional information here to clarify or support the information in the original opportunity.",
+  "addenda": "Addenda",
+  "history": "History",
+  "proposals": "Proposals",
+  "summary": "Summary",
+  "opportunityManagement": "Opportunity Management",
+  "opportunityEvaluation": "Opportunity Evaluation",
+  "watching": "Watching",
+  "watch": "Watch",
+  "totalViews": "Total Views",
+  "draftOpportunityInfoAlert":"This opportunity is a draft. Please select \"Edit\" from the Actions dropdown to complete and publish this opportunity.",
+  "modalPublishOpportunityTitle":"Publish Code With Us Opportunity?",
+  "modalPublishOpportunityBody":"Are you sure you want to publish this opportunity? Once published, all subscribers will be notified.",
+  "modalPublishChangesOpportunityTitle":"Publish Changes to Code With Us Opportunity?",
+  "modalPublishChangesOpportunityBody":"Are you sure you want to publish your changes to this opportunity? Once published, all subscribers will be notified.",
+  "modalSuspendOpportunityTitle":"Suspend Code With Us Opportunity?",
+  "modalSuspendOpportunityBody":"Are you sure you want to suspend this opportunity? Once suspended, all subscribers and vendors with pending or submitted proposals will be notified.",
+  "modalDeleteOpportunityTitle":"Delete Code With Us Opportunity?",
+  "modalDeleteOpportunityBody":"Are you sure you want to delete this opportunity? You will not be able to recover it once it has been deleted.",
+  "modalCancelOpportunityTitle":"Cancel Code With Us Opportunity?",
+  "modalCancelNewOpportunityTitle": "Cancel New Code With Us Opportunity?",
+  "modalCancelOpportunityBody":"Are you sure you want to cancel this opportunity? Once cancelled, all subscribers and vendors with pending or submitted proposals will be notified.",
+  "winningScore":"Winning Score",
+  "avgScore": "Avg. Score",
+  "isCWUOpportunityAcceptingProposals": "Proposals will be displayed here once this opportunity has closed.",
+  "isNotCWUOpportunityAcceptingProposals": "No proposals were submitted to this opportunity.",
+  "proponent": "Proponent",
+  "proponentType": "Proponent Type",
+  "vendor": "Vendor",
+  "modalAwardOpportunityTitle": "Award Code With Us Opportunity?",
+  "modalAwardOpportunityBody": "Are you sure you want to award this opportunity to this vendor? Once awarded, all subscribers and vendors with submitted proposals will be notified accordingly.",
+  "awardedProponent": "Awarded Proponent",
+  "successfulProponent": "Successful Proponent",
+  "submittedBy": "Submitted By",
+  "assignmentDate": "Assignment Date",
+  "startDate": "Start Date",
+  "value": "Value",
+  "location": "Location",
+  "details": "Details",
+  "requiredSkills": "Required Skills",
+  "createdBy": "Created By",
+  "editCWUOpportunity": "Edit Code With Us Opportunity",
+  "overview": "Overview",
+  "description": "Description",
+  "attachments": "Attachments",
+  "isNotValideReward": "Please enter a valid reward.",
+  "isNotValideOption": "Please select an option.",
+  "overviewViewTitleHelp": "Provide a brief and short title for the opportunity that highlights the work that you need done.",
+  "overviewViewTitlePlaceHolder": "Opportunity Title",
+  "teaser": "Teaser",
+  "overviewViewTeaserHelp": "Provide 1-2 sentences that will entice readers to apply to this opportunity and that describes what you are inviting them to do.",
+  "overviewViewTeaserPlaceHolder": "Provide 1-2 sentences that describe to readers what you are inviting them to do.",
+  "overviewViewRemote": "Remote OK",
+  "overviewViewRemoteHelp": "Indicate if the successful proponent may complete the work as outlined in the opportunity’s acceptance criteria remotely or not. If you select “yes”, provide further details on acceptable remote work options.",
+  "overviewViewRemoteYesLabel": "Remote Description",
+  "overviewViewRemoteYesPlaceHolder": "Provide further information about this opportunity's remote work options.",
+  "overviewViewLocationHelp": "Provide the location where you are located or where the work is expected to be completed.",
+  "overviewViewFixedPriceAward": "Fixed-Price Award",
+  "overviewViewFixedPriceAwardHelp": "To the best of your ability, estimate a fair price for the amount of work that you think it should take from the successful proponent to meet the opportunity’s acceptance criteria. It is suggested that you overestimate.",
+  "overviewViewFixedPriceAwardHelpPrice": "The price estimate must not exceed {{maxBudget}}.",
+  "overviewViewRequiredSkillsHelp": "Select the skill(s) from the list provided that the successful proponent must possess in order to be considered for the opportunity. If you do not see the skill that you are looking for, you may create a new skill by entering it into the field below.",
+  "descriptionViewHelp": "Provide a complete description of the opportunity. For example, you may choose to include background information, a description of what you are attempting to accomplish by offering the opportunity, etc. You can format this description with Markdown.",
+  "descriptionViewPlaceHolder": "Describe this opportunity.",
+  "detailsViewProposalDeadlineLabel": "Proposal Deadline",
+  "detailsViewProposalDeadlineHelpP1": "Choose a cut-off date for when proposals must be submitted by. The cut-off time is fixed to 4:00PM Pacific Time.",
+  "detailsViewProposalDeadlineHelpP2": "A deadline of at least five (5) days from the date that the opportunity is published is recommended.",
+  "detailsViewAssignmentDateHelp": "Choose a date that you will award the successful proponent the opportunity. The assignment date is fixed to 4:00PM Pacific Time.",
+  "detailsViewProposedStartDateLabel": "Proposed Start Date",
+  "detailsViewProposedStartDateHelp": "Choose a date that you expect the successful proponent to begin the work as outlined in the opportunity’s acceptance criteria.",
+  "detailsViewCompletionDateLabel": "Completion Date",
+  "detailsViewCompletionDateHelp": "Choose a date that you expect the successful proponent to meet the opportunity’s acceptance criteria.",
+  "detailsViewProjectSubmissionInfoLabel": "Project Submission Info",
+  "detailsViewProjectSubmissionInfoHelp": "Provide information on how the successful proponent may submit their work as outlined in the opportunity’s acceptance criteria (e.g. GitHub repository URL).",
+  "detailsViewProjectSubmissionInfoPlaceholder": "e.g. GitHub repository URL",  
+  "detailsViewAcceptanceCriteriaLabel": "Acceptance Criteria",
+  "detailsViewAcceptanceCriteriaHelp": "Clearly define what the successful proponent must deliver and all of the criteria that must be met in order for payment to be released. You can format this acceptance criteria with Markdown.",
+  "detailsViewAcceptanceCriteriaPlaceholder": "Describe this opportunity's acceptance criteria.",  
+  "detailsViewEvaluationCriteriaLabel": "Evaluation Criteria",
+  "detailsViewEvaluationCriteriaPlaceholder": "Describe this opportunity's evaluation criteria.",
+  "detailsViewEvaluationCriteriaPlaceHelpP1": "Describe the criteria that you will use to score the submitted proposals. State the weight, or points, that you will give to each criterion (e.g. “Experience contributing Java code to any public code repositories with more than 5 contributors (10 points)”). You can format this evaluation criteria with Markdown.",
+  "detailsViewEvaluationCriteriaPlaceHelpP2": "It is at your discretion which mandatory and weighted criteria you wish to use.",
+  "detailsViewEvaluationCriteriaPlaceHelpP3-1": "Please refer to the {{name}}’s",
+  "detailsViewEvaluationCriteriaPlaceHelpP3-2": "for guidance.",
+  "opportunityAttachmentsViewBody": "Upload any supporting material for your opportunity here. Attachments must be smaller than 10MB.",
+  "createCwuOpportunityTitle": "Create a Code With Us Opportunity",
+  "createCwuOpportunityDescriptionP1": "<emph>Code With Us</emph> opportunities pay a fixed price of up to {{maxBudget}} for the delivery of code that meets your acceptance criteria.",
+  "createCwuOpportunityDescriptionP2": "Use the form provided to create your <emph>Code With Us</emph> opportunity. You can either save a draft of your opportunity to complete the form at a later time, or you can complete the form now to publish your opportunity immediately.",
+  "createCwuOpportunityFooter": "to learn how to create and manage a <emph>Code With Us</emph> opportunity.",
+  "createCwuOpportunityAlertActions": "We were unable to {{alert}} your opportunity. Please fix the errors in the form below and try again.",
+  "workStartDate": "Work Start Date",
+  "infoDetailsHeading": "To submit a proposal for this opportunity, you must possess the following skills:",
+  "noAttachementsMessage": "There are currently no attachments for this opportunity.",
+  "noAddendaMessage": "There are currently no addenda for this opportunity.",
+  "projectSubmissionInformation": "Project Submission Information",
+  "remoteWorkOptions": "Remote Work Options",
+  "acceptanceCriteriaViewText": "This is a fixed-price opportunity governed by the terms of our lightweight procurement model, Code With Us. To be paid the fixed price for this opportunity, you need to meet all of the following criteria:",
+  "proposalEvaluationCriteria": "Proposal Evaluation Criteria",
+  "proposalEvaluationCriteriaViewText": "Your proposal will be scored using the following criteria:",
+  "howToApply": "How To Apply",
+  "CWUhowToApplyViewBodyP1-1": "To submit a proposal for this Code With Us opportunity, you must have signed up for a Digital Marketplace vendor account.",
+  "CWUhowToApplyViewBodyP1-2": "If you already have a vendor account, please ",
+  "CWUhowToApplyViewBodyP2": "Please note that you will not be able to submit a proposal if the opportunity's proposal deadline has passed. ",
+  "alertSubmitProposalPush": "You submitted a proposal to this opportunity on {{date}}.",
+  "alertAwardedProposalPush": "This opportunity was awarded ton {{who}}.",
+  "headerCWUdescription": "opportunities pay a fixed price for meeting acceptance criteria.",
+  "headerSprintWithUsDescription": "opportunities are for registered organizations that can supply teams.",
+  "filterOpportunities": "Filter Opportunities",
+  "filterOpportunitiesPlaceHolder": "All Opportunity Types",
+  "allOpportunityStatuses": "All Opportunity Statuses",
+  "searchByTitleLocation": "Search by Title or Location",
+  "underReview": "Under Review",
+  "opportunityListIsNotificationsOn": "Stop notifying me about new opportunities",
+  "opportunityListIsNtNotificationsOn": "Notify me about new opportunities.",
+  "unpublishedOpportunities": "Unpublished Opportunities",
+  "noUnpublishedOpportunitiesFoundByCriteria": "There are no unpublished opportunities that match your search criteria.",
+  "noUnpublishedOpportunitiesFound": "There are no unpublished opportunities that match your search criteria.",
+  "openOpportunities": "Open Opportunities",
+  "noOpenOpportunitiesFoundByCriteria": "There are no open opportunities that match your search criteria.",
+  "noOpenOpportunitiesFound": "There are currently no open opportunities. Check back soon!",
+  "closedOpportunities": "Closed Opportunities",
+  "noClosedOpportunitiesFoundByCriteria": "There are no closed opportunities that match your search criteria.",
+  "noClosedOpportunitiesFound": "There are currently no closed opportunities.",
+  "userAccountRegisteredDescription": "Thank you for creating an account for the Digital Marketplace web application.",
+  "inviteToRegisterTitle": "{{legalName}} Has Sent You a Team Request",
+  "inviteToRegisterBodyP1": "{{legalName}} Has requested that you join their team on the Digital Marketplace.",
+  "inviteToRegisterBodyP2": "In order to join the organization's team you must first {{linkTo}} for a Digital Marketplace account. Once you have signed up, you can join their team and be included in proposals to Sprint With Us opportunities.",
+  "accountDeactivatedTitle": "Your Account Has Been Deactivated",
+  "accountDeactivatedSummary": "User account has been deactivated by the user.",
+  "accountDeactivatedBody": "<paragraph>You have successfully deactivated your Digital Marketplace account.</paragraph><paragraph>You can reactivate your account by signing into the web application again.</paragraph>",
+  "signInToReactivateAccount": "'Sign In to Reactivate Account",
+  "accountDeactivatedAdminSummary": "User account has been deactivated by an administrator.",
+  "accountDeactivatedAdminBody": "<paragraph>Your Digital Marketplace account has been deactivated by an administrator.</paragraph><paragraph>You no longer have access to the web application.</paragraph><paragraph>If you have any questions, you can send an email to the Digital Marketplace administrators at {{linkTo}}.</paragraph>",
+  "accountReactivatedTitle": "Your Account Has Been Reactivated",
+  "accountReactivatedDescription": "You have successfully reactivated your Digital Marketplace account.",
+  "accountReactivatedSummary": "User account has been reactivated by the user.",
+  "accountReactivatedAdminSummary": "User account has been reactivated by an administrator.",
+  "accountReactivatedAdminBody": "<paragraph>Your Digital Marketplace account has been reactivated by an administrator.</paragraph><paragraph>If you have any questions, you can send an email to the Digital Marketplace administrators at {{linkTo}}.</paragraph>",
+  "participant": "Participant",
+  "participants": "Participants",
+  "topCCscore": "Top CC Score",
+  "avgCCscore": "Avg. CC Score",
+  "waitForCodeChallengeBody": "Participants will be displayed here once this opportunity has reached the Code Challenge.",
+  "codeChallenge": "Code Challenge",
+  "codeChallengeParticipants": "Code Challenge Participants",
+  "completeCodeChallenge": "Complete Code Challenge",
+  "codeChallengeBodyModal": "Are you sure you want to complete the evaluation of this opportunity's Code Challenge? You will no longer be able to screen proponents in or out of the Team Scenario.",
+  "teamScenario": "Team Scenario",
+  "teamQuestions": "Team Questions",
+  "codeWithUsDescription": "is a procurement mechanism for public sector organizations in {{regionNameLong}} to pay developers for code.",
+  "vendors": "Vendors",
+  "vendorsDescriptionP1": "We know that there are tons of brilliant tech professionals like you who never get an opportunity to apply their skills to public service. We want to change that!",
+  "vendorsDescriptionP2": "makes it easy to get paid for contributing to government’s digital services by providing a process that allows you to focus on writing code, not contract paperwork.",
+  "howItWorks": "How It Works",
+  "Search": "Search",
+  "searchDescription": "Find an opportunity that matches your skills and interest. The acceptance criteria describes what you need to deliver to get paid the fixed price.",
+  "Connect": "Connect",
+  "connectDescription": "Speak directly with the opportunity contact to get more clarity. If you have suggestions, or think the price is too low, say so!",
+  "apply": "Apply",
+  "applyDescription": "Submit a proposal using the app. If you are awarded the opportunity, you will be offered the exclusive right to work on the issue for a set period of time.",
+  "contribute": "Contribute",
+  "contributeDescription": "Work collaboratively and iteratively with the opportunity contact. Commit code early and often to ensure you are on the right track.",
+  "getPaid": "Get Paid",
+  "getPaidDescription": "Once the acceptance criteria is met and your code is merged, submit your invoice and expect payment within 30 days. Read more about payment options",
+  "publicSector": "Public Sector",
+  "publicSectorDescriptionP1": "If you manage an open source digital product in the {{regionNameLong}} public sector, <emphasis>Code With Us</emphasis> can help you access talented developers and pay for code quickly.",
+  "publicSectorDescriptionP2": "Post an opportunity, evaluate proposals, assign a developer and get to work!",
+  "sprintWithUsDescription": "is a procurement mechanism that allows the {{regionNameLong}} to procure Agile software development teams.",
+  "whatToExpect": "What To Expect",
+  "whatToExpectDescription": "If your organization is awarded a Sprint With Us opportunity, here is what you can expect when you work with us:",
+  "governmentProductManagers": "Government Product Managers",
+  "governmentProductManagersDescription": "You will work closely with a trained government product manager who has the expertise and the responsibility to run the service.",
+  "interdisciplinaryTeams": "Interdisciplinary Teams",
+  "interdisciplinaryTeamsDescription": "Your team will possess all the skills necessary for continuous delivery, such as DevOps engineering, front-end and back-end development, and user experience research and design.",
+  "openSource": "Open Source",
+  "openSourceDescription": "Your team will own the code that's produced, but it will be published in GitHub under an open source license.",
+  "agile": "Agile",
+  "agileDescription": "You will be adaptable to change and follow the Agile Scrum process, building and validating features iteratively with users.",
+  "agilePhases": "Agile Phases",
+  "agilePhasesDescription": "Don’t expect lengthy requirements. This is Agile. You will start with Inception to understand the business problem, then build a Proof of Concept to demonstrate the feasibility of the solution. Finally, you will build out the rest of the product in Implementation.",
+  "pricingIncentives": "Pricing & Incentives",
+  "pricingIncentivesDescription": "These are not time & materials contracts! For each phase, you'll charge a fixed price for your interdisciplinary team to meet the deliverables for the time period. There's incentives to complete a phase early!",
+  "sprintWithUsHowToApplyViewBody": "To apply for <emphasis>Sprint With Us</emphasis> opportunities, complete the following steps:",
+  "signInVendorAccount": "Sign In to Your Vendor Account",
+  "signInVendorAccountDescription": "to your Digital Marketplace Vendor account using {{idpName}}. If you do not yet have an account, you must",
+  "first": "first",
+  "registerYourOrganization": "Register Your Organization",
+  "registerYourOrganizationDescriptionP1": "Go to the <emphasis>Organizations</emphasis> page and click on the <bold>+ Create Organization</bold> button. Complete the form by providing all required information and submit.",
+  "registerYourOrganizationDescriptionP2": "Similarly, you may register your organization via your user profile.",
+  "becomeQualifiedSupplier": "Become a Qualified Supplier",
+  "becomeQualifiedSupplierDescriptionP1": "You must be considered a Qualified Supplier to apply for <emphasis>Sprint With Us</emphasis> opportunities.",
+  "becomeQualifiedSupplierDescriptionP2": "To complete the qualification process, access your registered organization via your user profile and navigate to the <emphasis>SWU Qualification</emphasis> tab. Complete the requirements as provided to become a Qualified Supplier.",
+  "users": "Users",
+  "accountType": "Account Type",
+  "name": "Name",
+  "IdirHelp": "Your unique {{keyType}} username.",
+  "jobTitle": "Job Title",
+  "locale": "Locale",
+  "profileInformation": "Profile Information",
+  "active": "Active",
+  "inactive": "Inactive",
+  "admin": "Admin",
+  "deactivateAccount": "Deactivate Account",
+  "reactivateAccount": "Reactivate Account",
+  "accountIsActiveDescription": "Deactivating {{your}} account means that {{you}} will no longer have access to the Digital Marketplace.",
+  "accountIsNotActiveDescription": "Reactivate {{yourFull}} account to enable {{your}} access to the Digital Marketplace.",
+  "your": "your",
+  "their": "their",
+  "they": "they",
+  "thisUser": "this user's",
+  "deactivate": "deactivate",
+  "reactivate": "reactivate",
+  "user's": "user's",
+  "activeReactiveModalTitle": "{{action}} {{who}} account?",
+  "activeReactiveModalAction": "{{action}} account",
+  "AdminDeactivatingUserModalBody": "Are you sure you want to deactivate this user’s account? They will no longer be able to access the Digital Marketplace.",
+  "AdminReactivatingUserModalBody": "Are you sure you want to deactivate your account? You will no longer be able to access the Digital Marketplace.",
+  "userDeactivatingSelfModalBody": "Are you sure you want to deactivate your account? You will no longer be able to access the Digital Marketplace.",
+  "capabilitiesAndSkills": "Capabilities & Skills",
+  "sprintWUcapabilitiesAndSkillsDescription": "Sprint With Us opportunities require teams with the capabilities and skills shown below. Select the capabilities that you possess by clicking on their names or checkboxes. Let us know what you can do!",
+  "capabilities": "Capabilities",
+  "notifications": "Notifications",
+  "policiesTermsAndAgreements": "Policies, Terms & Agreements",
+  "profile": "Profile",
+  "legalTermsDescription": "In this section, you will find all of the policies, terms and agreements relevant to vendors of the Digital Marketplace.",
+  "privacyPolicy": "Privacy Policy",
+  "privacyPolicyDescriptionP1": "Your personal information is being collected by the Ministry of Citizens’ Services under s.26(c) of the Freedom of Information and Protection of Privacy Act (FOIPPA). The collection, use and disclosure of your personal information is for the purpose of notifying, applying and awarding opportunities on the Digital Marketplace. If you have any questions, please contact: Zachary Woodward, Senior Director, Procurement, Ministry of Citizens’ Services,",
+  "privacyPolicyDescriptionP2": "You agreed to the Digital Marketplace <italic>Privacy Policy</italic> when you created your Digital Marketplace account.",
+  "termsAndConditions": "Terms & Conditions",
+  "termsAndConditionsDescriptionP1": "You agreed to the <italic>{{title}}</italic> on {{date}} at {{time}}.",
+  "termsAndConditionsDescriptionP2": "The <italic>{{title}}</italic> have been updated. Please",
+  "notificationViewBody": "Email notifications will be sent to <bold>{{email}}</bold> for the options selected below. If this email address is incorrect please update your profile.",
+  "newOpportunities": "New opportunities.",
+  "notifyMeAbout": "Notify me about",
+  "teamMembers": "Team Members",
+  "legalName": "Legal Name",
+  "swuQualified": "SWU Qualified",
+  "ownedOrganizations": "Owned Organizations",
+  "isOwnedOrganisations": "You are the owner of the following organizations:",
+  "isNotOwnedOrganisations": "You do not own any organizations.",
+  "affiliatedOrganizations": "Affiliated Organizations",
+  "isAffilateOrganizations": "You have given these companies permission to put you forward as a team member on proposals for opportunities.",
+  "isNotAffilateOrganizations": "You are not affiliated with any organizations.",
+  "leaveOrganization": "Leave Organization",
+  "leaveOrganizationModalBody": "Are you sure you want to leave this organization? You will no longer be able to be included as a team member in its opportunity proposals.",
+  "approveRequest": "Approve Request",
+  "approveRequestModalBody": "Approving this request will allow this company to put you forward as a team member on proposals for opportunities.",
+  "rejectRequest": "Reject Request",
+  "rejectRequestModalBody": "Are you sure you want to reject this organization's request for you to join their team?",
+  "userProfile": "User Profile",
+  "notFound": "Not Found",
+  "notFoundBody": "The page you are looking for doesn't exist.",
+  "noticeIfdeactivatedOwnAccountTitle": "Account Deactivation Successful",
+  "noticeIfdeactivatedOwnAccountBody": "You have successfully deactivated your account.",
+  "noticeIfauthFailureTitle": "Sign-In Failed",
+  "noticeIfauthFailureBody": "Please try again using the \"Sign-In\" button.",
+  "gotQuestions": "Got Questions",
+  "gotQuestionsBody": "If you have questions about this opportunity, send an email to the Procurement team by clicking the \"Contact\" button below.",
+  "createCwuProposalTitle": "Create Code With Us Proposal",
+  "createCwuProposalBody": "Use the form provided to create your proposal for this <emphasis>Code With Us</emphasis> opportunity. You can either save a draft of your proposal to complete the form at a later time, or you can complete the form now to submit your proposal immediately.",
+  "createCwuProposalFooter": "to learn how to create and manage a <emph>Code With Us</emph> proposal.",
+  "modalCancelNewProposalTitle": "Cancel New Code With Us Proposal?",
+  "pleaseSelectOrganization.": "Please select an organization.",
+  "pleaseSelectProponentType.": "Please select a proponent type.",
+  "legalNameHelp":"Provide the first and last name of the individual that will complete the work as outlined in the opportunity’s acceptance criteria.",
+  "emailPlaceHolder": "vendor@email.com",
+  "phoneNumber": "Phone Number",
+  "selectOrganizationHelp": "Select the Organization that will complete the work as outlined in the opportunity's acceptance criteria.",
+  "selectOrganizationHintP1": "If the organization you are looking for is not listed in this dropdown, please ensure that you have created the organization in",
+  "selectOrganizationHintLink": "your user profile",
+  "selectOrganizationHintP2": "Also, please make sure that you have saved this proposal beforehand to avoid losing any unsaved changes you might have made.",
+  "proponentViewBody": "Will you be submitting a proposal for this opportunity as an Individual or Organization?",
+  "proponentViewBodyActiveView": "Please provide the following details for the proponent that will complete the work as outlined by the Acceptance Criteria of the opportunity.",
+  "proposalViewBody": "Enter your proposal and any additional comments in the spaces provided below. Be sure to address the Proposal Evaluation Criteria.",
+  "proposalViewHelp": "Provide your complete proposal here. Be sure to address the Proposal Evaluation Criteria as outlined on the opportunity. You can format your proposal with Markdown.",
+  "additionalComments": "Additional Comments",
+  "additionalCommentsHelp": "Provide any additional information or comments that are relevant to your proposal submission. You can format your additional comments with Markdown.",
+  "proposalAttachmentsViewBody": "Upload any supporting material for your proposal here. Attachments must be smaller than 10MB.",
+  "individual": "Individual",
+  "conciergerieApprovisionnement": "Procurement Concierge",
+  "signedInAs": "Signed in as {{who}}",
+  "myProfile": "My Profile",
+  "content": "Content",
+  "completeYourProfile": "Complete Your Profile",
+  "body": "Body",
+  "content-form": {
+    "slugLabel": "Slug",
+    "slugPlaceHolder": "Slug, e.g. an-example-slug-123",
+    "slugHelp": "A page slug determines the URL that people will use to access the page. A valid slug must start with a lowercase character or number, and can subsequently contain lowercase characters, numbers or hyphens (i.e. \"-\"). For example, \"this-is-a-valid-slug123\".",
+    "HasSlugHint": "This page is available at ",
+    "HasNotSlugHint": "This page will be available at "
+  },
+  "content-toasts": {
+    "published": {
+      "success-title": "Page Published",
+      "success-body": "has been published.",
+      "error-title": "Unable to Publish Page",
+      "error-body": "This page could not be published. Please fix the errors in the form, if any, and try again.",
+      "bodyPlaceHolder": "Enter the page's body here.",
+      "bodyHelp": "Please enter the page's body in the provided text area. It can be formatted using Markdown."
+    },
+    "deleted": {
+      "success-title": "Page Deleted",
+      "success-body": "has been deleted.",
+      "error-title": "Unable to Delete Page",
+      "error-body": "This page could not be deleted."
+    },
+    "changesPublished": {
+      "success-title": "Page Changes Published",
+      "success-body": "Your changes to",
+      "error-title": "Unable to Publish Page",
+      "error-body": "Your changes to this page could not be published. Please fix the errors in the form, if any, and try again."
+    },
+    "startedEditing": {
+      "error-title": "Unable to Edit Page",
+      "error-body": "This page cannot be edited at this time. Please try again later."
+    },
+    "notifiedNewTerms": {
+      "success-title": "Vendors Notified",
+      "success-body": "All vendors have been notified that the <emphasis>{{appTermsTitle}}</emphasis> have been updated. They will now be prompted to accept the updated terms before submitting their next proposal to an opportunity.",
+      "error-title": "Unable to Notify Vendors",
+      "error-body": "The system was unable to notify vendors of the updated <emphasis>{{appTermsTitle}}</emphasis>. Please try again later."
+    }
+  },
+  "createNewPage": "Create a New Page",
+  "contentModalPublishBody": "Are you sure you want to publish this page? Once published, all users will be able to access it by navigating to its URL.",
+  "emptyPageAlertsWarning": "This is a \"fixed\" page, which means this web app needs it to exist at a specific slug in order to function correctly. Consequently, this page cannot be deleted and its slug cannot be changed.",
+  "contentSaveChangesModal": "Are you sure you want to publish your changes to this page? Once published, they will be visible to all users who navigate to this page's URL.",
+  "contentnotifyNewTermsChangesModalTitle": "Notify vendors of updated terms",
+  "contentnotifyNewTermsChangesModalBody": "Are you sure you want to notify all vendors of updated {{appTermsTitle}} Vendors will receive a notification email, and will be required to accept the new terms before continuing to submit proposals to opportunities.",
+  "deletePage": "Delete page",
+  "contentDeleteModalBody": "Are you sure you want to delete this page? It will no longer be accessible to users if you do.",
+  "fixed": "Fixed",
+  "contentManagement": "Content Management",
+  "pages": "Pages",
+  "programCardCWDdescription": "Use a <emphasis>Sprint With Us</emphasis> opportunity to procure an Agile product development team for your digital service at a variable cost of up to {{maxBudget}}.",
+  "programCardSprintWUdescription": "Use a <emphasis>Code With Us</emphasis> opportunity to pay a fixed price of up to {{maxBudget}} for the delivery of code that meets your acceptance criteria.",
+  "createAnOpportunity": "Create an Opportunity",
+  "imageRedacted": "Image Redacted",
+  "linkRedacted": "Lien Redacted",
+  "validateStringInArray": {
+    "isNotSelected": "Please select {{article}} {{text}}",
+    "isNotValid": "\"{{value}}\" is not a valid {{text}}."
+  },
+  "validateGenericStringWordsText": "{{name}} must be between {{min}} and {{max}} {{text}} long.",
+  "characters": "characters",
+  "words": "words",
+  "a" : "a",
+  "number" : "number",
+  "validateNumber":{
+    "isNotValidText" : "Please enter a valid {{name}}.",
+    "isMinText" : "Please enter {{article}} {{name}} greater than or equal to {{value}}",
+    "isMaxText" : "Please enter {{article}} {{name}} less than or equal to {{value}}"
+  },
+  "validateCWUOpportunityStatus": {
+    "isNotValidCWU": "\"{raw}\" is not a valid CodeWithUs opportunity status.",
+    "isNotValidOpportunities": "\"{raw}\" is not one of:"
+  },
+  "validateCWUProposalStatus": {
+    "isNotValidCWU": "\"{raw}\" is not a valid CodeWithUs proposal status.",
+    "isNotValidPropsals": "\"{raw}\" is not one of:"
+  },
+  "isNotValideRemoteOption":"Invalid remote option provided.",
+  "isNotvalideSkills":"Please select at least one skill.",
+  "reward": "reward",
+  "skill": "Skill",
+  "projectSubmissionInfo": "Project Submission Info",
+  "acceptantceCriterie": "Acceptance Criteria",
+  "evaluationCriteria": "Evaluation Criteria",
+  "statusNote": "Status Note",
+  "invalidNumberWithPrecision": "Please enter {{article}} {{name}} with precision less than or equal to {{maxPrecision}} decimal places.",
+  "invalidDate": "Please enter a valid date.",
+  "invalidMinMaxDate": "`Please select a ${name}",
+  "or": "or",
+  "after": "after" ,
+  "earlierThan": "earlier than",
+  "date/time": "date/time",
+  "at": "at",
+  "on": "on",
+  "time": "time",
+  "invalidUrl": "Please enter a valid URL.",
+  "invalidPhoneNumber": "Please enter a valid phone number.",
+  "invalidEmail": "Please enter a valid email.",
+  "invalidateUUID": "Invalid identifier provided.",
+  "invalidCapability": "Please select a capability from the list.",
+  "invalidCapabilities": "Please select at least {{minCapabilities}}",
+  "proposalText": "Proposal Text",
+  "disqualificationReason": "Disqualification Reason",
+  "score": "score",
+  "addendum": "Addendum",
+  "invalidMembershipType" : "Invalid membership type provided.",
+  "invalidSlug": "Please enter a valid slug.",
+  "counterName": "Counter name",
+  "invalidCounterName": "Counter name is not alphanumeric.",
+  "fileName": "File name",
+  "invalidFileExtension": "Invalid file extension.",
+  "invalidUserType": "Not a valid user type.",
+  "invalideFilePermission": "Invalid file permission provided.",
+  "region": "Region",
+  "mailCode": "Mail Code",
+  "contactTitle": "Contact Title",
+  "invalidUserSpecified": "Invalid user type specified",
+  "invaliStatusSpecified": "Invalid user status specified",
+  "invalidOptionSelect": "Please select an option.",
+  "mailerNotifications": {
+    "vendorTermsChangedTitle" : "Our Terms and Conditions Have Been Updated",
+    "vendorTermsChangedDescription": "The Digital Marketplace Terms & Conditions for vendors have been updated.",
+    "vendorTermsChangedSummary": "Vendor Terms & Conditions are updated; notify active vendors to re-accept",
+    "vendorTermsChangedBody": "The updated Terms & Conditions must be reviewed and accepted prior to submitting proposals for Code-With-Us and Sprint-With-Us opportunities.",
+    "viewTermsAndConditionsCallToActionText": "Review Terms & Conditions",
+    "organizationArchivedTitle": "Your Organization Has Been Archived",
+    "organizationArchivedBody": "<paragraph>Your Digital Marketplace organization, {{legalName}}, has been archived by an administrator.</paragraph><paragraph>You will no longer be able to use this organization in the web application. </paragraph><paragraph>If you have any questions, you can send an email to the Digital Marketplace administrators at {{linkTo}}.</paragraph>",
+    "addedToTeamTitle": "{{legalName}} Has Sent You a Team Request",
+    "addedToTeamBodyP1": "{{legalName}} has requested that you join their team on the Digital Marketplace.",
+    "addedToTeamBodyP2": "<paragraph>You can approve or reject your membership with {{legalName}} by using one of the buttons below.</paragraph><paragraph>If you approve the membership, you can be included as a team member on future Sprint With Us proposals submitted by {{legalName}}.</paragraph>",
+    "approvedRequestToJoinTitle": "{{memberName}} Has Approved Your Team Request",
+    "approvedRequestToJoinBody": "<paragraph>{{memberName}} has approved your request to join {{organizationName}}'s team on the Digital Marketplace.</paragraph><paragraph>{{memberName}} can now be included in proposals submitted by {{organizationName}} to Sprint With Us opportunities.</paragraph>",
+    "rejectRequestToJoinTitle": "{{memberName}} Has Rejected Your Team Request",
+    "rejectRequestToJoinBody": "{{memberName}} has rejected your request to join {{organizationName}}'s team on the Digital Marketplace.",
+    "membershipCompleteTitle": "You Have Joined {{organizationName}}'s Team",
+    "membershipCompleteBody": "<paragraph>You are now a member of {{organizationName}}'s team on the Digital Marketplace</paragraph><paragraph>{{organizationName}} can now include you on proposals to  Sprint With Us opportunities.</paragraph>",
+    "memberLeavesTitle": "{{memberName}} Has Left {{organizationName}}'s Team",
+    "memberLeavesBody": "{{memberName}} has left {{organizationName}}'s team on the Digital Marketplace.  They will no longer be able to be included on proposals for Sprint With Us opportunities.",
+    "successfulCWUProposalSubmissionTitle": "Your Code With Us Opportunity Proposal Has Been Submitted",
+    "successfulCWUProposalSubmissionDescription": "You have successfully submitted a proposal for the following Digital Marketplace opportunity:",
+    "successfulCWUProposalSubmissionBodyP2-1": "If you would like to make changes to your proposal, simply",
+    "successfulCWUProposalSubmissionBodyP2-2": "and access the proposal via your dashboard.  All changes must be submitted prior to the proposal deadline.",
+    "successfulCWUProposalSubmissionBodyP3": "Once the proposal deadline has been reached, your proposal will be reviewed and assigned a score.  After all proposals have been evaluated, you will be notified if you have been awarded the opportunity or if your proposal was unsuccessful.",
+    "awardedCWUProposalSubmissionTitle": "You Have Been Awarded a Code With Us Opportunity",
+    "awardedCWUProposalSubmissionDescription": "Congratulations!  You have been awarded the following Digital Marketplace opportunity:",
+    "awardedCWUProposalSubmissionSummary": "CWU opportunity awarded; sent to successful proponent.",
+    "awardedCWUProposalSubmissionBodyP1-1": "If you would like to view your total score,",
+    "awardedCWUProposalSubmissionBodyP1-2": "and access your proposal via your dashboard.",
+    "awardedCWUProposalSubmissionBodyP3": "A member of the Digital Marketplace or the owner of the opportunity will be in touch with you shortly to discuss next steps.",
+    "unsuccessfulCWUProposalSubmissionTitle": "A Code With Us Opportunity Has Closed",
+    "unsuccessfulCWUProposalSubmissionDescription": "The following Digital Marketplace opportunity that you submitted a proposal to has closed:",
+    "unsuccessfulCWUProposalSubmissionSummary": "CWU opportunity awarded; sent to unsuccessful proponents.",
+    "unsuccessfulCWUProposalSubmissionBodyP1": "The opportunity has been awarded to",
+    "unsuccessfulCWUProposalSubmissionBodyP3": "Thank you for your submission and we wish you luck on the next opportunity.",
+    "disqualifiedCWUProposalSubmissionTitle": "Your Code With Us Proposal Has Been Disqualified",
+    "disqualifiedCWUProposalSubmissionDescription": "The proposal that you submitted for the following Digital Marketplace opportunity has been disqualified:",
+    "withdrawnCWUProposalSubmissionProposalAuthorTitle": "Your Proposal Has Been Withdrawn",
+    "withdrawnCWUProposalSubmissionProposalAuthorDescription": "Your proposal for the following Digital Marketplace opportunity has been withdrawn:",
+    "withdrawnCWUProposalSubmissionProposalAuthorSummary": "CWU proposal withdrawn; sent to proponent who has withdrawn.",
+    "withdrawnCWUProposalSubmissionProposalAuthorBody": "If you would like to resubmit a proposal to the opportunity you may do so prior to the proposal deadline.",
+    "withdrawnCWUProposalSubmissionTitle": "A Proposal Has Been Withdrawn",
+    "withdrawnCWUProposalSubmissionDescription": "{{name}} has withdrawn their proposal for the following Digital Marketplace opportunity:",
+    "withdrawnCWUProposalSubmissionSummary": "CWU proposal withdrawn; sent to the opportunity author."
+  },
+  "whatHappensNext": "What Happens Next",
+  "goodLuck": "Good luck",
+  "proposalHistory": "Proposal History",
+  "Proposal Details": "Détails de la proposition",
+  "Back to Opportunity": "Back to Opportunity",
+  "vendorProposal": "Vendor Proposal",
+  "management": "Management",
+  "invalideScoreMessage": "Please enter a valid score.",
+  "viewCWUProposal": "View Code With Us Proposal",
+  "id": "ID",
+  "exportedBy": "Exported By",
+  "exportedOn": "Exported On",
+  "exportedCWUProposals": "Exported Code With Us Proposals",
+  "exportedCWUProposal": "Exported Code With Us Proposal",
+  "opportunityNotExistText": "The specified opportunity does not exist.",
+  "cannotSubscribeOwnOpportunityText": "You cannot subscribe to your own opportunity.",
+  "userAlreadySubscribedOpportunityText": "This user is already subscribed to this opportunity.",
+  "userIsntSubscribedOpportunityText": "This user is not subscribed to this opportunity.",
+  "opportunityNotFound": "Opportunity not found.",
+  "cwuOpportunityNotFound": "Code With Us opportunity not found.",
+  "proposalNotFound": "Proposal not found.",
+  "alreadyHaveProposalForOpprtunity": "You already have a proposal for this opportunity.",
+  "proposalNotExistText": "The specified proposal does not exist.",
+  "proposalDeleteIfNotDraftText": "You can not delete a proposal that is not a draft.",
+  "contentNotFound": "Content not found",
+  "slugAlreadyInUse": "This slug is already in use.",
+  "contentNotExistText": "The specified content does not exists.",
+  "slugWithFixedContentChangeTextError": "You cannot change the slug of fixed content.",
+  "fixedContentCantDeleted": "You cannot delete fixed content.",
+  "invalidCounterNamesProvided": "Invalid counter names provided",
+  "fileNotFound": "File not found.",
+  "invalidateRequestBody": "You need to submit a valid multipart request to create a file.",
+  "invalidMetadataProvided.": "Invalid metadata provided.",
+  "organizationNotFound": "Organization not found.",
+  "exportProposal": "Export Proposal",
+  "next": "Next",
+  "previous": "Previous",
+  "termAndConditionCheck": "I acknowledge that I have read and agree to the",
+  "stepOneInstructionalSidebar": {
+    "title": "Create Your Digital Marketplace Account.",
+    "description": "Join a community of developers, entrepreneurs and public service innovators who are making public services better.",
+    "footer": " Already have an account?"
+  },
+  "stepTwoInstructionalSidebar": {
+    "title": "You're almost done!",
+    "description": "Your {{type}} account for the Digital Marketplace is almost ready. Please confirm your information below to complete your profile."
+  },
+  "stepOnePageMetadataTitle": "Sign Up - Step One"
 }

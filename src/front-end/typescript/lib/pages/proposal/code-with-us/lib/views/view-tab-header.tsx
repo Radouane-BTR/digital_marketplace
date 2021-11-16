@@ -8,6 +8,7 @@ import { Col, Row } from 'reactstrap';
 import { CWUProposal, getCWUProponentName, getCWUProponentTypeTitleCase } from 'shared/lib/resources/proposal/code-with-us';
 import { isAdmin, User } from 'shared/lib/resources/user';
 import { adt } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export interface Props {
   proposal: CWUProposal;
@@ -23,7 +24,7 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
       children: (<Badge text={cwuProposalStatusToTitleCase(propStatus, viewerUser.type)} color={cwuProposalStatusToColor(propStatus, viewerUser.type)} />)
     },
     {
-      name: 'Proponent',
+      name: i18next.t('proponent'),
       children: (() => {
         const name = getCWUProponentName(proposal);
         if (proposal.proponent.tag === 'organization' && proposal.proponent.value.active && isAdmin(viewerUser)) {
@@ -32,10 +33,10 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
         return name;
       })()
     },
-    { name: 'Proponent Type', children: getCWUProponentTypeTitleCase(proposal) },
+    { name: i18next.t('proponentType'), children: getCWUProponentTypeTitleCase(proposal) },
     createdBy
       ? {
-          name: 'Submitted By',
+          name: i18next.t('submittedBy'),
           children: isAdmin(viewerUser)
             ? (<Link dest={routeDest(adt('userProfile', { userId: createdBy.id }))}>{createdBy.name}</Link>)
             : createdBy.name
@@ -46,7 +47,7 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
     <div>
       <Row>
         <Col xs='12'>
-          <h3 className='mb-5'>Code With Us: Vendor Proposal</h3>
+          <h3 className='mb-5'>{i18next.t('codeWithUs')}: {i18next.t('vendorProposal')}</h3>
         </Col>
       </Row>
       <Row>

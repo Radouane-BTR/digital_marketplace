@@ -3,7 +3,7 @@ import { ComponentView, ComponentViewProps, View, ViewElementChildren } from 'fr
 import Link, { iconLinkSymbol, leftPlacement } from 'front-end/lib/views/link';
 import Sticky from 'front-end/lib/views/sidebar/sticky';
 import React from 'react';
-
+import i18next from "i18next";
 interface Params<State, Msg> {
   showBackLink?: boolean;
   showOnMobile?: boolean;
@@ -26,7 +26,7 @@ function makeSidebar<State, Msg, Props extends ComponentViewProps<State, Msg> = 
                 className='font-size-small d-flex flex-row flex-nowrap align-items-center mt-md-n5 mb-4'
                 symbol_={leftPlacement(iconLinkSymbol('arrow-left'))}
                 onClick={() => router.back()}>
-                  Go Back
+                  {i18next.t('links.goBack')}
                 </Link>)
             : null}
           <h1 className='mb-3 font-weight-bolder'>{getTitle(state)}</h1>

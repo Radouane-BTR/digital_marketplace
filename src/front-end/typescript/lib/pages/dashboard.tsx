@@ -21,7 +21,8 @@ import * as SWUP from 'shared/lib/resources/proposal/sprint-with-us';
 import { isVendor, User } from 'shared/lib/resources/user';
 import { adt, ADT, Defined } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
-
+import { Trans } from 'react-i18next';
+import i18next from 'i18next'
 interface ValidState {
   table?: {
     title: string;
@@ -60,7 +61,7 @@ function makeVendorBodyRows(cwu: CWUP.CWUProposalSlim[], swu: SWUP.SWUProposalSl
             {p.value.opportunity.title}
           </Link>
           <div className='small text-secondary text-uppercase'>
-            {p.tag === 'cwu' ? 'Code With Us' : 'Sprint With Us'}
+            {p.tag === 'cwu' ? i18next.t('codeWithUs') : i18next.t('sprintWithUs')}
           </div>
         </div>)
       },
@@ -94,7 +95,7 @@ function makePublicSectorBodyRows(cwu: CWUO.CWUOpportunitySlim[], swu: SWUO.SWUO
             {p.value.title || defaultTitle}
           </Link>
           <div className='small text-secondary text-uppercase'>
-            {p.tag === 'cwu' ? 'Code With Us' : 'Sprint With Us'}
+            {p.tag === 'cwu' ? i18next.t('codeWithUs') : i18next.t('sprintWithUs')}
           </div>
         </div>)
       },
@@ -115,21 +116,21 @@ const init: PageInit<RouteParams, SharedState, State, Msg> = isSignedIn<RoutePar
   async success({ shared }) {
     const viewerUser = shared.sessionUser;
     const vendor = isVendor(viewerUser);
-    const title = vendor ? 'My Proposals' : 'My Opportunities';
+    const title = vendor ? i18next.t('myProposals') : i18next.t('myOpportunities');
     const headCells: Table.HeadCells = [
       {
-        children: vendor ? 'Opportunity' : 'Title',
+        children: vendor ? i18next.t('opportunity') : i18next.t('title'),
         style: {
           width: '100%',
           minWidth: '200px'
         }
       },
       {
-        children: 'Status',
+        children: i18next.t('status'),
         style: { width: '0px' }
       },
       {
-        children: 'Date Created',
+        children: i18next.t('dateCreated'),
         className: 'text-nowrap',
         style: { width: '0px' }
       }
@@ -160,7 +161,7 @@ const init: PageInit<RouteParams, SharedState, State, Msg> = isSignedIn<RoutePar
             })),
             link: vendor
               ? undefined
-              : { text: 'View all opportunities', route: adt('opportunities', null) }
+              : { text: i18next.t('links.view-opportunities'), route: adt('opportunities', null) }
           }
         : undefined
     }));
@@ -195,11 +196,11 @@ const Welcome: View<Pick<ValidState, 'viewerUser'>> = ({ viewerUser }) => {
       <Row className='justify-content-center text-center'>
         <Col xs='12' sm='10' md='6'>
           <img src={prefixPath('/images/illustrations/dashboard_welcome.svg')} className='mb-5 mb-md-6' style={{ maxWidth: '100%' }} />
-          <h1 className='mb-4'>Welcome to the Digital Marketplace!</h1>
+          <h1 className='mb-4'>{i18next.t('dashboard.welcome-title')}</h1>
           <p>
             {vendor
-              ? 'Get started by browsing the opportunities posted to the Digital Marketplace.'
-              : 'Get started by creating your first opportunity or browsing the opportunities posted to the Digital Marketplace.'}
+              ? i18next.t('dashboard.isVendorBody')
+              : i18next.t('dashboard.isNotVendorBody')}
           </p>
           <div className='d-flex flex-column flex-sm-row flex-nowrap justify-content-center align-items-center mt-5'>
             <Link
@@ -208,7 +209,7 @@ const Welcome: View<Pick<ValidState, 'viewerUser'>> = ({ viewerUser }) => {
               dest={routeDest(adt('opportunities', null))}
               color={vendor ? 'primary' : 'info'}
               outline={!vendor}>
-              View All Opportunities
+              {i18next.t('links.view-opportunities')}
             </Link>
             {!vendor
               ? (<Link
@@ -216,7 +217,7 @@ const Welcome: View<Pick<ValidState, 'viewerUser'>> = ({ viewerUser }) => {
                   className='ml-sm-4 mt-3 mt-sm-0 text-nowrap'
                   dest={routeDest(adt('opportunityCreate', null))}
                   color='primary'>
-                  Create Your First Opportunity
+                  {i18next.t('links.create-first-opportunity')}
                 </Link>)
               : null}
           </div>
@@ -236,7 +237,7 @@ const Dashboard: View<DashboardProps> = ({ table, viewerUser, dispatch }) => {
     <div>
       <Row className='mb-5'>
         <Col xs='12'>
-          <h1 className='mb-0'>Dashboard</h1>
+          <h1 className='mb-0'>{i18next.t('dashboard.title')}</h1>
         </Col>
       </Row>
       <Row>
@@ -281,14 +282,18 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   backgroundColor: 'c-dashboard-bg',
 
   getMetadata() {
-    return makePageMetadata('Dashboard');
+    return makePageMetadata(i18next.t('dashboard.title'));
   },
 
   getAlerts: getAlertsValid(state => {
     return {
       info: isVendor(state.viewerUser) && !state.isQualified && state.table
         ? [{
-            text: (<span>You must <Link dest={routeDest(adt('orgCreate', null))}>create an organization</Link> and be a <Link dest={routeDest(adt('learnMoreSWU', null))}>Qualified Supplier</Link> in order to submit proposals to Sprint With Us opportunities.</span>)
+            text: (<span>
+              <Trans i18nKey="dashboard.isVendorAlert">
+                You must <Link dest={routeDest(adt('orgCreate', null))}>Create Organization</Link> and be a <Link dest={routeDest(adt('learnMoreSWU', null))}>Qualified Supplier</Link>
+              </Trans>
+              </span>)
           }]
         : []
     };
@@ -297,7 +302,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   getContextualActions: getContextualActionsValid(({ state }) => {
     if (isVendor(state.viewerUser) || !state.table) { return null; }
     return adt('links', [{
-      children: 'Create Opportunity',
+      children: i18next.t('links.create-opportunity'),
       symbol_: leftPlacement(iconLinkSymbol('plus-circle')),
       dest: routeDest(adt('opportunityCreate', null)),
       button: true,

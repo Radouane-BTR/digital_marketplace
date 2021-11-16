@@ -5,7 +5,7 @@ import Link, { routeDest } from 'front-end/lib/views/link';
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { adt, ADT } from 'shared/lib/types';
-
+import i18next from 'i18next';
 export interface RouteParams {
   path?: string;
 }
@@ -27,17 +27,17 @@ const view: ComponentView<State, Msg> = () => {
     <div>
       <Row className='mb-3'>
         <Col xs='12'>
-          <h1>Not Found</h1>
+          <h1>{i18next.t('notFound')}</h1>
         </Col>
       </Row>
       <Row className='mb-3 pb-3'>
         <Col xs='12'>
-          <p>The page you are looking for doesn't exist.</p>
+          <p>{i18next.t('notFoundBody')}</p>
         </Col>
       </Row>
       <Row>
         <Col xs='12'>
-          <Link dest={routeDest(adt('landing', null))} button color='primary'>Go Home</Link>
+          <Link dest={routeDest(adt('landing', null))} button color='primary'>{i18next.t('links.home')}</Link>
         </Col>
       </Row>
     </div>
@@ -49,6 +49,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Not Found');
+    return makePageMetadata(i18next.t('notFound'));
   }
 };

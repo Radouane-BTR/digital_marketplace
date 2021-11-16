@@ -12,6 +12,7 @@ import { AuthenticatedSession, Session } from 'shared/lib/resources/session';
 import { ADT, adt } from 'shared/lib/types';
 import { allValid, getInvalidValue, invalid, isInvalid, isValid, optionalAsync, valid, validatePageIndex, validatePageSize, validateUUID, Validation } from 'shared/lib/validation';
 import * as orgValidation from 'shared/lib/validation/organization';
+import i18next from 'i18next';
 
 type UpdateRequestBody = SharedUpdateRequestBody | null;
 
@@ -86,7 +87,7 @@ const resource: Resource = {
           return respond(503, [db.ERROR_MESSAGE]);
         }
         if (!dbResult.value) {
-          return respond(404, ['Organization not found.']);
+          return respond(404, [i18next.t('organizationNotFound')]);
         }
         return respond(200, dbResult.value);
       } else {
@@ -389,7 +390,7 @@ const resource: Resource = {
             body: validatedOrganization.value
           });
         } else {
-          return invalid({ notFound: ['Organization not found.']});
+          return invalid({ notFound: [i18next.t('organizationNotFound')]});
         }
       },
       respond: wrapRespond({

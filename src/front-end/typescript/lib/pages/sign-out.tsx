@@ -6,6 +6,7 @@ import React from 'react';
 import { Col, Row } from 'reactstrap';
 import { CURRENT_SESSION_ID } from 'shared/lib/resources/session';
 import { ADT } from 'shared/lib/types';
+import i18next from 'i18next'
 
 export interface State {
   message: string;
@@ -18,9 +19,9 @@ export type RouteParams = null;
 const init: PageInit<RouteParams, SharedState, State, Msg> = async () => {
   const result = await api.sessions.delete(CURRENT_SESSION_ID);
   if (api.isValid(result)) {
-    return { message: 'You have successfully signed out. Thank you for using the Digital Marketplace.' };
+    return { message: i18next.t('SignedOutMessageValid') };
   } else {
-    return { message: 'Signing out of the application failed.' };
+    return { message: i18next.t('SignedOutMessageNotValid') };
   }
 };
 
@@ -43,6 +44,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Signed Out');
+    return makePageMetadata(i18next.t('SignedOut'));
   }
 };

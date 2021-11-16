@@ -13,7 +13,7 @@ import { isPublicSectorUserType, User, userTypeToKeycloakIdentityProvider } from
 import { adt, ADT, Id } from 'shared/lib/types';
 import { ErrorTypeFrom, invalid, mapValid, valid, Validation } from 'shared/lib/validation';
 import { validateEmail, validateJobTitle, validateName, validateLocale } from 'shared/lib/validation/user';
-
+import i18next from 'i18next';
 export interface Params {
   user: User;
 }
@@ -197,7 +197,7 @@ export const view: View<Props> = props => {
               }}
               src={state.newAvatarImage ? state.newAvatarImage.path : userAvatarPath(state.user)} />
             <div className='ml-3 d-flex flex-column align-items-start flex-nowrap'>
-              <div className='mb-2'><b>Profile Picture (Optional)</b></div>
+              <div className='mb-2'><b>{i18next.t('form.profile-picture')}</b></div>
               <FileLink
                 button
                 outline
@@ -209,7 +209,7 @@ export const view: View<Props> = props => {
                 onChange={file => dispatch(adt('onChangeAvatar', file))}
                 accept={SUPPORTED_IMAGE_EXTENSIONS}
                 color='primary'>
-                Choose Image
+                {i18next.t('form.choose-image')}
               </FileLink>
               {state.newAvatarImage && state.newAvatarImage.errors.length
                 ? (<div className='mt-2 small text-danger'>{state.newAvatarImage.errors.map((e, i) => (<div key={`profile-avatar-error-${i}`}>{e}</div>))}</div>)
@@ -220,7 +220,7 @@ export const view: View<Props> = props => {
 
         <ShortText.view
           extraChildProps={{}}
-          help={`Your unique ${keyCloakIdentityProviderToTitleCase(userTypeToKeycloakIdentityProvider(state.user.type))} username.`}
+          help={i18next.t('IdirHelp', {keyType: keyCloakIdentityProviderToTitleCase(userTypeToKeycloakIdentityProvider(state.user.type))})}
           label={userToKeyCloakIdentityProviderTitleCase(state.user) || undefined}
           disabled
           state={state.idpUsername}
@@ -228,7 +228,7 @@ export const view: View<Props> = props => {
 
         <ShortText.view
           extraChildProps={{}}
-          label='Name'
+          label={i18next.t('name')}
           required
           disabled={disabled}
           state={state.name}
@@ -237,7 +237,7 @@ export const view: View<Props> = props => {
         {isPublicSectorUserType(state.user.type)
           ? (<ShortText.view
               extraChildProps={{}}
-              label='Job Title'
+              label={i18next.t('jobTitle')}
               disabled={disabled}
               state={state.jobTitle}
               dispatch={mapComponentDispatch(dispatch, value => adt('jobTitle' as const, value))} />)
@@ -245,7 +245,7 @@ export const view: View<Props> = props => {
 
           <ShortText.view
             extraChildProps={{}}
-            label='Email Address'
+            label={i18next.t('form.email')}
             required
             disabled={disabled}
             state={state.email}
@@ -253,7 +253,7 @@ export const view: View<Props> = props => {
 
           <ShortText.view
             extraChildProps={{}}
-            label='Locale'
+            label={i18next.t('locale')}
             required
             disabled={disabled}
             state={state.locale}
@@ -286,7 +286,7 @@ export async function persist(params: PersistParams): Promise<PersistReturnValue
     });
     if (!api.isValid(fileResult)) {
       return invalid(setErrors(state, {
-        newAvatarImage: ['Please select a different avatar image.']
+        newAvatarImage: [i18next.t('form.avatar-error')]
       }));
     }
     avatarImageFile = fileResult.value.id;

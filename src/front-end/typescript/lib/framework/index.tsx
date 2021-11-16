@@ -11,7 +11,7 @@ import 'shared/lib/i18n';
 import { adt, ADT, adtCurried } from 'shared/lib/types';
 export { newUrl, replaceUrl, replaceRoute, newRoute } from 'front-end/lib/framework/router';
 
-import keycloak from '../access-control'
+// import keycloak from '../access-control'
 
 // Base logic.
 // TODO replace Immutable with TypeScript's built-in Readonly
@@ -604,19 +604,6 @@ export async function start<State, Msg extends ADT<any, any>, Route>(app: AppCom
   };
   // Start the router.
   Router.start(routeManager);
-
-  function initKeycloak() {
-    keycloak.init({ 
-      onLoad: 'check-sso',
-      flow: 'implicit',
-      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
-    }).then(function(authenticated) {
-        alert(authenticated ? 'authenticated' : 'not authenticated');
-    }).catch(function() {
-        alert('failed to initialize');
-    });
-  }
-  initKeycloak()
-// Return StateManager.
+  
   return stateManager;
 }

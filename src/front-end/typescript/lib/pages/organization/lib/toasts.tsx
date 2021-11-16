@@ -2,46 +2,47 @@ import { TITLE as SWU_TERMS_TITLE } from 'front-end/lib/pages/organization/sprin
 import React from 'react';
 import { AffiliationMember, AffiliationSlim } from 'shared/lib/resources/affiliation';
 import { Organization } from 'shared/lib/resources/organization';
+import i18next from 'i18next';
 
 export const created = {
   success: {
-    title: 'Organization Created',
-    body: 'Your organization has been successfully created.'
+    title: i18next.t('toasts.created.success-title'),
+    body: i18next.t('toasts.created.success-body')
   },
   error: {
-    title: 'Unable to Create Organization',
-    body: 'Your organization could not be created. Please try again later.'
+    title: i18next.t('toasts.created.error-title'),
+    body: i18next.t('toasts.created.error-body')
   }
 };
 
 export const updated = {
   success: {
-    title: 'Organization Updated',
-    body: 'Your organization has been successfully updated.'
+    title: i18next.t('toasts.updated.success-title'),
+    body:  i18next.t('toasts.updated.success-body')
   },
   error: {
-    title: 'Unable to Update Organization',
-    body: 'Your organization could not be updated. Please try again later.'
+    title:  i18next.t('toasts.updated.error-title'),
+    body: i18next.t('toasts.updated.error-body')
   }
 };
 
 export const archived = {
   success: {
-    title: 'Organization Archived',
-    body: 'Organization archived successfully.'
+    title: i18next.t('toasts.archived.success-title'),
+    body: i18next.t('toasts.archived.success-body'),
   },
   error: {
-    title: 'Unable to Archive Organization',
-    body: 'Unable to archive organization. Please try again later.'
+    title: i18next.t('toasts.archived.error-title'),
+    body: i18next.t('toasts.archived.error-body')
   }
 };
 
 export const addedTeamMembers = {
   success: (emails: string[]) => ({
-    title: 'Added Team Members',
+    title: i18next.t('toasts.addedTeamMembers.success-title'),
     body: (
       <div>
-        <p>Successfully invited the following people to join this organization:</p>
+        <p>{i18next.t('toasts.addedTeamMembers.success-body')}</p>
         <ul>
           {emails.map((e, i) => (
             <li key={`organization-add-team-members-success-toast-${i}`}>{e}</li>
@@ -51,10 +52,10 @@ export const addedTeamMembers = {
     )
   }),
   warning: (emails: string[]) => ({
-    title: 'Unable to Add Unregistered Team Members',
+    title: i18next.t('toasts.addedTeamMembers.warning-title'),
     body: (
       <div>
-        <p>The following people have not yet registered with the Digital Marketplace. However, they have been sent an email that invites them to create an account. Once they have registered, please try adding them to this organization again.</p>
+        <p>{i18next.t('toasts.addedTeamMembers.warning-body')}</p>
         <ul>
           {emails.map((e, i) => (
             <li key={`organization-add-team-members-warning-toast-${i}`}>{e}</li>
@@ -64,10 +65,10 @@ export const addedTeamMembers = {
     )
   }),
   error: (emails: string[]) => ({
-    title: 'Unable to Add Team Members',
+    title: i18next.t('toasts.addedTeamMembers.error-title'),
     body: (
       <div>
-        <p>The following people could not be added to this organization:</p>
+        <p>{i18next.t('toasts.addedTeamMembers.error-body')}</p>
         <ul>
           {emails.map((e, i) => (
             <li key={`organization-add-team-members-error-toast-${i}`}>{e}</li>
@@ -80,55 +81,55 @@ export const addedTeamMembers = {
 
 export const removedTeamMember = {
   success: (aff: AffiliationMember) => ({
-    title: 'Removed Team Member',
-    body: `You have successfully removed ${aff.user.name} from this organization.`
+    title: i18next.t('toasts.removedTeamMember.success-title'),
+    body: i18next.t('toasts.removedTeamMember.success-body', {name : aff.user.name})
   }),
   error: (aff: AffiliationMember) => ({
-    title: 'Unable to Remove Team Member',
-    body: `${aff.user.name} could not be removed from this organization.`
+    title: i18next.t('toasts.removedTeamMember.error-title'),
+    body: i18next.t('toasts.removedTeamMember.error-body', {name : aff.user.name})
   })
 };
 
 export const acceptedSWUTerms = {
   success: (organization: Organization) => ({
-    title: 'Accepted Terms & Conditions',
-    body: `Successfully accepted the ${SWU_TERMS_TITLE} for ${organization.legalName}.`
+    title: i18next.t('toasts.acceptedSWUTerms.success-title'),
+    body: i18next.t('toasts.acceptedSWUTerms.success-body', {termsTitle: SWU_TERMS_TITLE, legalName :  organization.legalName})
   }),
   error: (organization: Organization) => ({
-    title: 'Unable to Accept Terms & Conditions',
-    body: `An error occurred while attempting to accept the ${SWU_TERMS_TITLE} for ${organization.legalName}. Please try again later.`
+    title: i18next.t('toasts.acceptedSWUTerms.error-title'),
+    body: i18next.t('toasts.acceptedSWUTerms.error-body', {termsTitle : SWU_TERMS_TITLE, legalName :  organization.legalName})
   })
 };
 
 export const leftOrganization = {
   success: (aff: AffiliationSlim) => ({
-    title: 'Left Organization',
-    body: `Successfully left ${aff.organization.legalName}.`
+    title: i18next.t('toasts.leftOrganization.success-title'),
+    body: i18next.t('toasts.leftOrganization.success-body', {legalName :  aff.organization.legalName})
   }),
   error: (aff: AffiliationSlim) => ({
-    title: 'Unable to Leave Organization',
-    body: `An error occurred while attempting to leave ${aff.organization.legalName}. Please try again later.`
+    title: i18next.t('toasts.leftOrganization.error-title'),
+    body: i18next.t('toasts.leftOrganization.error-body', {legalName :  aff.organization.legalName})
   })
 };
 
 export const approvedOrganizationRequest = {
   success: (aff: AffiliationSlim) => ({
-    title: 'Approved Request',
-    body: `Successfully approved the request to join ${aff.organization.legalName}.`
+    title: i18next.t('toasts.approvedOrganizationRequest.success-title'),
+    body: i18next.t('toasts.approvedOrganizationRequest.success-body', {legalName : aff.organization.legalName})
   }),
   error: (aff: AffiliationSlim) => ({
-    title: 'Unable to Approve Request',
-    body: `An error occurred while attempting to approve the request to join ${aff.organization.legalName}. Please try again later.`
+    title: i18next.t('toasts.approvedOrganizationRequest.error-title'),
+    body: i18next.t('toasts.approvedOrganizationRequest.error-body', {legalName : aff.organization.legalName})
   })
 };
 
 export const rejectedOrganizationRequest = {
   success: (aff: AffiliationSlim) => ({
-    title: 'Rejected Request',
-    body: `Successfully rejected the request to join ${aff.organization.legalName}.`
+    title: i18next.t('toasts.rejectedOrganizationRequest.success-title'),
+    body: i18next.t('toasts.rejectedOrganizationRequest.success-body', {legalName : aff.organization.legalName})
   }),
   error: (aff: AffiliationSlim) => ({
-    title: 'Unable to Reject Request',
-    body: `An error occurred while attempting to reject the request to join ${aff.organization.legalName}. Please try again later.`
+    title: i18next.t('toasts.rejectedOrganizationRequest.error-title'),
+    body: i18next.t('toasts.rejectedOrganizationRequest.error-body', {legalName : aff.organization.legalName})
   })
 };

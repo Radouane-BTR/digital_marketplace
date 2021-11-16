@@ -5,6 +5,7 @@ import Link, { emptyIconLinkSymbol, iconLinkSymbol, leftPlacement, rightPlacemen
 import React from 'react';
 import { Dropdown, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import { ADT, adt } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export interface State<TabId> {
   id: string;
@@ -147,10 +148,10 @@ export function view<TabId>(): View<Props<TabId>> {
     return (
       <div className='mt-5 d-flex flex-nowrap justify-content-between align-items-center'>
         {showPreviousButton(state)
-          ? (<Link button outline color='info' symbol_={leftPlacement(iconLinkSymbol('arrow-left'))} onClick={() => dispatch(adt('previous'))} focusable={false}>Previous</Link>)
+          ? (<Link button outline color='info' symbol_={leftPlacement(iconLinkSymbol('arrow-left'))} onClick={() => dispatch(adt('previous'))} focusable={false}>{i18next.t('previous')}</Link>)
           : (<div></div>)}
         {showNextButton(state)
-          ? (<Link button outline color='primary' symbol_={rightPlacement(iconLinkSymbol('arrow-right'))} onClick={() => dispatch(adt('next'))}>Next</Link>)
+          ? (<Link button outline color='primary' symbol_={rightPlacement(iconLinkSymbol('arrow-right'))} onClick={() => dispatch(adt('next'))}>{i18next.t('next')}</Link>)
           : (<div></div>)}
       </div>
     );

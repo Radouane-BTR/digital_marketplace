@@ -4,14 +4,15 @@ import { setDateTo4PM } from 'shared/lib';
 import { CreateCWUOpportunityStatus, CWUOpportunity, CWUOpportunityStatus, isCWUOpportunityClosed, parseCWUOpportunityStatus } from 'shared/lib/resources/opportunity/code-with-us';
 import { ArrayValidation, invalid, mapValid, optional, valid, validateArray, validateDate, validateGenericString, validateNumber, Validation } from 'shared/lib/validation';
 import { isBoolean } from 'util';
+import i18next from 'i18next';
 
 export { validateAddendumText } from 'shared/lib/validation/addendum';
 
 export function validateCWUOpportunityStatus(raw: string, isOneOf: CWUOpportunityStatus[]): Validation<CWUOpportunityStatus> {
   const parsed = parseCWUOpportunityStatus(raw);
-  if (!parsed) { return invalid([`"${raw}" is not a valid CodeWithUs opportunity status.`]); }
+  if (!parsed) { return invalid([i18next.t('validateCWUOpportunityStatus.isNotValidCWU', {raw: raw})]); }
   if (!isOneOf.includes(parsed)) {
-    return invalid([`"${raw}" is not one of: ${isOneOf.join(', ')}`]);
+    return invalid([`${i18next.t('validateCWUOpportunityStatus.isNotValidOpportunities', {raw: raw})} ${isOneOf.join(', ')}`]);
   }
   return valid(parsed);
 }
@@ -21,37 +22,37 @@ export function validateCreateCWUOpportunityStatus(raw: string): Validation<Crea
 }
 
 export function validateTitle(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Title', 1, 200);
+  return validateGenericString(raw, i18next.t('title'), 1, 200);
 }
 
 export function validateTeaser(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Teaser', 0, 500);
+  return validateGenericString(raw, i18next.t('teaser'), 0, 500);
 }
 
 export function validateRemoteOk(raw: any): Validation<boolean> {
-  return isBoolean(raw) ? valid(raw) : invalid(['Invalid remote option provided.']);
+  return isBoolean(raw) ? valid(raw) : invalid([i18next.t('isNotValideRemoteOption')]);
 }
 
 export function validateRemoteDesc(raw: string, remoteOk: boolean): Validation<string> {
-  return validateGenericString(raw, 'Remote description', remoteOk ? 1 : 0, 500);
+  return validateGenericString(raw, i18next.t('overviewViewRemoteYesLabel'), remoteOk ? 1 : 0, 500);
 }
 
 export function validateLocation(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Location', 1);
+  return validateGenericString(raw, i18next.t('location'), 1);
 }
 
 export function validateReward(raw: string | number): Validation<number> {
-  return validateNumber(raw, 1, CWU_MAX_BUDGET, 'reward', 'a');
+  return validateNumber(raw, 1, CWU_MAX_BUDGET, i18next.t('reward'), i18next.t('a'));
 }
 
 export function validateSkills(raw: string[]): ArrayValidation<string> {
-  if (!raw.length) { return invalid([['Please select at least one skill.']]); }
-  const validatedArray = validateArray(raw, v => validateGenericString(v, 'Skill', 1, 100));
+  if (!raw.length) { return invalid([[i18next.t('isNotvalideSkills')]]); }
+  const validatedArray = validateArray(raw, v => validateGenericString(v, i18next.t('skill'), 1, 100));
   return mapValid(validatedArray, skills => uniq(skills));
 }
 
 export function validateDescription(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Description', 1, 10000);
+  return validateGenericString(raw, i18next.t('description'), 1, 10000);
 }
 
 export function validateProposalDeadline(raw: string, opportunity?: CWUOpportunity): Validation<Date> {
@@ -76,17 +77,17 @@ export function validateCompletionDate(raw: string | undefined, startDate: Date)
 }
 
 export function validateSubmissionInfo(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Project Submission Info', 0, 500);
+  return validateGenericString(raw, i18next.t('projectSubmissionInfo'), 0, 500);
 }
 
 export function validateAcceptanceCriteria(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Acceptance Criteria', 1, 5000);
+  return validateGenericString(raw, i18next.t('acceptantceCriterie'), 1, 5000);
 }
 
 export function validateEvaluationCriteria(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Evaluation Criteria', 1, 2000);
+  return validateGenericString(raw, i18next.t('evaluationCriteria'), 1, 2000);
 }
 
 export function validateNote(raw: string): Validation<string> {
-  return validateGenericString(raw, 'Status Note', 0, 1000);
+  return validateGenericString(raw, i18next.t('statusNote'), 0, 1000);
 }

@@ -6,6 +6,7 @@ import { routeDest } from 'front-end/lib/views/link';
 import { CWUProposal } from 'shared/lib/resources/proposal/code-with-us';
 import { User } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 // Parent page types & functions.
 
@@ -48,7 +49,7 @@ export function idToDefinition<K extends TabId>(id: K): TabbedPage.TabDefinition
       return {
         component: ProposalTab.component,
         icon: 'comment-dollar',
-        title: 'Proposal'
+        title: i18next.t('proposal')
       } as TabbedPage.TabDefinition<Tabs, K>;
   }
 }
@@ -64,14 +65,16 @@ export function makeSidebarLink(tab: TabId, proposalId: Id, opportunityId: Id, a
 }
 
 export async function makeSidebarState(proposalId: Id, opportunityId: Id, activeTab: TabId): Promise<Immutable<MenuSidebar.State>> {
+  const proposalManagement = i18next.t('proposalManagement')
+  const needHelp = i18next.t('needHelp')
   return immutable(await MenuSidebar.init({
     items: [
-      adt('heading', 'Proposal Management'),
+      adt('heading', proposalManagement),
       makeSidebarLink('proposal', proposalId, opportunityId, activeTab),
-      adt('heading', 'Need Help?'),
+      adt('heading', needHelp),
       adt('link', {
         icon: 'external-link-alt',
-        text: 'Read Guide',
+        text: i18next.t('links.readGuide'),
         active: false,
         newTab: true,
         dest: routeDest(adt('contentView', 'code-with-us-proposal-guide'))

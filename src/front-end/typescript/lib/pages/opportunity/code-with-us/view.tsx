@@ -25,6 +25,7 @@ import { CWUProposalSlim } from 'shared/lib/resources/proposal/code-with-us';
 import { isVendor, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 type InfoTab
   = 'details'
@@ -121,14 +122,14 @@ const Header: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
                   ? {
                       tag: 'date',
                       date: opp.publishedAt,
-                      label: 'Published',
+                      label: i18next.t('published'),
                       withTimeZone: true
                     }
                   : null,
                 {
                   tag: 'date',
                   date: opp.updatedAt,
-                  label: 'Updated',
+                  label: i18next.t('updated'),
                   withTimeZone: true
                 }
               ]} />
@@ -142,7 +143,7 @@ const Header: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
               <OpportunityBadge opportunity={adt('cwu', opp)} viewerUser={state.viewerUser} className='mb-2 mb-sm-0' />
               <IconInfo
                 name='alarm-clock-outline'
-                value={`Close${isAcceptingProposals ? 's' : 'd'} ${formatDateAtTime(opp.proposalDeadline, true)}`}
+                value={`${isAcceptingProposals ? i18next.t('closes') : i18next.t('closed')} ${formatDateAtTime(opp.proposalDeadline, true)}`}
                 className='ml-sm-3 flex-shrink-0' />
             </div>
             {opp.teaser ? (<p className='text-secondary mb-4'>{opp.teaser}</p>) : null}
@@ -168,7 +169,7 @@ const Header: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
                     size='sm'
                     outline={!opp.subscribed}
                     button>
-                    {opp.subscribed ? 'Watching' : 'Watch'}
+                    {opp.subscribed ? i18next.t('watching') : i18next.t('watch')}
                   </Link>)
                 : null}
             </div>
@@ -178,13 +179,13 @@ const Header: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='comment-dollar-outline'
-                  name='Proposal Deadline'
+                  name= {i18next.t('detailsViewProposalDeadlineLabel')}
                   value={formatDate(opp.proposalDeadline)} />
               </Col>
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='badge-dollar-outline'
-                  name='Value'
+                  name={i18next.t('value')}
                   value={opp.reward ? formatAmount(opp.reward, '$') : EMPTY_STRING} />
               </Col>
             </Row>
@@ -192,27 +193,27 @@ const Header: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='map-marker-outline'
-                  name='Location'
+                  name={i18next.t('location')}
                   value={opp.location || EMPTY_STRING} />
               </Col>
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='laptop-outline'
-                  name='Remote OK?'
-                  value={opp.remoteOk ? 'Yes' : 'No'} />
+                  name={`${i18next.t('overviewViewRemote')} ?`}
+                  value={opp.remoteOk ? i18next.t('yes') : i18next.t('no')} />
               </Col>
             </Row>
             <Row>
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='award-outline'
-                  name='Assignment Date'
+                  name={i18next.t('assignmentDate')}
                   value={formatDate(opp.assignmentDate)} />
               </Col>
               <Col xs='6' className='d-flex justify-content-start align-items-start flex-nowrap'>
                 <OpportunityInfo
                   icon='user-hard-hat-outline'
-                  name='Work Start Date'
+                  name={i18next.t('workStartDate')}
                   value={formatDate(opp.startDate)} />
               </Col>
             </Row>
@@ -237,11 +238,11 @@ const InfoDetails: ComponentView<ValidState, Msg> = ({ state }) => {
   return (
     <Row>
       <Col xs='12'>
-        <h3 className='mb-0'>Details</h3>
+        <h3 className='mb-0'>{i18next.t('details')}</h3>
       </Col>
       <Col xs='12' className='mt-5'>
-        <InfoDetailsHeading icon='toolbox-outline' text='Required Skills' />
-        <p className='mb-2'>To submit a proposal for this opportunity, you must possess the following skills:</p>
+        <InfoDetailsHeading icon='toolbox-outline' text={i18next.t('requiredSkills')} />
+        <p className='mb-2'>{i18next.t('infoDetailsHeading')}</p>
         <Skills skills={opp.skills} />
       </Col>
       <Col xs='12' className='mt-5'>
@@ -250,13 +251,13 @@ const InfoDetails: ComponentView<ValidState, Msg> = ({ state }) => {
       </Col>
       {opp.submissionInfo
         ? (<Col xs='12' className='mt-5'>
-            <InfoDetailsHeading icon='laptop-code-outline' text='Project Submission Information' />
+            <InfoDetailsHeading icon='laptop-code-outline' text={i18next.t('projectSubmissionInformation')} />
             <p className='mb-0'>{opp.submissionInfo}</p>
           </Col>)
         : null}
       {opp.remoteOk && opp.remoteDesc
         ? (<Col xs='12' className='mt-5'>
-            <InfoDetailsHeading icon='laptop-outline' text='Remote Work Options' />
+            <InfoDetailsHeading icon='laptop-outline' text={i18next.t('remoteWorkOptions')} />
             <p className='mb-0' style={{ whiteSpace: 'pre-line' }}>{opp.remoteDesc}</p>
           </Col>)
         : null}
@@ -269,12 +270,12 @@ const InfoAttachments: ComponentView<ValidState, Msg> = ({ state }) => {
   return (
     <Row>
       <Col xs='12'>
-        <h3 className='mb-0'>Attachments</h3>
+        <h3 className='mb-0'>{i18next.t('attachments')}</h3>
       </Col>
       <Col xs='12' className='mt-4'>
         {attachments.length
           ? (<AttachmentList files={state.opportunity.attachments} />)
-          : 'There are currently no attachments for this opportunity.'}
+          : i18next.t('noAttachementsMessage')}
       </Col>
     </Row>
   );
@@ -285,12 +286,12 @@ const InfoAddenda: ComponentView<ValidState, Msg> = ({ state }) => {
   return (
     <Row>
       <Col xs='12'>
-        <h3 className='mb-0'>Addenda</h3>
+        <h3 className='mb-0'>{i18next.t('addenda')}</h3>
       </Col>
       <Col xs='12' className='mt-4'>
         {addenda.length
           ? (<AddendaList addenda={state.opportunity.addenda} />)
-          : 'There are currently no addenda for this opportunity.'}
+          : i18next.t('noAddendaMessage')}
       </Col>
     </Row>
   );
@@ -306,16 +307,16 @@ const InfoTabs: ComponentView<ValidState, Msg> = ({ state, dispatch }) => {
   const tabs: Tab[] = [
     {
       ...getTabInfo('details'),
-      text: 'Details'
+      text: i18next.t('details')
     },
     {
       ...getTabInfo('attachments'),
-      text: 'Attachments',
+      text: i18next.t('attachments'),
       count: opp.attachments.length
     },
     {
       ...getTabInfo('addenda'),
-      text: 'Addenda',
+      text: i18next.t('addenda'),
       count: opp.addenda.length
     }
   ];
@@ -361,8 +362,8 @@ const AcceptanceCriteria: ComponentView<ValidState, Msg> = ({ state }) => {
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3 className='mb-4'>Acceptance Criteria</h3>
-            <p className='mb-4'>This is a fixed-price opportunity governed by the terms of our lightweight procurement model, Code With Us. To be paid the fixed price for this opportunity, you need to meet all of the following criteria:</p>
+            <h3 className='mb-4'>{i18next.t('detailsViewAcceptanceCriteriaLabel')}</h3>
+            <p className='mb-4'>{i18next.t('acceptanceCriteriaViewText')}</p>
             <Markdown source={state.opportunity.acceptanceCriteria} smallerHeadings openLinksInNewTabs />
           </Col>
         </Row>
@@ -378,8 +379,8 @@ const EvaluationCriteria: ComponentView<ValidState, Msg> = ({ state }) => {
       <div className='mt-5 pt-5 border-top'>
         <Row>
           <Col xs='12'>
-            <h3 className='mb-4'>Proposal Evaluation Criteria</h3>
-            <p className='mb-4'>Your proposal will be scored using the following criteria:</p>
+            <h3 className='mb-4'>{i18next.t('proposalEvaluationCriteria')}</h3>
+            <p className='mb-4'>{i18next.t('proposalEvaluationCriteriaViewText')}</p>
             <Markdown source={state.opportunity.evaluationCriteria} smallerHeadings openLinksInNewTabs />
           </Col>
         </Row>
@@ -396,14 +397,14 @@ const HowToApply: ComponentView<ValidState, Msg> = ({ state }) => {
       <Container>
         <Row>
           <Col xs='12' md='8'>
-            <h3 className='mb-4'>How To Apply</h3>
+            <h3 className='mb-4'>{i18next.t('howToApply')}</h3>
             <p>
-              To submit a proposal for this Code With Us opportunity, you must have signed up for a Digital Marketplace vendor account.&nbsp;
+              {i18next.t('CWUhowToApplyViewBodyP1-1')}&nbsp;
               {!viewerUser
-                ? (<span>If you already have a vendor account, please <Link dest={routeDest(adt('signIn', { redirectOnSuccess: state.routePath }))}>sign in</Link>.</span>)
+                ? (<span>{i18next.t('CWUhowToApplyViewBodyP1-2')}<Link dest={routeDest(adt('signIn', { redirectOnSuccess: state.routePath }))}>{i18next.t('links.sign-in')}</Link>.</span>)
                 : null}
             </p>
-            <p className='mb-0'>Please note that you will not be able to submit a proposal if the opportunity's proposal deadline has passed.</p>
+            <p className='mb-0'>{i18next.t('CWUhowToApplyViewBodyP2')}</p>
             {viewerUser && isVendor(viewerUser) && !state.existingProposal && isCWUOpportunityAcceptingProposals(state.opportunity)
               ? (<Link
                   disabled={state.toggleWatchLoading > 0}
@@ -412,14 +413,14 @@ const HowToApply: ComponentView<ValidState, Msg> = ({ state }) => {
                   color='primary'
                   dest={routeDest(adt('proposalCWUCreate', { opportunityId: state.opportunity.id }))}
                   symbol_={leftPlacement(iconLinkSymbol('comment-dollar'))}>
-                  Start Proposal
+                  {i18next.t('links.startProposal')}
                 </Link>)
               : null}
           </Col>
           <Col md='4' lg={{ offset: 1, size: 3 }} className='align-items-center justify-content-center d-none d-md-flex'>
             <OpportunityInfo
               icon='comment-dollar-outline'
-              name='Proposal Deadline'
+              name={i18next.t('detailsViewProposalDeadlineLabel')}
               value={formatDate(state.opportunity.proposalDeadline, true)} />
           </Col>
         </Row>
@@ -451,7 +452,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
 
   getMetadata: getMetadataValid(state => {
     return makePageMetadata(state.opportunity.title || DEFAULT_OPPORTUNITY_TITLE);
-  }, makePageMetadata('Opportunity')),
+  }, makePageMetadata(i18next.t('opportunity'))),
 
   getAlerts: getAlertsValid(state => {
     const viewerUser = state.viewerUser;
@@ -462,12 +463,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         const alerts = [];
         if (viewerUser && isVendor(viewerUser) && existingProposal?.submittedAt) {
           alerts.push({
-            text: `You submitted a proposal to this opportunity on ${formatDateAtTime(existingProposal.submittedAt, true)}.`
+            text: i18next.t('alertSubmitProposalPush', {date: formatDateAtTime(existingProposal.submittedAt, true)})
           });
         }
         if (successfulProponentName) {
           alerts.push({
-            text: `This opportunity was awarded to ${successfulProponentName}.`
+            text: i18next.t('alertAwardedProposalPush', {who: successfulProponentName})
           });
         }
         return alerts;
@@ -485,7 +486,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         return adt('links', [
           {
             disabled: isToggleWatchLoading,
-            children: 'Edit Opportunity',
+            children: i18next.t('links.editOpportunity'),
             symbol_: leftPlacement(iconLinkSymbol('edit')),
             button: true,
             color: 'primary',
@@ -499,7 +500,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           return adt('links', [
             {
               disabled: isToggleWatchLoading,
-              children: 'Edit Opportunity',
+              children: i18next.t('links.editOpportunity'),
               symbol_: leftPlacement(iconLinkSymbol('edit')),
               button: true,
               color: 'primary',
@@ -516,7 +517,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           return adt('links', [
             {
               disabled: isToggleWatchLoading,
-              children: 'View Proposal',
+              children: i18next.t('links.viewProposal'),
               symbol_: leftPlacement(iconLinkSymbol('comment-dollar')),
               button: true,
               color: 'primary',
@@ -530,7 +531,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           return adt('links', [
             {
               disabled: isToggleWatchLoading,
-              children: 'Start Proposal',
+              children: i18next.t('links.startProposal'),
               symbol_: leftPlacement(iconLinkSymbol('comment-dollar')),
               button: true,
               color: 'primary',

@@ -7,6 +7,8 @@ import { Affiliation } from 'shared/lib/resources/affiliation';
 import { Organization } from 'shared/lib/resources/organization';
 import { User } from 'shared/lib/resources/user';
 import { getValidValue } from 'shared/lib/validation';
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 
 export async function handleUserInvited(affiliation: Affiliation): Promise<void> {
   // Notify the user who was invited
@@ -45,18 +47,21 @@ export const addedToTeam = makeSend(addedToTeamT);
 export async function addedToTeamT(affiliation: Affiliation): Promise<Emails> {
   const organization = affiliation.organization;
   const recipient = affiliation.user;
-  const title = `${organization.legalName} Has Sent You a Team Request`;
+  const title = i18next.t('mailerNotifications.addedToTeamTitle', {legalName: organization.legalName});
   return [{
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
       title,
-      body: (
+      body: ( 
         <div>
-          <p>{organization.legalName} has requested that you join their team on the Digital Marketplace.</p>
-          <p style={{...templates.styles.utilities.font.italic}}>What Happens Next?</p>
-          <p>You can approve or reject your membership with {organization.legalName} by using one of the buttons below.</p>
-          <p>If you approve the membership, you can be included as a team member on future Sprint With Us proposals submitted by {organization.legalName}.</p>
+          <p>{i18next.t('mailerNotifications.addedToTeamBodyP1', {legalName: organization.legalName})}</p>
+          <p style={{...templates.styles.utilities.font.italic}}>{i18next.t('whatHappensNext')}?</p>
+          <Trans 
+            i18nKey="mailerNotifications.addedToTeamBodyP2" 
+            values={{ legalName: organization.legalName}}
+            components={{ paragraph: <p /> }} 
+          />
         </div>
       ),
       callsToAction: [approveJoinRequestCallToAction(recipient, affiliation), rejectJoinRequestCallToAction(recipient, affiliation)]
@@ -69,7 +74,7 @@ export const approvedRequestToJoin = makeSend(approvedRequestToJoinT);
 export async function approvedRequestToJoinT(recipient: User, affiliation: Affiliation): Promise<Emails> {
   const memberName = affiliation.user.name;
   const organizationName = affiliation.organization.legalName;
-  const title = `${memberName} Has Approved Your Team Request`;
+  const title = i18next.t('mailerNotifications.approvedRequestToJoinTitle', {memberName});
   return [{
     to: recipient.email || [],
     subject: title,
@@ -77,8 +82,11 @@ export async function approvedRequestToJoinT(recipient: User, affiliation: Affil
       title,
       body: (
         <div>
-          <p>{memberName} has approved your request to join {organizationName}'s team on the Digital Marketplace.</p>
-          <p>{memberName} can now be included in proposals submitted by {organizationName} to Sprint With Us opportunities.</p>
+          <Trans 
+            i18nKey="mailerNotifications.approvedRequestToJoinBody" 
+            values={{ memberName, organizationName}}
+            components={{ paragraph: <p /> }} 
+          />
         </div>
       ),
       callsToAction: [viewOrganizationCallToAction(affiliation.organization)]
@@ -91,7 +99,7 @@ export const rejectRequestToJoin = makeSend(rejectRequestToJoinT);
 export async function rejectRequestToJoinT(recipient: User, affiliation: Affiliation): Promise<Emails> {
   const memberName = affiliation.user.name;
   const organizationName = affiliation.organization.legalName;
-  const title = `${memberName} Has Rejected Your Team Request`;
+  const title =  i18next.t('mailerNotifications.rejectRequestToJoinTitle', {memberName: memberName});
   return [{
     to: recipient.email || [],
     subject: title,
@@ -99,7 +107,7 @@ export async function rejectRequestToJoinT(recipient: User, affiliation: Affilia
       title,
       body: (
         <div>
-          <p>{memberName} has rejected your request to join {organizationName}'s team on the Digital Marketplace.</p>
+          <p>{i18next.t('mailerNotifications.rejectRequestToJoinBody', {memberName: memberName, organizationName: organizationName})}</p>
         </div>
       )
     })
@@ -111,7 +119,7 @@ export const membershipComplete = makeSend(membershipCompleteT);
 export async function membershipCompleteT(affiliation: Affiliation): Promise<Emails> {
   const recipient = affiliation.user;
   const organizationName = affiliation.organization.legalName;
-  const title = `You Have Joined ${organizationName}'s Team`;
+  const title = i18next.t('mailerNotifications.membershipCompleteTitle', {organizationName: organizationName});
   return [{
     to: recipient.email || [],
     subject: title,
@@ -119,8 +127,11 @@ export async function membershipCompleteT(affiliation: Affiliation): Promise<Ema
       title,
       body: (
         <div>
-          <p>You are now a member of {organizationName}'s team on the Digital Marketplace</p>
-          <p>{organizationName} can now include you on proposals to  Sprint With Us opportunities.</p>
+          <Trans 
+            i18nKey="mailerNotifications.membershipCompleteBody" 
+            values={{ organizationName: organizationName}}
+            components={{ paragraph: <p /> }} 
+          />
         </div>
       ),
       callsToAction: [viewMyOrganizationsCallToAction(recipient)]
@@ -133,7 +144,7 @@ export const memberLeaves = makeSend(memberLeavesT);
 export async function memberLeavesT(recipient: User, affiliation: Affiliation): Promise<Emails> {
   const organizationName = affiliation.organization.legalName;
   const memberName = affiliation.user.name;
-  const title = `${memberName} Has Left ${organizationName}'s Team`;
+  const title = i18next.t('mailerNotifications.memberLeavesTitle', {memberName: memberName, organizationName: organizationName});
   return [{
     to: recipient.email || [],
     subject: title,
@@ -141,7 +152,7 @@ export async function memberLeavesT(recipient: User, affiliation: Affiliation): 
       title,
       body: (
         <div>
-          <p>{memberName} has left {organizationName}'s team on the Digital Marketplace.  They will no longer be able to be included on proposals for Sprint With Us opportunities.</p>
+          <p>{i18next.t('mailerNotifications.memberLeavesBody', {memberName: memberName, organizationName: organizationName})}</p>
         </div>
       ),
       callsToAction: [viewOrganizationCallToAction(affiliation.organization)]
@@ -151,21 +162,21 @@ export async function memberLeavesT(recipient: User, affiliation: Affiliation): 
 
 export function viewOrganizationCallToAction(organization: Organization): templates.LinkProps {
   return {
-    text: 'View Organization',
+    text:  i18next.t('links.viewOrganization'),
     url: templates.makeUrl(`organizations/${organization.id}/edit`)
   };
 }
 
 export function viewMyOrganizationsCallToAction(user: User): templates.LinkProps {
   return {
-    text: 'View Organizations',
+    text: i18next.t('links.viewOrganizations'),
     url: templates.makeUrl(`users/${user.id}?tab=organizations`)
   };
 }
 
 export function approveJoinRequestCallToAction(user: User, affiliation: Affiliation) {
   return {
-    text: 'Approve',
+    text: i18next.t('links.approve'),
     url: templates.makeUrl(`users/${user.id}?tab=organizations&invitationAffiliationId=${affiliation.id}&invitationResponse=approve`),
     style: templates.styles.classes.buttonSuccess
   };
@@ -173,7 +184,7 @@ export function approveJoinRequestCallToAction(user: User, affiliation: Affiliat
 
 export function rejectJoinRequestCallToAction(user: User, affiliation: Affiliation) {
   return {
-    text: 'Reject',
+    text:  i18next.t('links.reject'),
     url: templates.makeUrl(`users/${user.id}?tab=organization&invitationAffiliationId=${affiliation.id}&invitationResponse=reject`),
     style: templates.styles.classes.buttonDanger
   };

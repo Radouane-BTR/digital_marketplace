@@ -16,6 +16,7 @@ import { CWUProposal } from 'shared/lib/resources/proposal/code-with-us';
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 interface ValidState {
   opportunity: CWUOpportunity;
@@ -78,14 +79,14 @@ const view: ComponentView<State, Msg> = viewValid(({ state }) => {
           <h1 className='mb-4'>{opportunity.title}</h1>
           <DescriptionList
             items={[
-              { name: 'ID', children: opportunity.id },
-              { name: 'Type', children: 'Code With Us' },
+              { name: i18next.t('id'), children: opportunity.id },
+              { name: 'Type', children: i18next.t('codeWithUs') },
               {
                 name: 'Status',
                 children: (<Badge text={cwuOpportunityStatusToTitleCase(opportunity.status)} color={cwuOpportunityStatusToColor(opportunity.status)} />)
               },
-              { name: 'Exported By', children: state.viewerUser.name },
-              { name: 'Exported On', children: formatDateAndTime(state.exportedAt) }
+              { name: i18next.t('exportedBy'), children: state.viewerUser.name },
+              { name: i18next.t('exportedOn'), children: formatDateAndTime(state.exportedAt) }
             ]}
           />
         </Col>
@@ -105,12 +106,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata: getMetadataValid(state => {
-    return makePageMetadata(`${state.opportunity.title} ${TITLE_SEPARATOR} Exported Code With Us Proposals`);
-  }, makePageMetadata('Exported Code With Us Proposals')),
+    return makePageMetadata(`${state.opportunity.title} ${TITLE_SEPARATOR} ${i18next.t('exportedCWUProposals')}`);
+  }, makePageMetadata(i18next.t('exportedCWUProposals'))),
   getContextualActions({ state, dispatch }) {
     return adt('links', [
       {
-        children: 'Print',
+        children: i18next.t('links.print'),
         symbol_: leftPlacement(iconLinkSymbol('print')),
         color: 'primary',
         button: true,

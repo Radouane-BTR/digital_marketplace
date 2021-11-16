@@ -10,6 +10,8 @@ import React from 'react';
 import { isAdmin, isVendor, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import { Trans } from 'react-i18next';
+import i18next from 'i18next'; 
 
 type ValidState<K extends Tab.TabId> = Tab.ParentState<K>;
 
@@ -75,11 +77,16 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
             if (!state.tab[1].swuQualified && state.tab[0] !== 'qualification') {
               if (isVendor(state.tab[1].viewerUser)) {
                 return [{
-                  text: (<div>This organization is not qualified to apply for <em>Sprint With Us</em> opportunities. You must <Link dest={routeDest(adt('orgEdit', { orgId: state.tab[1].organization.id, tab: 'qualification' as const }))}>apply to become a Qualified Supplier</Link>.</div>)
+                  text: 
+                  (<div>
+                    <Trans i18nKey="organization.isVendorNotQualified" components={{ emphasis: <em /> }}/>&nbsp;<Link dest={routeDest(adt('orgEdit', { orgId: state.tab[1].organization.id, tab: 'qualification' as const }))}>
+                      {i18next.t("links.become-qualified")}
+                    </Link>.
+                    </div>)
                 }];
               } else if (isAdmin(state.tab[1].viewerUser)) {
                 return [{
-                  text: (<div>This organization is not qualified to apply for <em>Sprint With Us</em> opportunities.</div>)
+                  text: (<div><Trans i18nKey="organization.isAdminNotQualified" components={{ emphasis: <em />}} /></div>)
                 }];
               }
             }
@@ -95,10 +102,10 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
       idToDefinition,
       getTitleSuffix: state => {
         return state.tab[0] === 'organization'
-          ? 'Edit Organization'
-          : `${state.tab[1].organization.legalName} — Edit Organization`;
+          ? i18next.t('links.edit-organization') 
+          : `${state.tab[1].organization.legalName} — ${i18next.t('links.edit-organization')}` ;
       }
-    }), makePageMetadata('Edit Organization'))
+    }), makePageMetadata( i18next.t('links.contact-us') ))
   };
 }
 

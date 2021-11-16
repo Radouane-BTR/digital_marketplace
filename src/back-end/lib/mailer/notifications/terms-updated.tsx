@@ -4,6 +4,7 @@ import { makeSend } from 'back-end/lib/mailer/transport';
 import React from 'react';
 import { User, UserType } from 'shared/lib/resources/user';
 import { getValidValue } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export async function handleTermsUpdated(connection: db.Connection): Promise<void> {
   const activeVendors = getValidValue(await db.readManyUsersByRole(connection, UserType.Vendor, false), null);
@@ -17,10 +18,10 @@ export async function handleTermsUpdated(connection: db.Connection): Promise<voi
 export const vendorTermsChanged = makeSend(vendorTermsChangedT);
 
 export async function vendorTermsChangedT(recipient: User) {
-  const title = 'Our Terms and Conditions Have Been Updated';
-  const description = 'The Digital Marketplace Terms & Conditions for vendors have been updated.';
+  const title = i18next.t('mailerNotifications.vendorTermsChangedTitle');
+  const description = i18next.t('mailerNotifications.vendorTermsChangedDescription');
   return [{
-    summary: 'Vendor Terms & Conditions are updated; notify active vendors to re-accept',
+    summary: i18next.t('mailerNotifications.vendorTermsChangedSummary'),
     to: recipient.email || [],
     subject: title,
     html: templates.simple({
@@ -28,7 +29,7 @@ export async function vendorTermsChangedT(recipient: User) {
       description,
       body: (
         <div>
-          <p>The updated Terms & Conditions must be reviewed and accepted prior to submitting proposals for Code-With-Us and Sprint-With-Us opportunities.</p>
+          <p>{i18next.t('mailerNotifications.vendorTermsChangedBody')}</p>
         </div>
       ),
       callsToAction: [viewTermsAndConditionsCallToAction(recipient)]
@@ -38,7 +39,7 @@ export async function vendorTermsChangedT(recipient: User) {
 
 export function viewTermsAndConditionsCallToAction(vendor: User): templates.LinkProps {
   return {
-    text: 'Review Terms & Conditions',
+    text: i18next.t('mailerNotifications.viewTermsAndConditionsCallToActionText'),
     url: templates.makeUrl(`/users/${vendor.id}?tab=legal`)
   };
 }

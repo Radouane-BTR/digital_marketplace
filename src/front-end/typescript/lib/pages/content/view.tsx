@@ -9,6 +9,7 @@ import { Col, Row } from 'reactstrap';
 import { Content } from 'shared/lib/resources/content';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid } from 'shared/lib/validation';
+import i18next from "i18next";
 
 export type RouteParams = string; //slug
 
@@ -43,12 +44,12 @@ const view: ComponentView<State, Msg> = viewValid(({ state }) => {
     {
       tag: 'dateAndTime' as const,
       date: content.createdAt,
-      label: 'Published'
+      label: i18next.t('published')
     },
     {
       tag: 'dateAndTime' as const,
       date: content.updatedAt,
-      label: 'Updated'
+      label: i18next.t('updated')
     }
   ];
   return (
