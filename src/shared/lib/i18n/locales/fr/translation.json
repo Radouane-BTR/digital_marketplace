@@ -77,7 +77,7 @@
     "isAdminNotQualified" : "Cette organisation n'est pas qualifiée pour postuler aux opportunités de <emphasis>Collaborer Avec Nous</emphasis>.",
     "sprint-with-us-terms": {
       "title": "Collaborer Avec Nous Conditions Générales",
-      "acceptedSWUTermsText": "{{legalName}} a accepté le {{TITLE}} le {{acceptedSWUTermsFormatDate}} à {{acceptedSWUTermsFormatTime}}"
+      "acceptedSWUTermsText": "{{legalName}} a accepté le {{title}} le {{acceptedSWUTermsFormatDate}} à {{acceptedSWUTermsFormatTime}}"
     },
     "list": {
       "title": "Organisations de marchés numériques", 

@@ -793,7 +793,7 @@ const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <Alert color='primary' fade={false} className='mb-4'>
           <Link color='inherit' className='font-weight-bold d-flex justify-content-between flex-nowrap align-items-center w-100' onClick={() => dispatch(adt('toggleEvaluationCriteria'))}>
-            Critères d'évaluation de la proposition
+            {i18next.t('proposalEvaluationCriteria')}
             <Icon name={state.showEvaluationCriteria ? 'chevron-up' : 'chevron-down'} className='o-75'/>
           </Link>
           {state.showEvaluationCriteria

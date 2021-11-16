@@ -604,19 +604,6 @@ export async function start<State, Msg extends ADT<any, any>, Route>(app: AppCom
   };
   // Start the router.
   Router.start(routeManager);
-
-  // function initKeycloak() {
-  //   keycloak.init({ 
-  //     onLoad: 'check-sso',
-  //     flow: 'implicit',
-  //     silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
-  //   }).then(function(authenticated) {
-  //       alert(authenticated ? 'authenticated' : 'not authenticated');
-  //   }).catch(function() {
-  //       alert('failed to initialize');
-  //   });
-  // }
-  //initKeycloak()
-// Return StateManager.
+  
   return stateManager;
 }

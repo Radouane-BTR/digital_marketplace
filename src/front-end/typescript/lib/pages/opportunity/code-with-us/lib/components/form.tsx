@@ -902,7 +902,7 @@ export const view: View<Props> = props => {
   // let overView:string = `${i18next.t('overview', 'Overview')}` as string;
   const activeTab = (() => {
     switch (TabbedForm.getActiveTab(state.tabbedForm)) {
-      case 'Overview' :    return (<OverviewView {...props} />);
+      case 'Overview':    return (<OverviewView {...props} />);
       case 'Description': return (<DescriptionView {...props} />);
       case 'Details':     return (<DetailsView {...props} />);
       case 'Attachments': return (<AttachmentsView {...props} />);

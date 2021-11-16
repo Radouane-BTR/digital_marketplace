@@ -77,7 +77,7 @@
     "isAdminNotQualified" : "This organization is not qualified to apply for <emphasis>Sprint With Us</emphasis>",
     "sprint-with-us-terms": {
       "title": "Conditions générales de Sprint With Us",
-      "acceptedSWUTermsText": "{{legalName}} agreed to the {{TITLE}} on {{acceptedSWUTermsFormatDate}} at {{acceptedSWUTermsFormatTime}}"
+      "acceptedSWUTermsText": "{{legalName}} agreed to the {{title}} on {{acceptedSWUTermsFormatDate}} at {{acceptedSWUTermsFormatTime}}"
     },
     "list": {
       "title": "Digital Marketplace Organizations",

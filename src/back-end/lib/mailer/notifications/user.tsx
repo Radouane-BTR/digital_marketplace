@@ -81,9 +81,6 @@ export async function accountDeactivatedAdminT(user: User): Promise<Emails> {
             values={{ linkTo: <templates.Link text={CONTACT_EMAIL} url={CONTACT_EMAIL} />}}
             components={{ paragraph: <p /> }} 
           />
-          {/* <p>Your Digital Marketplace account has been deactivated by an administrator.</p>
-          <p>You no longer have access to the web application.</p>
-          <p>If you have any questions, you can send an email to the Digital Marketplace administrators at <templates.Link text={CONTACT_EMAIL} url={CONTACT_EMAIL} />.</p> */}
         </div>
       )
     })
