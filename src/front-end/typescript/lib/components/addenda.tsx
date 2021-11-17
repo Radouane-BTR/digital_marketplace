@@ -80,6 +80,7 @@ type InnerMsg
   | ADT<'hideModal'>
   | ADT<'add'>
   | ADT<'save'>
+  | ADT<'edit'>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
@@ -160,6 +161,14 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             .set('isEditing', true);
         }
       ];
+    case 'edit':
+      return [
+        state,
+        async state => {
+          return state
+            .set('isEditing', true);
+        }
+      ];
     case 'cancel':
       return [
         state
@@ -168,7 +177,6 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('newAddendum', null)
       ];
     case 'save':
-      // return [state.set('showModal', null)]; // TODO : faire la persistance de l'addendum avec status a Draft
       return [
         startPublishLoading(state).set('showModal', null),
         async (state, dispatch) => {
@@ -281,7 +289,7 @@ export const view: View<Props> = props => {
           <div className='mb-2'>
             <Badge className='mx-2 ml-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
             <span className='mx-2'>
-                <Icon hover className='ml-auto' name='edit' color='secondary' />
+                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => dispatch(adt('edit'))} />
                 <strong >Edit</strong>
             </span>
             <span className='mx-2'>
