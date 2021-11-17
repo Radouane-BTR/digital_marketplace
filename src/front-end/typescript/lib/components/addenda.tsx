@@ -48,6 +48,7 @@ export type PublishNewAddendum = (value: string) => Promise<validation.Validatio
 export type SaveNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 
 type ModalId = 'publish' | 'save' | 'cancel';
+type AddendumId = string;
 
 export function cwuOpportunityAddendaStatusToColor(s: CWUOpportunityAddendaStatus): ThemeColor {
   switch (s) {
@@ -73,6 +74,7 @@ export interface State {
   saveNewAddendum: SaveNewAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
+  editAddendum?: string;
 }
 
 type InnerMsg
@@ -80,7 +82,7 @@ type InnerMsg
   | ADT<'hideModal'>
   | ADT<'add'>
   | ADT<'save'>
-  | ADT<'edit'>
+  | ADT<'edit', AddendumId>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
@@ -162,12 +164,11 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         }
       ];
     case 'edit':
+      console.log(msg)
       return [
-        state,
-        async state => {
-          return state
-            .set('isEditing', true);
-        }
+        state
+          .set('editAddendum', msg.value)
+          .set('isEditing', true)
       ];
     case 'cancel':
       return [
@@ -260,9 +261,11 @@ export const view: View<Props> = props => {
   const { className, state, dispatch } = props;
   const isPublishLoading = state.publishLoading > 0;
   const isDisabled = isPublishLoading;
+  const AddendumId = state.get('editAddendum');
   const style = {
     height: '300px'
   };
+  console.log(isPublishLoading, state.newAddendum)
   return (
     <div className={className}>
       {state.newAddendum
@@ -280,7 +283,7 @@ export const view: View<Props> = props => {
         <RichMarkdownEditor.view
           key={`existing-addendum-${i}`}
           extraChildProps={{}}
-          disabled
+          disabled = {AddendumId != addendum.id}
           style={style}
           label='Existing Addendum'
           hint={`Created ${formatDateAndTime(addendum.createdAt)}`}
@@ -289,7 +292,7 @@ export const view: View<Props> = props => {
           <div className='mb-2'>
             <Badge className='mx-2 ml-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
             <span className='mx-2'>
-                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => dispatch(adt('edit'))} />
+                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log(addendum) ; return dispatch(adt('edit', addendum.id))}} />
                 <strong >Edit</strong>
             </span>
             <span className='mx-2'>
