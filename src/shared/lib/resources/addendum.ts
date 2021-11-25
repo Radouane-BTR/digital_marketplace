@@ -7,7 +7,7 @@ export enum CWUOpportunityAddendaStatus {
   Deleted = 'DELETED'
 };
 
-export function parseCWUOpportunityStatus(raw: string): CWUOpportunityAddendaStatus | null {
+export function parseCWUOpportunityAddendaStatus(raw: string): CWUOpportunityAddendaStatus | null {
   switch (raw) {
     case CWUOpportunityAddendaStatus.Draft: return CWUOpportunityAddendaStatus.Draft;
     case CWUOpportunityAddendaStatus.Published: return CWUOpportunityAddendaStatus.Published;

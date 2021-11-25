@@ -53,6 +53,21 @@ const init: Init<Tab.Params, State> = async params => {
             break;
         }
         return outcome || invalid(['Unable to add addenda due to a system error.']);
+      },
+      async updateAddendum(value: string, doPublish: boolean = false) {
+        const result = await api.opportunities.cwu.update(params.opportunity.id, adt('saveAddendum', value));
+        let outcome: Validation<Addendum[], string[]> | undefined;
+        switch (result.tag) {
+          case 'valid':
+            outcome = valid(result.value.addenda);
+            break;
+          case 'invalid':
+            if (result.value.opportunity?.tag === 'saveAddendum') {
+              outcome = invalid(result.value.opportunity.value);
+            }
+            break;
+        }
+        return outcome || invalid(['Unable to add addenda due to a system error.']);
       }
     }))
   };

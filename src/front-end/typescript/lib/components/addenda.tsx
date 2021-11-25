@@ -46,6 +46,7 @@ interface ExistingAddendum extends Addendum {
 // Either return the updated list of existing addenda, or the list of errors for the new addendum field.
 export type PublishNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 export type SaveNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
+export type UpdateAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 
 type ModalId = 'publish' | 'save' | 'cancel';
 type AddendumId = string;
@@ -72,10 +73,11 @@ export interface State {
   showModal: ModalId | null;
   publishNewAddendum: PublishNewAddendum;
   saveNewAddendum: SaveNewAddendum;
+  updateAddendum: UpdateAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
   editAddendum: Immutable<RichMarkdownEditor.State> | null;
-  editedAddendumId?: string | null;
+  editedAddendumId?: string;
 }
 
 type InnerMsg
@@ -91,8 +93,9 @@ type InnerMsg
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
-export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' > {
+export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'updateAddendum' > {
   existingAddenda: Addendum[];
+  editedAddendumId?: string;
   newAddendum?: {
     errors: string[];
     value: string;
@@ -109,6 +112,10 @@ export function isValid(state: Immutable<State>): boolean {
 
 export function getNewAddendum(state: Immutable<State>): string | null {
   return state.newAddendum ? FormField.getValue(state.newAddendum) : null;
+}
+
+export function getUpdatedAddendum(state: Immutable<State>): string | null {
+  return state.editAddendum ? FormField.getValue(state.editAddendum) : null;
 }
 
 async function initAddendumField(id: string, value = '', errors: string[] = []): Promise<Immutable<RichMarkdownEditor.State>> {
@@ -146,11 +153,12 @@ export const init: Init<Params, State> = async params => {
     });
     i++;
   }
-  console.log({ params })
   
 return {
     publishNewAddendum: params.publishNewAddendum,
     saveNewAddendum: params.saveNewAddendum,
+    updateAddendum: params.updateAddendum,
+    editedAddendumId: params.editedAddendumId,
     isEditing: false,
     publishLoading: 0,
     editAddendum: null,
@@ -184,7 +192,6 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         }
       ];
     case 'edit':
-      console.log(msg)
       return [
         state,
         async state => {
@@ -200,18 +207,24 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('showModal', null)
           .set('isEditing', false)
           .set('newAddendum', null)
+          .set('editedAddendumId', undefined)
       ];
     case 'save':
-      alert("WILL SAVE")
       return [
         startPublishLoading(state).set('showModal', null),
         async (state, dispatch) => {
           state = stopPublishLoading(state);
           const newAddendum = getNewAddendum(state);
+          const updatedAddedum = getUpdatedAddendum(state);
+          console.log('updatedAddedum : ',updatedAddedum); // ici pour vérfieri la récuperation du Id
           console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null })
-          if (!newAddendum) { return state; }
+          if (!newAddendum) {
+          // ici normalement on doit traiter l'update
+            // const result = await state.updateAddendum(updatedAddedum);
+            // console.log(result);
+            return state.set('editedAddendumId', undefined); 
+          }
           const result = await state.saveNewAddendum(newAddendum);
-          console.log({ result })
           if (validation.isValid(result)) {
             console.log("VALID !")
             dispatch(toast(adt('success', saved.success)));
@@ -225,10 +238,10 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
               //editAddendum: state.editAddendum,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.saveNewAddendum,
+              updateAddendum: state.updateAddendum,
               existingAddenda: result.value as Addendum[]
             }));
           } else {
-            console.log("INVALID !")
             dispatch(toast(adt('error', saved.error)));
             return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
           }
@@ -248,6 +261,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
               editAddendum: undefined,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.publishNewAddendum,
+              updateAddendum: state.updateAddendum,
               existingAddenda: result.value as Addendum[]
             }));
           } else {
@@ -300,6 +314,7 @@ export const view: View<Props> = props => {
   const isPublishLoading = state.publishLoading > 0;
   const isDisabled = isPublishLoading;
   const AddendumId = state.get('editedAddendumId');
+  console.log('editedAddendumId : ', AddendumId)
   const style = {
     height: '300px'
   };
@@ -330,7 +345,7 @@ export const view: View<Props> = props => {
           <div className='mb-2'>
             <Badge className='mx-2 ml-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
             <span className='mx-2'>
-                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log(addendum) ; return dispatch(adt('edit', addendum.id))}} />
+                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
                 <strong >Edit</strong>
             </span>
             <span className='mx-2'>

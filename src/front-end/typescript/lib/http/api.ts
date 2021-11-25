@@ -450,6 +450,7 @@ interface RawAddendum extends Omit<AddendumResource.Addendum, 'createdAt'> {
 }
 
 function rawAddendumToAddendum(raw: RawAddendum): AddendumResource.Addendum {
+  console.log('rawAddendumToAddendum : ',raw)
   return {
     ...raw,
     createdAt: new Date(raw.createdAt)
