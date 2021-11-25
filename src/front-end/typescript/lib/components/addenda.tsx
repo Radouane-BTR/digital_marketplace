@@ -74,7 +74,8 @@ export interface State {
   saveNewAddendum: SaveNewAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
-  editAddendum?: string;
+  editAddendum: Immutable<RichMarkdownEditor.State> | null;
+  editedAddendumId?: string | null;
 }
 
 type InnerMsg
@@ -93,6 +94,10 @@ export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' > {
   existingAddenda: Addendum[];
   newAddendum?: {
+    errors: string[];
+    value: string;
+  };
+  editAddendum?: {
     errors: string[];
     value: string;
   };
@@ -118,6 +123,18 @@ async function initAddendumField(id: string, value = '', errors: string[] = []):
   }));
 }
 
+async function initEditedAddendumField(id: string, value = '', errors: string[] = []): Promise<Immutable<RichMarkdownEditor.State>> {
+  return immutable(await RichMarkdownEditor.init({
+    errors,
+    validate: validateAddendumText,
+    child: {
+      uploadImage: makeUploadMarkdownImage(),
+      value,
+      id
+    }
+  }));
+}
+
 export const init: Init<Params, State> = async params => {
   // Existing Addenda
   const existingAddenda: ExistingAddendum[] = [];
@@ -129,11 +146,14 @@ export const init: Init<Params, State> = async params => {
     });
     i++;
   }
-  return {
+  console.log({ params })
+  
+return {
     publishNewAddendum: params.publishNewAddendum,
     saveNewAddendum: params.saveNewAddendum,
     isEditing: false,
     publishLoading: 0,
+    editAddendum: null,
     showModal: null,
     existingAddenda, //existingAddenda sorted in the http/api module.
     newAddendum:
@@ -166,9 +186,13 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
     case 'edit':
       console.log(msg)
       return [
-        state
-          .set('editAddendum', msg.value)
+        state,
+        async state => {
+          return state
+          .set('editedAddendumId', msg.value)
+          .set('editAddendum', await initEditedAddendumField('edited-addedum-id', msg.value))
           .set('isEditing', true)
+        }
       ];
     case 'cancel':
       return [
@@ -178,21 +202,33 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('newAddendum', null)
       ];
     case 'save':
+      alert("WILL SAVE")
       return [
         startPublishLoading(state).set('showModal', null),
         async (state, dispatch) => {
           state = stopPublishLoading(state);
           const newAddendum = getNewAddendum(state);
+          console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null })
           if (!newAddendum) { return state; }
           const result = await state.saveNewAddendum(newAddendum);
+          console.log({ result })
           if (validation.isValid(result)) {
+            console.log("VALID !")
             dispatch(toast(adt('success', saved.success)));
-            return immutable(await init({
+            console.log({ init: {
+              editAddendum: undefined,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.saveNewAddendum,
-              existingAddenda: result.value
+              existingAddenda: result.value as Addendum[]
+            }})
+            return immutable(await init({
+              //editAddendum: state.editAddendum,
+              publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.saveNewAddendum,
+              existingAddenda: result.value as Addendum[]
             }));
           } else {
+            console.log("INVALID !")
             dispatch(toast(adt('error', saved.error)));
             return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
           }
@@ -209,9 +245,10 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           if (validation.isValid(result)) {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
+              editAddendum: undefined,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.publishNewAddendum,
-              existingAddenda: result.value
+              existingAddenda: result.value as Addendum[]
             }));
           } else {
             dispatch(toast(adt('error', published.error)));
@@ -258,14 +295,15 @@ export interface Props extends ComponentViewProps<State, Msg> {
 }
 
 export const view: View<Props> = props => {
+  console.log(props)
   const { className, state, dispatch } = props;
   const isPublishLoading = state.publishLoading > 0;
   const isDisabled = isPublishLoading;
-  const AddendumId = state.get('editAddendum');
+  const AddendumId = state.get('editedAddendumId');
   const style = {
     height: '300px'
   };
-  console.log(isPublishLoading, state.newAddendum)
+  console.log(isPublishLoading, state, state.get('editAddendum'), state.newAddendum)
   return (
     <div className={className}>
       {state.newAddendum

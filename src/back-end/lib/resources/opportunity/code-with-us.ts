@@ -301,12 +301,14 @@ const resource: Resource = {
             return adt('cancel', getString(body, 'value', ''));
           case 'addAddendum':
             return adt('addAddendum', getString(body, 'value', ''));
+          case 'saveAddendum':
+            return adt('saveAddendum', getString(body, 'value', ''));
           default:
             return null;
         }
       },
       async validateRequestBody(request) {
-        if (!request.body) { return invalid({ opportunity: adt('parseFailure' as const) }); }
+        if (!request.body) { console.log("EMPTY BODY", request); return invalid({ opportunity: adt('parseFailure' as const) }); }
 
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, request.params.id, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
@@ -529,7 +531,21 @@ const resource: Resource = {
               session: request.session,
               body: adt('addAddendum', validatedAddendumText.value)
             } as ValidatedUpdateRequestBody);
+          case 'saveAddendum':
+            if (validatedCWUOpportunity.value.status === CWUOpportunityStatus.Draft) {
+              return invalid({ permissions: [permissions.ERROR_MESSAGE] });
+            }
+            const validatedSavedAddendumText = opportunityValidation.validateAddendumText(request.body.value);
+            console.log(validatedSavedAddendumText)
+            if (isInvalid(validatedSavedAddendumText)) {
+              return invalid({ opportunity: adt('saveAddendum' as const, validatedSavedAddendumText.value) });
+            }
+            return valid({
+              session: request.session,
+              body: adt('saveAddendum', validatedSavedAddendumText.value)
+            } as ValidatedUpdateRequestBody);
           default:
+            console.log("INVALID BODY TAG: ", request.body)
             return invalid({ opportunity: adt('parseFailure' as const) });
         }
       },
@@ -580,6 +596,7 @@ const resource: Resource = {
             case 'saveAddendum':
               const doPublish = false;
               const id = 'abcd1234';
+              console.log({ paramId: request.params.id, value: body.value, doPublish, id })
               dbResult = await db.saveCWUOpportunityAddendum(connection, request.params.id, body.value, doPublish, id, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
