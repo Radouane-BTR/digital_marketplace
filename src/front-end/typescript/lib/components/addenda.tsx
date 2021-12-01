@@ -39,6 +39,17 @@ const saved = {
   }
 };
 
+// const deleted = {
+//   success: {
+//     title: 'Addendum Deleted',
+//     body: 'Your addendum has been successfully deleted.'
+//   },
+//   error: {
+//     title: 'Unable to Delete Addendum',
+//     body: 'Your addendum could not be deleted. Please try again later.'
+//   }
+// };
+
 interface ExistingAddendum extends Addendum {
   field: Immutable<RichMarkdownEditor.State>;
 }
@@ -47,8 +58,9 @@ interface ExistingAddendum extends Addendum {
 export type PublishNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 export type SaveNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 export type UpdateAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
+export type DeleteAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 
-type ModalId = 'publish' | 'save' | 'cancel';
+type ModalId = 'publish' | 'save' | 'delete' | 'cancel' ;
 type AddendumId = string;
 
 export function cwuOpportunityAddendaStatusToColor(s: CWUOpportunityAddendaStatus): ThemeColor {
@@ -74,10 +86,12 @@ export interface State {
   publishNewAddendum: PublishNewAddendum;
   saveNewAddendum: SaveNewAddendum;
   updateAddendum: UpdateAddendum;
+  deleteAddendum: DeleteAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
   editAddendum: Immutable<RichMarkdownEditor.State> | null;
   editedAddendumId?: string;
+  deletedAddendumId?: string;
 }
 
 type InnerMsg
@@ -86,6 +100,7 @@ type InnerMsg
   | ADT<'add'>
   | ADT<'save'>
   | ADT<'edit', AddendumId>
+  | ADT<'delete'>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
@@ -93,9 +108,10 @@ type InnerMsg
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
-export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'updateAddendum' > {
+export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'updateAddendum' | 'deleteAddendum' > {
   existingAddenda: Addendum[];
   editedAddendumId?: string;
+  deletedAddenumId?: string;
   newAddendum?: {
     errors: string[];
     value: string;
@@ -117,6 +133,10 @@ export function getNewAddendum(state: Immutable<State>): string | null {
 export function getUpdatedAddendum(state: Immutable<State>): string | null {
   return state.editAddendum ? FormField.getValue(state.editAddendum) : null;
 }
+
+// export function getDeletedAddendum(state: Immutable<State>): string | null {
+//   return state.deleteAddendum ? FormField.getValue(state.deleteAddendum) : null;
+// }
 
 async function initAddendumField(id: string, value = '', errors: string[] = []): Promise<Immutable<RichMarkdownEditor.State>> {
   return immutable(await RichMarkdownEditor.init({
@@ -158,7 +178,9 @@ return {
     publishNewAddendum: params.publishNewAddendum,
     saveNewAddendum: params.saveNewAddendum,
     updateAddendum: params.updateAddendum,
+    deleteAddendum: params.deleteAddendum,
     editedAddendumId: params.editedAddendumId,
+    deletedAddendumId: params.deletedAddenumId,
     isEditing: false,
     publishLoading: 0,
     editAddendum: null,
@@ -209,6 +231,14 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('newAddendum', null)
           .set('editedAddendumId', undefined)
       ];
+    case 'delete':
+      return [
+        state
+          .set('showModal', null)
+          .set('isEditing', false)
+          .set('newAddendum', null)
+          .set('editedAddendumId', undefined)
+      ];
     case 'save':
       return [
         startPublishLoading(state).set('showModal', null),
@@ -239,6 +269,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.saveNewAddendum,
               updateAddendum: state.updateAddendum,
+              deleteAddendum: state.deleteAddendum,
               existingAddenda: result.value as Addendum[]
             }));
           } else {
@@ -262,6 +293,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.publishNewAddendum,
               updateAddendum: state.updateAddendum,
+              deleteAddendum: state.deleteAddendum,
               existingAddenda: result.value as Addendum[]
             }));
           } else {
@@ -309,16 +341,14 @@ export interface Props extends ComponentViewProps<State, Msg> {
 }
 
 export const view: View<Props> = props => {
-  console.log(props)
+  console.log('this is the propos : ',props)
   const { className, state, dispatch } = props;
   const isPublishLoading = state.publishLoading > 0;
   const isDisabled = isPublishLoading;
   const AddendumId = state.get('editedAddendumId');
-  console.log('editedAddendumId : ', AddendumId)
   const style = {
     height: '300px'
   };
-  console.log(isPublishLoading, state, state.get('editAddendum'), state.newAddendum)
   return (
     <div className={className}>
       {state.newAddendum
@@ -349,7 +379,8 @@ export const view: View<Props> = props => {
                 <strong >Edit</strong>
             </span>
             <span className='mx-2'>
-                <Icon hover className='ml-auto' name='trash' color='secondary' />
+                <Icon hover className='ml-auto' name='trash' color='secondary'  onClick={() => { props.state.set('deletedAddendumId', addendum.id) ; console.log('id addendum to deleted : ', addendum.id, ' - ', props.state.get('deletedAddendumId'))  ; dispatch(adt('showModal', 'delete' as const)) }} />
+                {/* <Icon hover className='ml-auto' name='trash' color='secondary'  onClick={() => { dispatch(adt('deleteAddendum', addendum.id)) }} /> */}
                 <strong >Delete</strong>
             </span>
           </div>}
@@ -423,7 +454,7 @@ export const getModal: PageGetModal<State, Msg> = state => {
         ],
         body: () => 'Are you sure you want to publish this addendum? Once published, all subscribers will be notified.'
       };
-      case 'save':
+    case 'save':
       return {
         title: 'Save Addendum?',
         onCloseMsg: adt('hideModal'),
@@ -441,8 +472,30 @@ export const getModal: PageGetModal<State, Msg> = state => {
             msg: adt('hideModal')
           }
         ],
-        body: () => 'Are you sure you want to save this addendum? Once saved, all subscribers will be not see this addenda until you published.'
+        body: () => 'Are you sure you want to save this addendum?'
       };
+    case 'delete':
+        // state.set('deletedAddendumId', state.value)
+        console.log('state.value in modal : ', state.get('deletedAddendumId'));
+        return {
+          title: 'Delete Addendum?',
+          onCloseMsg: adt('hideModal'),
+          actions: [
+            {
+              text: 'Delete Addendum',
+              color: 'danger',
+              icon: 'trash',
+              button: true,
+              msg: adt('delete')
+            },
+            {
+              text: 'Cancel',
+              color: 'secondary',
+              msg: adt('hideModal')
+            }
+          ],
+          body: () => 'Are you sure you want to delete this addendum?'
+        };
     case 'cancel':
       return {
         title: 'Cancel Adding an Addendum?',
@@ -463,6 +516,6 @@ export const getModal: PageGetModal<State, Msg> = state => {
         body: () => 'Are you sure you want to cancel? Any information you may have entered will be lost if you do so.'
       };
     case null:
-      return null;
+        return null;
   }
 };

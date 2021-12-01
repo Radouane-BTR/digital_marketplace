@@ -51,7 +51,6 @@ interface RawCWUOpportunitySlim extends Omit<CWUOpportunitySlim, 'createdBy' | '
   createdBy?: Id;
   updatedBy?: Id;
 }
-
 interface RawCWUOpportunityAddendum extends Omit<Addendum, 'createdBy' | 'status'> {
   createdBy?: Id;
   status?: CWUOpportunityAddendaStatus;
@@ -107,11 +106,12 @@ async function rawCWUOpportunitySlimToCWUOpportunitySlim(connection: Connection,
 async function rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection: Connection, raw: RawCWUOpportunityAddendum): Promise<Addendum> {
   const { createdBy: createdById, ...restOfRaw } = raw;
   const createdBy = createdById ? getValidValue(await readOneUserSlim(connection, createdById), undefined) : undefined;
+  // const addendumStatuses: readonly CWUOpportunityAddendaStatus[] = [CWUOpportunityAddendaStatus.Published, CWUOpportunityAddendaStatus.Draft];
 
   return {
     ...restOfRaw,
     createdBy: createdBy || undefined,
-    status: CWUOpportunityAddendaStatus.Published
+    status: CWUOpportunityAddendaStatus.Published //addendumStatuses as CWUOpportunityAddendaStatus[] // Todo ici le bug que la bd retourne tjrs la status a Published
   };
 }
 
@@ -626,6 +626,19 @@ export const deleteCWUOpportunity = tryDb<[Id, AuthenticatedSession], CWUOpportu
 
   return valid(opportunity);
 });
+
+// export const deleteCWUOpportunityAddenda = tryDb<[Id, AuthenticatedSession], CWUOpportunity>(async (connection, id) => {
+//   const [result] = await connection('cwuOpportunityAddenda')
+//     .where({ id })
+//     .delete('*');
+
+//   if (!result) {
+//     throw new Error('unable to delete Addenda');
+//   }
+
+//   return valid(await rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection, result));
+
+// });
 
 export const closeCWUOpportunities = tryDb<[], number>(async (connection) => {
   const now = new Date();
