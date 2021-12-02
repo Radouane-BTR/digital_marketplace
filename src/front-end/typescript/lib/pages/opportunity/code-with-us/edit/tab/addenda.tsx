@@ -24,6 +24,7 @@ const init: Init<Tab.Params, State> = async params => {
     ...params,
     addenda: immutable(await Addenda.init({
       existingAddenda: params.opportunity.addenda,
+      deletedAddendumId: undefined,
       async publishNewAddendum(value) {
         const result = await api.opportunities.cwu.update(params.opportunity.id, adt('addAddendum', value));
         let outcome: Validation<Addendum[], string[]> | undefined;
