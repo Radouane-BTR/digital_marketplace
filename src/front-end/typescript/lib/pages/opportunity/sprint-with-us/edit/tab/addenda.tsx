@@ -25,7 +25,6 @@ const init: Init<Tab.Params, State> = async params => {
     ...params,
     addenda: immutable(await Addenda.init({
       editAddendum: undefined,
-      deletedAddendumId: undefined,
       existingAddenda: params.opportunity.addenda,
       async publishNewAddendum(value) {
         const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));

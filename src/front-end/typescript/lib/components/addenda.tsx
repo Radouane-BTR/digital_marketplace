@@ -99,21 +99,21 @@ type InnerMsg
   | ADT<'hideModal'>
   | ADT<'add'>
   | ADT<'save'>
-  | ADT<'edit', AddendumId | undefined>
-  | ADT<'delete', string | undefined>
+  | ADT<'edit', AddendumId>
+  | ADT<'delete', string>
+  | ADT<'deleteConfirmation'>
+  | ADT<'deleteCancel'>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
-  | ADT<'onChangeNew', RichMarkdownEditor.Msg>
-  | ADT<'deleteConfirmation'>
-  | ADT<'deleteCancel'>;
+  | ADT<'onChangeNew', RichMarkdownEditor.Msg>;
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
 export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'updateAddendum' | 'deleteAddendum' > {
   existingAddenda: Addendum[];
   editedAddendumId?: string;
-  deletedAddendumId: string | undefined;
+  deletedAddendumId?: string;
   newAddendum?: {
     errors: string[];
     value: string;
@@ -137,13 +137,8 @@ export function getUpdatedAddendum(state: Immutable<State>): string | null {
 }
 
 export function getDeletedAddendum(state: Immutable<State>): string | null | undefined {
-  console.log({ getDeletedAddendum: {state} })
   return state.deletedAddendumId
 }
-
-// export function getDeletedAddendum(state: Immutable<State>): string | null {
-//   return state.deleteAddendum ? FormField.getValue(state.deleteAddendum) : null;
-// }
 
 async function initAddendumField(id: string, value = '', errors: string[] = []): Promise<Immutable<RichMarkdownEditor.State>> {
   return immutable(await RichMarkdownEditor.init({
@@ -298,8 +293,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
               saveNewAddendum: state.saveNewAddendum,
               updateAddendum: state.updateAddendum,
               deleteAddendum: state.deleteAddendum,
-              existingAddenda: result.value as Addendum[],
-              deletedAddendumId: state.deletedAddendumId
+              existingAddenda: result.value as Addendum[]
             }));
           } else {
             dispatch(toast(adt('error', saved.error)));
@@ -319,7 +313,6 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
               editAddendum: undefined,
-              deletedAddendumId: state.deletedAddendumId,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.publishNewAddendum,
               updateAddendum: state.updateAddendum,
@@ -371,9 +364,6 @@ export interface Props extends ComponentViewProps<State, Msg> {
 }
 
 export const view: View<Props> = props => {
-  console.log('this is the propos : ',props)
-  console.log('DELETEDIS : ',props.state.deletedAddendumId)
-  console.log('updateDIS : ',props.state.editedAddendumId)
   const { className, state, dispatch } = props;
   const isPublishLoading = state.publishLoading > 0;
   const isDisabled = isPublishLoading;
@@ -411,18 +401,7 @@ export const view: View<Props> = props => {
                 <strong >Edit</strong>
             </span>
             <span className='mx-2'>
-                <Icon hover className='ml-auto' name='trash' color='secondary'  
-                  onClick={() => { 
-                    alert('OK')
-                    //return state.deleteAddendum(addendum.id)
-                    //return state.update('delete', addendum.id);
-                    state.set('deletedAddendumId', addendum.id)
-                    state.set('editedAddendumId', addendum.id)
-                    return dispatch(adt('delete', addendum.id))
-                    // console.log('id addendum to deleted : ', addendum.id, ' - ', props.state.get('deletedAddendumId')); 
-                    //dispatch(adt('showModal', 'delete' as const)) 
-                  }} 
-                />
+                <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
                 {/* <Icon hover className='ml-auto' name='trash' color='secondary'  onClick={() => { dispatch(adt('deleteAddendum', addendum.id)) }} /> */}
                 <strong >Delete</strong>
             </span>
@@ -518,8 +497,6 @@ export const getModal: PageGetModal<State, Msg> = state => {
         body: () => 'Are you sure you want to save this addendum?'
       };
     case 'deleteConfirmation':
-        // state.set('deletedAddendumId', state.value)
-        console.log('state.value in modal FDSFS : ', state, state.get('deletedAddendumId'), state.deletedAddendumId);
         return {
           title: 'Delete Addendum?',
           onCloseMsg: adt('deleteCancel'),
