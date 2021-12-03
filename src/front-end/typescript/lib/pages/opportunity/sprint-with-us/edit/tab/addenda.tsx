@@ -20,6 +20,7 @@ export type InnerMsg
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
 const init: Init<Tab.Params, State> = async params => {
+  console.log('INIT ADDENDA PARAMS')
   return {
     ...params,
     addenda: immutable(await Addenda.init({

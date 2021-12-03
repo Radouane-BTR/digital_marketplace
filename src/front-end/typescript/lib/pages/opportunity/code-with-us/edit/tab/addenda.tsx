@@ -70,7 +70,7 @@ const init: Init<Tab.Params, State> = async params => {
         return outcome || invalid(['Unable to add addenda due to a system error.']);
       },
       async deleteAddendum(value) {
-        console.log('im in deleteAddendum code with us')
+        console.log('im in deleteAddendum code with us, will delete:', value)
         const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));
         let outcome: Validation<Addendum[], string[]> | undefined;
         switch (result.tag) {
