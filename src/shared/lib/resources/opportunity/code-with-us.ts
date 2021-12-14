@@ -155,7 +155,8 @@ export type UpdateRequestBody
   | ADT<'suspend', string>
   | ADT<'cancel', string>
   | ADT<'addAddendum', string>
-  | ADT<'saveAddendum', string>;
+  | ADT<'saveAddendum', string>
+  | ADT<'deleteAddendum', string>;
 
 export type UpdateEditRequestBody = Omit<CreateRequestBody, 'status'>;
 
@@ -166,6 +167,7 @@ type UpdateADTErrors
   | ADT<'cancel', string[]>
   | ADT<'addAddendum', string[]>
   | ADT<'saveAddendum', string[]>
+  | ADT<'deleteAddendum', string[]>
   | ADT<'parseFailure'>;
 
 export interface UpdateValidationErrors extends BodyWithErrors {

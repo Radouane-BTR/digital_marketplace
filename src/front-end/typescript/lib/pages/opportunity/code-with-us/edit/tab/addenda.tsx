@@ -71,14 +71,14 @@ const init: Init<Tab.Params, State> = async params => {
       },
       async deleteAddendum(value) {
         console.log('im in deleteAddendum code with us, will delete:', value)
-        const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));
+        const result = await api.opportunities.swu.update(params.opportunity.id, adt('deleteAddendum', value));
         let outcome: Validation<Addendum[], string[]> | undefined;
         switch (result.tag) {
           case 'valid':
             outcome = valid(result.value.addenda);
             break;
           case 'invalid':
-            if (result.value.opportunity?.tag === 'addAddendum') {
+            if (result.value.opportunity?.tag === 'deleteAddendum') {
               outcome = invalid(result.value.opportunity.value);
             }
             break;

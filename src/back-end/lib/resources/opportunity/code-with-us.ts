@@ -35,7 +35,8 @@ interface ValidatedUpdateRequestBody {
       | ADT<'suspend', string>
       | ADT<'cancel', string>
       | ADT<'addAddendum', string>
-      | ADT<'saveAddendum', string>;
+      | ADT<'saveAddendum', string>
+      | ADT<'deleteAddendum', string>;
 }
 
 type ValidatedDeleteRequestBody = Id;
@@ -302,7 +303,9 @@ const resource: Resource = {
           case 'addAddendum':
             return adt('addAddendum', getString(body, 'value', ''));
           case 'saveAddendum':
-            return adt('saveAddendum', getString(body, 'value', ''));
+            return adt('saveAddendum', getString(body, 'value', ''));          
+          case 'deleteAddendum':
+            return adt('deleteAddendum', getString(body, 'value', ''));
           default:
             return null;
         }
@@ -598,6 +601,14 @@ const resource: Resource = {
               const id = 'abcd1234';
               console.log({ paramId: request.params.id, value: body.value, doPublish, id })
               dbResult = await db.saveCWUOpportunityAddendum(connection, request.params.id, body.value, doPublish, id, session);
+              // Notify all subscribed users on the opportunity of the update
+              if (isValid(dbResult)) {
+                cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
+              }
+              break;
+            case 'deleteAddendum':
+              console.log('deleteAddendum ressources :', { paramId: request.params.id, value: body.value })
+              dbResult = await db.deleteCWUOpportunityAddendum(connection, request.params.id, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
                 cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);

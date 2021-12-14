@@ -627,18 +627,20 @@ export const deleteCWUOpportunity = tryDb<[Id, AuthenticatedSession], CWUOpportu
   return valid(opportunity);
 });
 
-// export const deleteCWUOpportunityAddenda = tryDb<[Id, AuthenticatedSession], CWUOpportunity>(async (connection, id) => {
-//   const [result] = await connection('cwuOpportunityAddenda')
-//     .where({ id })
-//     .delete('*');
+export const deleteCWUOpportunityAddendum = tryDb<[Id, AuthenticatedSession], CWUOpportunity>(async (connection, id, session) => {
+  const [result] = await connection('cwuOpportunityAddenda')
+    .where({ id })
+    .delete('*');
 
-//   if (!result) {
-//     throw new Error('unable to delete Addenda');
-//   }
+  if (!result) {
+    throw new Error('unable to delete Addenda');
+  }
+  const opportunity = await rawCWUOpportunityToCWUOpportunity(connection, result);
+  logCWUOpportunityChange( 'CWU deleted', opportunity, session)
+  
+  return valid(await rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection, result));
 
-//   return valid(await rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection, result));
-
-// });
+});
 
 export const closeCWUOpportunities = tryDb<[], number>(async (connection) => {
   const now = new Date();

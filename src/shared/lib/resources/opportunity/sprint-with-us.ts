@@ -301,6 +301,7 @@ type UpdateADTErrors
   | ADT<'suspend', string[]>
   | ADT<'cancel', string[]>
   | ADT<'addAddendum', string[]>
+  | ADT<'deleteAddendum', string[]>
   | ADT<'parseFailure'>;
 
 export interface UpdateValidationErrors extends BodyWithErrors {
