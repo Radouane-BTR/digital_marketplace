@@ -628,17 +628,50 @@ export const deleteCWUOpportunity = tryDb<[Id, AuthenticatedSession], CWUOpportu
 });
 
 export const deleteCWUOpportunityAddendum = tryDb<[Id, AuthenticatedSession], CWUOpportunity>(async (connection, id, session) => {
-  const [result] = await connection('cwuOpportunityAddenda')
+ 
+  const opportunityId = (await connection<{ opportunity: Id }>('cwuOpportunityAddenda')
+  .where({ id })
+  .debug(true)
+  .select<{ opportunity: Id }>('opportunity')
+  .first())?.opportunity;
+
+  console.log('Id : ', id)
+  console.log('opportunityId ', opportunityId)
+
+  if (!opportunityId) {
+    throw new Error('unable to find opportunity');
+  }
+
+  await connection.transaction(async trx => {
+
+  const [result] = await connection<RawCWUOpportunityAddendum>('cwuOpportunityAddenda') // RawCWUOpportunityAddendum
+    .transacting(trx)
     .where({ id })
     .delete('*');
 
   if (!result) {
     throw new Error('unable to delete Addenda');
   }
-  const opportunity = await rawCWUOpportunityToCWUOpportunity(connection, result);
-  logCWUOpportunityChange( 'CWU deleted', opportunity, session)
   
-  return valid(await rawCWUOpportunityAddendumToCWUOpportunityAddendum(connection, result));
+  await connection<RawCWUOpportunityHistoryRecord & { opportunity: Id }>('cwuOpportunityStatuses')
+    .transacting(trx)
+    .insert({
+      id: generateUuid(),
+      opportunity: opportunityId,
+      createdAt: new Date(),
+      createdBy: session.user.id,
+      event: CWUOpportunityEvent.AddendumDeleted,
+      note: ''
+    });
+
+  });
+
+  const dbResult = await readOneCWUOpportunity(connection, opportunityId, session);
+  if (isInvalid(dbResult) || !dbResult.value) {
+  throw new Error('unable to add addendum');
+  }
+  logCWUOpportunityChange( 'CWU addendum added', dbResult.value as CWUOpportunity, session as SessionRecord)
+  return valid(dbResult.value);
 
 });
 

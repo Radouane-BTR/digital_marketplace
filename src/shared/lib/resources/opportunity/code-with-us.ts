@@ -22,7 +22,9 @@ export enum CWUOpportunityStatus {
 
 export enum CWUOpportunityEvent {
   Edited = 'EDITED',
-  AddendumAdded = 'ADDENDUM_ADDED'
+  AddendumAdded = 'ADDENDUM_ADDED',
+  AddendumDeleted = 'ADDENDUM_DELETED',
+  AddendumUpdated = 'ADDENDUM_UPDATED'
 }
 
 export function parseCWUOpportunityStatus(raw: string): CWUOpportunityStatus | null {

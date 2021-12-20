@@ -547,6 +547,15 @@ const resource: Resource = {
               session: request.session,
               body: adt('saveAddendum', validatedSavedAddendumText.value)
             } as ValidatedUpdateRequestBody);
+          case 'deleteAddendum':
+            const validatedAddedumId = validateUUID(request.body.value);
+            if(isInvalid(validatedAddedumId)){
+              return invalid({ opportunity: adt('deleteAddendum' as const, validatedAddedumId.value) });
+            }
+            return valid({
+              session: request.session,
+              body: adt('deleteAddendum', validatedAddedumId.value)
+            } as ValidatedUpdateRequestBody);
           default:
             console.log("INVALID BODY TAG: ", request.body)
             return invalid({ opportunity: adt('parseFailure' as const) });
@@ -608,7 +617,7 @@ const resource: Resource = {
               break;
             case 'deleteAddendum':
               console.log('deleteAddendum ressources :', { paramId: request.params.id, value: body.value })
-              dbResult = await db.deleteCWUOpportunityAddendum(connection, request.params.id, session);
+              dbResult = await db.deleteCWUOpportunityAddendum(connection, body.value, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
                 cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
