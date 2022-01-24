@@ -535,11 +535,12 @@ const resource: Resource = {
               body: adt('addAddendum', validatedAddendumText.value)
             } as ValidatedUpdateRequestBody);
           case 'saveAddendum':
+
             if (validatedCWUOpportunity.value.status === CWUOpportunityStatus.Draft) {
               return invalid({ permissions: [permissions.ERROR_MESSAGE] });
             }
             const validatedSavedAddendumText = opportunityValidation.validateAddendumText(request.body.value);
-            console.log(validatedSavedAddendumText)
+            console.log('my saveAddendum text and body : ', {validatedSavedAddendumText: validatedSavedAddendumText, body : request.body})
             if (isInvalid(validatedSavedAddendumText)) {
               return invalid({ opportunity: adt('saveAddendum' as const, validatedSavedAddendumText.value) });
             }
@@ -606,19 +607,16 @@ const resource: Resource = {
               }
               break;
             case 'saveAddendum':
-              const doPublish = false;
               const id = 'abcd1234';
-              console.log({ paramId: request.params.id, value: body.value, doPublish, id })
-              dbResult = await db.saveCWUOpportunityAddendum(connection, request.params.id, body.value, doPublish, id, session);
+              console.log({ paramId: request.params.id, value: body.value, id, body: body })
+              dbResult = await db.saveCWUOpportunityAddendum(connection, request.params.id, body.value, id, session);
               // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
                 cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
               }
               break;
             case 'deleteAddendum':
-              console.log('deleteAddendum ressources :', { paramId: request.params.id, value: body.value })
               dbResult = await db.deleteCWUOpportunityAddendum(connection, body.value, session);
-              // Notify all subscribed users on the opportunity of the update
               if (isValid(dbResult)) {
                 cwuOpportunityNotifications.handleCWUUpdated(connection, dbResult.value);
               }

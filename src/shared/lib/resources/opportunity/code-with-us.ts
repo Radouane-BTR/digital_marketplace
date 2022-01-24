@@ -158,7 +158,7 @@ export type UpdateRequestBody
   | ADT<'cancel', string>
   | ADT<'addAddendum', string>
   | ADT<'saveAddendum', string>
-  | ADT<'deleteAddendum', string>;
+  | ADT<'deleteAddendum', string>
 
 export type UpdateEditRequestBody = Omit<CreateRequestBody, 'status'>;
 

@@ -56,21 +56,6 @@ const init: Init<Tab.Params, State> = async params => {
         }
         return outcome || invalid(['Unable to add addenda due to a system error.']);
       },
-      async updateAddendum(value) {
-        const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));
-        let outcome: Validation<Addendum[], string[]> | undefined;
-        switch (result.tag) {
-          case 'valid':
-            outcome = valid(result.value.addenda);
-            break;
-          case 'invalid':
-            if (result.value.opportunity?.tag === 'addAddendum') {
-              outcome = invalid(result.value.opportunity.value);
-            }
-            break;
-        }
-        return outcome || invalid(['Unable to add addenda due to a system error.']);
-      },
       async deleteAddendum(value) {
         console.log('im in deleteAddendum sprint with us')
         const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));

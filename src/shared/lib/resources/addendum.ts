@@ -14,6 +14,7 @@ export function parseCWUOpportunityAddendaStatus(raw: string): CWUOpportunityAdd
     default: return null;
   }
 }
+
 export interface Addendum {
   id: Id;
   createdAt: Date;
@@ -22,4 +23,13 @@ export interface Addendum {
   updatedBy?: UserSlim;
   description: string;
   status: CWUOpportunityAddendaStatus;
+}
+
+export function canCWUOpportunityAddendumBeDeleted(o: CWUOpportunityAddendaStatus): boolean {
+  switch (o) {
+    case CWUOpportunityAddendaStatus.Draft:
+      return true;
+    default:
+      return false;
+  }
 }

@@ -39,14 +39,25 @@ const saved = {
   }
 };
 
-// const deleted = {
+const deleted = {
+  success: {
+    title: 'Addendum Deleted',
+    body: 'Your addendum has been successfully deleted.'
+  },
+  error: {
+    title: 'Unable to Delete Addendum',
+    body: 'Your addendum could not be deleted. Please try again later.'
+  }
+};
+
+// const edited = {
 //   success: {
-//     title: 'Addendum Deleted',
-//     body: 'Your addendum has been successfully deleted.'
+//     title: 'Addendum Edited',
+//     body: 'Your addendum has been successfully Edited.'
 //   },
 //   error: {
-//     title: 'Unable to Delete Addendum',
-//     body: 'Your addendum could not be deleted. Please try again later.'
+//     title: 'Unable to Edited Addendum',
+//     body: 'Your addendum could not be Edited. Please try again later.'
 //   }
 // };
 
@@ -57,7 +68,7 @@ interface ExistingAddendum extends Addendum {
 // Either return the updated list of existing addenda, or the list of errors for the new addendum field.
 export type PublishNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 export type SaveNewAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
-export type UpdateAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
+//export type UpdateAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 export type DeleteAddendum = (value: string) => Promise<validation.Validation<Addendum[], string[]>>;
 
 type ModalId = 'publish' | 'save' | 'delete' | 'cancel' | 'deleteConfirmation' ;
@@ -79,19 +90,24 @@ export function cwuOpportunityAddendaStatusToTitleCase(s: CWUOpportunityAddendaS
   }
 }
 
+export function isEditable(s: CWUOpportunityAddendaStatus): boolean {
+  return ( s != CWUOpportunityAddendaStatus.Published );
+}
+
 export interface State {
   isEditing: boolean;
   publishLoading: number;
   showModal: ModalId | null;
   publishNewAddendum: PublishNewAddendum;
   saveNewAddendum: SaveNewAddendum;
-  updateAddendum: UpdateAddendum;
+  //updateAddendum: UpdateAddendum;
   deleteAddendum: DeleteAddendum;
   newAddendum: Immutable<RichMarkdownEditor.State> | null;
   existingAddenda: ExistingAddendum[];
   editAddendum: Immutable<RichMarkdownEditor.State> | null;
   editedAddendumId?: string;
   deletedAddendumId?: string;
+  newTextAddendum: Immutable<RichMarkdownEditor.State> | null;
 }
 
 type InnerMsg
@@ -102,7 +118,6 @@ type InnerMsg
   | ADT<'edit', AddendumId>
   | ADT<'delete', string>
   | ADT<'deleteConfirmation'>
-  | ADT<'deleteCancel'>
   | ADT<'cancel'>
   | ADT<'publish'>
   | ADT<'onChangeExisting', [number, RichMarkdownEditor.Msg]>
@@ -110,7 +125,7 @@ type InnerMsg
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
-export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'updateAddendum' | 'deleteAddendum' > {
+export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAddendum' | 'deleteAddendum' > {
   existingAddenda: Addendum[];
   editedAddendumId?: string;
   deletedAddendumId?: string;
@@ -122,6 +137,10 @@ export interface Params extends Pick<State, 'publishNewAddendum' | 'saveNewAdden
     errors: string[];
     value: string;
   };
+  newTextAddendum?: {
+    errors: string[];
+    value: string;
+  };
 }
 
 export function isValid(state: Immutable<State>): boolean {
@@ -130,6 +149,10 @@ export function isValid(state: Immutable<State>): boolean {
 
 export function getNewAddendum(state: Immutable<State>): string | null {
   return state.newAddendum ? FormField.getValue(state.newAddendum) : null;
+}
+
+export function getNewTextAddendum(state: Immutable<State>): string | null {
+  return state.newTextAddendum ? FormField.getValue(state.newTextAddendum) : null;
 }
 
 export function getUpdatedAddendum(state: Immutable<State>): string | null {
@@ -179,7 +202,6 @@ export const init: Init<Params, State> = async params => {
 return {
     publishNewAddendum: params.publishNewAddendum,
     saveNewAddendum: params.saveNewAddendum,
-    updateAddendum: params.updateAddendum,
     deleteAddendum: params.deleteAddendum,
     editedAddendumId: params.editedAddendumId,
     deletedAddendumId: params.deletedAddendumId,
@@ -191,6 +213,10 @@ return {
     newAddendum:
       params.newAddendum
         ? await initAddendumField('new-addendum', params.newAddendum.value, params.newAddendum.errors)
+        : null,
+    newTextAddendum: 
+      params.newTextAddendum
+        ? await initAddendumField('new-addendum', params.newTextAddendum.value, params.newTextAddendum.errors)
         : null
   };
 };
@@ -221,6 +247,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         async state => {
           return state
           .set('editedAddendumId', msg.value)
+          .set('newTextAddendum', await initAddendumField('new-addendum'))
           .set('editAddendum', await initEditedAddendumField('edited-addedum-id', msg.value))
           .set('isEditing', true)
         }
@@ -234,7 +261,6 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           .set('editedAddendumId', undefined)
       ];
     case 'delete':
-      console.log('case delte', { msg })
       return [
         state,
         async (state) => {
@@ -242,24 +268,24 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
                       .set('showModal', 'deleteConfirmation')
         }
       ];
-    case 'deleteCancel':
-      return [
-        state,
-        async (state) => state
-        .set('showModal', null)
-        .set('deletedAddendumId', undefined)
-      ]
     case 'deleteConfirmation':
       return [
         state,
         async (state, dispatch) => {
           const deletedAddendum = await getDeletedAddendum(state);
-          await state.deleteAddendum(deletedAddendum as string)
-          state
-            .set('showModal', null)
-            .set('deletedAddendumId', undefined)
-            
-          return dispatch(toast(adt('success', {title: 'Fds', body: 'true'})));
+          const result = await state.deleteAddendum(deletedAddendum as string)
+          console.log('deleteConfirmation resultat : ' ,result);
+          if (validation.isValid(result)) {
+            dispatch(toast(adt('success', deleted.success)));
+            return immutable(await init({
+              publishNewAddendum: state.publishNewAddendum,
+              saveNewAddendum: state.publishNewAddendum,
+              deleteAddendum: state.deleteAddendum,
+              existingAddenda: result.value as Addendum[]
+            }));
+          } else {
+            return dispatch(toast(adt('error', deleted.error)));
+          }
         }
       ];
     case 'save':
@@ -267,31 +293,35 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         startPublishLoading(state).set('showModal', null),
         async (state, dispatch) => {
           state = stopPublishLoading(state);
-          const newAddendum = getNewAddendum(state);
-          const updatedAddedum = getUpdatedAddendum(state);
-          console.log('updatedAddedum : ',updatedAddedum); // ici pour vérfieri la récuperation du Id
+          const newAddendum = getNewAddendum(state) as any;
+          const updatedAddedum = getUpdatedAddendum(state) as any;
+          const newtext = getNewTextAddendum(state) as any;
           console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null })
-          if (!newAddendum) {
-          // ici normalement on doit traiter l'update
-            // const result = await state.updateAddendum(updatedAddedum);
-            // console.log(result);
-            return state.set('editedAddendumId', undefined); 
+          if (updatedAddedum) {
+            console.log('im not a new addendum : ', updatedAddedum);
+            console.log('and my text is : ', newtext);
+            const result = await state.saveNewAddendum(updatedAddedum);
+            if (validation.isValid(result)) {
+              dispatch(toast(adt('success', saved.success)));
+              return immutable(await init({
+                publishNewAddendum: state.publishNewAddendum,
+                saveNewAddendum: state.saveNewAddendum,
+                deleteAddendum: state.deleteAddendum,
+                existingAddenda: result.value as Addendum[]
+              }));
+            } else {
+              state.set('editedAddendumId', undefined); 
+              dispatch(toast(adt('error', saved.error)));
+              return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
+            }
           }
+          console.log('text new addenda is ', newAddendum);
           const result = await state.saveNewAddendum(newAddendum);
           if (validation.isValid(result)) {
-            console.log("VALID !")
             dispatch(toast(adt('success', saved.success)));
-            console.log({ init: {
-              editAddendum: undefined,
-              publishNewAddendum: state.publishNewAddendum,
-              saveNewAddendum: state.saveNewAddendum,
-              existingAddenda: result.value as Addendum[]
-            }})
             return immutable(await init({
-              //editAddendum: state.editAddendum,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.saveNewAddendum,
-              updateAddendum: state.updateAddendum,
               deleteAddendum: state.deleteAddendum,
               existingAddenda: result.value as Addendum[]
             }));
@@ -312,10 +342,8 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           if (validation.isValid(result)) {
             dispatch(toast(adt('success', published.success)));
             return immutable(await init({
-              editAddendum: undefined,
               publishNewAddendum: state.publishNewAddendum,
               saveNewAddendum: state.publishNewAddendum,
-              updateAddendum: state.updateAddendum,
               deleteAddendum: state.deleteAddendum,
               existingAddenda: result.value as Addendum[]
             }));
@@ -350,10 +378,11 @@ export const AddendaList: View<{ addenda: Addendum[]; }> = ({ addenda }) => {
   return (
     <div>
       {addenda.map((a, i) => (
+        isEditable(a.status) ? '' : 
         <div key={`addenda-list-${i}`} className={`border rounded overflow-hidden ${i < addenda.length - 1 ? 'mb-4' : ''}`}>
           <Markdown source={a.description} className='p-3' smallerHeadings openLinksInNewTabs />
           <div className='bg-light text-secondary p-3 border-top'>Posted on {formatDateAndTime(a.createdAt, true)}{a.createdBy ? ` by ${a.createdBy.name}` : ''}</div>
-        </div>
+        </div> 
       ))}
     </div>
   );
@@ -400,11 +429,13 @@ export const view: View<Props> = props => {
                 <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
                 <strong >Edit</strong>
             </span>
-            <span className='mx-2'>
+            { isEditable(addendum.status) ? ( <span className='mx-2'>
                 <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
                 {/* <Icon hover className='ml-auto' name='trash' color='secondary'  onClick={() => { dispatch(adt('deleteAddendum', addendum.id)) }} /> */}
                 <strong >Delete</strong>
-            </span>
+            </span> ) : ''
+            }
+            
           </div>}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
       ))}
@@ -499,7 +530,7 @@ export const getModal: PageGetModal<State, Msg> = state => {
     case 'deleteConfirmation':
         return {
           title: 'Delete Addendum?',
-          onCloseMsg: adt('deleteCancel'),
+          onCloseMsg: adt('hideModal'),
           actions: [
             {
               text: 'Delete Addendum',
@@ -511,7 +542,7 @@ export const getModal: PageGetModal<State, Msg> = state => {
             {
               text: 'Cancel',
               color: 'secondary',
-              msg: adt('deleteCancel')
+              msg: adt('hideModal')
             }
           ],
           body: () => 'Are you sure you want to delete this addendum?'
