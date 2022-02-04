@@ -175,18 +175,6 @@ async function initAddendumField(id: string, value = '', errors: string[] = []):
   }));
 }
 
-async function initEditedAddendumField(id: string, value = '', errors: string[] = []): Promise<Immutable<RichMarkdownEditor.State>> {
-  return immutable(await RichMarkdownEditor.init({
-    errors,
-    validate: validateAddendumText,
-    child: {
-      uploadImage: makeUploadMarkdownImage(),
-      value,
-      id
-    }
-  }));
-}
-
 export const init: Init<Params, State> = async params => {
   // Existing Addenda
   const existingAddenda: ExistingAddendum[] = [];
@@ -247,8 +235,8 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         async state => {
           return state
           .set('editedAddendumId', msg.value)
-          .set('newTextAddendum', await initAddendumField('new-addendum'))
-          .set('editAddendum', await initEditedAddendumField('edited-addedum-id', msg.value))
+         // .set('newTextAddendum', await initAddendumField('new-addendum'))
+          // .set('editAddendum', await initEditedAddendumField('edited-addedum-id', msg.value))
           .set('isEditing', true)
         }
       ];
@@ -294,13 +282,13 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         async (state, dispatch) => {
           state = stopPublishLoading(state);
           const newAddendum = getNewAddendum(state) as any;
-          const updatedAddedum = getUpdatedAddendum(state) as any;
-          const newtext = getNewTextAddendum(state) as any;
-          console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null })
-          if (updatedAddedum) {
-            console.log('im not a new addendum : ', updatedAddedum);
-            console.log('and my text is : ', newtext);
-            const result = await state.saveNewAddendum(updatedAddedum);
+          // const updatedAddedum = getUpdatedAddendum(state) as any;
+          // const newtext = getNewTextAddendum(state) as any;
+          console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null, editedAddendumId: state.editedAddendumId })
+          if (state.editedAddendumId) {
+            console.log('im not a new addendum : ', state.editedAddendumId);
+            console.log('and my text is : ', state.existingAddenda);
+            const result = await state.saveNewAddendum(state.editedAddendumId);
             if (validation.isValid(result)) {
               dispatch(toast(adt('success', saved.success)));
               return immutable(await init({
@@ -425,17 +413,18 @@ export const view: View<Props> = props => {
           componentBefore={
           <div className='mb-2'>
             <Badge className='mx-2 ml-auto' text={cwuOpportunityAddendaStatusToTitleCase(addendum.status)} color={cwuOpportunityAddendaStatusToColor(addendum.status)} />
-            <span className='mx-2'>
-                <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
-                <strong >Edit</strong>
-            </span>
-            { isEditable(addendum.status) ? ( <span className='mx-2'>
-                <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
-                {/* <Icon hover className='ml-auto' name='trash' color='secondary'  onClick={() => { dispatch(adt('deleteAddendum', addendum.id)) }} /> */}
-                <strong >Delete</strong>
-            </span> ) : ''
+            { isEditable(addendum.status) ? 
+              <span>
+                <span className='mx-2'>  
+                    <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
+                    <strong >Edit</strong>
+                </span>
+                <span className='mx-2'>  
+                    <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
+                    <strong >Delete</strong>
+                </span> 
+              </span> : ''
             }
-            
           </div>}
           dispatch={mapComponentDispatch(dispatch, msg => adt('onChangeExisting', [i, msg]) as Msg)} />
       ))}
