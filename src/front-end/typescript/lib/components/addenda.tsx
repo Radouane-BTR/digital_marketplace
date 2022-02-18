@@ -236,7 +236,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         async state => {
           return state
           .set('editedAddendumId', msg.value)
-         // .set('newTextAddendum', await initAddendumField('new-addendum'))
+          // .set('newTextAddendum', await initAddendumField('new-addendum'))
           // .set('editAddendum', await initEditedAddendumField('edited-addedum-id', msg.value))
           .set('isEditing', true)
         }
@@ -283,11 +283,12 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
           state = stopPublishLoading(state);
           const newAddendum = getNewAddendum(state) as any;
           // const updatedAddedum = getUpdatedAddendum(state) as any;
-          // const newtext = getNewTextAddendum(state) as any;
-          console.log({ state, newAddendum, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null, editedAddendumId: state.editedAddendumId })
+          const newtext = getNewTextAddendum(state) as any;
+
+          console.log({ state, newAddendum, newtext, edited: state.editAddendum, editedValue: state.editAddendum ? FormField.getValue(state.editAddendum) : null, editedAddendumId: state.editedAddendumId })
           if (state.editedAddendumId) {
             console.log('im not a new addendum : ', state.editedAddendumId);
-            console.log('and my text is : ', state.existingAddenda);
+            console.log('and my text is : ', newtext.value);
             const result = await state.saveNewAddendum(state.editedAddendumId);
             if (validation.isValid(result)) {
               dispatch(toast(adt('success', edited.success)));
@@ -415,7 +416,7 @@ export const view: View<Props> = props => {
               <span>
                 <span className='mx-2'>  
                     <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
-                    <strong >{i18next.t('links.edit')}</strong>
+                    <strong>{i18next.t('links.edit')}</strong>
                 </span>
                 <span className='mx-2'>  
                     <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
@@ -432,8 +433,7 @@ export const view: View<Props> = props => {
 export const getContextualActions: PageGetContextualActions<State, Msg> = ({ state, dispatch }) => {
   if (state.isEditing) {
     const isPublishLoading = state.publishLoading > 0;
-    const isSaveDraftLoading = state.publishLoading > 0; // TODO : Enlever le mock avec un frais attribut 
-    // const isLoading = isPublishLoading || isSaveDraftLoading;
+    const isSaveDraftLoading = state.publishLoading > 0; 
     return adt('links', [
       {
         children: i18next.t('links.publishAddendum'),
