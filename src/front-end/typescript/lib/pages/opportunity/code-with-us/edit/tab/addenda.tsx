@@ -37,7 +37,7 @@ const init: Init<Tab.Params, State> = async params => {
             }
             break;
         }
-        return outcome || invalid(['Unable to add addenda due to a system error.']);
+        return outcome || invalid([i18next.t('unableAddAddenda') as string]);
       },
       async saveNewAddendum(value) {
         const result = await api.opportunities.cwu.update(params.opportunity.id, adt('saveAddendum', value));
@@ -52,7 +52,7 @@ const init: Init<Tab.Params, State> = async params => {
             }
             break;
         }
-        return outcome || invalid(['Unable to save addenda due to a system error.']);
+        return outcome || invalid([i18next.t('unableSaveAddenda') as string]);
       },
       async deleteAddendum(value) {
         const result = await api.opportunities.cwu.update(params.opportunity.id, adt('deleteAddendum', value));
@@ -67,7 +67,7 @@ const init: Init<Tab.Params, State> = async params => {
             }
             break;
         }
-        return outcome || invalid([i18next.t('unableAddAddenda')]);
+        return outcome || invalid([i18next.t('unableDeleteAddenda') as string]);
       }
     }))
   };

@@ -31,36 +31,36 @@ const published = {
 
 const saved = {
   success: {
-    title: 'Addendum Saved',
-    body: 'Your addendum has been successfully saved.'
+    title: i18next.t('toasts.AddendaSaved.success-title'),
+    body: i18next.t('toasts.AddendaSaved.success-body')
   },
   error: {
-    title: 'Unable to Save Addendum',
-    body: 'Your addendum could not be saved. Please try again later.'
+    title: i18next.t('toasts.AddendaSaved.error-title'),
+    body: i18next.t('toasts.AddendaSaved.body-title')
   }
 };
 
 const deleted = {
   success: {
-    title: 'Addendum Deleted',
-    body: 'Your addendum has been successfully deleted.'
+    title: i18next.t('toasts.AddendaDeleted.success-title'),
+    body: i18next.t('toasts.AddendaDeleted.success-body')
   },
   error: {
-    title: 'Unable to Delete Addendum',
-    body: 'Your addendum could not be deleted. Please try again later.'
+    title: i18next.t('toasts.AddendaDeleted.error-title'),
+    body: i18next.t('toasts.AddendaDeleted.body-title')
   }
 };
 
-// const edited = {
-//   success: {
-//     title: 'Addendum Edited',
-//     body: 'Your addendum has been successfully Edited.'
-//   },
-//   error: {
-//     title: 'Unable to Edited Addendum',
-//     body: 'Your addendum could not be Edited. Please try again later.'
-//   }
-// };
+const edited = {
+  success: {
+    title: i18next.t('toasts.AddendaEdited.success-title'),
+    body: i18next.t('toasts.AddendaEdited.success-body')
+  },
+  error: {
+    title: i18next.t('toasts.AddendaEdited.error-title'),
+    body: i18next.t('toasts.AddendaEdited.body-title')
+  }
+};
 
 interface ExistingAddendum extends Addendum {
   field: Immutable<RichMarkdownEditor.State>;
@@ -85,9 +85,9 @@ export function cwuOpportunityAddendaStatusToColor(s: CWUOpportunityAddendaStatu
 
 export function cwuOpportunityAddendaStatusToTitleCase(s: CWUOpportunityAddendaStatus): string {
   switch (s) {
-    case CWUOpportunityAddendaStatus.Draft: return 'Draft';
-    case CWUOpportunityAddendaStatus.Published: return 'Published';
-    default: return 'Draft';
+    case CWUOpportunityAddendaStatus.Draft: return i18next.t('draft');
+    case CWUOpportunityAddendaStatus.Published: return i18next.t('published');
+    default: return i18next.t('draft');
   }
 }
 
@@ -263,7 +263,6 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
         async (state, dispatch) => {
           const deletedAddendum = await getDeletedAddendum(state);
           const result = await state.deleteAddendum(deletedAddendum as string)
-          console.log('deleteConfirmation resultat : ' ,result);
           if (validation.isValid(result)) {
             dispatch(toast(adt('success', deleted.success)));
             return immutable(await init({
@@ -291,7 +290,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
             console.log('and my text is : ', state.existingAddenda);
             const result = await state.saveNewAddendum(state.editedAddendumId);
             if (validation.isValid(result)) {
-              dispatch(toast(adt('success', saved.success)));
+              dispatch(toast(adt('success', edited.success)));
               return immutable(await init({
                 publishNewAddendum: state.publishNewAddendum,
                 saveNewAddendum: state.saveNewAddendum,
@@ -299,12 +298,10 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
                 existingAddenda: result.value as Addendum[]
               }));
             } else {
-              state.set('editedAddendumId', undefined); 
-              dispatch(toast(adt('error', saved.error)));
+              dispatch(toast(adt('error', edited.error)));
               return state.update('newAddendum', s => s ? FormField.setErrors(s, result.value) : s);
             }
           }
-          console.log('text new addenda is ', newAddendum);
           const result = await state.saveNewAddendum(newAddendum);
           if (validation.isValid(result)) {
             dispatch(toast(adt('success', saved.success)));
@@ -418,11 +415,11 @@ export const view: View<Props> = props => {
               <span>
                 <span className='mx-2'>  
                     <Icon hover className='ml-auto' name='edit' color='secondary' onClick={() => {console.log('addendum de i', addendum) ; return dispatch(adt('edit', addendum.id))}} />
-                    <strong >Edit</strong>
+                    <strong >{i18next.t('links.edit')}</strong>
                 </span>
                 <span className='mx-2'>  
                     <Icon hover className='ml-auto' name='trash' color='secondary' onClick={() =>dispatch(adt('delete', addendum.id))} />
-                    <strong >Delete</strong>
+                    <strong >{i18next.t('links.delete')}</strong>
                 </span> 
               </span> : ''
             }
@@ -499,43 +496,43 @@ export const getModal: PageGetModal<State, Msg> = state => {
       };
     case 'save':
       return {
-        title: 'Save Addendum?',
+        title: `${i18next.t('links.saveAddendum')}?`,
         onCloseMsg: adt('hideModal'),
         actions: [
           {
-            text: 'Save Addendum',
+            text: i18next.t('links.saveAddendum'),
             icon: 'save',
             color: 'primary',
             button: true,
             msg: adt('save')
           },
           {
-            text: 'Cancel',
+            text: i18next.t('links.cancel'),
             color: 'secondary',
             msg: adt('hideModal')
           }
         ],
-        body: () => 'Are you sure you want to save this addendum?'
+        body: () => i18next.t('bodyModalSaveAddendum')
       };
     case 'deleteConfirmation':
         return {
-          title: 'Delete Addendum?',
+          title: `${i18next.t('links.deleteAddendum')}?`,
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Delete Addendum',
+              text: i18next.t('links.deleteAddendum'),
               color: 'danger',
               icon: 'trash',
               button: true,
               msg: adt('deleteConfirmation')
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to delete this addendum?'
+          body: () => i18next.t('bodyModalDeleteAddendum')
         };
     case 'cancel':
       return {

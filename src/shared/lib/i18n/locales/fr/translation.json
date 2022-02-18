@@ -210,6 +210,8 @@
     "agreeAndContinue":"Accepter et continuer",
     "publishAddendum":"Publier Addenda",
     "addAddendum": "Ajouter Addenda",
+    "saveAddendum":"Enregistrer Addenda",
+    "deleteAddendum": "Supprimer Addenda",
     "yesToCancel":"Oui, je veux annuler",
     "goBack": "Retour",
     "publishOpportunity": "Publier Opportunité",
@@ -530,6 +532,24 @@
       "error-title": "Impossible de publier l'addenda",
       "error-body": "Votre addenda n'a pas pu être publié. Veuillez réessayer plus tard."
     },
+    "AddendaSaved":{
+      "success-title": "Addenda Sauvegardé",
+      "success-body": "Votre addendum a été enregistré avec succès.",
+      "error-title": "Impossible d'enregistrer l'addendum",
+      "error-body": "Votre addendum n'a pas pu être enregistré. Veuillez réessayer plus tard."
+    },
+    "AddendaDeleted":{
+      "success-title": "Addendum Supprimé",
+      "success-body": "Votre addendum a été supprimé avec succès.",
+      "error-title": "Impossible de supprimer l'addendum",
+      "error-body": "Votre addendum n'a pas pu être supprimé. Veuillez réessayer plus tard."
+    },    
+    "AddendaEdited":{
+      "success-title": "Addendum Édité",
+      "success-body": "Votre addendum a été édité avec succès.",
+      "error-title": "Impossible d'éditer l'addendum",
+      "error-body": "Votre addendum n'a pas pu être édité. Veuillez réessayer plus tard."
+    },
     "updatedProfil":{
       "success-title": "Profil mis à jour",
       "success-body": "Votre profil a été mis à jour avec succès.",
@@ -646,7 +666,9 @@
   "scored": "Notée",
   "scoreEntered": "Note saisie",
   "save": "Sauvegarder",
-  "addendumAdded": "Addenda ajouté",
+  "addendumAdded": "Addenda ajoutée",
+  "addendumDeleted": "Addenda Supprimée",
+  "addendumUpdated": "Addenda Modifiée",
   "open": "Ouverte",
   "closed": "Fermée",
   "closes": "Se ferme",
@@ -670,7 +692,9 @@
   "newAddendum": "Nouvel Addenda",
   "existingAddendum": "Addenda Existant",
   "newAddendumHelp": "Fournissez des informations supplémentaires qui n'ont pas été fournies sur l'affichage original de l'opportunité.",
-  "bodyModalPublishAddendum": "Êtes-vous sûr de vouloir publier cet addendum ? Une fois publié, tous les abonnés seront informés.",
+  "bodyModalPublishAddendum": "Êtes-vous sûr de vouloir publier cet addendum? Une fois publié, tous les abonnés seront informés.",
+  "bodyModalSaveAddendum": "Êtes-vous sûr de vouloir sauvegarder cet addendum?",
+  "bodyModalDeleteAddendum": "Êtes-vous sûr de vouloir supprimer cet addendum?",
   "bodyModalCancelBody": "Es-tu sûre de vouloir annuler? Toute information que vous avez saisie sera perdue si vous le faites.",
   "titleModalCancelPublishAddendum": "Annuler l'ajout d'un addenda ?",
   "submitProposalTerms":{
@@ -680,6 +704,8 @@
   },
   "unableUploadFil": "Incapable de télécharger le fichier.",
   "unableAddAddenda": "Impossible d'ajouter des addenda en raison d'une erreur système.",
+  "unableSaveAddenda": "Impossible d'enregistrer les addenda en raison d'une erreur système.",
+  "unableDeleteAddenda": "Impossible de supprimer les addenda en raison d'une erreur système.",
   "additionalAddendaInformation": "Fournissez des informations supplémentaires ici pour clarifier ou étayer les informations de l'opportunité d'origine.",
   "Addenda": "Addenda",
   "history": "Historique",

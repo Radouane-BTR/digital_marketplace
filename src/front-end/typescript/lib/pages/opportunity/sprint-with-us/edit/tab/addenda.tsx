@@ -21,7 +21,6 @@ export type InnerMsg
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
 const init: Init<Tab.Params, State> = async params => {
-  console.log('INIT ADDENDA PARAMS')
   return {
     ...params,
     addenda: immutable(await Addenda.init({
@@ -58,7 +57,6 @@ const init: Init<Tab.Params, State> = async params => {
         return outcome || invalid(['Unable to add addenda due to a system error.']);
       },
       async deleteAddendum(value) {
-        console.log('im in deleteAddendum sprint with us')
         const result = await api.opportunities.swu.update(params.opportunity.id, adt('addAddendum', value));
         let outcome: Validation<Addendum[], string[]> | undefined;
         switch (result.tag) {
@@ -71,7 +69,7 @@ const init: Init<Tab.Params, State> = async params => {
             }
             break;
         }
-        return outcome || invalid([i18next.t('unableAddAddenda')]);
+        return outcome || invalid([i18next.t('unableAddAddenda') as string]);
       }
     }))
   };

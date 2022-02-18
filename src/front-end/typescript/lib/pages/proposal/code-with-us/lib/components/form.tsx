@@ -782,7 +782,6 @@ const ProponentView: View<Props> = props => {
 };
 
 const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
-  // const textLink = i18next.t('proposalEvaluationCriteria') as String;
   return (
     <Row>
       <Col xs='12'>
@@ -793,7 +792,7 @@ const ProposalView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <Alert color='primary' fade={false} className='mb-4'>
           <Link color='inherit' className='font-weight-bold d-flex justify-content-between flex-nowrap align-items-center w-100' onClick={() => dispatch(adt('toggleEvaluationCriteria'))}>
-            {i18next.t('proposalEvaluationCriteria')}
+            {i18next.t('proposalEvaluationCriteria') as string}
             <Icon name={state.showEvaluationCriteria ? 'chevron-up' : 'chevron-down'} className='o-75'/>
           </Link>
           {state.showEvaluationCriteria

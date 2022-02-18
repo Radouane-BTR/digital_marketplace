@@ -80,10 +80,11 @@ export function cwuOpportunityStatusToPastTenseVerb(s: CWUOpportunityStatus): st
 
 export function cwuOpportunityEventToTitleCase(e: CWUOpportunityEvent): string {
   switch (e) {
-    case CWUOpportunityEvent.Edited: return 'Edited';
-    case CWUOpportunityEvent.AddendumAdded: return 'Addendum Added';
-    case CWUOpportunityEvent.AddendumAdded: return i18next.t('addendumAdded');
     case CWUOpportunityEvent.Edited: return i18next.t('edited');
+    case CWUOpportunityEvent.AddendumAdded: return i18next.t('addendumAdded');
+    case CWUOpportunityEvent.AddendumDeleted : return i18next.t('addendumDeleted');
+    case CWUOpportunityEvent.AddendumUpdated : return i18next.t('addendumUpdated');
+
   }
 }
 

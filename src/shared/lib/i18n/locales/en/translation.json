@@ -210,6 +210,8 @@
     "agreeAndContinue":"Agree & Continue",
     "publishAddendum":"Publish Addendum",
     "addAddendum": "Add Addendum",
+    "saveAddendum":"Save Addendum",
+    "deleteAddendum": "Delete Addendum",
     "yesToCancel":"Yes, I want to cancel",
     "goBack": "Go Back",
     "publishOpportunity": "Publish Opportunity",
@@ -530,6 +532,24 @@
       "error-title": "Unable to Publish Addendum",
       "error-body": "Your addendum could not be published. Please try again later."
     },
+    "AddendaSaved":{
+      "success-title": "Addendum Saved",
+      "success-body": "Your addendum has been successfully saved.",
+      "error-title": "Unable to Save Addendum",
+      "error-body": "Your addendum could not be saved. Please try again later."
+    },
+    "AddendaDeleted":{
+      "success-title": "Addendum Deleted",
+      "success-body": "Your addendum has been successfully deleted.",
+      "error-title": "Unable to Delete Addendum",
+      "error-body": "Your addendum could not be deleted. Please try again later."
+    },    
+    "AddendaEdited":{
+      "success-title": "Addendum Edited",
+      "success-body": "Your addendum has been successfully Edited.",
+      "error-title": "Unable to Edited Addendum",
+      "error-body": "Your addendum could not be edited. Please try again later."
+    },
     "updatedProfil":{
       "success-title": "Profile Updated",
       "success-body": "Your profile has been successfully updated.",
@@ -647,6 +667,8 @@
   "scoreEntered": "Score Entered",
   "save": "Save",
   "addendumAdded": "Addendum Added",
+  "addendumDeleted": "Addendum Deleted",
+  "addendumUpdated": "Addendum Updated",
   "open": "Open",
   "closed": "Closed",
   "closes": "Closes",
@@ -671,6 +693,8 @@
   "existingAddendum": "Existing Addendum",
   "newAddendumHelp": "Provide additional information that was not provided on the original posting of the opportunity.",
   "bodyModalPublishAddendum": "Are you sure you want to publish this addendum? Once published, all subscribers will be notified.",
+  "bodyModalSaveAddendum": "Are you sure you want to save this addendum?",
+  "bodyModalDeleteAddendum": "Are you sure you want to delete this addendum?",
   "bodyModalCancelBody": "Are you sure you want to cancel? Any information you may have entered will be lost if you do so.",
   "titleModalCancelPublishAddendum": "Cancel Adding an Addendum?",
   "submitProposalTerms":{
@@ -680,6 +704,8 @@
   },
   "unableUploadFil": "Unable to upload file.",
   "unableAddAddenda": "Unable to add addenda due to a system error.",
+  "unableSaveAddenda": "Unable to save addenda due to a system error.",
+  "unableDeleteAddenda": "Unable to delete addenda due to a system error.",
   "additionalAddendaInformation": "Provide additional information here to clarify or support the information in the original opportunity.",
   "addenda": "Addenda",
   "history": "History",
@@ -1051,7 +1077,7 @@
   "statusNote": "Status Note",
   "invalidNumberWithPrecision": "Please enter {{article}} {{name}} with precision less than or equal to {{maxPrecision}} decimal places.",
   "invalidDate": "Please enter a valid date.",
-  "invalidMinMaxDate": "`Please select a ${name}",
+  "invalidMinMaxDate": "`Please select a {{name}}",
   "or": "or",
   "after": "after" ,
   "earlierThan": "earlier than",
