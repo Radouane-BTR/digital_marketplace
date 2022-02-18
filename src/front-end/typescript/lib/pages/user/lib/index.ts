@@ -3,6 +3,7 @@ import { fileBlobPath } from 'front-end/lib';
 import { ThemeColor } from 'front-end/lib/types';
 import { GOV_IDP_NAME, GOV_IDP_SUFFIX, VENDOR_IDP_NAME, VENDOR_IDP_SUFFIX } from 'shared/config';
 import { KeyCloakIdentityProvider, User, UserStatus, UserType, userTypeToKeycloakIdentityProvider } from 'shared/lib/resources/user';
+import i18next from 'i18next';
 
 export function userAvatarPath(user?: Pick<User, 'avatarImageFile'>): string {
   return user && user.avatarImageFile
@@ -28,16 +29,16 @@ export function userTypeToTitleCase(v: UserType): string {
   switch (v) {
       case UserType.Government:
       case UserType.Admin:
-        return 'Public Sector Employee';
+        return i18next.t('account.sign-in.title');
       case UserType.Vendor:
-        return 'Vendor';
+        return i18next.t('account.type.vendor.type');
   }
 }
 
 export function userTypeToPermissions(v: UserType): string[] {
   switch (v) {
       case UserType.Admin:
-        return ['Admin'];
+        return [i18next.t('admin')];
       case UserType.Government:
       case UserType.Vendor:
         return [];
@@ -48,9 +49,9 @@ export function userStatusToTitleCase(v: UserStatus): string {
   switch (v) {
       case UserStatus.InactiveByAdmin:
       case UserStatus.InactiveByUser:
-        return 'Inactive';
+        return i18next.t('inactive');
       case UserStatus.Active:
-        return 'Active';
+        return i18next.t('active');
   }
 }
 

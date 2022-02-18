@@ -13,7 +13,6 @@ import { AuthenticatedSession, Session, SessionRecord } from 'shared/lib/resourc
 import { adt, ADT, Id } from 'shared/lib/types';
 import { allValid, getInvalidValue, getValidValue, invalid, isInvalid, isValid, mapValid, valid, validateUUID, Validation } from 'shared/lib/validation';
 import * as opportunityValidation from 'shared/lib/validation/opportunity/code-with-us';
-
 export interface ValidatedCreateRequestBody extends Omit<CWUOpportunity, 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy' | 'id' | 'addenda'> {
   status: CreateCWUOpportunityStatus;
   session: AuthenticatedSession;

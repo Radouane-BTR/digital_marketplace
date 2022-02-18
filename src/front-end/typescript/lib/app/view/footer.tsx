@@ -7,44 +7,45 @@ import Separator from 'front-end/lib/views/separator';
 import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import { adt } from 'shared/lib/types';
+import i18next from 'i18next'
 
 const links: AnchorProps[] = [
   {
-    children: 'Accueil',
+    children: i18next.t('links.home'),
     dest: routeDest(adt('landing', null))
   },
   {
-    children: 'About',
+    children:  i18next.t('links.about'),
     dest: routeDest(adt('contentView', 'about'))
   },
   {
-    children: 'Disclaimer',
+    children: i18next.t('links.disclaimer'),
     dest: routeDest(adt('contentView', 'disclaimer'))
   },
   {
-    children: 'Privacy',
+    children: i18next.t('links.privacy'),
     dest: routeDest(adt('contentView', 'privacy'))
   },
   {
-    children: 'Accessibility',
+    children: i18next.t('links.accessibility'),
     dest: routeDest(adt('contentView', 'accessibility'))
   },
   {
-    children: 'Copyright',
+    children: i18next.t('links.copyright'),
     dest: routeDest(adt('contentView', 'copyright'))
   },
   {
-    children: 'Contact Us',
+    children: i18next.t('links.contact-us'),
     dest: emailDest([CONTACT_EMAIL])
   },
   {
-    children: 'Source Code',
+    children: i18next.t('links.source-code'),
     dest: externalDest(SOURCE_CODE_URL),
     newTab: true,
     symbol_: leftPlacement(iconLinkSymbol('github'))
   },
   {
-    children: 'Procurement Concierge',
+    children: i18next.t('conciergerieApprovisionnement'),
     dest: externalDest(PROCUREMENT_CONCIERGE_URL),
     newTab: true,
     symbol_: rightPlacement(iconLinkSymbol('external-link'))
@@ -62,16 +63,16 @@ const Footer: View<{}> = () => {
             
             </div>
             <div className='flex-shrink-0 mr-5'>
-              <div className='mb-2'><Link className="font-size-large roboto" color='white'>Nous joindre</Link></div>
+              <div className='mb-2'><Link className="font-size-large roboto" color='white'>{i18next.t('links.contact-us')}</Link></div>
               <ul className='footer-link-list'>
-                <li><a href="#">Téléphone</a></li>
-                <li><a target="_blank" href="/bureaux-de-services/">Bureaux de services&nbsp;</a></li>
-                <li><a href="/nous-joindre/courriel/">Courriel  </a></li>
-                <li><a href="mailto:info@quebec.ca?subject=Problèmes%20techniques%20reliés%20à%20la%20plateforme">Problèmes techniques</a></li>
+                <li><a href="#">{i18next.t('links.phone')}</a></li>
+                <li><a target="_blank" href="/bureaux-de-services/">{i18next.t('links.serviceOffices')}&nbsp;</a></li>
+                <li><a href="/nous-joindre/courriel/">{i18next.t('links.mail')}&nbsp;</a></li>
+                <li><a href="mailto:info@quebec.ca?subject=Problèmes%20techniques%20reliés%20à%20la%20plateforme">{i18next.t('links.TechnicalProblems')}</a></li>
               </ul>
             </div>
             <div className='flex-shrink-0 mr-4'>
-              <div className='footer-social-list-title font-size-large text-white mb-2'>Suivez-nous</div>
+              <div className='footer-social-list-title font-size-large text-white mb-2'>{i18next.t('links.follow-us')}</div>
               <ul className="d-flex footer-social-list">
                 <li>
                   <a target="_blank" href="https://www.facebook.com/GouvQc/">

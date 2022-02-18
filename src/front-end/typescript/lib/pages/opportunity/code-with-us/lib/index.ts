@@ -2,6 +2,7 @@ import * as History from 'front-end/lib/components/table/history';
 import { ThemeColor } from 'front-end/lib/types';
 import { CWUOpportunity, CWUOpportunityEvent, CWUOpportunityStatus, isOpen } from 'shared/lib/resources/opportunity/code-with-us';
 import { isAdmin, User } from 'shared/lib/resources/user';
+import i18next from 'i18next';
 
 export function cwuOpportunityStatusToColor(s: CWUOpportunityStatus): ThemeColor {
   switch (s) {
@@ -16,12 +17,12 @@ export function cwuOpportunityStatusToColor(s: CWUOpportunityStatus): ThemeColor
 
 export function cwuOpportunityStatusToTitleCase(s: CWUOpportunityStatus): string {
   switch (s) {
-    case CWUOpportunityStatus.Draft: return 'Draft';
-    case CWUOpportunityStatus.Published: return 'Published';
-    case CWUOpportunityStatus.Evaluation: return 'Evaluation';
-    case CWUOpportunityStatus.Awarded: return 'Awarded';
-    case CWUOpportunityStatus.Suspended: return 'Suspended';
-    case CWUOpportunityStatus.Canceled: return 'Cancelled'; // Use British spelling for copy.
+    case CWUOpportunityStatus.Draft: return i18next.t('draft');
+    case CWUOpportunityStatus.Published: return i18next.t('published');
+    case CWUOpportunityStatus.Evaluation: return i18next.t('evaluation');
+    case CWUOpportunityStatus.Awarded: return i18next.t('awarded');
+    case CWUOpportunityStatus.Suspended: return i18next.t('suspended');
+    case CWUOpportunityStatus.Canceled: return i18next.t('cancelled'); // Use British spelling for copy.
   }
 }
 
@@ -31,11 +32,11 @@ export function cwuOpportunityToPublicStatus(o: Pick<CWUOpportunity, 'status' | 
     return cwuOpportunityStatusToTitleCase(o.status);
   } else {
     if (isOpen(o)) {
-      return 'Open';
+      return i18next.t('open');
     } else if (o.status === CWUOpportunityStatus.Canceled) {
-      return 'Canceled';
+      return i18next.t('canceled');
     } else {
-      return 'Closed';
+      return i18next.t('closed');
     }
   }
 }
@@ -55,25 +56,25 @@ export function cwuOpportunityToPublicColor(o: Pick<CWUOpportunity, 'status' | '
 
 export function cwuOpportunityStatusToPresentTenseVerb(s: CWUOpportunityStatus): string {
   switch (s) {
-    case CWUOpportunityStatus.Suspended: return 'Suspend';
-    case CWUOpportunityStatus.Canceled: return 'Cancel';
-    case CWUOpportunityStatus.Published: return 'Publish';
-    case CWUOpportunityStatus.Awarded: return 'Award';
+    case CWUOpportunityStatus.Suspended: return i18next.t('suspend');
+    case CWUOpportunityStatus.Canceled: return i18next.t('cancel');
+    case CWUOpportunityStatus.Published: return i18next.t('publish');
+    case CWUOpportunityStatus.Awarded: return i18next.t('award');
     case CWUOpportunityStatus.Evaluation:
     case CWUOpportunityStatus.Draft:
-      return 'Update';
+      return i18next.t('update');
   }
 }
 
 export function cwuOpportunityStatusToPastTenseVerb(s: CWUOpportunityStatus): string {
   switch (s) {
-    case CWUOpportunityStatus.Suspended: return 'Suspended';
-    case CWUOpportunityStatus.Canceled: return 'Cancelled';
-    case CWUOpportunityStatus.Published: return 'Published';
-    case CWUOpportunityStatus.Awarded: return 'Awarded';
+    case CWUOpportunityStatus.Suspended: return i18next.t('suspended');
+    case CWUOpportunityStatus.Canceled: return i18next.t('canceled');
+    case CWUOpportunityStatus.Published: return i18next.t('published');
+    case CWUOpportunityStatus.Awarded: return i18next.t('awarded');
     case CWUOpportunityStatus.Evaluation:
     case CWUOpportunityStatus.Draft:
-      return 'Updated';
+      return i18next.t('updated');
   }
 }
 
@@ -81,8 +82,8 @@ export function cwuOpportunityEventToTitleCase(e: CWUOpportunityEvent): string {
   switch (e) {
     case CWUOpportunityEvent.Edited: return 'Edited';
     case CWUOpportunityEvent.AddendumAdded: return 'Addendum Added';
-    case CWUOpportunityEvent.AddendumDeleted : return 'Addendum Deleted';
-    case CWUOpportunityEvent.AddendumUpdated : return 'Addendum Updated';
+    case CWUOpportunityEvent.AddendumAdded: return i18next.t('addendumAdded');
+    case CWUOpportunityEvent.Edited: return i18next.t('edited');
   }
 }
 

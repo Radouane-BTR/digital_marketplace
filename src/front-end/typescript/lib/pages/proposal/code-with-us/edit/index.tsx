@@ -9,7 +9,8 @@ import { CWUProposal, DEFAULT_CWU_PROPOSAL_TITLE, getCWUProponentName } from 'sh
 import { UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
-
+import i18next from 'i18next'; 
+ 
 interface ValidState<K extends Tab.TabId> extends Tab.ParentState<K> {
   proposal: CWUProposal;
 }
@@ -79,7 +80,7 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
     getMetadata: getMetadataValid(TabbedPage.makeGetParentMetadata({
       idToDefinition,
       getTitleSuffix: state => getCWUProponentName(state.proposal) || DEFAULT_CWU_PROPOSAL_TITLE
-    }), makePageMetadata('Edit Code With Us Proposal'))
+    }), makePageMetadata(i18next.t('editCWUproposal')))
   };
 }
 

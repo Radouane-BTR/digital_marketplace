@@ -10,6 +10,7 @@ import { AuthenticatedSession, Session } from 'shared/lib/resources/session';
 import { CreateRequestBody, CreateValidationErrors, CWUOpportunitySubscriber, DeleteValidationErrors } from 'shared/lib/resources/subscribers/code-with-us';
 import { Id } from 'shared/lib/types';
 import { invalid, isInvalid, valid } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 interface ValidatedCreateRequestBody {
   opportunity: Id;
@@ -63,14 +64,14 @@ const resource: Resource = {
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, opportunity, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
           return invalid({
-            notFound: ['The specified opportunity does not exist']
+            notFound: [i18next.t('opportunityNotExistText')]
           });
         }
 
         // Don't allow subscribing to owned opportunity
         if (validatedCWUOpportunity.value.createdBy?.id === request.session.user.id) {
           return invalid({
-            opportunity: ['You cannot subscribe to your own opportunity.']
+            opportunity: [i18next.t('cannotSubscribeOwnOpportunityText')]
           });
         }
 
@@ -83,7 +84,7 @@ const resource: Resource = {
         }
         if (dbResult.value) {
           return invalid({
-            conflict: ['This user is already subscribed to this opportunity.']
+            conflict: [i18next.t('userAlreadySubscribedOpportunityText')]
           });
         }
 
@@ -118,7 +119,7 @@ const resource: Resource = {
         }
         const validatedCWUOpportunity = await validateCWUOpportunityId(connection, request.params.id, request.session);
         if (isInvalid(validatedCWUOpportunity)) {
-          return invalid({ notFound: ['Opportunity not found.'] });
+          return invalid({ notFound: [i18next.t('opportunityNotFound')] });
         }
         // Check for existing subscription for this user
         const dbResult = await db.readOneCWUSubscriberByOpportunityAndUser(connection, validatedCWUOpportunity.value.id, request.session.user.id, request.session);
@@ -129,7 +130,7 @@ const resource: Resource = {
         }
         if (!dbResult.value) {
           return invalid({
-            notFound: ['This user is not subscribed to this opportunity.']
+            notFound: [i18next.t('userIsntSubscribedOpportunityText')]
           });
         }
         return valid({

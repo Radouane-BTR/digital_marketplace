@@ -9,7 +9,7 @@ import { Col, Row } from 'reactstrap';
 import { CWUProposal } from 'shared/lib/resources/proposal/code-with-us';
 import { User } from 'shared/lib/resources/user';
 import { adt } from 'shared/lib/types';
-
+import i18next from 'i18next';
 export interface Props {
   proposal: CWUProposal;
   viewerUser: User;
@@ -22,13 +22,13 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
       ? ({
           tag: 'date' as const,
           date: proposal.submittedAt,
-          label: 'Submitted'
+          label: i18next.t('submitted')
         })
       : null,
     {
       tag: 'date' as const,
       date: proposal.updatedAt,
-      label: 'Updated'
+      label: i18next.t('updated')
     }
   ];
   const items = [
@@ -42,7 +42,7 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
       <Row className='mb-5'>
         <Col xs='12'>
           <h3 className='mb-2'>
-            Code With Us:&nbsp;
+          {i18next.t('codeWithUs')}:&nbsp;
             <Link
               newTab
               dest={routeDest(adt('opportunityCWUView', { opportunityId: proposal.opportunity.id }))}>
@@ -61,7 +61,7 @@ const ViewTabHeader: View<Props> = ({ proposal, viewerUser }) => {
             className='mt-3'
             dest={routeDest(adt('proposalCWUExportOne', { opportunityId: proposal.opportunity.id, proposalId: proposal.id }))}
             symbol_={rightPlacement(iconLinkSymbol('file-export'))}>
-            Export Proposal
+            {i18next.t('exportProposal')}
           </Link>
         </Col>
       </Row>

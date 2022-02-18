@@ -14,6 +14,7 @@ import { compareStrings } from 'shared/lib';
 import { OrganizationSlim } from 'shared/lib/resources/organization';
 import { isVendor, User, UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 type TableOrganization = OrganizationSlim;
 
@@ -116,7 +117,7 @@ function showOwnerColumn(state: Immutable<State>): boolean {
 
 function tableHeadCells(state: Immutable<State>): Table.HeadCells {
   const owner = {
-    children: 'Owner',
+    children: i18next.t('organization.list.tableHeadCells.owner'),
     className: 'text-nowrap',
     style: {
       minWidth: '200px'
@@ -124,7 +125,7 @@ function tableHeadCells(state: Immutable<State>): Table.HeadCells {
   };
   return [
     {
-      children: 'Organization Name',
+      children: i18next.t('organization.list.tableHeadCells.title'),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -158,7 +159,7 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
   const dispatchTable = mapComponentDispatch<Msg, Table.Msg>(dispatch, value => ({ tag: 'table', value }));
   return (
     <div>
-      <h1 className='mb-5'>Digital Marketplace Organizations</h1>
+      <h1 className='mb-5'>{ i18next.t('organization.list.title') }</h1>
       <Row>
         <Col xs='12'>
           <Table.view
@@ -188,20 +189,20 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Organizations');
+    return makePageMetadata(i18next.t('links.organizations'));
   },
   getContextualActions: ({ state, dispatch }) => {
     if (!state.sessionUser || !isVendor(state.sessionUser)) { return null; }
     return adt('links', [
       {
-        children: 'Create Organization',
+        children: i18next.t('links.create-organization'),
         button: true,
         symbol_: leftPlacement(iconLinkSymbol('plus-circle')),
         color: 'primary',
         dest: routeDest(adt('orgCreate', null))
       },
       {
-        children: 'My Organizations',
+        children:  i18next.t('organization.my-organizations') ,
         button: true,
         outline: true,
         symbol_: leftPlacement(iconLinkSymbol('building')),

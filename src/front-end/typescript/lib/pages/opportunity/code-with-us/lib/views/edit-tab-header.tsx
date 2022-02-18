@@ -9,6 +9,7 @@ import { Col, Row } from 'reactstrap';
 import { CWUOpportunity, DEFAULT_OPPORTUNITY_TITLE } from 'shared/lib/resources/opportunity/code-with-us';
 import { User, UserType } from 'shared/lib/resources/user';
 import { adt } from 'shared/lib/types';
+import i18next from 'i18next';
 
 export interface Props {
   opportunity: CWUOpportunity;
@@ -23,23 +24,23 @@ const EditTabHeader: View<Props> = ({ opportunity, viewerUser }) => {
       ? {
           tag: 'date' as const,
           date: opportunity.publishedAt,
-          label: 'Published'
+          label: i18next.t('published')
         }
       : null,
     {
       tag: 'date' as const,
       date: opportunity.updatedAt,
-      label: 'Updated'
+      label: i18next.t('updated')
     }
   ];
   const items = [
     {
-      name: 'Status',
+      name: i18next.t('status'),
       children: (<Badge text={cwuOpportunityStatusToTitleCase(oppStatus)} color={cwuOpportunityStatusToColor(oppStatus)} />)
     },
     createdBy
       ? {
-          name: 'Created By',
+          name: i18next.t('createdBy'),
           children: viewerUser.type === UserType.Admin
             ? (<Link dest={routeDest(adt('userProfile', { userId: createdBy.id }))}>{createdBy.name}</Link>)
             : createdBy.name
@@ -51,7 +52,7 @@ const EditTabHeader: View<Props> = ({ opportunity, viewerUser }) => {
       <Row className='mb-5'>
         <Col xs='12'>
           <h3 className='mb-2'>
-            Code With Us:&nbsp;
+            {i18next.t('codeWithUs')}:&nbsp;
             <Link
               newTab
               dest={routeDest(adt('opportunityCWUView', { opportunityId: opportunity.id }))}>

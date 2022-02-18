@@ -16,6 +16,7 @@ import { canCWUOpportunityBeAwarded, canViewCWUOpportunityProposals, CWUOpportun
 import { canCWUProposalBeAwarded, compareCWUProposalsForPublicSector, CWUProposalSlim, getCWUProponentName } from 'shared/lib/resources/proposal/code-with-us';
 import { isAdmin } from 'shared/lib/resources/user';
 import { ADT, adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 type ModalId = ADT<'award', Id>;
 
@@ -122,19 +123,19 @@ const makeCardData = (opportunity: CWUOpportunity, proposals: CWUProposalSlim[])
   return [
     {
       icon: 'comment-dollar',
-      name: `Proposal${numProposals === 1 ? '' : 's'}`,
+      name: `${i18next.t('proposal')}${numProposals === 1 ? '' : 's'}`,
       value: numProposals ? String(numProposals) : EMPTY_STRING
     },
     {
       icon: 'star-full',
       iconColor: 'c-report-card-icon-highlight',
-      name: 'Winning Score',
+      name: i18next.t('winningScore'),
       value: isAwarded && highestScore ? `${highestScore}%` : EMPTY_STRING
     },
     {
       icon: 'star-half',
       iconColor: 'c-report-card-icon-highlight',
-      name: 'Avg. Score',
+      name: i18next.t('avgScore'),
       value: isAwarded && averageScore ? `${averageScore}%` : EMPTY_STRING
     }
   ];
@@ -142,9 +143,9 @@ const makeCardData = (opportunity: CWUOpportunity, proposals: CWUProposalSlim[])
 
 const NotAvailable: ComponentView<State, Msg> = ({ state }) => {
   if (isCWUOpportunityAcceptingProposals(state.opportunity)) {
-    return (<div>Proposals will be displayed here once this opportunity has closed.</div>);
+    return (<div>{i18next.t('isCWUOpportunityAcceptingProposals')}</div>);
   } else {
-    return (<div>No proposals were submitted to this opportunity.</div>);
+    return (<div>{i18next.t('isNotCWUOpportunityAcceptingProposals')}</div>);
   }
 };
 
@@ -157,7 +158,7 @@ const ContextMenuCell: View<{ loading: boolean; proposal: CWUProposalSlim; dispa
       size='sm'
       loading={loading}
       onClick={() => dispatch(adt('showModal', adt('award' as const, proposal.id))) }>
-      Award
+      {i18next.t('award')}
     </Link>
   );
 };
@@ -219,12 +220,12 @@ function evaluationTableBodyRows(state: Immutable<State>, dispatch: Dispatch<Msg
 function evaluationTableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Proponent',
+      children: i18next.t('proponent'),
       className: 'text-wrap',
       style: { width: '100%', minWidth: '240px' }
     },
     {
-      children: 'Status',
+      children: i18next.t('status'),
       className: 'text-nowrap',
       style: { width: '0px' }
     },
@@ -268,7 +269,7 @@ const view: ComponentView<State, Msg> = (props) => {
       <div className='border-top mt-5 pt-5'>
         <Row>
           <Col xs='12' className='d-flex flex-column flex-md-row justify-content-md-between align-items-start align-items-md-center mb-4'>
-            <h4 className='mb-0'>Proposals</h4>
+            <h4 className='mb-0'>{i18next.t('proposals')}</h4>
             {state.canViewProposals
               ? (<Link
                   newTab
@@ -276,7 +277,7 @@ const view: ComponentView<State, Msg> = (props) => {
                   className='mt-3 mt-md-0'
                   symbol_={rightPlacement(iconLinkSymbol('file-export'))}
                   dest={routeDest(adt('proposalCWUExportAll', { opportunityId: opportunity.id }))}>
-                  Export All Proposals
+                  {i18next.t('exportAllProposals')}
                 </Link>)
               : null}
           </Col>
@@ -301,23 +302,23 @@ export const component: Tab.Component<State, Msg> = {
     switch (state.showModal.tag) {
       case 'award':
         return {
-          title: 'Award Code With Us Opportunity?',
+          title: i18next.t('modalAwardOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Award Opportunity',
+              text:  i18next.t('links.awardOpportunity'),
               icon: 'award',
               color: 'primary',
               button: true,
               msg: adt('award', state.showModal.value)
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to award this opportunity to this vendor? Once awarded, all subscribers and vendors with submitted proposals will be notified accordingly.'
+          body: () => i18next.t('modalAwardOpportunityBody')
         };
     }
   }

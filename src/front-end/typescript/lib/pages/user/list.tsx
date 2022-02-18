@@ -15,6 +15,7 @@ import { Col, Row } from 'reactstrap';
 import { compareStrings } from 'shared/lib';
 import { isAdmin, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
 
 interface TableUser extends User {
   statusTitleCase: string;
@@ -95,17 +96,17 @@ const update: Update<State, Msg> = ({ state, msg }) => {
 function tableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Status',
+      children: i18next.t('status'),
       className: 'text-nowrap',
       style: { width: '0px' }
     },
     {
-      children: 'Account Type',
+      children: i18next.t('accountType'),
       className: 'text-nowrap',
       style: { width: '0px' }
     },
     {
-      children: 'Name',
+      children: i18next.t('name'),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -150,7 +151,7 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
   return (
     <Row>
       <Col xs='12'>
-        <h1 className='mb-5'>Digital Marketplace Users</h1>
+        <h1 className='mb-5'>{i18next.t('app-name')} {i18next.t('users')}</h1>
         <Table.view
           headCells={tableHeadCells(state)}
           bodyRows={tableBodyRows(state)}
@@ -166,6 +167,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Users');
+    return makePageMetadata(i18next.t('users'));
   }
 };

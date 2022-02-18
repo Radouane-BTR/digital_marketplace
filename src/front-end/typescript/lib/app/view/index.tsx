@@ -56,6 +56,7 @@ import { SHOW_TEST_INDICATOR, VENDOR_ACCOUNT_CREATION_DISABLED } from 'shared/co
 import { hasAcceptedTermsOrIsAnonymous } from 'shared/lib/resources/session';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt, adtCurried } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 function makeViewPageProps<RouteParams, PageState, PageMsg>(
   props: ComponentViewProps<State, Msg>,
@@ -508,13 +509,13 @@ const navUnauthenticatedMenu = (t: Function) => {
 };
 
 const signOutLink: Nav.NavLink = {
-  children: 'Sign Out',
+  children: i18next.t('SignedOut'),
   dest: routeDest(adt('signOut', null)),
   symbol_: leftPlacement(iconLinkSymbol('sign-out'))
 };
 
 const procurementConciergeLink: Nav.NavLink = {
-  children: 'Procurement Concierge',
+  children:  i18next.t('conciergerieApprovisionnement'),
   dest: externalDest(PROCUREMENT_CONCIERGE_URL),
   newTab: true,
   symbol_: rightPlacement(iconLinkSymbol('external-link'))
@@ -550,15 +551,15 @@ function navAccountMenus(state: Immutable<State>): Nav.Props['accountMenus'] {
       imageUrl: userAvatar,
       linkGroups: [
         {
-          label: `Signed in as ${sessionUser.name}`,
+          label: i18next.t('signedInAs', {who: sessionUser.name}),
           links: compact([
             {
-              children: 'My Profile',
+              children: i18next.t('myProfile'),
               dest: routeDest(adt('userProfile', { userId: sessionUser.id }))
             },
             (sessionUser.type === UserType.Vendor
               ? {
-                  children: 'My Organizations',
+                  children: i18next.t('organization.my-organizations'),
                   dest: routeDest(adt('userProfile', { userId: sessionUser.id, tab: 'organizations' as const }))
                 }
               : undefined)
@@ -593,7 +594,7 @@ function navAppLinks(state: Immutable<State>): Nav.Props['appLinks'] {
     // User has signed in.
     links = links.concat([
       {
-        children: 'Dashboard',
+        children: t('dashboard.title'),
         active: state.activeRoute.tag === 'dashboard',
         dest: routeDest(adt('dashboard', null))
       },
@@ -604,12 +605,12 @@ function navAppLinks(state: Immutable<State>): Nav.Props['appLinks'] {
       // User is an admin.
       links = links.concat([
         {
-          children: 'Users',
+          children: t('users'),
           active: state.activeRoute.tag === 'userList',
           dest: routeDest(adt('userList', null))
         },
         {
-          children: 'Content',
+          children: t('content'),
           active: state.activeRoute.tag === 'contentList',
           dest: routeDest(adt('contentList', null))
         }
@@ -641,13 +642,14 @@ function navContextualLinks(props: ComponentViewProps<State, Msg>): Nav.Props['c
 
 function regularNavProps(props: ComponentViewProps<State, Msg>): Nav.Props {
   const { state, dispatch } = props;
+  // const { t } = useTranslation();
   const dispatchNav = mapComponentDispatch(dispatch, adtCurried<ADT<'nav', Nav.Msg>>('nav'));
   return {
     state: state.nav,
     dispatch: dispatchNav,
     isLoading: state.transitionLoading > 0,
     logoImageUrl: prefixPath('/images/quebec_logo_PIV.svg'),
-    title: 'Échanges entre concepteurs'  + (SHOW_TEST_INDICATOR ? ' - Expérimentation' : ''),
+    title: i18next.t('app-name')  + (SHOW_TEST_INDICATOR ? ' - Expérimentation' : ''),
     homeDest: routeDest(adt('landing', null)),
     accountMenus: navAccountMenus(state),
     appLinks: navAppLinks(state),
@@ -656,7 +658,7 @@ function regularNavProps(props: ComponentViewProps<State, Msg>): Nav.Props {
 }
 
 const completeProfileAction = Nav.linkAccountAction({
-  children: 'Complete Your Profile',
+  children: i18next.t('completeYourProfile'),
   symbol_: leftPlacement(iconLinkSymbol('arrow-left')),
   button: true,
   color: 'primary',

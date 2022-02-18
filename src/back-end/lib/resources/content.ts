@@ -11,6 +11,7 @@ import { AuthenticatedSession, Session } from 'shared/lib/resources/session';
 import { Id } from 'shared/lib/types';
 import { allValid, getInvalidValue, invalid, isInvalid, isValid, valid, validateUUID } from 'shared/lib/validation';
 import * as contentValidation from 'shared/lib/validation/content';
+import i18next from 'i18next';
 
 export type ValidatedCreateRequestBody = CreateRequestBody;
 
@@ -79,7 +80,7 @@ const resource: Resource = {
       }
 
       if (!dbResult.value) {
-        return respond(404, ['Content not found']);
+        return respond(404, [i18next.t('contentNotFound')]);
       }
       return respond(200, dbResult.value);
     });
@@ -120,7 +121,7 @@ const resource: Resource = {
             }
             if (isValid(dbResult) && dbResult.value) {
               return invalid({
-                slug: ['This slug is already in use.']
+                slug: [i18next.t('slugAlreadyInUse')]
               });
             }
           }
@@ -171,7 +172,7 @@ const resource: Resource = {
         const session: AuthenticatedSession = request.session;
         const validatedContent = await validateContentId(connection, request.params.id, session);
         if (isInvalid(validatedContent)) {
-          return invalid({ notFound: ['The specified content does not exists.']});
+          return invalid({ notFound: [i18next.t('contentNotExistText')]});
         }
         const existingContent = validatedContent.value;
         const { slug, title, body } = request.body;
@@ -183,7 +184,7 @@ const resource: Resource = {
           // If content is fixed, and slug is being updated, disallow
           if (existingContent.fixed && existingContent.slug !== validatedSlug.value) {
             return invalid({
-              fixed: ['You cannot change the slug of fixed content.']
+              fixed: [i18next.t('slugWithFixedContentChangeTextError')]
             });
           }
           // If slug name is being updated, check to see if new slug name is available
@@ -196,7 +197,7 @@ const resource: Resource = {
             }
             if (isValid(dbResult) && dbResult.value) {
               return invalid({
-                slug: ['This slug is already in use.']
+                slug: [i18next.t('slugAlreadyInUse')]
               });
             }
           }
@@ -241,10 +242,10 @@ const resource: Resource = {
         const session: AuthenticatedSession = request.session;
         const validatedContent = await validateContentId(connection, request.params.id, session);
         if (isInvalid(validatedContent)) {
-          return invalid({ notFound: ['Content not found.']});
+          return invalid({ notFound: [i18next.t('contentNotFound')]});
         }
         if (validatedContent.value.fixed) {
-          return invalid({ fixed: ['You cannot delete fixed content.']});
+          return invalid({ fixed: [i18next.t('fixedContentCantDeleted')]});
         }
         return valid(validatedContent.value.id);
       },

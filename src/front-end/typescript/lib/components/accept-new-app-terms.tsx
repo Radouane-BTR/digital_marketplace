@@ -9,6 +9,8 @@ import Link, { routeDest } from 'front-end/lib/views/link';
 import React from 'react';
 import { COPY } from 'shared/config';
 import { adt, Id } from 'shared/lib/types';
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 
 export type State = Checkbox.State;
 export type Msg = Checkbox.Msg;
@@ -35,7 +37,7 @@ export interface MakeModalParams<ParentMsg> {
 }
 export function makeModal<ParentMsg>(params: MakeModalParams<ParentMsg>): PageModal<ParentMsg> {
   return {
-    title: 'Review Updated Terms and Conditions',
+    title: i18next.t('reviewUpdatedTermsConditions'),
     body: dispatch => (
       <View
         disabled={params.loading}
@@ -45,7 +47,7 @@ export function makeModal<ParentMsg>(params: MakeModalParams<ParentMsg>): PageMo
     onCloseMsg: params.onCloseMsg,
     actions: [
       {
-        text: 'Agree & Continue',
+        text: i18next.t('links.agreeAndContinue'),
         color: 'primary',
         msg: params.onSubmitMsg,
         button: true,
@@ -53,7 +55,7 @@ export function makeModal<ParentMsg>(params: MakeModalParams<ParentMsg>): PageMo
         disabled: params.disabled
       },
       {
-        text: 'Cancel',
+        text: i18next.t('links.cancel'),
         color: 'secondary',
         msg: params.onCloseMsg
       }
@@ -88,16 +90,16 @@ const View: View<Props> = ({ disabled, state, dispatch }) => {
   const termsRoute = adt('contentView', APP_TERMS_CONTENT_ID) as Route;
   return (
     <div>
-      <p>Please ensure you have reviewed the latest version of the <Link newTab dest={routeDest(termsRoute)}>{COPY.appTermsTitle}</Link>.</p>
+      <p>{i18next.t('newAppTermsTextInfo')}&nbsp;<Link newTab dest={routeDest(termsRoute)}>{COPY.appTermsTitle}</Link>.</p>
       <Checkbox.view
         extraChildProps={{
-          inlineLabel: (<span>I acknowledge that I have read, fully understand and agree to the <i>{COPY.appTermsTitle}</i>.</span>)
+          inlineLabel: (<span> <Trans i18nKey="newAppTermsTextInfoCheck" values={{ appTermsTitle: COPY.appTermsTitle}} components={{ italic: <i /> }}/></span>)
         }}
         disabled={disabled}
         className='font-weight-bold'
         state={state}
         dispatch={dispatch} />
-      <p className='mb-0'>Also, make sure you have saved your work before continuing. Any unsaved information in forms will be lost.</p>
+      <p className='mb-0'>{i18next.t('newAppTermsTextInfoCheckText')}</p>
     </div>
   );
 };

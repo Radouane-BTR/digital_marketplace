@@ -14,7 +14,7 @@ import { Col, Row } from 'reactstrap';
 import { mustAcceptTerms, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
-
+import i18next from 'i18next';
 interface ValidState {
   completeProfileLoading: number;
   user: User;
@@ -145,7 +145,7 @@ const ViewProfileFormCheckboxes: ComponentView<ValidState, Msg> = ({ state, disp
           ? (<Checkbox.view
               extraChildProps={{
                 inlineLabel: (
-                  <b>I acknowledge that I have read and agree to the <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>Terms and Conditions</Link> and <Link newTab dest={routeDest(adt('contentView', 'privacy'))}>Privacy Policy</Link>.<FormField.ViewRequiredAsterisk /></b>
+                  <b>{i18next.t('termAndConditionCheck')} <Link newTab dest={routeDest(adt('contentView', APP_TERMS_CONTENT_ID))}>{i18next.t('termsAndConditions')}</Link> {i18next.t('and')} <Link newTab dest={routeDest(adt('contentView', 'privacy'))}>{i18next.t('privacyPolicy')}</Link>.<FormField.ViewRequiredAsterisk /></b>
                 )
               }}
               disabled={isDisabled}
@@ -153,7 +153,7 @@ const ViewProfileFormCheckboxes: ComponentView<ValidState, Msg> = ({ state, disp
               dispatch={mapComponentDispatch(dispatch, value => adt('acceptedTerms' as const, value))} />)
           : null}
         <Checkbox.view
-          extraChildProps={{ inlineLabel: 'Notify me about new opportunities.' }}
+          extraChildProps={{ inlineLabel: i18next.t('opportunityListIsNtNotificationsOn') }}
           disabled={isDisabled}
           state={state.notificationsOn}
           dispatch={mapComponentDispatch(dispatch, value => adt('notificationsOn' as const, value))} />
@@ -175,7 +175,7 @@ const ViewProfileFormButtons: ComponentView<ValidState, Msg> = ({ state, dispatc
             loading={isCompleteProfileLoading}
             symbol_={leftPlacement(iconLinkSymbol('user-check'))}
             color='primary'>
-            Complete Profile
+            {i18next.t('completeYourProfile')}
           </Link>
       </Col>
     </Row>
@@ -205,12 +205,12 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     size: 'large',
     color: 'c-sidebar-instructional-bg',
     view: makeInstructionalSidebar<ValidState, Msg>({
-      getTitle: () => 'You\'re almost done!',
-      getDescription: state => `Your ${userTypeToTitleCase(state.user.type)} account for the Digital Marketplace is almost ready. Please confirm your information below to complete your profile.`,
+      getTitle: () => i18next.t('stepTwoInstructionalSidebar.title'),
+      getDescription: state => i18next.t('stepTwoInstructionalSidebar.title',{type: userTypeToTitleCase(state.user.type)}),
       getFooter: () => (<span></span>)
     })
   }),
   getMetadata() {
-    return makePageMetadata('Complete Your Profile');
+    return makePageMetadata(i18next.t('completeYourProfile'));
   }
 };

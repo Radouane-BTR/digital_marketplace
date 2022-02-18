@@ -4,6 +4,7 @@ import moment, { isDate, Moment } from 'moment-timezone';
 import { TIMEZONE } from 'shared/config';
 import { Comparison } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export function find<T>(arr: T[], pred: (_: T) => boolean): T | null {
   for (const a of arr) {
@@ -109,6 +110,7 @@ export function parseDate(raw: string): Date | null {
   }
 }
 
+// TODO : reviw this function to format a local format
 export function normalizeDateTimezone(date: Date | string): Moment {
   return moment(date).tz(TIMEZONE);
 }
@@ -184,11 +186,11 @@ export function setDateTo4PM(date: Date): Date {
   return setTime(date, 16);
 }
 
-export function formatTermsAndConditionsAgreementDate(date?: Date, you = 'You', have = 'have'): string {
+export function formatTermsAndConditionsAgreementDate(date?: Date, you = i18next.t('you'), have = i18next.t('have')): string {
   if (date) {
-    return `${you} agreed to the Terms and Conditions on ${formatDate(date)} at ${formatTime(date, true)}.`;
+    return i18next.t('isAgreeTermsAndConditions', { person: you, formatDate: formatDate(date), formatTime: formatTime(date, true) });
   } else {
-    return `${you} ${have} not agreed to the Terms & Conditions.`;
+    return i18next.t('isNotAgreeTermsAndConditions', { person: you, what: have });
   }
 }
 

@@ -14,6 +14,7 @@ import { compareStrings, find } from 'shared/lib';
 import { AffiliationSlim, memberIsPending, MembershipType } from 'shared/lib/resources/affiliation';
 import { doesOrganizationMeetSWUQualification } from 'shared/lib/resources/organization';
 import { adt, ADT, Id } from 'shared/lib/types';
+import i18next from 'i18next';
 
 type TableAffiliation = AffiliationSlim;
 
@@ -165,7 +166,7 @@ const update: Update<State, Msg> = ({ state, msg }) => {
 function ownedTableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Legal Name',
+      children: i18next.t('legalName'),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -173,14 +174,14 @@ function ownedTableHeadCells(state: Immutable<State>): Table.HeadCells {
       }
     },
     {
-      children: 'Team Members',
+      children: i18next.t('teamMembers'),
       className: 'text-center text-nowrap',
       style: {
         width: '0px'
       }
     },
     {
-      children: 'SWU Qualified?',
+      children: `${i18next.t('swuQualified')}?`,
       className: 'text-center text-nowrap',
       style: {
         width: '0px'
@@ -216,7 +217,7 @@ function ownedTableBodyRows(state: Immutable<State>): Table.BodyRows {
 function affiliatedTableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Legal Name',
+      children: i18next.t('legalName'),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -267,7 +268,7 @@ function affiliatedTableBodyRows(state: Immutable<State>, dispatch: Dispatch<Msg
                   className='mr-2'
                   symbol_={leftPlacement(iconLinkSymbol('user-check'))}
                   onClick={() => dispatch(adt('showModal', adt('approveAffiliation', affiliation)) as Msg)}>
-                  Approve
+                  {i18next.t('approve')}
                 </Link>
                 <Link
                   button
@@ -277,7 +278,7 @@ function affiliatedTableBodyRows(state: Immutable<State>, dispatch: Dispatch<Msg
                   color='danger'
                   symbol_={leftPlacement(iconLinkSymbol('user-times'))}
                   onClick={() => dispatch(adt('showModal', adt('rejectAffiliation', affiliation)) as Msg)}>
-                  Reject
+                  {i18next.t('reject')}
                 </Link>
               </div>
             )
@@ -289,7 +290,7 @@ function affiliatedTableBodyRows(state: Immutable<State>, dispatch: Dispatch<Msg
               color='danger'
               symbol_={leftPlacement(iconLinkSymbol('user-times'))}
               onClick={() => dispatch(adt('showModal', adt('deleteAffiliation', affiliation)) as Msg)}>
-              Leave
+              {i18next.t('leave')}
             </Link>),
         className: 'py-2'
       }
@@ -304,11 +305,11 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
     <div>
       <Row>
         <Col xs='12'>
-          <h2>Owned Organizations</h2>
+          <h2>{i18next.t('ownedOrganizations')}</h2>
           <p className={state.ownedRecords.length ? 'mb-5' : 'mb-0'}>
             {state.ownedRecords.length
-              ? 'You are the owner of the following organizations:'
-              : 'You do not own any organizations.'}
+              ? i18next.t('isOwnedOrganisations')
+              : i18next.t('isNotOwnedOrganisations')}
           </p>
         </Col>
       </Row>
@@ -326,11 +327,11 @@ const view: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <Row>
         <Col xs='12'>
           <div className='mt-5 pt-5 border-top'>
-            <h2>Affiliated Organizations</h2>
+            <h2>{i18next.t('affiliatedOrganizations')}</h2>
             <p className='mb-5'>
               {state.affiliatedRecords.length
-                ? 'You have given these companies permission to put you forward as a team member on proposals for opportunities.'
-                : 'You are not affiliated with any organizations.'}
+                ? i18next.t('isAffilateOrganizations')
+                : i18next.t('isNotAffilateOrganizations')}
             </p>
           </div>
         </Col>
@@ -359,19 +360,19 @@ export const component: Tab.Component<State, Msg> = {
     switch (state.showModal.tag) {
       case 'deleteAffiliation':
         return {
-          title: 'Leave Organization?',
-          body: () => 'Are you sure you want to leave this organization? You will no longer be able to be included as a team member in its opportunity proposals.',
+          title: `${i18next.t('leaveOrganization')}?`,
+          body: () => i18next.t('leaveOrganizationModalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Leave Organization',
+              text: i18next.t('leaveOrganization'),
               icon: 'user-times',
               color: 'danger',
               msg: adt('deleteAffiliation', state.showModal.value),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -379,19 +380,19 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'approveAffiliation':
         return {
-          title: 'Approve Request?',
-          body: () => 'Approving this request will allow this company to put you forward as a team member on proposals for opportunities.',
+          title:  `${i18next.t('approveRequest')}?`,
+          body: () => i18next.t('approveRequestModalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Approve Request',
+              text: i18next.t('approveRequest'),
               icon: 'user-check',
               color: 'success',
               msg: adt('approveAffiliation', state.showModal.value),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -399,19 +400,19 @@ export const component: Tab.Component<State, Msg> = {
         };
       case 'rejectAffiliation':
         return {
-          title: 'Reject Request?',
-          body: () => 'Are you sure you want to reject this organization\'s request for you to join their team?',
+          title:  `${i18next.t('rejectRequest')}?`,
+          body: () => i18next.t('rejectRequestModalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Reject Request',
+              text: i18next.t('rejectRequest'),
               icon: 'user-times',
               color: 'danger',
               msg: adt('rejectAffiliation', state.showModal.value),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -421,7 +422,7 @@ export const component: Tab.Component<State, Msg> = {
   },
   getContextualActions({ state }) {
     return adt('links', [{
-      children: 'Create Organization',
+      children: i18next.t('links.create-organization'),
       dest: routeDest(adt('orgCreate', null)),
       button: true,
       symbol_: leftPlacement(iconLinkSymbol('plus-circle')),

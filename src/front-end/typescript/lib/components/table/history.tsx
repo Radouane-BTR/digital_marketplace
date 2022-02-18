@@ -8,6 +8,7 @@ import React from 'react';
 import { formatDate, formatTime } from 'shared/lib';
 import { isAdmin, User, UserSlim } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
+import i18next from 'i18next'
 
 export interface Item {
   type: {
@@ -57,7 +58,7 @@ export const update: Update<State, Msg> = ({ state, msg }) => {
 function tableHeadCells(state: Immutable<State>): Table.HeadCells {
   return [
     {
-      children: 'Entry Type',
+      children: i18next.t("entryType"),
       className: 'text-nowrap',
       style: {
         width: '0px',
@@ -65,7 +66,7 @@ function tableHeadCells(state: Immutable<State>): Table.HeadCells {
       }
     },
     {
-      children: 'Note',
+      children:  i18next.t("note"),
       className: 'text-nowrap',
       style: {
         width: '100%',
@@ -73,7 +74,7 @@ function tableHeadCells(state: Immutable<State>): Table.HeadCells {
       }
     },
     {
-      children: 'Created',
+      children:  i18next.t("created"),
       className: 'text-nowrap',
       style: { width: '0px' }
     }

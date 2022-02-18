@@ -1,6 +1,7 @@
 import { View } from 'front-end/lib/framework';
 import Icon from 'front-end/lib/views/icon';
 import React from 'react';
+import i18next from "i18next";
 
 export type ProgramType = 'cwu' | 'swu';
 
@@ -32,7 +33,7 @@ const ProgramType: View<Props> = ({ type_, className = '', size = 'md' }) => {
         width={iconSize}
         height={iconSize}
         name={type_ === 'cwu' ? 'code' : 'users-class'} />
-      {type_ === 'cwu' ? 'Code With Us' : 'Sprint With Us'}
+      {type_ === 'cwu' ? i18next.t('codeWithUs') : i18next.t('sprintWithUs')}
     </div>
   );
 };

@@ -11,6 +11,8 @@ import 'shared/lib/i18n';
 import { adt, ADT, adtCurried } from 'shared/lib/types';
 export { newUrl, replaceUrl, replaceRoute, newRoute } from 'front-end/lib/framework/router';
 
+// import keycloak from '../access-control'
+
 // Base logic.
 // TODO replace Immutable with TypeScript's built-in Readonly
 export type Immutable<State = unknown> = BaseImmutable.RecordOf<State>;

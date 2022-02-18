@@ -23,8 +23,7 @@ const mocha = new Mocha({
 
 // Load all tests.
 const tests = [
-  'unit/example',
-  '__tests__/jest_test.tsx',
+  'unit/example'
 ];
 
 tests.forEach(t => mocha.addFile(path.join(__dirname, t)));

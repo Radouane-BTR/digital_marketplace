@@ -14,6 +14,7 @@ import { Col, Row } from 'reactstrap';
 import { formatAmount } from 'shared/lib';
 import { canCWUOpportunityDetailsBeEdited, CWUOpportunity, CWUOpportunityStatus, isCWUOpportunityPublic, isUnpublished, UpdateValidationErrors } from 'shared/lib/resources/opportunity/code-with-us';
 import { adt, ADT } from 'shared/lib/types';
+import i18next from 'i18next';
 
 type ModalId = 'publish' | 'publishChanges' | 'saveChangesAndPublish' | 'delete' | 'cancel' | 'suspend';
 
@@ -261,17 +262,17 @@ const Reporting: ComponentView<State, Msg> = ({ state }) => {
   const reportCards: ReportCard[] = [
     {
       icon: 'binoculars',
-      name: 'Total Views',
+      name: i18next.t('totalViews'),
       value: formatAmount(reporting?.numViews || 0)
     },
     {
       icon: 'eye',
-      name: 'Watching',
+      name: i18next.t('watching'),
       value: formatAmount(reporting?.numWatchers || 0)
     },
     {
       icon: 'comment-dollar',
-      name: `Proposal${reporting?.numProposals === 1 ? '' : 's'}`,
+      name: `${i18next.t('proposal')}${reporting?.numProposals === 1 ? '' : 's'}`,
       value: formatAmount(reporting?.numProposals || 0)
     }
   ];
@@ -317,7 +318,7 @@ export const component: Tab.Component<State, Msg> = {
   getAlerts(state) {
     return {
       warnings: state.opportunity.status === CWUOpportunityStatus.Draft && !Form.isValid(state.form)
-        ? [{ text: 'This opportunity is a draft. Please select "Edit" from the Actions dropdown to complete and publish this opportunity.' }]
+        ? [{ text: i18next.t('draftOpportunityInfoAlert') }]
         : []
     };
   },
@@ -327,11 +328,11 @@ export const component: Tab.Component<State, Msg> = {
       case 'saveChangesAndPublish':
       case 'publish':
         return {
-          title: 'Publish Code With Us Opportunity?',
+          title: i18next.t('modalPublishOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Publish Opportunity',
+              text: i18next.t('links.publishOpportunity'),
               icon: 'bullhorn',
               color: 'primary',
               button: true,
@@ -340,92 +341,92 @@ export const component: Tab.Component<State, Msg> = {
                 : adt('saveChangesAndPublish')
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to publish this opportunity? Once published, all subscribers will be notified.'
+          body: () =>  i18next.t('modalPublishOpportunityBody')
         };
       case 'publishChanges':
         return {
-          title: 'Publish Changes to Code With Us Opportunity?',
+          title: i18next.t('modalPublishChangesOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Publish Changes',
+              text:  i18next.t('links.publishChangesOpportunity'),
               icon: 'bullhorn',
               color: 'primary',
               button: true,
               msg: adt('saveChanges') // This is the reason this is a different modal from 'saveChangesAndPublish'
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to publish your changes to this opportunity? Once published, all subscribers will be notified.'
+          body: () =>  i18next.t('modalPublishChangesOpportunityBody')
         };
       case 'suspend':
         return {
-          title: 'Suspend Code With Us Opportunity?',
+          title: i18next.t('modalSuspendOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Suspend Opportunity',
+              text: i18next.t('links.suspendOpportunity'),
               icon: 'pause-circle',
               color: 'warning',
               button: true,
               msg: adt('updateStatus', CWUOpportunityStatus.Suspended) as Msg
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to suspend this opportunity? Once suspended, all subscribers and vendors with pending or submitted proposals will be notified.'
+          body: () => i18next.t('modalSuspendOpportunityBody')
         };
       case 'delete':
         return {
-          title: 'Delete Code With Us Opportunity?',
+          title: i18next.t('modalDeleteOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Delete Opportunity',
+              text: i18next.t('links.deleteOpportunity'),
               icon: 'trash',
               color: 'danger',
               button: true,
               msg: adt('delete')
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to delete this opportunity? You will not be able to recover it once it has been deleted.'
+          body: () => i18next.t('modalDeleteOpportunityBody')
         };
       case 'cancel':
         return {
-          title: 'Cancel Code With Us Opportunity?',
+          title: i18next.t('modalCancelOpportunityTitle'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Cancel Opportunity',
+              text: i18next.t('links.cancelOpportunity'),
               icon: 'minus-circle',
               color: 'danger',
               button: true,
               msg: adt('updateStatus', CWUOpportunityStatus.Canceled) as Msg
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
           ],
-          body: () => 'Are you sure you want to cancel this opportunity? Once cancelled, all subscribers and vendors with pending or submitted proposals will be notified.'
+          body: () => i18next.t('modalCancelOpportunityBody'),
         };
       case null:
         return null;
@@ -447,7 +448,7 @@ export const component: Tab.Component<State, Msg> = {
         // Publish button
         !isCWUOpportunityPublic(opp)
           ? {
-              children: 'Publish',
+              children: i18next.t('links.publish'),
               symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
               button: true,
               loading: isSaveChangesAndUpdateStatusLoading,
@@ -458,7 +459,7 @@ export const component: Tab.Component<State, Msg> = {
           : null,
         // Save changes button
         {
-          children: isCWUOpportunityPublic(opp) ? 'Publish Changes' : 'Save Changes',
+          children: isCWUOpportunityPublic(opp) ?  i18next.t('links.publishChangesOpportunity') : i18next.t('links.saveChanges'),
           disabled: isSaveChangesLoading || (() => {
             if (oppStatus === CWUOpportunityStatus.Draft) {
               // No validation required, always possible to save a draft.
@@ -475,7 +476,7 @@ export const component: Tab.Component<State, Msg> = {
         },
         // Cancel link
         {
-          children: 'Cancel',
+          children: i18next.t('links.cancel'),
           disabled: isLoading,
           onClick: () => dispatch(adt('cancelEditing')),
           color: 'c-nav-fg-alt'
@@ -491,13 +492,13 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Publish',
+                  children: i18next.t('links.publish'),
                   disabled: !isValid(),
                   symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
                   onClick: () => dispatch(adt('showModal', 'publish' as const))
                 },
                 {
-                  children: 'Edit',
+                  children: i18next.t('links.edit'),
                   symbol_: leftPlacement(iconLinkSymbol('edit')),
                   onClick: () => dispatch(adt('startEditing'))
                 }
@@ -506,7 +507,7 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Delete',
+                  children: i18next.t('links.delete'),
                   symbol_: leftPlacement(iconLinkSymbol('trash')),
                   onClick: () => dispatch(adt('showModal', 'delete' as const))
                 }
@@ -522,7 +523,7 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Edit',
+                  children: i18next.t('links.edit'),
                   symbol_: leftPlacement(iconLinkSymbol('edit')),
                   onClick: () => dispatch(adt('startEditing'))
                 }
@@ -531,12 +532,12 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Suspend',
+                  children: i18next.t('suspend'),
                   symbol_: leftPlacement(iconLinkSymbol('pause-circle')),
                   onClick: () => dispatch(adt('showModal', 'suspend' as const))
                 },
                 {
-                  children: 'Cancel',
+                  children: i18next.t('links.cancel'),
                   symbol_: leftPlacement(iconLinkSymbol('minus-circle')),
                   onClick: () => dispatch(adt('showModal', 'cancel' as const))
                 }
@@ -552,12 +553,12 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Publish',
+                  children: i18next.t('links.publish'),
                   symbol_: leftPlacement(iconLinkSymbol('bullhorn')),
                   onClick: () => dispatch(adt('showModal', 'publish' as const))
                 },
                 {
-                  children: 'Edit',
+                  children: i18next.t('links.edit'),
                   symbol_: leftPlacement(iconLinkSymbol('edit')),
                   onClick: () => dispatch(adt('startEditing'))
                 }
@@ -566,7 +567,7 @@ export const component: Tab.Component<State, Msg> = {
             {
               links: [
                 {
-                  children: 'Cancel',
+                  children: i18next.t('links.cancel'),
                   symbol_: leftPlacement(iconLinkSymbol('minus-circle')),
                   onClick: () => dispatch(adt('showModal', 'cancel' as const))
                 }
@@ -577,7 +578,7 @@ export const component: Tab.Component<State, Msg> = {
       case CWUOpportunityStatus.Evaluation:
         return adt('links', [
           {
-            children: 'Cancel',
+            children: i18next.t('links.cancel'),
             symbol_: leftPlacement(iconLinkSymbol('minus-circle')),
             onClick: () => dispatch(adt('showModal', 'cancel' as const)),
             button: true,

@@ -10,7 +10,7 @@ import { CreateValidationErrors, enforceExtension, FileRecord, FileUploadMetadat
 import { adt, ADT } from 'shared/lib/types';
 import { getInvalidValue, mapValid, optional, Validation } from 'shared/lib/validation';
 import { validateFileName } from 'shared/lib/validation/file';
-
+import i18next from 'i18next'; 
 interface NewAttachment extends CreateFileRequestBody {
   newName: string;
   errors: string[];
@@ -164,7 +164,7 @@ const AddButton: View<Props> = ({ addButtonClassName = '', state, dispatch, disa
       disabled={disabled}
       onChange={file => dispatch(adt('addAttachment', file))}
     >
-      Add Attachment
+      {i18next.t('links.addAttachment')}
     </FileLink>
   );
 };

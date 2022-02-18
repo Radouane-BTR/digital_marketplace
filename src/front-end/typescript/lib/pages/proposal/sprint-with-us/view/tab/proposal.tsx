@@ -20,6 +20,7 @@ import { NUM_SCORE_DECIMALS, SWUProposal, SWUProposalStatus } from 'shared/lib/r
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
 import { validateDisqualificationReason } from 'shared/lib/validation/proposal/sprint-with-us';
+import i18next from 'i18next';
 
 type ModalId = 'disqualify' | 'award';
 
@@ -202,7 +203,7 @@ const view: ComponentView<State, Msg> = viewValid(props => {
                 className='mt-3'
                 dest={routeDest(adt('proposalSWUExportOne', { opportunityId: state.proposal.opportunity.id, proposalId: state.proposal.id }))}
                 symbol_={rightPlacement(iconLinkSymbol('file-export'))}>
-                Export Proposal
+                {i18next.t('exportProposal')}
               </Link>
             </Col>
           </Row>)

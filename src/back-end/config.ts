@@ -15,7 +15,7 @@ export const TOTAL_AWARDED_VALUE_OFFSET = 13211500;
 
 export const DB_MIGRATIONS_TABLE_NAME = 'migrations';
 
-export const MAILER_REPLY = get('MAILER_REPLY', 'noreply@digitalmarketplace.gov.bc.ca');
+export const MAILER_REPLY = get('MAILER_REPLY', 'marketplace@example.com');
 
 export const SILENT_LOGS = get('SILENT_LOGS', 'false') === 'true';
 

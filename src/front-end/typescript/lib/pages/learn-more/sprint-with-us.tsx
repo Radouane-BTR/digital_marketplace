@@ -8,7 +8,8 @@ import React from 'react';
 import { Col, Container, Row } from 'reactstrap';
 import { COPY, VENDOR_IDP_NAME } from 'shared/config';
 import { ADT, adt } from 'shared/lib/types';
-
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 export interface State {
   isWhatToExpectAccordionOpen: boolean;
   isHowToApplyAccordionOpen: boolean;
@@ -45,12 +46,12 @@ const TitleView: View = () => {
       <Container>
         <Row>
           <Col xs='12'>
-            <h1 className='mb-4'>Sprint With Us</h1>
+            <h1 className='mb-4'>{i18next.t('sprintWithUs')}</h1>
           </Col>
         </Row>
         <Row>
           <Col xs='12' md='8'>
-            <p className='mb-0'><em>Sprint With Us</em> is a procurement mechanism that allows the {COPY.gov.name.short} to procure Agile software development teams.</p>
+            <p className='mb-0'><em>{i18next.t('sprintWithUs')}</em> {i18next.t('sprintWithUsDescription', {regionNameLong: COPY.region.name.long})}</p>
           </Col>
           <Col md='4'>
             <img style={{ maxWidth: '213px' }} className='d-none d-md-block position-absolute mt-n5 ml-6' src={prefixPath('/images/illustrations/sprint_with_us_learn_more.svg')} />
@@ -70,44 +71,44 @@ const WhatToExpectView: ComponentView<State, Msg> = ({ state, dispatch }) => {
             <Accordion
               toggle={() => dispatch(adt('toggleWhatToExpectAccordion'))}
               color='info'
-              title='What To Expect'
+              title={i18next.t('whatToExpect')}
               titleClassName='h2 mb-0'
               chevronWidth={2}
               chevronHeight={2}
               open={state.isWhatToExpectAccordionOpen}>
-                <p className='mb-5'>If your organization is awarded a Sprint With Us opportunity, here is what you can expect when you work with us:</p>
+                <p className='mb-5'>{i18next.t('whatToExpectDescription')}</p>
                 <Row>
                   <Col xs='12' md='6'>
                     <InfoBlockView
                       className='mb-4'
-                      title='Government Product Managers'
-                      description='You will work closely with a trained government product manager who has the expertise and the responsibility to run the service.'
+                      title={i18next.t('governmentProductManagers')}
+                      description={i18next.t('governmentProductManagersDescription')}
                     />
                     <InfoBlockView
                       className='mb-4'
-                      title='Interdisciplinary Teams'
-                      description='Your team will possess all the skills necessary for continuous delivery, such as DevOps engineering, front-end and back-end development, and user experience research and design.'
+                      title={i18next.t('interdisciplinaryTeams')}
+                      description={i18next.t('interdisciplinaryTeamsDescription')}
                     />
                     <InfoBlockView
                       className='mb-4 mb-md-0'
-                      title='Open Source'
-                      description="Your team will own the code that's produced, but it will be published in GitHub under an open source license."
+                      title={i18next.t('openSource')}
+                      description={i18next.t('openSourceDescription')}
                     />
                   </Col>
                   <Col xs='12' md='6'>
                     <InfoBlockView
                       className='mb-4'
-                      title='Agile'
-                      description='You will be adaptable to change and follow the Agile Scrum process, building and validating features iteratively with users.'
+                      title={i18next.t('agile')}
+                      description={i18next.t('agileDescription')}
                     />
                     <InfoBlockView
                       className='mb-4'
-                      title='Agile Phases'
-                      description='Don’t expect lengthy requirements. This is Agile. You will start with Inception to understand the business problem, then build a Proof of Concept to demonstrate feasability of the solution. Finally, you will build out the rest of the procut in Implementation.'
+                      title={i18next.t('agilePhases')}
+                      description={i18next.t('agilePhasesDescription')}
                     />
                     <InfoBlockView
-                      title='Pricing & Incentives'
-                      description="These are not time & materials contracts! For each phase, you'll charge a fixed price for your interdisciplinary team to meet the deliverables for the time period. There's incentives to complete a phase early!"
+                      title={i18next.t('pricingIncentives')}
+                      description={i18next.t('pricingIncentivesDescription')}
                     />
                   </Col>
                 </Row>
@@ -145,28 +146,28 @@ export const HowToApplyView: ComponentView<State, Msg> = ({ state, dispatch }) =
             <Accordion
               toggle={() => dispatch(adt('toggleHowToApplyAccordion'))}
               color='info'
-              title='How To Apply'
+              title={i18next.t('howToApply')}
               titleClassName='h2 mb-0'
               chevronWidth={2}
               chevronHeight={2}
               open={state.isHowToApplyAccordionOpen}>
-                <p className='mb-4'>To apply for <em>Sprint With Us</em> opportunities, complete the following steps:</p>
+                <p className='mb-4'><Trans i18nKey="sprintWithUsHowToApplyViewBody" components={{ emphasis: <em /> }}/></p>
                 <HowItWorksItem
                   symbol_={adt('text', '1')}
                   mobileSymbol={adt('text', '1.')}
-                  title='Sign In to Your Vendor Account'
+                  title={i18next.t('signInVendorAccount')}
                   description={(
-                    <div><Link dest={routeDest(adt('signIn', {}))}>Sign in</Link> to your Digital Marketplace Vendor account using {VENDOR_IDP_NAME}. If you do not yet have an account, you must <Link dest={routeDest(adt('signUpStepOne', {}))}>sign up</Link>, first.</div>)}
+                    <div><Link dest={routeDest(adt('signIn', {}))}>{i18next.t('links.sign-in')}</Link> {i18next.t('signInVendorAccountDescription',{idpName: VENDOR_IDP_NAME})} <Link dest={routeDest(adt('signUpStepOne', {}))}>{i18next.t('links.sign-up')}</Link>, {i18next.t('first')}.</div>)}
                   className='mb-4'
                 />
                 <HowItWorksItem
                   symbol_={adt('text', '2')}
                   mobileSymbol={adt('text', '2.')}
-                  title='Register Your Organization'
+                  title={i18next.t('registerYourOrganization')}
                   description={(
                     <div>
-                      <p>Go to the <em>Organizations</em> page and click on the <strong>+ Create Organization</strong> button. Complete the form by providing all required information and submit.</p>
-                      <p className='mb-0'>Similarly, you may register your organization via your user profile.</p>
+                      <p><Trans i18nKey="registerYourOrganizationDescriptionP1" components={{ emphasis: <em />, bold : <strong /> }}/></p>
+                      <p className='mb-0'>{i18next.t('registerYourOrganizationDescriptionP2')}</p>
                     </div>
                   )}
                   className='mb-4'
@@ -177,8 +178,8 @@ export const HowToApplyView: ComponentView<State, Msg> = ({ state, dispatch }) =
                   title='Become a Qualified Supplier'
                   description={(
                     <div>
-                      <p>You must be considered a Qualified Supplier to apply for <em>Sprint With Us</em> opportunities.</p>
-                      <p className='mb-0'>To complete the qualification process, access your registered organization via your user profile and navigate to the <em>SWU Qualification</em> tab.  Complete the requirements as provided to become a Qualified Supplier.</p>
+                      <p><Trans i18nKey="becomeQualifiedSupplierDescriptionP1" components={{ emphasis: <em /> }}/></p>
+                      <p className='mb-0'><Trans i18nKey="becomeQualifiedSupplierDescriptionP2" components={{ emphasis: <em /> }}/></p>
                     </div>
                   )}
                 />
@@ -208,6 +209,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Sprint With Us - Learn More');
+    return makePageMetadata(`${i18next.t('sprintWithUs')} - ${i18next.t('links.learnMore')}`);
   }
 };

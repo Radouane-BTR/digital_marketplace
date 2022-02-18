@@ -20,6 +20,7 @@ import * as CWU from 'shared/lib/resources/opportunity/code-with-us';
 import * as SWU from 'shared/lib/resources/opportunity/sprint-with-us';
 import { isVendor, User, UserType } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
+import i18next from 'i18next'; 
 
 type Opportunity
   = ADT<'cwu', CWU.CWUOpportunitySlim>
@@ -146,8 +147,8 @@ const init: PageInit<RouteParams, SharedState, State, Msg> = async ({ shared }) 
         value: null,
         id: 'opportunity-filter-type',
         options: adt('options', [
-          { label: 'Code With Us', value: 'cwu' },
-          { label: 'Sprint With Us', value: 'swu' }
+          { label: i18next.t('codeWithUs'), value: 'cwu' },
+          { label: i18next.t('sprintWithUs'), value: 'swu' }
         ])
       }
     })),
@@ -157,12 +158,12 @@ const init: PageInit<RouteParams, SharedState, State, Msg> = async ({ shared }) 
         value: null,
         id: 'opportunity-filter-status',
         options: adt('options', [
-          { label: 'Draft', value: 'draft' },
-          { label: 'Under Review', value: 'under_Review' },
-          { label: 'Published', value: 'published' },
-          { label: 'Suspended', value: 'suspended' },
-          { label: 'Evaluation', value: 'evaluation' },
-          { label: 'Awarded', value: 'awarded' }
+          { label: i18next.t('draft'), value: 'draft' },
+          { label: i18next.t('underReview'), value: 'under_Review' },
+          { label: i18next.t('published'), value: 'published' },
+          { label: i18next.t('suspended'), value: 'suspended' },
+          { label: i18next.t('evaluation'), value: 'evaluation' },
+          { label: i18next.t('awarded'), value: 'awarded' }
         ])
       }
     })),
@@ -349,31 +350,31 @@ const Header: ComponentView<State, Msg> = () => {
   return (
     <Row>
       <Col xs='12'>
-        <h1 className='mb-4'>Welcome to the Digital Marketplace</h1>
+        <h1 className='mb-4'>{i18next.t('dashboard.welcome-title')}</h1>
       </Col>
       <Col xs='12' md='6' className='mb-4 mb-md-0'>
         <div className='rounded bg-c-opportunity-list-learn-more-bg p-4 h-100 d-flex flex-column align-items-start flex-nowrap'>
           <ProgramType type_='cwu' className='mb-2' />
-          <p className='mb-3 font-size-small'><em>Code With Us</em> opportunities pay a fixed price for meeting acceptance criteria.</p>
+          <p className='mb-3 font-size-small'><em>{i18next.t('codeWithUs')}</em> {i18next.t('headerCWUdescription')}</p>
           <Link
             className='font-size-small mt-auto'
             symbol_={rightPlacement(iconLinkSymbol('arrow-right'))}
             iconSymbolSize={0.9}
             dest={routeDest(adt('learnMoreCWU', null))}>
-            Learn More
+            {i18next.t('links.learnMore')}
           </Link>
         </div>
       </Col>
       <Col xs='12' md='6'>
         <div className='rounded bg-c-opportunity-list-learn-more-bg p-4 h-100 d-flex flex-column align-items-start flex-nowrap'>
           <ProgramType type_='swu' className='mb-2' />
-          <p className='mb-3 font-size-small'><em>Sprint With Us</em> opportunities are for registered organizations that can supply teams.</p>
+          <p className='mb-3 font-size-small'><em>{i18next.t('sprintWithUs')}</em> {i18next.t('headerSprintWithUsDescription')}</p>
           <Link
             className='font-size-small mt-auto'
             symbol_={rightPlacement(iconLinkSymbol('arrow-right'))}
             iconSymbolSize={0.9}
             dest={routeDest(adt('learnMoreSWU', null))}>
-            Learn More
+            {i18next.t('links.learnMore')}
           </Link>
         </div>
       </Col>
@@ -388,8 +389,8 @@ const Filters: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <Col xs='12' md='3' className='d-flex align-items-end order-1'>
         <Select.view
           extraChildProps={{}}
-          label='Filter Opportunities'
-          placeholder='All Opportunity Types'
+          label= {i18next.t('filterOpportunities')}
+          placeholder={i18next.t('filterOpportunitiesPlaceHolder')}
           disabled={isLoading(state)}
           state={state.typeFilter}
           className='flex-grow-1'
@@ -398,7 +399,7 @@ const Filters: ComponentView<State, Msg> = ({ state, dispatch }) => {
       {userIsGov ? (<Col xs='12' md='3' className='d-flex align-items-end order-1'>
         <Select.view
           extraChildProps={{}}
-          placeholder='All Opportunity Statuses'
+          placeholder= {i18next.t('allOpportunityStatuses')}
           disabled={isLoading(state)}
           state={state.statusFilter}
           className='flex-grow-1'
@@ -406,7 +407,7 @@ const Filters: ComponentView<State, Msg> = ({ state, dispatch }) => {
       </Col>) : null}
       <Col xs='12' md='2' className='d-flex align-items-end order-3 order-md-2'>
         <Checkbox.view
-          extraChildProps={{ inlineLabel: 'Remote OK' }}
+          extraChildProps={{ inlineLabel: i18next.t('overviewViewRemote') }}
           disabled={isLoading(state)}
           state={state.remoteOkFilter}
           className='flex-grow-1 mt-n2 mt-md-0'
@@ -415,7 +416,7 @@ const Filters: ComponentView<State, Msg> = ({ state, dispatch }) => {
       <Col xs='12' md='4' className='d-flex align-items-end order-2 order-md-3 ml-auto'>
         <ShortText.view
           extraChildProps={{}}
-          placeholder='Search by Title or Location'
+          placeholder={i18next.t('searchByTitleLocation')}
           disabled={isLoading(state)}
           state={state.searchFilter}
           className='flex-grow-1'
@@ -467,7 +468,7 @@ const OpportunityCard: View<OpportunityCardProps> = ({ opportunity, viewerUser, 
             <IconInfo
               small
               name='alarm-clock-outline'
-              value={`Close${isAcceptingProposals ? 's' : 'd'} ${formatDateAtTime(opportunity.value.proposalDeadline, true)}`}
+              value={`${isAcceptingProposals ? i18next.t('closes') : i18next.t('closed')} ${formatDateAtTime(opportunity.value.proposalDeadline, true)}`}
               className='ml-sm-3 flex-shrink-0' />
           </div>
           <p className='mt-3 mb-0 text-secondary font-size-small'>
@@ -490,7 +491,7 @@ const OpportunityCard: View<OpportunityCardProps> = ({ opportunity, viewerUser, 
               ? (<IconInfo
                   small
                   className='mr-3 mb-3'
-                  value='Remote OK'
+                  value={i18next.t('overviewViewRemote')}
                   name='laptop-outline' />)
               : null}
           </div>
@@ -505,7 +506,7 @@ const OpportunityCard: View<OpportunityCardProps> = ({ opportunity, viewerUser, 
                 symbol_={leftPlacement(iconLinkSymbol(subscribed ? 'check' : 'eye'))}
                 className='mb-3'
                 onClick={toggleWatch}>
-                {subscribed ? 'Watching' : 'Watch'}
+                {subscribed ? i18next.t('watching') : i18next.t('watch')}
               </Link>)
             : null}
         </div>
@@ -546,8 +547,8 @@ const OpportunityList: View<OpportunityListProps> = ({ isOpen, disabled, toggleW
               color={viewerUser.notificationsOn ? 'secondary' : undefined}
               symbol_={leftPlacement(iconLinkSymbol(viewerUser.notificationsOn ? 'bell-slash-outline' : 'bell-outline'))}>
               {viewerUser.notificationsOn
-                ? 'Stop notifying me about new opportunities'
-                : 'Notify me about new opportunities'}
+                ?  i18next.t('opportunityListIsNotificationsOn')
+                : i18next.t('opportunityListIsNtNotificationsOn')}
             </Link>
           </Col>)
         : null}
@@ -603,10 +604,10 @@ const Opportunities: ComponentView<State, Msg> = ({ state, dispatch }) => {
     <div className='mt-5 pt-5 border-top'>
       {hasUnpublished
         ? (<OpportunityList
-            title='Unpublished Opportunities'
+            title= {i18next.t('unpublishedOpportunities')}
             noneText={opps.unpublished.length !== state.opportunities.unpublished.length
-              ? 'There are no unpublished opportunities that match your search criteria.'
-              : 'There are currently no unpublished opportunities.'}
+              ? i18next.t('noUnpublishedOpportunitiesFoundByCriteria')
+              : i18next.t('noUnpublishedOpportunitiesFound')}
             opportunities={opps.unpublished}
             viewerUser={state.viewerUser}
             className={`pt-0 ${state.unpublishedListOpen ? 'pb-3' : 'pb-5'}`}
@@ -620,10 +621,10 @@ const Opportunities: ComponentView<State, Msg> = ({ state, dispatch }) => {
             toggleAccordion={() => dispatch(adt('toggleUnpublishedList'))}/>)
         : null}
       <OpportunityList
-        title='Open Opportunities'
+        title={i18next.t('openOpportunities')}
         noneText={opps.open.length !== state.opportunities.open.length
-          ? 'There are no open opportunities that match your search criteria.'
-          : 'There are currently no open opportunities. Check back soon!'}
+          ? i18next.t('noOpenOpportunitiesFoundByCriteria')
+          : i18next.t('noOpenOpportunitiesFound')}
         opportunities={opps.open}
         viewerUser={state.viewerUser}
         className={`pt-0 ${state.openListOpen ? 'pb-3' : 'pb-5'}`}
@@ -636,10 +637,10 @@ const Opportunities: ComponentView<State, Msg> = ({ state, dispatch }) => {
         isOpen={state.openListOpen}
         toggleAccordion={() => dispatch(adt('toggleOpenList'))}/>
       <OpportunityList
-        title='Closed Opportunities'
+        title={i18next.t('closedOpportunities')}
         noneText={opps.closed.length !== state.opportunities.closed.length
-          ? 'There are no closed opportunities that match your search criteria.'
-          : 'There are currently no closed opportunities.'}
+          ? i18next.t('noClosedOpportunitiesFoundByCriteria')
+          : i18next.t('noClosedOpportunitiesFound')}
         opportunities={opps.closed}
         viewerUser={state.viewerUser}
         className='pt-0 pb-0'
@@ -667,13 +668,13 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Opportunities');
+    return makePageMetadata(i18next.t('links.opportunities'));
   },
   getContextualActions({ state }) {
     if (!state.viewerUser || isVendor(state.viewerUser)) { return null; }
     return adt('links', [
       {
-        children: 'Create Opportunity',
+        children: i18next.t('links.create-opportunity'),
         button: true,
         disabled: isLoading(state),
         color: 'primary' as const,

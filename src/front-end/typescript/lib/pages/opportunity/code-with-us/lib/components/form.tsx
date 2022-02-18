@@ -22,6 +22,7 @@ import { canCWUOpportunityDetailsBeEdited, CreateCWUOpportunityStatus, CreateReq
 import { adt, ADT } from 'shared/lib/types';
 import { invalid, mapInvalid, mapValid, valid, Validation } from 'shared/lib/validation';
 import * as opportunityValidation from 'shared/lib/validation/opportunity/code-with-us';
+import i18next from 'i18next';
 
 type RemoteOk = 'yes' | 'no';
 
@@ -145,7 +146,7 @@ export const init: Init<Params, State> = async ({ canRemoveExistingAttachments, 
     reward: immutable(await NumberField.init({
       errors: [],
       validate: v => {
-        if (v === null) { return invalid(['Please enter a valid reward.']); }
+        if (v === null) { return invalid([i18next.t('isNotValideReward')]); }
         return opportunityValidation.validateReward(v);
       },
       child: {
@@ -173,7 +174,7 @@ export const init: Init<Params, State> = async ({ canRemoveExistingAttachments, 
 
     remoteOk: immutable(await RemoteOkRadioGroup.init({
       errors: [],
-      validate: v => v === null ? invalid(['Please select an option.']) : valid(v),
+      validate: v => v === null ? invalid([i18next.t('isNotValideOption')]) : valid(v),
       child: {
         id: 'cwu-opportunity-remote-ok',
         value: (() => {
@@ -186,8 +187,8 @@ export const init: Init<Params, State> = async ({ canRemoveExistingAttachments, 
           return null;
         })(),
         options: [
-          { label: 'Yes', value: 'yes' },
-          { label: 'No', value: 'no' }
+          { label: i18next.t('yes'), value: 'yes' },
+          { label: i18next.t('no'), value: 'no' }
         ]
       }
     })),
@@ -665,9 +666,9 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           extraChildProps={{}}
-          label='Title'
-          help='Provide a brief and short title for the opportunity that highlights the work that you need done.'
-          placeholder='Opportunity Title'
+          label= {i18next.t('title')}
+          help= {i18next.t('overviewViewTitleHelp')}
+          placeholder= {i18next.t('overviewViewTitlePlaceHolder')}
           required
           disabled={disabled}
           state={state.title}
@@ -676,9 +677,9 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
 
       <Col xs='12'>
         <LongText.view
-          label='Teaser'
-          help='Provide 1-2 sentences that will entice readers to apply to this opportunity and that describes what you are inviting them to do.'
-          placeholder='Provide 1-2 sentences that describe to readers what you are inviting them to do.'
+          label= {i18next.t('teaser')}
+          help=  {i18next.t('overviewViewTeaserHelp')}
+          placeholder= {i18next.t('overviewViewTeaserPlaceHolder')}
           extraChildProps={{
             style: { height: '200px' }
           }}
@@ -691,8 +692,8 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
         <RemoteOkRadioGroup.view
           extraChildProps={{ inline: true }}
           required
-          label='Remote OK?'
-          help='Indicate if the successful proponent may complete the work as outlined in the opportunity’s acceptance criteria remotely or not. If you select “yes”, provide further details on acceptable remote work options.'
+          label={`${i18next.t('overviewViewRemote')} ?`}
+          help={i18next.t('overviewViewRemoteHelp')}
           disabled={disabled}
           state={state.remoteOk}
           dispatch={mapComponentDispatch(dispatch, value => adt('remoteOk' as const, value))} />
@@ -702,8 +703,8 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
         ? (<Col xs='12'>
             <LongText.view
               required
-              label='Remote Description'
-              placeholder={`Provide further information about this opportunity's remote work options.`}
+              label={i18next.t('overviewViewRemoteYesLabel')}
+              placeholder={i18next.t('overviewViewRemoteYesPlaceHolder')}
               disabled={disabled}
               extraChildProps={{
                 style: { height: '160px' }
@@ -716,9 +717,9 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='8' xs='12'>
         <ShortText.view
           extraChildProps={{}}
-          label='Location'
-          help='Provide the location where you are located or where the work is expected to be completed.'
-          placeholder='Location'
+          label={i18next.t('location')}
+          help={i18next.t('overviewViewLocationHelp')}
+          placeholder={i18next.t('location')}
           required
           disabled={disabled}
           state={state.location}
@@ -728,11 +729,11 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col md='8' xs='12'>
         <NumberField.view
           extraChildProps={{ prefix: '$' }}
-          label='Fixed-Price Award'
-          placeholder='Fixed-Price Award'
+          label={i18next.t('overviewViewFixedPriceAward')}
+          placeholder={i18next.t('overviewViewFixedPriceAward')}
           help={(<div>
-            <p>To the best of your ability, estimate a fair price for the amount of work that you think it should take from the successful proponent to meet the opportunity’s acceptance criteria. It is suggested that you overestimate.</p>
-            <p className='mb-0'>The price estimate must not exceed {FORMATTED_MAX_BUDGET}.</p>
+            <p>{i18next.t('overviewViewFixedPriceAwardHelp')}</p>
+            <p className='mb-0'>{i18next.t('overviewViewFixedPriceAwardHelpPrice', {maxBudget: FORMATTED_MAX_BUDGET})}</p>
           </div>)}
           required
           disabled={disabled}
@@ -743,9 +744,9 @@ const OverviewView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <SelectMulti.view
           extraChildProps={{}}
-          label='Required Skills'
-          placeholder='Required Skills'
-          help='Select the skill(s) from the list provided that the successful proponent must possess in order to be considered for the opportunity. If you do not see the skill that you are looking for, you may create a new skill by entering it into the field below.'
+          label={i18next.t('requiredSkills')}
+          placeholder={i18next.t('requiredSkills')}
+          help={i18next.t('overviewViewRequiredSkillsHelp')}
           required
           disabled={disabled}
           state={state.skills}
@@ -763,9 +764,9 @@ const DescriptionView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <RichMarkdownEditor.view
           required
-          label='Description'
-          help='Provide a complete description of the opportunity. For example, you may choose to include background information, a description of what you are attempting to accomplish by offering the opportunity, etc. You can format this description with Markdown.'
-          placeholder='Describe this opportunity.'
+          label={i18next.t('description')}
+          help={i18next.t('descriptionViewHelp')}
+          placeholder={i18next.t('descriptionViewPlaceHolder')}
           extraChildProps={{
             style: { height: '60vh', minHeight: '400px' }
           }}
@@ -786,10 +787,10 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
         <DateField.view
           required
           extraChildProps={{}}
-          label='Proposal Deadline'
+          label={i18next.t('detailsViewProposalDeadlineLabel')}
           help={(<div>
-            <p>Choose a cut-off date for when proposals must be submitted by. The cut-off time is fixed to 4:00PM Pacific Time.</p>
-            <p className='mb-0'>A deadline of at least five (5) days from the date that the opportunity is published is recommended.</p>
+            <p>{i18next.t('detailsViewProposalDeadlineHelpP1')}</p>
+            <p className='mb-0'>{i18next.t('detailsViewProposalDeadlineHelpP2')}</p>
           </div>)}
           state={state.proposalDeadline}
           disabled={disabled}
@@ -799,8 +800,8 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
         <DateField.view
           required
           extraChildProps={{}}
-          label='Assignment Date'
-          help='Choose a date that you will award the successful proponent the opportunity. The assignment date is fixed to 4:00PM Pacific Time.'
+          label={i18next.t('assignmentDate')}
+          help={i18next.t('detailsViewAssignmentDateHelp')}
           state={state.assignmentDate}
           disabled={disabled}
           dispatch={mapComponentDispatch(dispatch, value => adt('assignmentDate' as const, value))} />
@@ -810,8 +811,8 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
         <DateField.view
           required
           extraChildProps={{}}
-          label='Proposed Start Date'
-          help='Choose a date that you expect the successful proponent to begin the work as outlined in the opportunity’s acceptance criteria.'
+          label={i18next.t('detailsViewProposedStartDateLabel')}
+          help={i18next.t('detailsViewProposedStartDateHelp')}
           state={state.startDate}
           disabled={disabled}
           dispatch={mapComponentDispatch(dispatch, value => adt('startDate' as const, value))} />
@@ -819,8 +820,8 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12' md='6'>
         <DateField.view
           extraChildProps={{}}
-          label='Completion Date'
-          help='Choose a date that you expect the successful proponent to meet the opportunity’s acceptance criteria.'
+          label={i18next.t('detailsViewCompletionDateLabel')}
+          help={i18next.t('detailsViewCompletionDateHelp')}
           state={state.completionDate}
           disabled={disabled}
           dispatch={mapComponentDispatch(dispatch, value => adt('completionDate' as const, value))} />
@@ -829,9 +830,9 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <ShortText.view
           extraChildProps={{}}
-          label='Project Submission Info'
-          help='Provide information on how the successful proponent may submit their work as outlined in the opportunity’s acceptance criteria (e.g. GitHub repository URL).'
-          placeholder='e.g. GitHub repository URL'
+          label={i18next.t('detailsViewProjectSubmissionInfoLabel')}
+          help={i18next.t('detailsViewProjectSubmissionInfoHelp')}
+          placeholder={i18next.t('detailsViewProjectSubmissionInfoPlaceholder')}
           state={state.submissionInfo}
           disabled={disabled}
           dispatch={mapComponentDispatch(dispatch, value => adt('submissionInfo' as const, value))} />
@@ -840,9 +841,9 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <RichMarkdownEditor.view
           required
-          label='Acceptance Criteria'
-          help='Clearly define what the successful proponent must deliver and all of the criteria that must be met in order for payment to be released. You can format this acceptance criteria with Markdown.'
-          placeholder={`Describe this opportunity's acceptance criteria.`}
+          label={i18next.t('detailsViewAcceptanceCriteriaLabel')}
+          help={i18next.t('detailsViewAcceptanceCriteriaHelp')}
+          placeholder={i18next.t('detailsViewAcceptanceCriteriaPlaceholder')}
           extraChildProps={{
             style: { height: '300px' }
           }}
@@ -854,12 +855,12 @@ const DetailsView: View<Props> = ({ state, dispatch, disabled }) => {
       <Col xs='12'>
         <RichMarkdownEditor.view
           required
-          label='Evaluation Criteria'
-          placeholder={`Describe this opportunity's evaluation criteria.`}
+          label={i18next.t('detailsViewEvaluationCriteriaLabel')}
+          placeholder={i18next.t('detailsViewEvaluationCriteriaPlaceholder')}
           help={(
             <div>
-              <p>Describe the criteria that you will use to score the submitted proposals. State the weight, or points, that you will give to each criterion (e.g. “Experience contributing Java code to any public code repositories with more than 5 contributors (10 points)”). You can format this evaluation criteria with Markdown.</p>
-              <p className='mb-0'>It is at your discretion which mandatory and weighted criteria you wish to use.{MANDATORY_WEIGHTED_CRITERIA_URL ? (<span>&nbsp;Please refer to the {COPY.gov.name.short}’s <Link newTab dest={externalDest(MANDATORY_WEIGHTED_CRITERIA_URL)}>information on procurement</Link> for guidance.</span>) : ''}</p>
+              <p>{i18next.t('detailsViewEvaluationCriteriaPlaceHelpP1')}</p>
+              <p className='mb-0'>{i18next.t('detailsViewEvaluationCriteriaPlaceHelpP2')}{MANDATORY_WEIGHTED_CRITERIA_URL ? (<span>&nbsp;{i18next.t('detailsViewEvaluationCriteriaPlaceHelpP3-1', {name: COPY.gov.name.short})} <Link newTab dest={externalDest(MANDATORY_WEIGHTED_CRITERIA_URL)}>{i18next.t('informationOnProcurement')}</Link> {i18next.t('detailsViewEvaluationCriteriaPlaceHelpP3-2')}</span>) : ''}</p>
             </div>
           )}
           extraChildProps={{
@@ -880,7 +881,7 @@ const AttachmentsView: View<Props> = ({ state, dispatch, disabled }) => {
     <Row>
       <Col xs='12'>
         <p>
-          Upload any supporting material for your opportunity here. Attachments must be smaller than 10MB.
+          {i18next.t('opportunityAttachmentsViewBody')}
         </p>
         <Attachments.view
           dispatch={mapComponentDispatch(dispatch, msg => adt('attachments' as const, msg))}
@@ -898,6 +899,7 @@ interface Props extends ComponentViewProps<State, Msg> {
 
 export const view: View<Props> = props => {
   const { state, dispatch } = props;
+  // let overView:string = `${i18next.t('overview', 'Overview')}` as string;
   const activeTab = (() => {
     switch (TabbedForm.getActiveTab(state.tabbedForm)) {
       case 'Overview':    return (<OverviewView {...props} />);
@@ -910,7 +912,7 @@ export const view: View<Props> = props => {
     <TabbedFormComponent.view
       valid={isValid(state)}
       disabled={props.disabled}
-      getTabLabel={a => a}
+      getTabLabel={a => i18next.t(a.toLowerCase())}
       isTabValid={tab => {
         switch (tab) {
           case 'Overview':    return isOverviewTabValid(state);

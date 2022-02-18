@@ -3,19 +3,20 @@ import { FilePermissions, SUPPORTED_IMAGE_EXTENSIONS } from 'shared/lib/resource
 import { parseUserType, UserType } from 'shared/lib/resources/user';
 import { adt, Id } from 'shared/lib/types';
 import { ArrayValidation, invalid, isValid, mapValid, valid, validateArray, validateGenericString, validateUUID, Validation } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 export function validateAvatarFilename(name: string): Validation<string> {
   return validateFileName(name, SUPPORTED_IMAGE_EXTENSIONS);
 }
 
 export function validateFileName(name: string, validExtensions: readonly string[] = []): Validation<string> {
-  const validatedName = validateGenericString(name, 'File name');
+  const validatedName = validateGenericString(name, i18next.t('fileName'));
   if (isValid(validatedName) && validExtensions.length > 0) {
     const extension = name.match(/\.([a-zA-Z0-9]+)$/);
     if (extension && validExtensions.map(ext => ext.toLowerCase()).includes(extension[0].toLowerCase())) {
       return validatedName;
     } else {
-      return invalid(['Invalid file extension.']);
+      return invalid([i18next.t('invalidFileExtension')]);
     }
   } else {
     return validatedName;
@@ -45,9 +46,9 @@ export function validateFilePermission(raw: any): Validation<FilePermissions<Id,
       if (userType) {
         return valid<FilePermissions<Id, UserType>>(adt('userType', userType));
       } else {
-        return invalid(['Not a valid user type.']);
+        return invalid([i18next.t('invalidUserType')]);
       }
     default:
-      return invalid(['Invalid file permission provided.']);
+      return invalid([i18next.t('invalideFilePermission')]);
   }
 }

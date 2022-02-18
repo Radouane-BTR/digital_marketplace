@@ -2,6 +2,7 @@ import * as opportunityToasts from 'front-end/lib/pages/opportunity/code-with-us
 import { cwuProposalStatusToPastTenseVerb, cwuProposalStatusToPresentTenseVerb } from 'front-end/lib/pages/proposal/code-with-us/lib';
 import { CWUOpportunityStatus } from 'shared/lib/resources/opportunity/code-with-us';
 import { CWUProposalStatus } from 'shared/lib/resources/proposal/code-with-us';
+import i18next from 'i18next';
 
 export const awarded = {
   success: opportunityToasts.statusChanged.success(CWUOpportunityStatus.Awarded),
@@ -10,12 +11,12 @@ export const awarded = {
 
 export const submitted = {
   success: {
-    title: 'Proposal Submitted',
-    body: 'Your Code With Us proposal has been submitted. You can make changes to, and resubmit, your proposal prior to the opportunity\'s proposal deadline.'
+    title: i18next.t('toasts.proposalSubmitted.success-title'),
+    body: i18next.t('toasts.proposalSubmitted.success-body')
   },
   error: {
-    title: 'Unable to Submit Proposal',
-    body: 'Your Code With Us proposal could not be submitted. Please fix any errors in the form and try again.'
+    title: i18next.t('toasts.proposalSubmitted.error-title'),
+    body: i18next.t('toasts.proposalSubmitted.error-body')
   }
 };
 
@@ -23,58 +24,58 @@ export const statusChanged = {
   success: (s: CWUProposalStatus) => {
     const verb = cwuProposalStatusToPastTenseVerb(s);
     return {
-      title: `Proposal ${verb}`,
-      body: `Code With Us proposal has been ${verb.toLowerCase()}.`
+      title: i18next.t('toasts.propsalStatusChanged.success-title', {verb: verb}),
+      body: i18next.t('toasts.propsalStatusChanged.success-body', {verb: verb.toLocaleLowerCase()})
     };
   },
   error: (s: CWUProposalStatus) => {
     return {
-      title: `Unable to ${cwuProposalStatusToPresentTenseVerb(s)} Proposal`,
-      body: `Code With Us proposal could not be ${cwuProposalStatusToPastTenseVerb(s).toLowerCase()}. Please try again later.`
+      title: i18next.t('toasts.propsalStatusChanged.error-title', {verb: cwuProposalStatusToPresentTenseVerb(s)}),
+      body: i18next.t('toasts.propsalStatusChanged.error-body', {verb: cwuProposalStatusToPresentTenseVerb(s).toLowerCase()})
     };
   }
 };
 
 export const draftCreated = {
   success: {
-    title: 'Draft Proposal Saved',
-    body: 'Your draft Code With Us proposal has been saved. You can return to this page to complete and submit your proposal prior to the opportunity\'s proposal deadline.'
+    title: i18next.t('toasts.propsalDraftCreated.success-title'),
+    body: i18next.t('toasts.propsalDraftCreated.success-body')
   },
   error: {
-    title: 'Unable to Save Draft Proposal',
-    body: 'Your draft Code With Us proposal could not be saved. Please try again later.'
+    title:  i18next.t('toasts.propsalDraftCreated.error-title'),
+    body:  i18next.t('toasts.propsalDraftCreated.error-body')
   }
 };
 
 export const deleted = {
   success: {
-    title: 'Proposal Deleted',
-    body: 'Your Code With Us proposal has been deleted.'
+    title: i18next.t('toasts.propsalDeleted.success-title'),
+    body: i18next.t('toasts.propsalDeleted.success-body')
   },
   error: {
-    title: 'Unable to Delete Proposal',
-    body: 'Your Code With Us proposal could not be deleted. Please try again later.'
+    title: i18next.t('toasts.propsalDeleted.error-title'),
+    body: i18next.t('toasts.propsalDeleted.error-body')
   }
 };
 
 export const changesSaved = {
   success: {
-    title: 'Proposal Changes Saved',
-    body: 'Your changes to your Code With Us proposal have been saved.'
+    title: i18next.t('toasts.propsalChangesSaved.success-title'),
+    body: i18next.t('toasts.propsalChangesSaved.success-body')
   },
   error: {
-    title: 'Unable to Save Proposal',
-    body: 'Your changes to your Code With Us proposal could not be saved. Please try again later.'
+    title: i18next.t('toasts.propsalChangesSaved.error-title'),
+    body: i18next.t('toasts.propsalChangesSaved.error-body')
   }
 };
 
 export const changesSubmitted = {
   success: {
-    title: 'Proposal Changes Submitted',
-    body: 'Your changes to your Code With Us proposal have been submitted.'
+    title: i18next.t('toasts.propsalChangesSubmitted.success-title'),
+    body: i18next.t('toasts.propsalChangesSubmitted.success-body')
   },
   error: {
-    title: 'Unable to Submit Proposal Changes',
-    body: 'Your changes to your Code With Us proposal could not be submitted. Please try again later.'
+    title: i18next.t('toasts.propsalChangesSubmitted.error-title'),
+    body: i18next.t('toasts.propsalChangesSubmitted.error-body')
   }
 };

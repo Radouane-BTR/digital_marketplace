@@ -9,7 +9,7 @@ import * as Tab from 'front-end/lib/pages/user/profile/tab';
 import { isAdmin, isPublicSectorEmployee, isVendor, User } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { invalid, valid, Validation } from 'shared/lib/validation';
-
+import i18next from 'i18next';
 interface ValidState<K extends Tab.TabId> extends Tab.ParentState<K> {
   profileUser: User;
   viewerUser: User;
@@ -103,7 +103,7 @@ function makeComponent<K extends Tab.TabId>(): PageComponent<RouteParams, Shared
     getMetadata: getMetadataValid(TabbedPage.makeGetParentMetadata({
       idToDefinition,
       getTitleSuffix: state => state.profileUser.name
-    }), makePageMetadata('User Profile'))
+    }), makePageMetadata(i18next.t('userProfile')))
   };
 }
 

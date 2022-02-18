@@ -11,7 +11,8 @@ import * as cwu from 'shared/lib/resources/opportunity/code-with-us';
 import * as swu from 'shared/lib/resources/opportunity/sprint-with-us';
 import { UserType } from 'shared/lib/resources/user';
 import { adt, ADT } from 'shared/lib/types';
-
+import i18next from 'i18next';
+import { Trans } from 'react-i18next';
 export interface State {
   empty: true;
 }
@@ -52,43 +53,43 @@ const view: ComponentView<State, Msg> = () => {
       <Row>
         <ProgramCard
           img={prefixPath('/images/illustrations/code_with_us.svg')}
-          title='Code With Us'
+          title= {i18next.t('codeWithUs')}
           className='mb-4 mb-md-0'
-          description={(<span>Use a <em>Code With Us</em> opportunity to pay a fixed price of up to {cwu.FORMATTED_MAX_BUDGET} for the delivery of code that meets your acceptance criteria.</span>)}
+          description={(<span><Trans i18nKey="programCardCWDdescription" values={{ maxBudget: cwu.FORMATTED_MAX_BUDGET}} components={{ emphasis: <em /> }} /></span>)}
           wideLinks
           links={[
             {
               button: true,
               dest: routeDest(adt('contentView', 'code-with-us-opportunity-guide')),
-              children: ['Read Guide'],
+              children: [i18next.t('links.readGuide')],
               color: 'info' as TextColor,
               outline: true
             },
             {
               button: true,
               dest: routeDest(adt('opportunityCWUCreate', null)),
-              children: ['Get Started'],
+              children: [i18next.t('links.getStarted')],
               color: 'primary' as TextColor
             }
           ]}
         />
         <ProgramCard
           img={prefixPath('/images/illustrations/sprint_with_us.svg')}
-          title='Sprint With Us'
-          description={(<span>Use a <em>Sprint With Us</em> opportunity to procure an Agile product development team for your digital service at a variable cost of up to {swu.FORMATTED_MAX_BUDGET}.</span>)}
+          title={i18next.t('sprintWithUs')}
+          description={(<span><Trans i18nKey="programCardSprintWUdescription" values={{ maxBudget: swu.FORMATTED_MAX_BUDGET}} components={{ emphasis: <em /> }} /></span>)}
           wideLinks
           links={[
             {
               button: true,
               dest: routeDest(adt('contentView', 'sprint-with-us-opportunity-guide')),
-              children: ['Read Guide'],
+              children: [i18next.t('links.readGuide')],
               color: 'info' as TextColor,
               outline: true
             },
             {
               button: true,
               dest: routeDest(adt('opportunitySWUCreate', null)),
-              children: ['Get Started'],
+              children: [i18next.t('links.getStarted')],
               color: 'primary' as TextColor
             }
           ]}
@@ -105,6 +106,6 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
   update,
   view,
   getMetadata() {
-    return makePageMetadata('Create an Opportunity');
+    return makePageMetadata(i18next.t('createAnOpportunity'));
   }
 };

@@ -17,6 +17,7 @@ import { Content } from 'shared/lib/resources/content';
 import { UserType } from 'shared/lib/resources/user';
 import { ADT, adt } from 'shared/lib/types';
 import { invalid, valid } from 'shared/lib/validation';
+import i18next from 'i18next';
 
 type ModalId = 'save' | 'notifyNewTerms' | 'delete';
 
@@ -200,21 +201,21 @@ export const view: ComponentView<State, Msg> = viewValid(({ state, dispatch }) =
     {
       tag: 'dateAndTime' as const,
       date: content.createdAt,
-      label: 'Published'
+      label: i18next.t('published')
     },
     {
       tag: 'dateAndTime' as const,
       date: content.updatedAt,
-      label: 'Updated'
+      label: i18next.t('updated')
     }
   ];
   const items = [
     {
-      name: 'Published By',
+      name: `${i18next.t('updated')} ${i18next.t('by')}`,
       children: content.createdBy ? (<Link newTab dest={routeDest(adt('userProfile', { userId: content.createdBy.id }))}>{content.createdBy.name}</Link>) : DEFAULT_USER_NAME
     },
     {
-      name: 'Updated By',
+      name: `${i18next.t('updated')} ${i18next.t('by')}`,
       children: content.updatedBy ? (<Link newTab dest={routeDest(adt('userProfile', { userId: content.updatedBy.id }))}>{content.updatedBy.name}</Link>) : DEFAULT_USER_NAME
     }
   ];
@@ -253,7 +254,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
       return {
         ...emptyPageAlerts(),
         warnings: [{
-          text: 'This is a "fixed" page, which means this web app needs it to exist at a specific slug in order to function correctly. Consequently, this page cannot be deleted and its slug cannot be changed.'
+          text: i18next.t('emptyPageAlertsWarning')
         }]
       };
     }
@@ -265,7 +266,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
       const disabled = isSaveLoading;
       return adt('links', [
         {
-          children: 'Publish Changes',
+          children: i18next.t('links.publishChangesOpportunity'),
           onClick: () => dispatch(adt('showModal', 'save') as Msg),
           button: true,
           loading: isSaveLoading,
@@ -274,7 +275,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           color: 'primary'
         },
         {
-          children: 'Cancel',
+          children: i18next.t('links.cancel'),
           color: 'c-nav-fg-alt',
           onClick: () => dispatch(adt('stopEditing') as Msg)
 
@@ -286,7 +287,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
       const disabled = isStartEditingLoading || isNotifyNewUsersLoading;
       return adt('links', [
         {
-          children: 'Edit',
+          children: i18next.t('links.edit'),
           onClick: () => dispatch(adt('startEditing')),
           button: true,
           loading: isStartEditingLoading,
@@ -295,7 +296,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
           color: 'primary'
         },
         {
-          children: 'Notify Vendors',
+          children: i18next.t('links.notifyVendors'),
           onClick: () => dispatch(adt('showModal', 'notifyNewTerms') as Msg),
           symbol_: leftPlacement(iconLinkSymbol('bell')),
           loading: isNotifyNewUsersLoading,
@@ -310,7 +311,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
       const disabled = isStartEditingLoading || isDeleteLoading;
       return adt('links', [
         {
-          children: 'Edit',
+          children:  i18next.t('links.edit'),
           onClick: () => dispatch(adt('startEditing')),
           button: true,
           loading: isStartEditingLoading,
@@ -321,7 +322,7 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         ...(content.fixed
           ? []
           : [{
-              children: 'Delete',
+              children: i18next.t('links.delete'),
               color: 'c-nav-fg-alt',
               button: true,
               outline: true,
@@ -337,19 +338,19 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
     switch (state.showModal) {
       case 'save':
         return {
-          title: 'Publish Changes?',
-          body: () => 'Are you sure you want to publish your changes to this page? Once published, they will be visible to all users who navigate to this page\'s URL.',
+          title:  `${i18next.t('content-toasts.published.success-title')}?`,
+          body: () => i18next.t('contentSaveChangesModal'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Publish Changes',
+              text: i18next.t('content-toasts.published.success-title'),
               icon: 'bullhorn',
               color: 'primary',
               msg: adt('save'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -357,19 +358,19 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         };
       case 'notifyNewTerms':
         return {
-          title: 'Notify vendors of updated terms?',
-          body: () => `Are you sure you want to notify all vendors of updated ${COPY.appTermsTitle}? Vendors will receive a notification email, and will be required to accept the new terms before continuing to submit proposals to opportunities.`,
+          title: `${i18next.t('contentnotifyNewTermsChangesModal')}?`,
+          body: () => i18next.t('contentnotifyNewTermsChangesModalBody', {appTermsTitle: COPY.appTermsTitle}),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Notify Vendors',
+              text: i18next.t('links.notifyVendors'),
               icon: 'bell',
               color: 'success',
               msg: adt('notifyNewTerms'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
@@ -377,19 +378,19 @@ export const component: PageComponent<RouteParams, SharedState, State, Msg> = {
         };
       case 'delete':
         return {
-          title: 'Delete page?',
-          body: () => 'Are you sure you want to delete this page? It will no longer be accessible to users if you do.',
+          title:  `${i18next.t('deletePage')}?`,
+          body: () => i18next.t('contentDeleteModalBody'),
           onCloseMsg: adt('hideModal'),
           actions: [
             {
-              text: 'Delete Page',
+              text: i18next.t('deletePage'),
               icon: 'trash',
               color: 'danger',
               msg: adt('delete'),
               button: true
             },
             {
-              text: 'Cancel',
+              text: i18next.t('links.cancel'),
               color: 'secondary',
               msg: adt('hideModal')
             }
